@@ -38,7 +38,7 @@ export default function LoginPage() {
             className="w-full bg-green-600 hover:bg-green-700"
             onClick={() => handleLogin('merchant')}
           >
-            Login as Merchant
+            Login as Merchant / 販売者としてログイン
           </Button>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -53,7 +53,7 @@ export default function LoginPage() {
             className="w-full bg-blue-600 hover:bg-blue-700"
             onClick={() => handleLogin('admin')}
           >
-            Login as Admin
+            Login as Admin / 管理者としてログイン
           </Button>
         </CardContent>
       </Card>
