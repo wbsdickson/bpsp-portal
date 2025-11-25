@@ -23,7 +23,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Upload } from 'lucide-react';
+import { Plus, Upload, Eye } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function InvoicesPage() {
@@ -209,11 +209,13 @@ export default function InvoicesPage() {
                                 <TableCell>{format(new Date(invoice.dueDate), 'MMM dd, yyyy')}</TableCell>
                                 <TableCell>
                                     <Badge className={getStatusColor(invoice.status)} variant="secondary">
-                                        {invoice.status}
+                                        {invoice.status.replace(/_/g, ' ').toUpperCase()}
                                     </Badge>
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    <Button variant="ghost" size="sm">View</Button>
+                                    <Button variant="secondary" size="icon" title="View invoice">
+                                        <Eye className="h-4 w-4" />
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}

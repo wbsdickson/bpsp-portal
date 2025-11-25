@@ -54,7 +54,7 @@ export default function PayoutsPage() {
                             <TableCell className="font-bold">${payment.amount.toLocaleString()}</TableCell>
                             <TableCell>
                                 <Badge className={getStatusColor(payment.status)} variant="secondary">
-                                    {payment.status.replace('_', ' ')}
+                                    {payment.status.replace(/_/g, ' ').toUpperCase()}
                                 </Badge>
                             </TableCell>
                             {showActions && (
@@ -73,12 +73,12 @@ export default function PayoutsPage() {
                                                 Approve
                                             </Button>
                                             <Button
-                                                size="sm"
-                                                variant="destructive"
+                                                variant="secondary"
+                                                size="icon"
                                                 onClick={() => toast.error("Reject functionality not implemented in demo")}
+                                                title="Reject payment"
                                             >
-                                                <XCircle className="mr-2 h-4 w-4" />
-                                                Reject
+                                                <XCircle className="h-4 w-4" />
                                             </Button>
                                         </>
                                     )}

@@ -53,7 +53,7 @@ export default function LeaseAgreementPage() {
                                                 agreement.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
                                                     'bg-gray-100 text-gray-800'
                                             }`}>
-                                            {agreement.status}
+                                            {agreement.status.replace(/_/g, ' ').toUpperCase()}
                                         </span>
                                     </TableCell>
                                     <TableCell className="text-right">

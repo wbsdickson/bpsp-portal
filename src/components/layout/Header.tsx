@@ -11,12 +11,20 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useRouter } from 'next/navigation';
-import { Bell, ShieldAlert } from 'lucide-react';
+import { Bell, ShieldAlert, Moon, Sun, Laptop } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 export function Header() {
     const router = useRouter();
     const { currentUser, logout, originalAdmin, stopImpersonating } = useAppStore();
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     if (!currentUser) return null;
 
@@ -45,6 +53,39 @@ export function Header() {
                 )}
             </div>
             <div className="flex items-center gap-4">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            {mounted ? (
+                                theme === 'dark' ? (
+                                    <Moon className="h-5 w-5" />
+                                ) : theme === 'light' ? (
+                                    <Sun className="h-5 w-5" />
+                                ) : (
+                                    <Laptop className="h-5 w-5" />
+                                )
+                            ) : (
+                                <Sun className="h-5 w-5" />
+                            )}
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Theme</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => setTheme('light')}>
+                            <Sun className="mr-2 h-4 w-4" />
+                            <span>Light</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setTheme('dark')}>
+                            <Moon className="mr-2 h-4 w-4" />
+                            <span>Dark</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setTheme('system')}>
+                            <Laptop className="mr-2 h-4 w-4" />
+                            <span>System</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
                 <Button variant="ghost" size="icon">
                     <Bell className="h-5 w-5" />
                 </Button>

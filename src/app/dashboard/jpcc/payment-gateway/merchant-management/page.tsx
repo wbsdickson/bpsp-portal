@@ -36,7 +36,7 @@ export default function MerchantManagementPage() {
                                     <TableCell>{merchant.name}</TableCell>
                                     <TableCell>
                                         <Badge variant={merchant.status === 'active' ? 'default' : merchant.status === 'pending' ? 'secondary' : 'destructive'}>
-                                            {merchant.status}
+                                            {merchant.status.replace(/_/g, ' ').toUpperCase()}
                                         </Badge>
                                     </TableCell>
                                     <TableCell className="text-right">{merchant.transactions}</TableCell>

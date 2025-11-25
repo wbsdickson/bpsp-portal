@@ -23,7 +23,7 @@ export default function MembersPage() {
                                 <p className="font-medium">{member.name}</p>
                                 <p className="text-sm text-muted-foreground">{member.role}</p>
                                 <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                    {member.status}
+                                    {member.status.replace(/_/g, ' ').toUpperCase()}
                                 </span>
                             </div>
                         </CardContent>

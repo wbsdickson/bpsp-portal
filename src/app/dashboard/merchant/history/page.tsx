@@ -15,6 +15,7 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 
 export default function HistoryPage() {
     const { currentUser, getMerchantPayments, cancelPayment } = useAppStore();
@@ -69,17 +70,18 @@ export default function HistoryPage() {
                                 <TableCell>${payment.totalAmount.toLocaleString()}</TableCell>
                                 <TableCell>
                                     <Badge variant={payment.status === 'settled' ? 'default' : payment.status === 'failed' ? 'destructive' : 'secondary'}>
-                                        {payment.status}
+                                        {payment.status.replace(/_/g, ' ').toUpperCase()}
                                     </Badge>
                                 </TableCell>
                                 <TableCell className="text-right">
                                     {payment.status === 'pending_approval' && (
                                         <Button
-                                            variant="destructive"
-                                            size="sm"
+                                            variant="secondary"
+                                            size="icon"
                                             onClick={() => handleCancel(payment.id)}
+                                            title="Cancel payment"
                                         >
-                                            Cancel
+                                            <X className="h-4 w-4" />
                                         </Button>
                                     )}
                                 </TableCell>

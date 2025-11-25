@@ -80,7 +80,7 @@ export default function PaymentCertificatePage() {
                                     <TableCell>
                                         <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${cert.status === 'Issued' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
                                             }`}>
-                                            {cert.status}
+                                            {cert.status.replace(/_/g, ' ').toUpperCase()}
                                         </span>
                                     </TableCell>
                                     <TableCell className="text-right">

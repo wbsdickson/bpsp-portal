@@ -99,7 +99,7 @@ export default function UserManagementPage() {
                                                 user.status === 'active' ? 'bg-green-500 hover:bg-green-600' : ''
                                             }
                                         >
-                                            {user.status}
+                                            {user.status.replace(/_/g, ' ').toUpperCase()}
                                         </Badge>
                                     </TableCell>
                                     <TableCell className="text-right">{user.createdDate}</TableCell>
