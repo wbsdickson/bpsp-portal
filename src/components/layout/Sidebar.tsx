@@ -180,14 +180,14 @@ export function Sidebar() {
     portalTitle = "BPSP Admin Portal";
   } else if (currentUser?.role === "jpcc_admin") {
     navGroups = [
-      { title: "JPCC Services / JPCCサービス", links: jpccAdminLinks },
-      { title: "BPSP Admin / BPSP管理", links: adminLinks },
+      { title: "JPCC", links: jpccAdminLinks },
+      { title: "BPSP", links: adminLinks },
     ];
     portalTitle = "JPCC Admin Portal";
   } else if (currentUser?.role === "merchant_jpcc") {
     navGroups = [
-      { title: "JPCC Services / JPCCサービス", links: jpccMerchantLinks },
-      { title: "BPSP Merchant / BPSP加盟店", links: merchantLinks },
+      { title: "JPCC", links: jpccMerchantLinks },
+      { title: "BPSP", links: merchantLinks },
     ];
     portalTitle = "JPCC Merchant Portal";
   } else {
@@ -432,11 +432,11 @@ export function Sidebar() {
     <>
       {/* Desktop Sidebar */}
       <aside
-          className={cn(
-            "hidden border-r md:block md:w-64 lg:w-72 fixed inset-y-0 left-0 z-30",
-            sidebarBgColor,
-            hasColoredBg ? "border-white/20" : "border-border"
-          )}
+        className={cn(
+          "hidden border-r md:block md:w-64 lg:w-72 fixed inset-y-0 left-0 z-30",
+          sidebarBgColor,
+          hasColoredBg ? "border-white/20" : "border-border"
+        )}
       >
         <NavContent />
       </aside>
@@ -454,7 +454,11 @@ export function Sidebar() {
         </SheetTrigger>
         <SheetContent
           side="left"
-          className={cn("p-0 w-72", sidebarBgColor, hasColoredBg ? "border-white/20" : "")}
+          className={cn(
+            "p-0 w-72",
+            sidebarBgColor,
+            hasColoredBg ? "border-white/20" : ""
+          )}
         >
           <NavContent />
         </SheetContent>
