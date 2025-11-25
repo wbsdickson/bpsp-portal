@@ -58,7 +58,7 @@ export default function LoginPage() {
             className="w-full bg-blue-900 hover:bg-blue-800 text-white"
             onClick={() => handleLogin("jpcc_admin")}
           >
-            JPCC Admin / 管理者としてログイン
+            JPCC Admin
           </Button>
 
           <div className="relative">
@@ -78,14 +78,14 @@ export default function LoginPage() {
             style={{ backgroundColor: "oklch(0.4 0.15 150)" }}
             onClick={() => handleLogin("merchant")}
           >
-            Merchant / 販売者 (BPSP Only)としてログイン
+            Merchant (BPSP)
           </Button>
           <Button
             size="lg"
             className="w-full bg-teal-600 hover:bg-teal-700 text-white"
             onClick={() => handleLogin("merchant_jpcc")}
           >
-            Merchant / 販売者 (JPCC + BPSP)としてログイン
+            Merchant (JPCC + BPSP)
           </Button>
         </CardContent>
       </Card>
