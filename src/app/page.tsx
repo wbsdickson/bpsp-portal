@@ -48,7 +48,7 @@ export default function LoginPage() {
       <Card className="relative z-10 w-[400px] shadow-2xl backdrop-blur-sm bg-background/95 border-2">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-primary">
-            BPSP Portal
+            JPCC Portal
           </CardTitle>
           <CardDescription>Select a role to simulate login</CardDescription>
         </CardHeader>

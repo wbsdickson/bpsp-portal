@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BPSP Portal",
+  title: "JPCC Portal",
   description: "Business Payment Solution Provider Portal",
 };
 
@@ -36,9 +36,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <RoleThemeProvider>
-            {children}
-          </RoleThemeProvider>
+          <RoleThemeProvider>{children}</RoleThemeProvider>
           <Toaster />
         </ThemeProvider>
       </body>
