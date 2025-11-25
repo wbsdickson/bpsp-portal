@@ -1,4 +1,4 @@
-export type UserRole = 'merchant' | 'admin';
+export type UserRole = 'merchant' | 'admin' | 'jpcc_admin' | 'merchant_jpcc';
 
 export interface User {
     id: string;

@@ -13,7 +13,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (currentUser) {
-      if (currentUser.role === 'admin') {
+      if (currentUser.role === 'admin' || currentUser.role === 'jpcc_admin') {
         router.push('/dashboard/admin');
       } else {
         router.push('/dashboard/merchant');
@@ -35,25 +35,34 @@ export default function LoginPage() {
         <CardContent className="flex flex-col gap-4">
           <Button
             size="lg"
-            className="w-full bg-green-600 hover:bg-green-700"
-            onClick={() => handleLogin('merchant')}
+            className="w-full bg-purple-600 hover:bg-purple-700"
+            onClick={() => handleLogin('jpcc_admin')}
           >
-            Login as Merchant / 販売者としてログイン
+            Login as JPCC Admin / 管理者としてログイン
           </Button>
+
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">Or</span>
+              <span className="bg-background px-2 text-muted-foreground">Merchants</span>
             </div>
           </div>
+
           <Button
             size="lg"
-            className="w-full bg-blue-600 hover:bg-blue-700"
-            onClick={() => handleLogin('admin')}
+            className="w-full bg-green-600 hover:bg-green-700"
+            onClick={() => handleLogin('merchant')}
           >
-            Login as Admin / 管理者としてログイン
+            Merchant / 販売者 (BPSP Only)としてログイン
+          </Button>
+          <Button
+            size="lg"
+            className="w-full bg-teal-600 hover:bg-teal-700"
+            onClick={() => handleLogin('merchant_jpcc')}
+          >
+            Merchant / 販売者 (JPCC + BPSP)としてログイン
           </Button>
         </CardContent>
       </Card>

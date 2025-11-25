@@ -29,6 +29,25 @@ export const MOCK_USERS: User[] = [
         avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie',
         status: 'active',
         customFeePercentage: 2.5
+    },
+    {
+        id: 'u4',
+        name: 'David JPCC Admin',
+        email: 'david@jpcc.com',
+        role: 'jpcc_admin',
+        companyName: 'JPCC Global',
+        avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=David',
+        status: 'active'
+    },
+    {
+        id: 'u5',
+        name: 'Eve JPCC Merchant',
+        email: 'eve@hybrid.com',
+        role: 'merchant_jpcc',
+        companyName: 'Hybrid Corp',
+        avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Eve',
+        status: 'active',
+        customFeePercentage: 1.8
     }
 ];
 
