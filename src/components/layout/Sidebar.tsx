@@ -207,7 +207,7 @@ export function Sidebar() {
   // Get sidebar background color based on role to match login page buttons
   const getSidebarBgColor = () => {
     if (currentUser?.role === "jpcc_admin") {
-      return "bg-blue-900"; // Navy blue for JPCC Admin
+      return ""; // Will use inline style for custom color
     } else if (currentUser?.role === "merchant_jpcc") {
       return "bg-teal-600"; // Teal matching Merchant (JPCC + BPSP) button
     } else if (currentUser?.role === "merchant") {
@@ -216,7 +216,15 @@ export function Sidebar() {
     return "bg-background"; // Default for admin
   };
 
+  const getSidebarBgStyle = () => {
+    if (currentUser?.role === "jpcc_admin") {
+      return { backgroundColor: "#145DB4" };
+    }
+    return {};
+  };
+
   const sidebarBgColor = getSidebarBgColor();
+  const sidebarBgStyle = getSidebarBgStyle();
 
   const NavContent = () => (
     <div
@@ -437,6 +445,7 @@ export function Sidebar() {
           sidebarBgColor,
           hasColoredBg ? "border-white/20" : "border-border"
         )}
+        style={sidebarBgStyle}
       >
         <NavContent />
       </aside>
@@ -459,6 +468,7 @@ export function Sidebar() {
             sidebarBgColor,
             hasColoredBg ? "border-white/20" : ""
           )}
+          style={sidebarBgStyle}
         >
           <NavContent />
         </SheetContent>

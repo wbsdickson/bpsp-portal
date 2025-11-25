@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useAppStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,15 +48,31 @@ export default function LoginPage() {
       {/* Login Card */}
       <Card className="relative z-10 w-[400px] shadow-2xl backdrop-blur-sm bg-background/95 border-2">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-primary">
-            JPCC Portal
-          </CardTitle>
+          <div className="flex justify-center mb-2">
+            <Image
+              src="/JPCC/logo-fullname-horizontal.png"
+              alt="JPCC Portal"
+              width={260}
+              height={80}
+              className="h-auto"
+              priority
+            />
+          </div>
           <CardDescription>Select a role to simulate login</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Button
             size="lg"
-            className="w-full bg-blue-900 hover:bg-blue-800 text-white"
+            className="w-full text-white"
+            style={{
+              backgroundColor: "#145DB4",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#1155A0";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "#145DB4";
+            }}
             onClick={() => handleLogin("jpcc_admin")}
           >
             JPCC Admin
