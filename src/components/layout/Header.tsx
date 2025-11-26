@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { logoutUser } from "@/app/logout/actions";
+import { toast } from "sonner";
 
 export function Header() {
   const router = useRouter();
@@ -33,6 +35,18 @@ export function Header() {
     stopImpersonating();
     router.push("/dashboard/admin/tenants");
   };
+
+  // ...existing code...
+  const handleLogout = async () => {
+    if (currentUser) {
+      await logoutUser(currentUser.id);
+    }
+    logout();
+    toast.success("ログアウトしました");
+    router.push("/login");
+  };
+  // ...existing code...
+
 
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center gap-4 border-b bg-background px-6 shadow-sm md:ml-64 lg:ml-72">
@@ -122,12 +136,7 @@ export function Header() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => {
-                logout();
-                window.location.href = "/";
-              }}
-            >
+            <DropdownMenuItem onClick={handleLogout}>
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

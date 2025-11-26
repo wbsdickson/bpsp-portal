@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { User, Invoice, Payment, UserRole } from './types';
-import { MOCK_USERS, MOCK_INVOICES, MOCK_PAYMENTS } from './mock-data';
+import { User, Invoice, Payment, UserRole, Notification } from './types';
+import { MOCK_USERS, MOCK_INVOICES, MOCK_PAYMENTS, MOCK_NOTIFICATIONS } from './mock-data';
 
 interface AppState {
     currentUser: User | null;
@@ -8,6 +8,7 @@ interface AppState {
     users: User[];
     invoices: Invoice[];
     payments: Payment[];
+    notifications: Notification[];
 
     // Actions
     login: (role: UserRole) => void;
@@ -23,6 +24,7 @@ interface AppState {
     updateUser: (userId: string, data: Partial<User>) => void;
     getMerchantInvoices: (merchantId: string) => Invoice[];
     getMerchantPayments: (merchantId: string) => Payment[];
+    getMerchantNotifications: (merchantId: string) => Notification[];
     getAllInvoices: () => Invoice[]; // For Admin
     getAllPayments: () => Payment[]; // For Admin
 }
@@ -33,6 +35,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     users: MOCK_USERS,
     invoices: MOCK_INVOICES,
     payments: MOCK_PAYMENTS,
+    notifications: MOCK_NOTIFICATIONS,
 
     login: (role: UserRole) => {
         // Simulate login by picking the first user of that role
@@ -135,13 +138,22 @@ export const useAppStore = create<AppState>((set, get) => ({
         }));
     },
 
+    // ...existing code...
     updateUser: (userId, data) => {
-        set((state) => ({
-            users: state.users.map((user) =>
+        set((state) => {
+            const updatedUsers = state.users.map((user) =>
                 user.id === userId ? { ...user, ...data } : user
-            ),
-        }));
+            );
+            const updatedCurrentUser = state.currentUser?.id === userId
+                ? { ...state.currentUser, ...data }
+                : state.currentUser;
+            return {
+                users: updatedUsers,
+                currentUser: updatedCurrentUser
+            };
+        });
     },
+    // ...existing code...
 
     getMerchantInvoices: (merchantId) => {
         return get().invoices.filter((inv) => inv.merchantId === merchantId);
@@ -149,6 +161,10 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     getMerchantPayments: (merchantId) => {
         return get().payments.filter((pay) => pay.merchantId === merchantId);
+    },
+
+    getMerchantNotifications: (merchantId) => {
+        return get().notifications.filter((notif) => notif.merchantId === merchantId);
     },
 
     getAllInvoices: () => get().invoices,

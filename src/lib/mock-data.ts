@@ -1,4 +1,4 @@
-import { User, Invoice, Payment } from './types';
+import { User, Invoice, Payment, Notification } from './types';
 
 export const MOCK_USERS: User[] = [
     {
@@ -147,5 +147,53 @@ export const MOCK_PAYMENTS: Payment[] = [
         status: 'failed',
         paymentMethod: 'Bank Transfer',
         createdAt: '2023-11-24'
+    }
+];
+
+export const MOCK_NOTIFICATIONS: Notification[] = [
+    {
+        id: 'notif_001',
+        merchantId: 'u1',
+        title: 'Payment Successful',
+        message: 'Your payment for Invoice #inv_003 has been successfully processed.',
+        type: 'success',
+        isRead: false,
+        createdAt: '2023-11-11T10:00:00Z'
+    },
+    {
+        id: 'notif_002',
+        merchantId: 'u1',
+        title: 'Invoice Approved',
+        message: 'Invoice #inv_002 has been approved and is ready for payment.',
+        type: 'info',
+        isRead: true,
+        createdAt: '2023-11-26T09:30:00Z'
+    },
+    {
+        id: 'notif_003',
+        merchantId: 'u1',
+        title: 'Payment Failed',
+        message: 'Payment for Invoice #inv_001 failed. Please check your payment method.',
+        type: 'error',
+        isRead: false,
+        createdAt: '2023-11-24T14:15:00Z'
+    },
+    {
+        id: 'notif_004',
+        merchantId: 'u1',
+        title: 'System Maintenance',
+        message: 'Scheduled maintenance on Nov 30th from 2 AM to 4 AM.',
+        type: 'warning',
+        isRead: false,
+        createdAt: '2023-11-20T08:00:00Z'
+    },
+    {
+        id: 'notif_005',
+        merchantId: 'u3',
+        title: 'Welcome',
+        message: 'Welcome to BPSP Portal!',
+        type: 'info',
+        isRead: true,
+        createdAt: '2023-11-22T10:00:00Z'
     }
 ];

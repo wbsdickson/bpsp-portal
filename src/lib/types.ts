@@ -47,3 +47,13 @@ export interface MerchantStats {
     activeInvoices: number;
     pendingApprovals: number;
 }
+
+export interface Notification {
+    id: string;
+    merchantId: string;
+    title: string;
+    message: string;
+    type: 'info' | 'warning' | 'error' | 'success';
+    isRead: boolean;
+    createdAt: string;
+}
