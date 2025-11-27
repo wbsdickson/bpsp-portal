@@ -1,231 +1,99 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UserProfileForm } from "./user-profile-form";
+import { CompanyInfoForm } from "./company-info-form";
+import { MemberList } from "./members/member-list";
+import { ClientList } from "./clients/client-list";
+import { BankAccountList } from "./bank-accounts/bank-account-list";
+import { CardList } from "./cards/card-list";
+import { TaxSettingsForm } from "./settings/tax-settings-form";
 import { useAppStore } from "@/lib/store";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { updateAccountInfo } from "./actions";
-import { toast } from "sonner";
-import { useEffect, useState } from "react";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-
-const accountFormSchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    email: z.string().email("Invalid email address"),
-    password: z.string().optional(),
-    confirmPassword: z.string().optional(),
-}).refine((data) => {
-    if (data.password && data.password !== data.confirmPassword) {
-        return false;
-    }
-    return true;
-}, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-});
-
-type AccountFormValues = z.infer<typeof accountFormSchema>;
 
 export default function AccountManagementPage() {
-    const { currentUser, updateUser } = useAppStore();
-    const [isPending, setIsPending] = useState(false);
-
-    const form = useForm<AccountFormValues>({
-        resolver: zodResolver(accountFormSchema),
-        defaultValues: {
-            name: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-        },
-    });
-
-    // Update form default values when currentUser is loaded
-    useEffect(() => {
-        if (currentUser) {
-            form.reset({
-                name: currentUser.name,
-                email: currentUser.email,
-                password: "",
-                confirmPassword: "",
-            });
-        }
-    }, [currentUser, form]);
-
-    async function onSubmit(data: AccountFormValues) {
-        if (!currentUser) return;
-
-        setIsPending(true);
-        const formData = new FormData();
-        formData.append("userId", currentUser.id);
-        formData.append("name", data.name);
-        formData.append("email", data.email);
-        if (data.password) {
-            formData.append("password", data.password);
-            formData.append("confirmPassword", data.confirmPassword || "");
-        }
-
-        try {
-            const result = await updateAccountInfo({}, formData);
-
-            if (result.success) {
-                toast.success(result.message);
-                // Update local store
-                updateUser(currentUser.id, {
-                    name: data.name,
-                    email: data.email,
-                });
-                // Reset password fields
-                form.reset({
-                    name: data.name,
-                    email: data.email,
-                    password: "",
-                    confirmPassword: "",
-                });
-            } else {
-                toast.error(result.message || "Failed to update account");
-                if (result.errors) {
-                    // Set form errors
-                    Object.entries(result.errors).forEach(([key, messages]) => {
-                        if (messages && messages.length > 0) {
-                            form.setError(key as any, { message: messages[0] });
-                        }
-                    });
-                }
-            }
-        } catch (error) {
-            toast.error("An unexpected error occurred");
-            console.error(error);
-        } finally {
-            setIsPending(false);
-        }
-    }
+    const { currentUser } = useAppStore();
 
     if (!currentUser) {
         return <div>Loading...</div>;
     }
 
+    // Determine if user can see Company Info tab
+    // Assuming 'merchant_jpcc' and 'merchant' roles can see it.
+    // 'admin' and 'jpcc_admin' might not have a company profile in this context, or they view a different one.
+    // For this feature (MERCHANT_006), it's for merchants.
+    const showCompanyTab = currentUser.role === 'merchant' || currentUser.role === 'merchant_jpcc';
+
+    // Show members tab if user is part of a merchant organization
+    // In our mock, 'merchant' role implies owner. 'merchant_jpcc' implies owner.
+    // We also added 'memberRole' for staff/viewer.
+    const showMembersTab = showCompanyTab || !!currentUser.merchantId;
+
+    // Show clients tab - same logic as members usually, accessible to merchant users
+    const showClientsTab = showMembersTab;
+
+    // Show bank accounts tab - accessible to merchant users
+    const showBankAccountsTab = showMembersTab;
+
+    // Show cards tab - accessible to merchant users
+    const showCardsTab = showMembersTab;
+
+    // Show settings tab - accessible to merchant users (owner only for editing, but maybe view for others?)
+    // The requirement says "Access Control: Only owner-role users can edit."
+    // It doesn't explicitly say others can't view, but usually settings are restricted.
+    // Let's show it for all merchant users, but the form handles read-only state or hides itself.
+    const showSettingsTab = showMembersTab;
+
     return (
         <div className="space-y-6">
             <div>
                 <h2 className="text-3xl font-bold tracking-tight">Account Management</h2>
-                <p className="text-muted-foreground">Manage your account settings and preferences.</p>
+                <p className="text-muted-foreground">Manage your account settings and company profile.</p>
             </div>
 
-            <div className="grid gap-6">
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Profile Information</CardTitle>
-                                <CardDescription>Update your personal information.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <FormField
-                                    control={form.control}
-                                    name="name"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Name</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Your name" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Email</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Your email" {...field} />
-                                            </FormControl>
-                                            <FormDescription>
-                                                A confirmation email will be sent if you change your email address.
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </CardContent>
-                        </Card>
-
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Security</CardTitle>
-                                <CardDescription>Manage your password. Leave blank to keep current password.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <FormField
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>New Password</FormLabel>
-                                            <FormControl>
-                                                <Input type="password" placeholder="New password" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="confirmPassword"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Confirm New Password</FormLabel>
-                                            <FormControl>
-                                                <Input type="password" placeholder="Confirm new password" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </CardContent>
-                        </Card>
-
-                        <div className="flex justify-end">
-                            <Button type="submit" disabled={isPending}>
-                                {isPending ? "Saving..." : "Save Changes"}
-                            </Button>
-                        </div>
-                    </form>
-                </Form>
-
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Notifications</CardTitle>
-                        <CardDescription>Configure how you receive notifications.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="flex items-center justify-between space-x-2">
-                            <Label htmlFor="email-notifications" className="flex flex-col space-y-1">
-                                <span>Email Notifications</span>
-                                <span className="font-normal text-xs text-muted-foreground">Receive emails about your account activity.</span>
-                            </Label>
-                            <Switch id="email-notifications" defaultChecked />
-                        </div>
-                        <Separator />
-                        <div className="flex items-center justify-between space-x-2">
-                            <Label htmlFor="payment-alerts" className="flex flex-col space-y-1">
-                                <span>Payment Alerts</span>
-                                <span className="font-normal text-xs text-muted-foreground">Get notified when a payment is processed.</span>
-                            </Label>
-                            <Switch id="payment-alerts" defaultChecked />
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
+            <Tabs defaultValue="profile" className="space-y-4">
+                <TabsList>
+                    <TabsTrigger value="profile">User Profile</TabsTrigger>
+                    {showCompanyTab && <TabsTrigger value="company">Company Info</TabsTrigger>}
+                    {showMembersTab && <TabsTrigger value="members">Members</TabsTrigger>}
+                    {showClientsTab && <TabsTrigger value="clients">Clients</TabsTrigger>}
+                    {showBankAccountsTab && <TabsTrigger value="bank-accounts">Bank Accounts</TabsTrigger>}
+                    {showCardsTab && <TabsTrigger value="cards">Payment Cards</TabsTrigger>}
+                    {showSettingsTab && <TabsTrigger value="settings">Settings</TabsTrigger>}
+                </TabsList>
+                <TabsContent value="profile" className="space-y-4">
+                    <UserProfileForm />
+                </TabsContent>
+                {showCompanyTab && (
+                    <TabsContent value="company" className="space-y-4">
+                        <CompanyInfoForm />
+                    </TabsContent>
+                )}
+                {showMembersTab && (
+                    <TabsContent value="members" className="space-y-4">
+                        <MemberList />
+                    </TabsContent>
+                )}
+                {showClientsTab && (
+                    <TabsContent value="clients" className="space-y-4">
+                        <ClientList />
+                    </TabsContent>
+                )}
+                {showBankAccountsTab && (
+                    <TabsContent value="bank-accounts" className="space-y-4">
+                        <BankAccountList />
+                    </TabsContent>
+                )}
+                {showCardsTab && (
+                    <TabsContent value="cards" className="space-y-4">
+                        <CardList />
+                    </TabsContent>
+                )}
+                {showSettingsTab && (
+                    <TabsContent value="settings" className="space-y-4">
+                        <TaxSettingsForm />
+                    </TabsContent>
+                )}
+            </Tabs>
         </div>
     );
 }

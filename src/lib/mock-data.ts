@@ -1,4 +1,42 @@
-import { User, Invoice, Payment, Notification } from './types';
+import { User, Invoice, Payment, Notification, Merchant, Client, BankAccount, MerchantCard, Tax } from './types';
+
+export const MOCK_MERCHANTS: Merchant[] = [
+    // ...existing code...
+
+    {
+        id: 'u1', // Linking to user ID for simplicity in this mock
+        name: 'TechCorp Solutions',
+        address: '123 Tech Blvd, San Francisco, CA 94105',
+        phoneNumber: '555-0101',
+        invoiceEmail: 'billing@techcorp.com',
+        websiteUrl: 'https://techcorp.com',
+        invoicePrefix: 'TC-',
+        enableCreditPayment: true,
+        defaultTaxId: 'tax_10',
+    },
+    {
+        id: 'u3',
+        name: 'Retail Giants',
+        address: '456 Market St, New York, NY 10001',
+        phoneNumber: '555-0102',
+        invoiceEmail: 'accounts@retailgiants.com',
+        websiteUrl: 'https://retailgiants.com',
+        invoicePrefix: 'RG-',
+        enableCreditPayment: false,
+        defaultTaxId: 'tax_10',
+    },
+    {
+        id: 'u5',
+        name: 'Hybrid Corp',
+        address: '789 Innovation Dr, Austin, TX 78701',
+        phoneNumber: '555-0103',
+        invoiceEmail: 'finance@hybrid.com',
+        websiteUrl: 'https://hybrid.com',
+        invoicePrefix: 'HY-',
+        enableCreditPayment: true,
+        defaultTaxId: 'tax_08',
+    }
+];
 
 export const MOCK_USERS: User[] = [
     {
@@ -6,6 +44,9 @@ export const MOCK_USERS: User[] = [
         name: 'Alice Merchant',
         email: 'alice@techcorp.com',
         role: 'merchant',
+        merchantId: 'u1',
+        memberRole: 'owner',
+        lastLoginAt: '2023-11-26T09:00:00Z',
         companyName: 'TechCorp Solutions',
         avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alice',
         status: 'active',
@@ -16,6 +57,7 @@ export const MOCK_USERS: User[] = [
         name: 'Bob Admin',
         email: 'bob@bpsp.com',
         role: 'admin',
+        lastLoginAt: '2023-11-26T08:30:00Z',
         companyName: 'BPSP Global',
         avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Bob',
         status: 'active'
@@ -25,6 +67,9 @@ export const MOCK_USERS: User[] = [
         name: 'Charlie Merchant',
         email: 'charlie@retail.com',
         role: 'merchant',
+        merchantId: 'u3',
+        memberRole: 'owner',
+        lastLoginAt: '2023-11-25T14:00:00Z',
         companyName: 'Retail Giants',
         avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie',
         status: 'active',
@@ -35,6 +80,7 @@ export const MOCK_USERS: User[] = [
         name: 'David JPCC Admin',
         email: 'david@jpcc.com',
         role: 'jpcc_admin',
+        lastLoginAt: '2023-11-26T10:15:00Z',
         companyName: 'JPCC Global',
         avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=David',
         status: 'active'
@@ -44,10 +90,51 @@ export const MOCK_USERS: User[] = [
         name: 'Eve JPCC Merchant',
         email: 'eve@hybrid.com',
         role: 'merchant_jpcc',
+        merchantId: 'u5',
+        memberRole: 'owner',
+        lastLoginAt: '2023-11-24T16:45:00Z',
         companyName: 'Hybrid Corp',
         avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Eve',
         status: 'active',
         customFeePercentage: 1.8
+    },
+    // New members for TechCorp (u1)
+    {
+        id: 'u6',
+        name: 'Frank Staff',
+        email: 'frank@techcorp.com',
+        role: 'merchant',
+        merchantId: 'u1',
+        memberRole: 'staff',
+        lastLoginAt: '2023-11-20T11:00:00Z',
+        companyName: 'TechCorp Solutions',
+        avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Frank',
+        status: 'active'
+    },
+    {
+        id: 'u7',
+        name: 'Grace Viewer',
+        email: 'grace@techcorp.com',
+        role: 'merchant',
+        merchantId: 'u1',
+        memberRole: 'viewer',
+        lastLoginAt: '2023-11-18T09:30:00Z',
+        companyName: 'TechCorp Solutions',
+        avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Grace',
+        status: 'active'
+    },
+    {
+        id: 'u8',
+        name: 'Hank Deleted',
+        email: 'hank@techcorp.com',
+        role: 'merchant',
+        merchantId: 'u1',
+        memberRole: 'staff',
+        lastLoginAt: '2023-10-01T10:00:00Z',
+        deletedAt: '2023-11-01T12:00:00Z',
+        companyName: 'TechCorp Solutions',
+        avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Hank',
+        status: 'active'
     }
 ];
 
@@ -196,4 +283,145 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
         isRead: true,
         createdAt: '2023-11-22T10:00:00Z'
     }
+];
+
+export const MOCK_CLIENTS: Client[] = [
+    {
+        id: 'c1',
+        merchantId: 'u1',
+        name: 'Acme Corp',
+        email: 'contact@acme.com',
+        phoneNumber: '555-1001',
+        address: '100 Industrial Way, Gotham City',
+        createdAt: '2023-11-01T10:00:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'c2',
+        merchantId: 'u1',
+        name: 'Wayne Enterprises',
+        email: 'bruce@wayne.com',
+        phoneNumber: '555-1002',
+        address: '1007 Mountain Drive, Gotham City',
+        createdAt: '2023-11-05T14:30:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'c3',
+        merchantId: 'u1',
+        name: 'Stark Industries',
+        email: 'tony@stark.com',
+        phoneNumber: '555-1003',
+        address: '10880 Malibu Point, Malibu',
+        createdAt: '2023-11-10T09:15:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'c4',
+        merchantId: 'u1',
+        name: 'Deleted Client',
+        email: 'deleted@client.com',
+        phoneNumber: '555-9999',
+        address: 'Nowhere',
+        createdAt: '2023-10-01T10:00:00Z',
+        deletedAt: '2023-11-01T12:00:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'c5',
+        merchantId: 'u3',
+        name: 'LexCorp',
+        email: 'lex@lexcorp.com',
+        phoneNumber: '555-2001',
+        address: 'Metropolis',
+        createdAt: '2023-11-15T11:00:00Z',
+        createdBy: 'u3'
+    }
+];
+
+export const MOCK_BANK_ACCOUNTS: BankAccount[] = [
+    {
+        id: 'ba1',
+        merchantId: 'u1',
+        bankName: 'Silicon Valley Bank',
+        branchName: 'Main Branch',
+        accountType: 'checking',
+        accountNumber: '1234567',
+        accountHolder: 'TechCorp Solutions',
+        createdAt: '2023-11-01T10:00:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'ba2',
+        merchantId: 'u1',
+        bankName: 'Chase Bank',
+        branchName: 'Downtown',
+        accountType: 'savings',
+        accountNumber: '7654321',
+        accountHolder: 'TechCorp Solutions',
+        createdAt: '2023-11-05T14:30:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'ba3',
+        merchantId: 'u1',
+        bankName: 'Wells Fargo',
+        branchName: 'Uptown',
+        accountType: 'checking',
+        accountNumber: '1122334',
+        accountHolder: 'TechCorp Solutions',
+        createdAt: '2023-10-01T10:00:00Z',
+        deletedAt: '2023-11-01T12:00:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'ba4',
+        merchantId: 'u3',
+        bankName: 'Bank of America',
+        branchName: 'NYC Central',
+        accountType: 'checking',
+        accountNumber: '9988776',
+        accountHolder: 'Retail Giants',
+        createdAt: '2023-11-15T11:00:00Z',
+        createdBy: 'u3'
+    }
+];
+
+export const MOCK_MERCHANT_CARDS: MerchantCard[] = [
+    {
+        id: 'mc1',
+        merchantId: 'u1',
+        cardBrand: 'Visa',
+        last4: '4242',
+        expiryMonth: '12',
+        expiryYear: '2025',
+        token: 'tok_visa_123',
+        createdAt: '2023-11-01T10:00:00Z'
+    },
+    {
+        id: 'mc2',
+        merchantId: 'u1',
+        cardBrand: 'MasterCard',
+        last4: '8888',
+        expiryMonth: '06',
+        expiryYear: '2024',
+        token: 'tok_master_456',
+        createdAt: '2023-11-05T14:30:00Z'
+    },
+    {
+        id: 'mc3',
+        merchantId: 'u3',
+        cardBrand: 'Amex',
+        last4: '0005',
+        expiryMonth: '01',
+        expiryYear: '2026',
+        token: 'tok_amex_789',
+        createdAt: '2023-11-15T11:00:00Z'
+    }
+];
+
+export const MOCK_TAXES: Tax[] = [
+    { id: 'tax_10', name: 'Standard Tax (10%)', rate: 0.10, description: 'Standard consumption tax' },
+    { id: 'tax_08', name: 'Reduced Tax (8%)', rate: 0.08, description: 'Reduced tax rate for food, etc.' },
+    { id: 'tax_00', name: 'Tax Exempt (0%)', rate: 0.00, description: 'Tax exempt items' }
 ];
