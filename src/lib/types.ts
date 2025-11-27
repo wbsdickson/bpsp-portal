@@ -355,3 +355,11 @@ export interface Receipt {
     createdBy?: string;
     updatedBy?: string;
 }
+
+export interface MerchantSignup {
+    token: string;
+    email: string;
+    isUsed: boolean;
+    expiresAt: string;
+    createdAt: string;
+}

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { User, Invoice, Payment, UserRole, Notification, NotificationRead, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation, PurchaseOrder, DeliveryNote, Receipt } from './types';
+import { User, Invoice, Payment, UserRole, Notification, NotificationRead, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation, PurchaseOrder, DeliveryNote, Receipt, MerchantSignup, Transaction } from './types';
 import { MOCK_USERS, MOCK_INVOICES, MOCK_PAYMENTS, MOCK_NOTIFICATIONS, MOCK_NOTIFICATION_READS, MOCK_MERCHANTS, MOCK_CLIENTS, MOCK_BANK_ACCOUNTS, MOCK_MERCHANT_CARDS, MOCK_TAXES, MOCK_ITEMS, MOCK_DOCUMENT_SETTINGS, MOCK_INVOICE_AUTO_SETTINGS, MOCK_INVOICE_TEMPLATES, MOCK_QUOTATIONS, MOCK_PURCHASE_ORDERS, MOCK_DELIVERY_NOTES, MOCK_RECEIPTS } from './mock-data';
 
 interface AppState {
@@ -23,6 +23,7 @@ interface AppState {
     purchaseOrders: PurchaseOrder[];
     deliveryNotes: DeliveryNote[];
     receipts: Receipt[];
+    merchantSignups: MerchantSignup[]; // Track merchant signups
 
     // Actions
     login: (role: UserRole) => void;
@@ -102,6 +103,16 @@ interface AppState {
     addReceipt: (receipt: Receipt) => void;
     updateReceipt: (id: string, data: Partial<Receipt>) => void;
     deleteReceipt: (id: string) => void;
+
+    // Registration
+    createMerchantSignup: (email: string) => string; // Returns token
+    validateSignupToken: (token: string) => MerchantSignup | null;
+    completeMerchantRegistration: (token: string, merchantData: Partial<Merchant>, userData: Partial<User>) => void;
+
+    // Payment Flow
+    getInvoiceById: (id: string) => Invoice | undefined;
+    processPayment: (invoiceId: string, cardData: any) => Promise<{ success: boolean; error?: string; transactionId?: string }>;
+    getTransactionByInvoiceId: (invoiceId: string) => Transaction | undefined;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -125,6 +136,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     purchaseOrders: MOCK_PURCHASE_ORDERS,
     deliveryNotes: MOCK_DELIVERY_NOTES,
     receipts: MOCK_RECEIPTS,
+    merchantSignups: [],
 
 
     login: (role: UserRole) => {
@@ -642,4 +654,143 @@ export const useAppStore = create<AppState>((set, get) => ({
             ),
         }));
     },
+
+    createMerchantSignup: (email) => {
+        const token = Math.random().toString(36).substr(2, 15);
+        const expiresAt = new Date();
+        expiresAt.setHours(expiresAt.getHours() + 24); // 24 hours expiry
+
+        const newSignup: MerchantSignup = {
+            token,
+            email,
+            isUsed: false,
+            expiresAt: expiresAt.toISOString(),
+            createdAt: new Date().toISOString()
+        };
+
+        set((state) => ({
+            merchantSignups: [...state.merchantSignups, newSignup]
+        }));
+
+        return token;
+    },
+
+    validateSignupToken: (token) => {
+        const state = get();
+        const signup = state.merchantSignups.find(s => s.token === token);
+
+        if (!signup) return null;
+        if (signup.isUsed) return null;
+        if (new Date(signup.expiresAt) < new Date()) return null;
+
+        return signup;
+    },
+
+    completeMerchantRegistration: (token, merchantData, userData) => {
+        const state = get();
+        const signup = state.merchantSignups.find(s => s.token === token);
+
+        if (!signup || signup.isUsed) return;
+
+        const merchantId = `u_${Math.random().toString(36).substr(2, 9)}`;
+
+        const newMerchant: Merchant = {
+            id: merchantId,
+            name: merchantData.name || '',
+            address: merchantData.address,
+            phoneNumber: merchantData.phoneNumber,
+            invoiceEmail: signup.email,
+            enableCreditPayment: false,
+            ...merchantData
+        } as Merchant;
+
+        const newUser: User = {
+            id: merchantId, // Using same ID for simplicity in this mock
+            name: userData.name || '',
+            email: signup.email,
+            role: 'merchant',
+            merchantId: merchantId,
+            memberRole: 'owner',
+            status: 'active',
+            createdAt: new Date().toISOString(),
+            ...userData
+        } as User;
+
+        set((state) => ({
+            merchants: [...state.merchants, newMerchant],
+            users: [...state.users, newUser],
+            merchantSignups: state.merchantSignups.map(s =>
+                s.token === token ? { ...s, isUsed: true } : s
+            )
+        }));
+    },
+
+    getInvoiceById: (id) => {
+        return get().invoices.find((inv) => inv.id === id);
+    },
+
+    processPayment: async (invoiceId, cardData) => {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        const state = get();
+        const invoice = state.invoices.find(inv => inv.id === invoiceId);
+
+        if (!invoice) {
+            return { success: false, error: 'Invoice not found' };
+        }
+
+        // Mock validation
+        if (cardData.cardNumber === '0000000000000000') {
+            return { success: false, error: 'Card declined' };
+        }
+
+        const transactionId = `txn_${Math.random().toString(36).substr(2, 9)}`;
+
+        // Create payment record (using existing Payment type for internal consistency)
+        const newPayment: Payment = {
+            id: `pay_${Math.random().toString(36).substr(2, 9)}`,
+            invoiceId,
+            merchantId: invoice.merchantId,
+            amount: invoice.amount,
+            fee: invoice.amount * 0.03, // 3% fee
+            totalAmount: invoice.amount * 1.03,
+            status: 'settled',
+            paymentMethod: `Credit Card (**** ${cardData.cardNumber.slice(-4)})`,
+            createdAt: new Date().toISOString().split('T')[0],
+            settledAt: new Date().toISOString().split('T')[0]
+        };
+
+        // Update invoice status
+        set(state => ({
+            payments: [...state.payments, newPayment],
+            invoices: state.invoices.map(inv =>
+                inv.id === invoiceId ? { ...inv, status: 'paid' } : inv
+            )
+        }));
+
+        return { success: true, transactionId };
+    },
+
+    getTransactionByInvoiceId: (invoiceId) => {
+        // In this mock, we'll look up the Payment record which serves as the transaction
+        // In a real system, Transaction and Payment might be separate entities
+        const payment = get().payments.find(p => p.invoiceId === invoiceId && p.status === 'settled');
+
+        if (!payment) return undefined;
+
+        // Map Payment to Transaction interface
+        return {
+            id: payment.id,
+            merchantId: payment.merchantId,
+            invoiceId: payment.invoiceId,
+            type: 'payment',
+            amount: payment.amount,
+            currency: 'USD', // Assuming USD for now
+            status: 'captured',
+            paymentMethod: payment.paymentMethod,
+            createdAt: payment.createdAt,
+            updatedAt: payment.settledAt
+        };
+    }
 }));

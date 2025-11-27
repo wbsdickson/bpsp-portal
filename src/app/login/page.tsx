@@ -160,7 +160,13 @@ export default function LoginPage() {
                                 )}
                             />
 
-                            <div className="flex justify-end">
+                            <div className="flex justify-between items-center">
+                                <Link
+                                    href="/register"
+                                    className="text-sm text-primary hover:underline font-medium"
+                                >
+                                    Create an account
+                                </Link>
                                 <Link
                                     href="/forgot-password"
                                     className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline"
