@@ -120,7 +120,7 @@ export function UserProfileForm() {
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Name</FormLabel>
+                                        <FormLabel>Name <span className="text-destructive">*</span></FormLabel>
                                         <FormControl>
                                             <Input placeholder="Your name" {...field} />
                                         </FormControl>
@@ -133,7 +133,7 @@ export function UserProfileForm() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>Email <span className="text-destructive">*</span></FormLabel>
                                         <FormControl>
                                             <Input placeholder="Your email" {...field} />
                                         </FormControl>

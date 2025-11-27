@@ -250,6 +250,91 @@ export const MOCK_INVOICES: Invoice[] = [
         recipientName: 'Logistics Partner',
         recipientBank: 'Bank of America',
         accountNumber: '5566778899'
+    },
+    // Eve's Invoices
+    {
+        id: 'inv_005',
+        merchantId: 'u5',
+        clientId: 'c8',
+        invoiceNumber: 'HY-0001',
+        invoiceDate: '2025-11-20',
+        dueDate: '2025-12-05',
+        status: 'pending',
+        amount: 2000,
+        direction: 'receivable',
+        currency: 'USD',
+        items: [
+            {
+                id: 'ii_5',
+                invoiceId: 'inv_005',
+                name: 'Consulting Services',
+                quantity: 10,
+                unitPrice: 200,
+                taxId: 'tax_10',
+                amount: 2000
+            }
+        ],
+        createdAt: '2025-11-20',
+        createdBy: 'u5',
+        recipientName: 'Global Innovations',
+        recipientBank: 'Chase Bank',
+        accountNumber: '9876543210'
+    },
+    {
+        id: 'inv_006',
+        merchantId: 'u5',
+        clientId: 'c9',
+        invoiceNumber: 'HY-0002',
+        invoiceDate: '2025-11-10',
+        dueDate: '2025-11-25',
+        status: 'paid',
+        amount: 3000,
+        direction: 'receivable',
+        currency: 'USD',
+        items: [
+            {
+                id: 'ii_6',
+                invoiceId: 'inv_006',
+                name: 'Software License',
+                quantity: 1,
+                unitPrice: 3000,
+                taxId: 'tax_10',
+                amount: 3000
+            }
+        ],
+        createdAt: '2025-11-10',
+        createdBy: 'u5',
+        recipientName: 'Future Tech',
+        recipientBank: 'Wells Fargo',
+        accountNumber: '1231231234'
+    },
+    {
+        id: 'inv_007',
+        merchantId: 'u5',
+        clientId: 'c8',
+        invoiceNumber: 'HY-0003',
+        invoiceDate: '2025-11-25',
+        dueDate: '2025-12-10',
+        status: 'approved',
+        amount: 1500,
+        direction: 'receivable',
+        currency: 'USD',
+        items: [
+            {
+                id: 'ii_7',
+                invoiceId: 'inv_007',
+                name: 'Maintenance',
+                quantity: 1,
+                unitPrice: 1500,
+                taxId: 'tax_10',
+                amount: 1500
+            }
+        ],
+        createdAt: '2025-11-25',
+        createdBy: 'u5',
+        recipientName: 'Global Innovations',
+        recipientBank: 'Chase Bank',
+        accountNumber: '9876543210'
     }
 ];
 
@@ -298,6 +383,19 @@ export const MOCK_PAYMENTS: Payment[] = [
         status: 'failed',
         paymentMethod: 'Bank Transfer',
         createdAt: '2023-11-24'
+    },
+    // Eve's Payments
+    {
+        id: 'pay_005',
+        invoiceId: 'inv_006',
+        merchantId: 'u5',
+        amount: 3000,
+        fee: 54, // 1.8% fee for u5
+        totalAmount: 3054,
+        status: 'settled',
+        paymentMethod: 'Credit Card (**** 1234)',
+        createdAt: '2025-11-12',
+        settledAt: '2025-11-14'
     }
 ];
 
@@ -436,6 +534,33 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
         publicationStartDate: '2025-01-01T00:00:00Z',
         publicationEndDate: '2025-01-02T00:00:00Z',
         createdBy: 'Admin'
+    },
+    // Eve's Notifications
+    {
+        id: 'notif_012',
+        merchantId: 'u5',
+        title: 'Payment Received',
+        message: 'Payment of $3,054.00 for Invoice #HY-0002 has been settled.',
+        type: 'success',
+        isRead: false,
+        createdAt: '2025-11-14T10:00:00Z',
+        targetUserType: 'merchant',
+        publicationStartDate: '2025-11-14T10:00:00Z',
+        publicationEndDate: '2099-12-31T23:59:59Z',
+        createdBy: 'System'
+    },
+    {
+        id: 'notif_013',
+        merchantId: 'u5',
+        title: 'Invoice Approved',
+        message: 'Invoice #HY-0003 has been approved by the client.',
+        type: 'info',
+        isRead: true,
+        createdAt: '2025-11-26T09:00:00Z',
+        targetUserType: 'merchant',
+        publicationStartDate: '2025-11-26T09:00:00Z',
+        publicationEndDate: '2099-12-31T23:59:59Z',
+        createdBy: 'System'
     }
 ];
 

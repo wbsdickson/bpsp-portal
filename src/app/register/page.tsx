@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAppStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 
 const formSchema = z.object({
@@ -29,6 +30,7 @@ export default function RegisterPage() {
     const router = useRouter();
     const { createMerchantSignup, users } = useAppStore();
     const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -37,21 +39,29 @@ export default function RegisterPage() {
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        setIsLoading(true);
+        setError(null);
+
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         // Check if email already exists
         const existingUser = users.find(u => u.email === values.email);
         if (existingUser) {
             setError("This email address is already registered.");
+            setIsLoading(false);
             return;
         }
 
         const token = createMerchantSignup(values.email);
         console.log("Registration Token:", token); // For debugging/demo purposes
         router.push(`/register/sent?email=${encodeURIComponent(values.email)}&token=${token}`);
+        setIsLoading(false);
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="relative flex min-h-screen items-center justify-center">
             {/* Background Image */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -62,10 +72,21 @@ export default function RegisterPage() {
                 {/* Overlay for better readability */}
                 <div className="absolute inset-0 bg-black/40" />
             </div>
-            <Card className="w-full max-w-md relative z-10">
-                <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
-                    <CardDescription className="text-center">
+
+            <Card className="relative z-10 w-[400px] shadow-2xl backdrop-blur-sm bg-background/95 border-2">
+                <CardHeader className="text-center">
+                    <div className="flex justify-center mb-2">
+                        <Image
+                            src="/JPCC/logo-fullname-horizontal.png"
+                            alt="JPCC Portal"
+                            width={260}
+                            height={80}
+                            className="h-auto"
+                            priority
+                        />
+                    </div>
+                    <CardTitle className="text-xl">Create an account</CardTitle>
+                    <CardDescription>
                         Enter your email below to create your account
                     </CardDescription>
                 </CardHeader>
@@ -77,23 +98,34 @@ export default function RegisterPage() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>Email Address</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="m@example.com" {...field} />
+                                            <Input placeholder="name@example.com" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            {error && <p className="text-sm text-destructive">{error}</p>}
-                            <Button type="submit" className="w-full">
-                                Send Registration Link
+
+                            {error && (
+                                <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
+                                    {error}
+                                </div>
+                            )}
+
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={isLoading}
+                                style={{ backgroundColor: "#145DB4" }}
+                            >
+                                {isLoading ? "Sending..." : "Send Registration Link"}
                             </Button>
                         </form>
                     </Form>
                     <div className="mt-4 text-center text-sm">
                         Already have an account?{" "}
-                        <Link href="/login" className="underline">
+                        <Link href="/login" className="text-primary hover:underline font-medium">
                             Sign in
                         </Link>
                     </div>

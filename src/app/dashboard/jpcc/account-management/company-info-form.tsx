@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppStore } from "@/lib/store";
@@ -124,7 +124,7 @@ export function CompanyInfoForm() {
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Merchant Name <span className="text-red-500">*</span></FormLabel>
+                                        <FormLabel>Merchant Name <span className="text-destructive">*</span></FormLabel>
                                         <FormControl>
                                             <Input placeholder="Company Name" {...field} disabled={!canEdit} />
                                         </FormControl>
@@ -164,7 +164,7 @@ export function CompanyInfoForm() {
                                 name="invoiceEmail"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Invoice Email <span className="text-red-500">*</span></FormLabel>
+                                        <FormLabel>Invoice Email <span className="text-destructive">*</span></FormLabel>
                                         <FormControl>
                                             <Input placeholder="billing@company.com" {...field} disabled={!canEdit} />
                                         </FormControl>
@@ -187,15 +187,14 @@ export function CompanyInfoForm() {
                                 )}
                             />
                         </CardContent>
+                        {canEdit && (
+                            <CardFooter className="flex justify-end border-t px-6 py-4">
+                                <Button type="submit" disabled={isPending}>
+                                    {isPending ? "Saving..." : "Save Changes"}
+                                </Button>
+                            </CardFooter>
+                        )}
                     </Card>
-
-                    {canEdit && (
-                        <div className="flex justify-end">
-                            <Button type="submit" disabled={isPending}>
-                                {isPending ? "Saving..." : "Save Changes"}
-                            </Button>
-                        </div>
-                    )}
                 </form>
             </Form>
         </div>

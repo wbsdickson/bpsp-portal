@@ -49,7 +49,6 @@ const deliveryNoteItemSchema = z.object({
 const formSchema = z.object({
     clientId: z.string().min(1, "Client is required"),
     deliveryDate: z.date({
-        required_error: "Delivery date is required",
     }),
     items: z.array(deliveryNoteItemSchema).min(1, "At least one item is required"),
     notes: z.string().optional(),
@@ -162,7 +161,7 @@ export function DeliveryNoteForm({ merchantId, initialData }: DeliveryNoteFormPr
                                 name="clientId"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Client <span className="text-red-500">*</span></FormLabel>
+                                        <FormLabel>Client <span className="text-destructive">*</span></FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger>
@@ -289,7 +288,7 @@ export function DeliveryNoteForm({ merchantId, initialData }: DeliveryNoteFormPr
                                         name={`items.${index}.name`}
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="text-xs">Item Name <span className="text-red-500">*</span></FormLabel>
+                                                <FormLabel className="text-xs">Item Name <span className="text-destructive">*</span></FormLabel>
                                                 <FormControl>
                                                     <Input {...field} />
                                                 </FormControl>
