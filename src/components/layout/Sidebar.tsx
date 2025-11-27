@@ -20,8 +20,11 @@ import {
     ShieldCheck,
     CalendarClock,
     ScrollText,
+    ShoppingBag,
+    Truck,
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
@@ -40,8 +43,23 @@ const merchantLinks = [
         icon: ScrollText,
     },
     {
+        name: "Purchase Orders / 発注書",
+        href: "/dashboard/merchant/purchase-orders",
+        icon: ShoppingBag,
+    },
+    {
+        name: "Delivery Notes / 納品書",
+        href: "/dashboard/merchant/delivery-notes",
+        icon: Truck,
+    },
+    {
         name: "Invoices / 請求書",
         href: "/dashboard/merchant/invoices",
+        icon: FileText,
+    },
+    {
+        name: "Receipts / 領収書",
+        href: "/dashboard/merchant/receipts",
         icon: FileText,
     },
     {
@@ -176,7 +194,7 @@ export function Sidebar() {
     const toggleSection = (title: string) => {
         setOpenSections((prev) => ({
             ...prev,
-            [title]: !prev[title],
+            [title]: !(prev[title] ?? true),
         }));
     };
 
@@ -278,141 +296,15 @@ export function Sidebar() {
                     Business Payments Simplified
                 </p>
             </div>
-            <nav className="flex-1 px-4 space-y-2">
-                {navGroups.map((group, groupIndex) => {
-                    if (!group.title) {
-                        // Render flat list if no title
-                        return (
-                            <div key={groupIndex} className="space-y-1">
-                                {group.links.map((link) => {
-                                    const Icon = link.icon;
-                                    const isActive = pathname === link.href;
-                                    return (
-                                        <Link
-                                            key={link.href}
-                                            href={link.href}
-                                            onClick={() => setOpen(false)}
-                                            className={cn(
-                                                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer",
-                                                isActive ? "font-bold" : "font-medium",
-                                                isActive
-                                                    ? hasColoredBg
-                                                        ? "bg-black/20 text-white"
-                                                        : "bg-primary text-primary-foreground"
-                                                    : hasColoredBg
-                                                        ? "text-slate-300 hover:bg-black/20 hover:text-white"
-                                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                                            )}
-                                        >
-                                            <Icon className="h-4 w-4 shrink-0" />
-                                            {renderLabel(link.name)}
-                                        </Link>
-                                    );
-                                })}
-                            </div>
-                        );
-                    }
-
-                    const isOpen = openSections[group.title] ?? true;
-
-                    return (
-                        <div key={groupIndex} className="space-y-1">
-                            <button
-                                onClick={() => toggleSection(group.title!)}
-                                className={cn(
-                                    "flex w-full items-center justify-between px-3 py-2.5 text-xs font-bold tracking-wider uppercase transition-colors rounded-md cursor-pointer",
-                                    hasColoredBg
-                                        ? "text-white bg-black/20 hover:bg-black/30 border border-white/20"
-                                        : "text-foreground bg-muted/80 hover:bg-muted border border-border/50 font-semibold"
-                                )}
-                            >
-                                <span>{group.title}</span>
-                                {isOpen ? (
-                                    <ChevronDown className="h-3 w-3" />
-                                ) : (
-                                    <ChevronRight className="h-3 w-3" />
-                                )}
-                            </button>
-
-                            {isOpen && (
-                                <div className="space-y-1">
+            <ScrollArea className="flex-1 px-4 overflow-y-auto">
+                <div className="space-y-2 pr-4">
+                    {navGroups.map((group, groupIndex) => {
+                        if (!group.title) {
+                            // Render flat list if no title
+                            return (
+                                <div key={groupIndex} className="space-y-1">
                                     {group.links.map((link) => {
                                         const Icon = link.icon;
-
-                                        // Handle items with sub-menus
-                                        if (link.subItems) {
-                                            const isSubMenuOpen = openSubMenus[link.name] ?? false;
-                                            const isChildActive = link.subItems.some(
-                                                (sub: any) => pathname === sub.href
-                                            );
-
-                                            return (
-                                                <div key={link.name} className="space-y-1">
-                                                    <button
-                                                        onClick={() => toggleSubMenu(link.name)}
-                                                        className={cn(
-                                                            "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer",
-                                                            isChildActive ? "font-bold" : "font-medium",
-                                                            hasColoredBg
-                                                                ? "hover:bg-black/20 hover:text-white"
-                                                                : "hover:bg-muted hover:text-foreground",
-                                                            isChildActive
-                                                                ? hasColoredBg
-                                                                    ? "text-white"
-                                                                    : "text-foreground"
-                                                                : hasColoredBg
-                                                                    ? "text-slate-300"
-                                                                    : "text-muted-foreground"
-                                                        )}
-                                                    >
-                                                        <div className="flex items-center gap-3">
-                                                            <Icon className="h-4 w-4 shrink-0" />
-                                                            {renderLabel(link.name)}
-                                                        </div>
-                                                        {isSubMenuOpen ? (
-                                                            <ChevronDown className="h-3 w-3" />
-                                                        ) : (
-                                                            <ChevronRight className="h-3 w-3" />
-                                                        )}
-                                                    </button>
-
-                                                    {isSubMenuOpen && (
-                                                        <div
-                                                            className={cn(
-                                                                "ml-9 space-y-1 border-l pl-2",
-                                                                hasColoredBg ? "border-white/20" : ""
-                                                            )}
-                                                        >
-                                                            {link.subItems.map((subItem: any) => {
-                                                                const isSubActive = pathname === subItem.href;
-                                                                return (
-                                                                    <Link
-                                                                        key={subItem.href}
-                                                                        href={subItem.href}
-                                                                        onClick={() => setOpen(false)}
-                                                                        className={cn(
-                                                                            "block rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer",
-                                                                            isSubActive ? "font-bold" : "font-medium",
-                                                                            isSubActive
-                                                                                ? hasColoredBg
-                                                                                    ? "bg-black/20 text-white"
-                                                                                    : "bg-primary/10 text-primary"
-                                                                                : hasColoredBg
-                                                                                    ? "text-slate-300 hover:bg-black/20 hover:text-white"
-                                                                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                                                                        )}
-                                                                    >
-                                                                        {renderLabel(subItem.name)}
-                                                                    </Link>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            );
-                                        }
-
-                                        // Handle regular items
                                         const isActive = pathname === link.href;
                                         return (
                                             <Link
@@ -437,12 +329,140 @@ export function Sidebar() {
                                         );
                                     })}
                                 </div>
-                            )}
-                        </div>
-                    );
-                })}
-            </nav>
-            <div className="px-4 mt-auto">
+                            );
+                        }
+
+                        const isOpen = openSections[group.title] ?? true;
+
+                        return (
+                            <div key={groupIndex} className="space-y-1">
+                                <button
+                                    onClick={() => toggleSection(group.title!)}
+                                    className={cn(
+                                        "flex w-full items-center justify-between px-3 py-2.5 text-xs font-bold tracking-wider uppercase transition-colors rounded-md cursor-pointer",
+                                        hasColoredBg
+                                            ? "text-white bg-black/20 hover:bg-black/30 border border-white/20"
+                                            : "text-foreground bg-muted/80 hover:bg-muted border border-border/50 font-semibold"
+                                    )}
+                                >
+                                    <span>{group.title}</span>
+                                    {isOpen ? (
+                                        <ChevronDown className="h-3 w-3" />
+                                    ) : (
+                                        <ChevronRight className="h-3 w-3" />
+                                    )}
+                                </button>
+
+                                {isOpen && (
+                                    <div className="space-y-1">
+                                        {group.links.map((link) => {
+                                            const Icon = link.icon;
+
+                                            // Handle items with sub-menus
+                                            if (link.subItems) {
+                                                const isSubMenuOpen = openSubMenus[link.name] ?? false;
+                                                const isChildActive = link.subItems.some(
+                                                    (sub: any) => pathname === sub.href
+                                                );
+
+                                                return (
+                                                    <div key={link.name} className="space-y-1">
+                                                        <button
+                                                            onClick={() => toggleSubMenu(link.name)}
+                                                            className={cn(
+                                                                "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer",
+                                                                isChildActive ? "font-bold" : "font-medium",
+                                                                hasColoredBg
+                                                                    ? "hover:bg-black/20 hover:text-white"
+                                                                    : "hover:bg-muted hover:text-foreground",
+                                                                isChildActive
+                                                                    ? hasColoredBg
+                                                                        ? "text-white"
+                                                                        : "text-foreground"
+                                                                    : hasColoredBg
+                                                                        ? "text-slate-300"
+                                                                        : "text-muted-foreground"
+                                                            )}
+                                                        >
+                                                            <div className="flex items-center gap-3">
+                                                                <Icon className="h-4 w-4 shrink-0" />
+                                                                {renderLabel(link.name)}
+                                                            </div>
+                                                            {isSubMenuOpen ? (
+                                                                <ChevronDown className="h-3 w-3" />
+                                                            ) : (
+                                                                <ChevronRight className="h-3 w-3" />
+                                                            )}
+                                                        </button>
+
+                                                        {isSubMenuOpen && (
+                                                            <div
+                                                                className={cn(
+                                                                    "ml-9 space-y-1 border-l pl-2",
+                                                                    hasColoredBg ? "border-white/20" : ""
+                                                                )}
+                                                            >
+                                                                {link.subItems.map((subItem: any) => {
+                                                                    const isSubActive = pathname === subItem.href;
+                                                                    return (
+                                                                        <Link
+                                                                            key={subItem.href}
+                                                                            href={subItem.href}
+                                                                            onClick={() => setOpen(false)}
+                                                                            className={cn(
+                                                                                "block rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer",
+                                                                                isSubActive ? "font-bold" : "font-medium",
+                                                                                isSubActive
+                                                                                    ? hasColoredBg
+                                                                                        ? "bg-black/20 text-white"
+                                                                                        : "bg-primary/10 text-primary"
+                                                                                    : hasColoredBg
+                                                                                        ? "text-slate-300 hover:bg-black/20 hover:text-white"
+                                                                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                                                            )}
+                                                                        >
+                                                                            {renderLabel(subItem.name)}
+                                                                        </Link>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                );
+                                            }
+
+                                            // Handle regular items
+                                            const isActive = pathname === link.href;
+                                            return (
+                                                <Link
+                                                    key={link.href}
+                                                    href={link.href}
+                                                    onClick={() => setOpen(false)}
+                                                    className={cn(
+                                                        "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer",
+                                                        isActive ? "font-bold" : "font-medium",
+                                                        isActive
+                                                            ? hasColoredBg
+                                                                ? "bg-black/20 text-white"
+                                                                : "bg-primary text-primary-foreground"
+                                                            : hasColoredBg
+                                                                ? "text-slate-300 hover:bg-black/20 hover:text-white"
+                                                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                                    )}
+                                                >
+                                                    <Icon className="h-4 w-4 shrink-0" />
+                                                    {renderLabel(link.name)}
+                                                </Link>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            </ScrollArea>
+            {/* <div className="px-4 mt-auto">
                 <Button
                     variant="ghost"
                     className={cn(
@@ -456,7 +476,7 @@ export function Sidebar() {
                     <LogOut className="h-4 w-4" />
                     Logout
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 

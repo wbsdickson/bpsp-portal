@@ -1,4 +1,4 @@
-import { User, Invoice, Payment, Notification, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation } from './types';
+import { User, Invoice, Payment, Notification, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation, PurchaseOrder, DeliveryNote, Receipt } from './types';
 
 export const MOCK_MERCHANTS: Merchant[] = [
     // ...existing code...
@@ -855,6 +855,225 @@ export const MOCK_QUOTATIONS: Quotation[] = [
             }
         ],
         createdAt: '2023-11-27T10:00:00Z',
+        createdBy: 'u5'
+    }
+];
+
+export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
+    {
+        id: 'po_001',
+        merchantId: 'u1',
+        clientId: 'c1',
+        poNumber: 'PO-0001',
+        poDate: '2023-11-28',
+        status: 'draft',
+        amount: 2000,
+        currency: 'USD',
+        items: [
+            {
+                id: 'poi_1',
+                purchaseOrderId: 'po_001',
+                name: 'Office Equipment',
+                quantity: 2,
+                unitPrice: 1000,
+                taxId: 'tax_10',
+                amount: 2000
+            }
+        ],
+        createdAt: '2023-11-28T09:00:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'po_002',
+        merchantId: 'u1',
+        clientId: 'c2',
+        poNumber: 'PO-0002',
+        poDate: '2023-11-29',
+        status: 'issued',
+        amount: 5000,
+        currency: 'USD',
+        items: [
+            {
+                id: 'poi_2',
+                purchaseOrderId: 'po_002',
+                name: 'Server Hardware',
+                quantity: 1,
+                unitPrice: 5000,
+                taxId: 'tax_10',
+                amount: 5000
+            }
+        ],
+        createdAt: '2023-11-29T10:00:00Z',
+        createdBy: 'u1'
+    },
+    // Eve's Purchase Orders
+    {
+        id: 'po_003',
+        merchantId: 'u5',
+        clientId: 'c8',
+        poNumber: 'PO-1001',
+        poDate: '2023-11-30',
+        status: 'issued',
+        amount: 3000,
+        currency: 'USD',
+        items: [
+            {
+                id: 'poi_3',
+                purchaseOrderId: 'po_003',
+                name: 'Consulting Services',
+                quantity: 15,
+                unitPrice: 200,
+                taxId: 'tax_10',
+                amount: 3000
+            }
+        ],
+        createdAt: '2023-11-30T11:00:00Z',
+        createdBy: 'u5'
+    }
+];
+
+export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
+    {
+        id: 'dn_001',
+        merchantId: 'u1',
+        clientId: 'c1',
+        deliveryNoteNumber: 'DN-0001',
+        deliveryDate: '2023-12-01',
+        status: 'draft',
+        amount: 2000,
+        currency: 'USD',
+        items: [
+            {
+                id: 'dni_1',
+                deliveryNoteId: 'dn_001',
+                name: 'Office Equipment',
+                quantity: 2,
+                unitPrice: 1000,
+                taxId: 'tax_10',
+                amount: 2000
+            }
+        ],
+        createdAt: '2023-12-01T09:00:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'dn_002',
+        merchantId: 'u1',
+        clientId: 'c2',
+        deliveryNoteNumber: 'DN-0002',
+        deliveryDate: '2023-12-02',
+        status: 'issued',
+        amount: 5000,
+        currency: 'USD',
+        items: [
+            {
+                id: 'dni_2',
+                deliveryNoteId: 'dn_002',
+                name: 'Server Hardware',
+                quantity: 1,
+                unitPrice: 5000,
+                taxId: 'tax_10',
+                amount: 5000
+            }
+        ],
+        createdAt: '2023-12-02T10:00:00Z',
+        createdBy: 'u1'
+    },
+    // Eve's Delivery Notes
+    {
+        id: 'dn_003',
+        merchantId: 'u5',
+        clientId: 'c8',
+        deliveryNoteNumber: 'DN-1001',
+        deliveryDate: '2023-12-03',
+        status: 'issued',
+        amount: 3000,
+        currency: 'USD',
+        items: [
+            {
+                id: 'dni_3',
+                deliveryNoteId: 'dn_003',
+                name: 'Consulting Services',
+                quantity: 15,
+                unitPrice: 200,
+                taxId: 'tax_10',
+                amount: 3000
+            }
+        ],
+        createdAt: '2023-12-03T11:00:00Z',
+        createdBy: 'u5'
+    }
+];
+
+export const MOCK_RECEIPTS: Receipt[] = [
+    {
+        id: 'rc_001',
+        merchantId: 'u1',
+        clientId: 'c1',
+        receiptNumber: 'RC-0001',
+        issueDate: '2023-12-05',
+        status: 'draft',
+        amount: 2000,
+        currency: 'USD',
+        items: [
+            {
+                id: 'rci_1',
+                receiptId: 'rc_001',
+                name: 'Office Equipment',
+                quantity: 2,
+                unitPrice: 1000,
+                taxId: 'tax_10',
+                amount: 2000
+            }
+        ],
+        createdAt: '2023-12-05T09:00:00Z',
+        createdBy: 'u1'
+    },
+    {
+        id: 'rc_002',
+        merchantId: 'u1',
+        clientId: 'c2',
+        receiptNumber: 'RC-0002',
+        issueDate: '2023-12-06',
+        status: 'issued',
+        amount: 5000,
+        currency: 'USD',
+        items: [
+            {
+                id: 'rci_2',
+                receiptId: 'rc_002',
+                name: 'Server Hardware',
+                quantity: 1,
+                unitPrice: 5000,
+                taxId: 'tax_10',
+                amount: 5000
+            }
+        ],
+        createdAt: '2023-12-06T10:00:00Z',
+        createdBy: 'u1'
+    },
+    // Eve's Receipts
+    {
+        id: 'rc_003',
+        merchantId: 'u5',
+        clientId: 'c8',
+        receiptNumber: 'RC-1001',
+        issueDate: '2023-12-07',
+        status: 'issued',
+        amount: 3000,
+        currency: 'USD',
+        items: [
+            {
+                id: 'rci_3',
+                receiptId: 'rc_003',
+                name: 'Consulting Services',
+                quantity: 15,
+                unitPrice: 200,
+                taxId: 'tax_10',
+                amount: 3000
+            }
+        ],
+        createdAt: '2023-12-07T11:00:00Z',
         createdBy: 'u5'
     }
 ];

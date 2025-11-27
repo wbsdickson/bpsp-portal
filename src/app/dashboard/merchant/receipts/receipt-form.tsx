@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     Form,
     FormControl,
@@ -11,6 +13,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import {
     Select,
     SelectContent,
     SelectItem,
@@ -20,17 +27,18 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, Trash2 } from "lucide-react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { z } from "zod";
-import { useAppStore } from "@/lib/store";
-import { Invoice } from "@/lib/types";
-import { useState } from "react";
-import { toast } from "sonner";
-import { createInvoiceAction, updateInvoiceAction } from "./actions";
+import { format } from "date-fns";
+import { CalendarIcon, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { createReceiptAction, updateReceiptAction } from "./actions";
+import { useAppStore } from "@/lib/store";
+import { Receipt } from "@/lib/types";
 
-const invoiceItemSchema = z.object({
+const receiptItemSchema = z.object({
     itemId: z.string().optional(),
     name: z.string().min(1, "Item name is required"),
     quantity: z.coerce.number().min(1, "Quantity must be at least 1"),
@@ -38,44 +46,42 @@ const invoiceItemSchema = z.object({
     taxId: z.string().min(1, "Tax category is required"),
 });
 
-const invoiceFormSchema = z.object({
+const formSchema = z.object({
     clientId: z.string().min(1, "Client is required"),
-    invoiceDate: z.string().min(1, "Invoice date is required"),
-    dueDate: z.string().optional(),
+    issueDate: z.date(),
+    items: z.array(receiptItemSchema).min(1, "At least one item is required"),
     notes: z.string().optional(),
-    items: z.array(invoiceItemSchema).min(1, "At least one item is required"),
-    status: z.enum(['draft', 'pending']),
 });
 
-type InvoiceFormValues = z.infer<typeof invoiceFormSchema>;
+type FormValues = z.infer<typeof formSchema>;
 
-interface InvoiceFormProps {
-    invoice?: Invoice;
+interface ReceiptFormProps {
     merchantId: string;
+    initialData?: Receipt;
 }
 
-export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
+export function ReceiptForm({ merchantId, initialData }: ReceiptFormProps) {
     const router = useRouter();
-    const { getMerchantClients, getMerchantItems, taxes, addInvoice, updateInvoice } = useAppStore();
+    const { getMerchantClients, getMerchantItems, taxes, addReceipt, updateReceipt } = useAppStore();
     const clients = getMerchantClients(merchantId);
     const merchantItems = getMerchantItems(merchantId);
-    const [isPending, setIsPending] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const form = useForm<InvoiceFormValues>({
-        resolver: zodResolver(invoiceFormSchema) as any,
+    const form = useForm<FormValues>({
+        resolver: zodResolver(formSchema) as any,
         defaultValues: {
-            clientId: invoice?.clientId || "",
-            invoiceDate: invoice?.invoiceDate || new Date().toISOString().split('T')[0],
-            dueDate: invoice?.dueDate || "",
-            notes: invoice?.notes || "",
-            items: invoice?.items.map(i => ({
-                itemId: i.itemId,
-                name: i.name,
-                quantity: i.quantity,
-                unitPrice: i.unitPrice,
-                taxId: i.taxId,
-            })) || [{ name: "", quantity: 1, unitPrice: 0, taxId: taxes[0]?.id || "" }],
-            status: invoice?.status === 'pending' ? 'pending' : 'draft',
+            clientId: initialData?.clientId || "",
+            issueDate: initialData?.issueDate ? new Date(initialData.issueDate) : new Date(),
+            items: initialData?.items.map(item => ({
+                itemId: item.id,
+                name: item.name,
+                quantity: item.quantity,
+                unitPrice: item.unitPrice,
+                taxId: item.taxId || "standard",
+            })) || [
+                    { name: "", quantity: 1, unitPrice: 0, taxId: "standard" }
+                ],
+            notes: initialData?.notes || "",
         },
     });
 
@@ -95,105 +101,153 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
         }
     };
 
-    async function onSubmit(data: InvoiceFormValues) {
-        setIsPending(true);
-        const formData = new FormData();
-        if (invoice) formData.append("id", invoice.id);
-        formData.append("clientId", data.clientId);
-        formData.append("invoiceDate", data.invoiceDate);
-        if (data.dueDate) formData.append("dueDate", data.dueDate);
-        if (data.notes) formData.append("notes", data.notes);
-        formData.append("status", data.status);
-        formData.append("items", JSON.stringify(data.items));
-
-        try {
-            const action = invoice ? updateInvoiceAction : createInvoiceAction;
-            const result = await action({}, formData);
-
-            if (result.success && result.data) {
-                toast.success(result.message);
-                if (invoice) {
-                    updateInvoice(invoice.id, result.data as Partial<Invoice>);
-                } else {
-                    addInvoice({
-                        ...(result.data as any),
-                        merchantId,
-                    });
-                }
-                router.push("/dashboard/merchant/invoices");
-            } else {
-                toast.error(result.message || "Operation failed");
-            }
-        } catch (error) {
-            toast.error("An unexpected error occurred");
-            console.error(error);
-        } finally {
-            setIsPending(false);
-        }
-    }
-
-    const calculateSubtotal = () => {
-        const items = form.watch("items");
+    const calculateTotal = (items: FormValues["items"]) => {
         return items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
     };
+
+    const watchedItems = form.watch("items");
+    const totalAmount = calculateTotal(watchedItems);
+
+    async function onSubmit(data: FormValues) {
+        setIsSubmitting(true);
+        try {
+            const formData = new FormData();
+            if (initialData?.id) {
+                formData.append("id", initialData.id);
+            }
+            formData.append("clientId", data.clientId);
+            formData.append("issueDate", data.issueDate.toISOString());
+            formData.append("notes", data.notes || "");
+            formData.append("items", JSON.stringify(data.items));
+
+            const action = initialData ? updateReceiptAction : createReceiptAction;
+            const result = await action(null, formData);
+
+            if (result.success && result.data) {
+                if (initialData) {
+                    updateReceipt(result.data.id, result.data as Receipt);
+                    toast.success("Receipt updated successfully");
+                } else {
+                    addReceipt({
+                        ...(result.data as Receipt),
+                        merchantId
+                    });
+                    toast.success("Receipt created successfully");
+                }
+                router.push("/dashboard/merchant/receipts");
+            } else {
+                toast.error(result.message || "Something went wrong");
+            }
+        } catch (error) {
+            toast.error("An error occurred. Please try again.");
+            console.error(error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                        control={form.control}
-                        name="clientId"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Client <span className="text-red-500">*</span></FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select a client" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {clients.map((client) => (
-                                            <SelectItem key={client.id} value={client.id}>
-                                                {client.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Receipt Details</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <FormField
+                                control={form.control}
+                                name="clientId"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Client</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select a client" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {clients.map((client) => (
+                                                    <SelectItem key={client.id} value={client.id}>
+                                                        {client.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="invoiceDate"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Invoice Date <span className="text-red-500">*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type="date" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="dueDate"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Due Date</FormLabel>
-                                    <FormControl>
-                                        <Input type="date" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                            <FormField
+                                control={form.control}
+                                name="issueDate"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Issue Date</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        className={cn(
+                                                            "w-full pl-3 text-left font-normal",
+                                                            !field.value && "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value ? (
+                                                            format(field.value, "PPP")
+                                                        ) : (
+                                                            <span>Pick a date</span>
+                                                        )}
+                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0" align="start">
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value}
+                                                    onSelect={field.onChange}
+                                                    disabled={(date) =>
+                                                        date < new Date("1900-01-01")
+                                                    }
+                                                    initialFocus
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Additional Information</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <FormField
+                                control={form.control}
+                                name="notes"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Notes</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                placeholder="Add any notes here..."
+                                                className="min-h-[120px]"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </CardContent>
+                    </Card>
                 </div>
 
                 <div className="space-y-4">
@@ -203,7 +257,7 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
                             type="button"
                             variant="outline"
                             size="sm"
-                            onClick={() => append({ name: "", quantity: 1, unitPrice: 0, taxId: taxes[0]?.id || "" })}
+                            onClick={() => append({ name: "", quantity: 1, unitPrice: 0, taxId: taxes[0]?.id || "standard" })}
                         >
                             <Plus className="mr-2 h-4 w-4" /> Add Item
                         </Button>
@@ -325,47 +379,20 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
                         ))}
                     </div>
                     <div className="flex justify-end text-lg font-bold">
-                        Total: ${calculateSubtotal().toLocaleString()}
+                        Total: ${totalAmount.toLocaleString()}
                     </div>
                 </div>
 
-                <FormField
-                    control={form.control}
-                    name="notes"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Notes</FormLabel>
-                            <FormControl>
-                                <Textarea placeholder="Payment terms, bank details, etc." {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <div className="flex justify-end gap-4">
+                <div className="flex justify-end space-x-4">
                     <Button
                         type="button"
                         variant="outline"
-                        onClick={() => router.back()}
-                        disabled={isPending}
+                        onClick={() => router.push("/dashboard/merchant/receipts")}
                     >
                         Cancel
                     </Button>
-                    <Button
-                        type="submit"
-                        variant="secondary"
-                        onClick={() => form.setValue("status", "draft")}
-                        disabled={isPending}
-                    >
-                        Save as Draft
-                    </Button>
-                    <Button
-                        type="submit"
-                        onClick={() => form.setValue("status", "pending")}
-                        disabled={isPending}
-                    >
-                        Issue Invoice
+                    <Button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Saving..." : (initialData ? "Update Receipt" : "Create Receipt")}
                     </Button>
                 </div>
             </form>

@@ -18,64 +18,61 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { useAppStore } from "@/lib/store";
+import { PurchaseOrder, PurchaseOrderItem } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Trash2 } from "lucide-react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { z } from "zod";
-import { useAppStore } from "@/lib/store";
-import { Invoice } from "@/lib/types";
-import { useState } from "react";
-import { toast } from "sonner";
-import { createInvoiceAction, updateInvoiceAction } from "./actions";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { createPurchaseOrderAction, updatePurchaseOrderAction } from "./actions";
 
-const invoiceItemSchema = z.object({
+const purchaseOrderItemSchema = z.object({
     itemId: z.string().optional(),
     name: z.string().min(1, "Item name is required"),
-    quantity: z.coerce.number().min(1, "Quantity must be at least 1"),
-    unitPrice: z.coerce.number().min(0, "Unit price must be non-negative"),
+    quantity: z.number().min(1, "Quantity must be at least 1"),
+    unitPrice: z.number().min(0, "Unit price must be non-negative"),
     taxId: z.string().min(1, "Tax category is required"),
 });
 
-const invoiceFormSchema = z.object({
+const purchaseOrderFormSchema = z.object({
     clientId: z.string().min(1, "Client is required"),
-    invoiceDate: z.string().min(1, "Invoice date is required"),
-    dueDate: z.string().optional(),
+    poDate: z.string().min(1, "Purchase Order date is required"),
+    items: z.array(purchaseOrderItemSchema).min(1, "At least one item is required"),
     notes: z.string().optional(),
-    items: z.array(invoiceItemSchema).min(1, "At least one item is required"),
-    status: z.enum(['draft', 'pending']),
 });
 
-type InvoiceFormValues = z.infer<typeof invoiceFormSchema>;
+type PurchaseOrderFormValues = z.infer<typeof purchaseOrderFormSchema>;
 
-interface InvoiceFormProps {
-    invoice?: Invoice;
+interface PurchaseOrderFormProps {
+    purchaseOrder?: PurchaseOrder;
     merchantId: string;
 }
 
-export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
+export function PurchaseOrderForm({ purchaseOrder, merchantId }: PurchaseOrderFormProps) {
     const router = useRouter();
-    const { getMerchantClients, getMerchantItems, taxes, addInvoice, updateInvoice } = useAppStore();
+    const { getMerchantClients, getMerchantItems, taxes, addPurchaseOrder, updatePurchaseOrder } = useAppStore();
     const clients = getMerchantClients(merchantId);
     const merchantItems = getMerchantItems(merchantId);
     const [isPending, setIsPending] = useState(false);
 
-    const form = useForm<InvoiceFormValues>({
-        resolver: zodResolver(invoiceFormSchema) as any,
+    const form = useForm<PurchaseOrderFormValues>({
+        resolver: zodResolver(purchaseOrderFormSchema),
         defaultValues: {
-            clientId: invoice?.clientId || "",
-            invoiceDate: invoice?.invoiceDate || new Date().toISOString().split('T')[0],
-            dueDate: invoice?.dueDate || "",
-            notes: invoice?.notes || "",
-            items: invoice?.items.map(i => ({
-                itemId: i.itemId,
-                name: i.name,
-                quantity: i.quantity,
-                unitPrice: i.unitPrice,
-                taxId: i.taxId,
-            })) || [{ name: "", quantity: 1, unitPrice: 0, taxId: taxes[0]?.id || "" }],
-            status: invoice?.status === 'pending' ? 'pending' : 'draft',
+            clientId: purchaseOrder?.clientId || "",
+            poDate: purchaseOrder?.poDate || new Date().toISOString().split('T')[0],
+            items: purchaseOrder?.items.map(item => ({
+                itemId: item.itemId || "",
+                name: item.name,
+                quantity: item.quantity,
+                unitPrice: item.unitPrice,
+                taxId: item.taxId,
+            })) || [
+                    { name: "", quantity: 1, unitPrice: 0, taxId: taxes[0]?.id || "" }
+                ],
+            notes: purchaseOrder?.notes || "",
         },
     });
 
@@ -84,7 +81,6 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
         name: "items",
     });
 
-    // Handle item selection from master
     const handleItemSelect = (index: number, itemId: string) => {
         const selectedItem = merchantItems.find(i => i.id === itemId);
         if (selectedItem) {
@@ -95,32 +91,30 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
         }
     };
 
-    async function onSubmit(data: InvoiceFormValues) {
+    async function onSubmit(data: PurchaseOrderFormValues) {
         setIsPending(true);
         const formData = new FormData();
-        if (invoice) formData.append("id", invoice.id);
+        if (purchaseOrder) formData.append("id", purchaseOrder.id);
         formData.append("clientId", data.clientId);
-        formData.append("invoiceDate", data.invoiceDate);
-        if (data.dueDate) formData.append("dueDate", data.dueDate);
-        if (data.notes) formData.append("notes", data.notes);
-        formData.append("status", data.status);
+        formData.append("poDate", data.poDate);
         formData.append("items", JSON.stringify(data.items));
+        if (data.notes) formData.append("notes", data.notes);
 
         try {
-            const action = invoice ? updateInvoiceAction : createInvoiceAction;
+            const action = purchaseOrder ? updatePurchaseOrderAction : createPurchaseOrderAction;
             const result = await action({}, formData);
 
             if (result.success && result.data) {
                 toast.success(result.message);
-                if (invoice) {
-                    updateInvoice(invoice.id, result.data as Partial<Invoice>);
+                if (purchaseOrder) {
+                    updatePurchaseOrder(purchaseOrder.id, result.data as Partial<PurchaseOrder>);
                 } else {
-                    addInvoice({
-                        ...(result.data as any),
+                    addPurchaseOrder({
+                        ...result.data,
                         merchantId,
-                    });
+                    } as PurchaseOrder);
                 }
-                router.push("/dashboard/merchant/invoices");
+                router.push("/dashboard/merchant/purchase-orders");
             } else {
                 toast.error(result.message || "Operation failed");
             }
@@ -132,7 +126,7 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
         }
     }
 
-    const calculateSubtotal = () => {
+    const calculateTotal = () => {
         const items = form.watch("items");
         return items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
     };
@@ -166,34 +160,19 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
                         )}
                     />
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="invoiceDate"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Invoice Date <span className="text-red-500">*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type="date" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="dueDate"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Due Date</FormLabel>
-                                    <FormControl>
-                                        <Input type="date" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                    <FormField
+                        control={form.control}
+                        name="poDate"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>PO Date <span className="text-red-500">*</span></FormLabel>
+                                <FormControl>
+                                    <Input type="date" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                 </div>
 
                 <div className="space-y-4">
@@ -325,7 +304,7 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
                         ))}
                     </div>
                     <div className="flex justify-end text-lg font-bold">
-                        Total: ${calculateSubtotal().toLocaleString()}
+                        Total: ${calculateTotal().toLocaleString()}
                     </div>
                 </div>
 
@@ -336,36 +315,19 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
                         <FormItem>
                             <FormLabel>Notes</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Payment terms, bank details, etc." {...field} />
+                                <Textarea placeholder="Additional notes..." {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-                <div className="flex justify-end gap-4">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => router.back()}
-                        disabled={isPending}
-                    >
+                <div className="flex justify-end space-x-4">
+                    <Button variant="outline" type="button" onClick={() => router.back()}>
                         Cancel
                     </Button>
-                    <Button
-                        type="submit"
-                        variant="secondary"
-                        onClick={() => form.setValue("status", "draft")}
-                        disabled={isPending}
-                    >
-                        Save as Draft
-                    </Button>
-                    <Button
-                        type="submit"
-                        onClick={() => form.setValue("status", "pending")}
-                        disabled={isPending}
-                    >
-                        Issue Invoice
+                    <Button type="submit" disabled={isPending}>
+                        {isPending ? "Saving..." : (purchaseOrder ? "Update Purchase Order" : "Create Purchase Order")}
                     </Button>
                 </div>
             </form>

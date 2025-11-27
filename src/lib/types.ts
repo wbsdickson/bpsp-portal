@@ -231,3 +231,96 @@ export interface Quotation {
     createdBy?: string;
     updatedBy?: string;
 }
+
+export type PurchaseOrderStatus = 'draft' | 'issued';
+
+export interface PurchaseOrderItem {
+    id: string;
+    purchaseOrderId: string;
+    itemId?: string;
+    name: string;
+    quantity: number;
+    unitPrice: number;
+    taxId: string;
+    amount: number;
+}
+
+export interface PurchaseOrder {
+    id: string;
+    merchantId: string;
+    clientId: string;
+    poNumber: string;
+    poDate: string;
+    status: PurchaseOrderStatus;
+    amount: number;
+    currency: string;
+    notes?: string;
+    items: PurchaseOrderItem[];
+    createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    createdBy?: string;
+    updatedBy?: string;
+}
+
+export type DeliveryNoteStatus = 'draft' | 'issued';
+
+export interface DeliveryNoteItem {
+    id: string;
+    deliveryNoteId: string;
+    itemId?: string;
+    name: string;
+    quantity: number;
+    unitPrice: number;
+    taxId: string;
+    amount: number;
+}
+
+export interface DeliveryNote {
+    id: string;
+    merchantId: string;
+    clientId: string;
+    deliveryNoteNumber: string;
+    deliveryDate: string;
+    status: DeliveryNoteStatus;
+    amount: number;
+    currency: string;
+    notes?: string;
+    items: DeliveryNoteItem[];
+    createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    createdBy?: string;
+    updatedBy?: string;
+}
+
+export type ReceiptStatus = 'draft' | 'issued';
+
+export interface ReceiptItem {
+    id: string;
+    receiptId: string;
+    itemId?: string;
+    name: string;
+    quantity: number;
+    unitPrice: number;
+    taxId: string;
+    amount: number;
+}
+
+export interface Receipt {
+    id: string;
+    merchantId: string;
+    clientId: string;
+    receiptNumber: string;
+    issueDate: string;
+    status: ReceiptStatus;
+    amount: number;
+    currency: string;
+    notes?: string;
+    items: ReceiptItem[];
+    createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    createdBy?: string;
+    updatedBy?: string;
+}

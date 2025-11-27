@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { User, Invoice, Payment, UserRole, Notification, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation } from './types';
-import { MOCK_USERS, MOCK_INVOICES, MOCK_PAYMENTS, MOCK_NOTIFICATIONS, MOCK_MERCHANTS, MOCK_CLIENTS, MOCK_BANK_ACCOUNTS, MOCK_MERCHANT_CARDS, MOCK_TAXES, MOCK_ITEMS, MOCK_DOCUMENT_SETTINGS, MOCK_INVOICE_AUTO_SETTINGS, MOCK_INVOICE_TEMPLATES, MOCK_QUOTATIONS } from './mock-data';
+import { User, Invoice, Payment, UserRole, Notification, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation, PurchaseOrder, DeliveryNote, Receipt } from './types';
+import { MOCK_USERS, MOCK_INVOICES, MOCK_PAYMENTS, MOCK_NOTIFICATIONS, MOCK_MERCHANTS, MOCK_CLIENTS, MOCK_BANK_ACCOUNTS, MOCK_MERCHANT_CARDS, MOCK_TAXES, MOCK_ITEMS, MOCK_DOCUMENT_SETTINGS, MOCK_INVOICE_AUTO_SETTINGS, MOCK_INVOICE_TEMPLATES, MOCK_QUOTATIONS, MOCK_PURCHASE_ORDERS, MOCK_DELIVERY_NOTES, MOCK_RECEIPTS } from './mock-data';
 
 interface AppState {
     currentUser: User | null;
@@ -19,6 +19,9 @@ interface AppState {
     invoiceAutoSettings: InvoiceAutoSetting[];
     invoiceTemplates: InvoiceTemplate[];
     quotations: Quotation[];
+    purchaseOrders: PurchaseOrder[];
+    deliveryNotes: DeliveryNote[];
+    receipts: Receipt[];
 
     // Actions
     login: (role: UserRole) => void;
@@ -79,6 +82,24 @@ interface AppState {
     addQuotation: (quotation: Quotation) => void;
     updateQuotation: (id: string, data: Partial<Quotation>) => void;
     deleteQuotation: (id: string) => void;
+
+    // Purchase Orders
+    getMerchantPurchaseOrders: (merchantId: string) => PurchaseOrder[];
+    addPurchaseOrder: (purchaseOrder: PurchaseOrder) => void;
+    updatePurchaseOrder: (id: string, data: Partial<PurchaseOrder>) => void;
+    deletePurchaseOrder: (id: string) => void;
+
+    // Delivery Notes
+    getMerchantDeliveryNotes: (merchantId: string) => DeliveryNote[];
+    addDeliveryNote: (deliveryNote: DeliveryNote) => void;
+    updateDeliveryNote: (id: string, data: Partial<DeliveryNote>) => void;
+    deleteDeliveryNote: (id: string) => void;
+
+    // Receipts
+    getMerchantReceipts: (merchantId: string) => Receipt[];
+    addReceipt: (receipt: Receipt) => void;
+    updateReceipt: (id: string, data: Partial<Receipt>) => void;
+    deleteReceipt: (id: string) => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -98,6 +119,9 @@ export const useAppStore = create<AppState>((set, get) => ({
     invoiceAutoSettings: MOCK_INVOICE_AUTO_SETTINGS,
     invoiceTemplates: MOCK_INVOICE_TEMPLATES,
     quotations: MOCK_QUOTATIONS,
+    purchaseOrders: MOCK_PURCHASE_ORDERS,
+    deliveryNotes: MOCK_DELIVERY_NOTES,
+    receipts: MOCK_RECEIPTS,
 
 
     login: (role: UserRole) => {
@@ -472,6 +496,81 @@ export const useAppStore = create<AppState>((set, get) => ({
         set((state) => ({
             quotations: state.quotations.map((q) =>
                 q.id === id ? { ...q, deletedAt: new Date().toISOString() } : q
+            ),
+        }));
+    },
+
+    // Purchase Orders
+    getMerchantPurchaseOrders: (merchantId) => {
+        return get().purchaseOrders.filter((po) => po.merchantId === merchantId && !po.deletedAt);
+    },
+
+    addPurchaseOrder: (purchaseOrder) => {
+        set((state) => ({ purchaseOrders: [purchaseOrder, ...state.purchaseOrders] }));
+    },
+
+    updatePurchaseOrder: (id, data) => {
+        set((state) => ({
+            purchaseOrders: state.purchaseOrders.map((po) =>
+                po.id === id ? { ...po, ...data } : po
+            ),
+        }));
+    },
+
+    deletePurchaseOrder: (id) => {
+        set((state) => ({
+            purchaseOrders: state.purchaseOrders.map((po) =>
+                po.id === id ? { ...po, deletedAt: new Date().toISOString() } : po
+            ),
+        }));
+    },
+
+    // Delivery Notes
+    getMerchantDeliveryNotes: (merchantId) => {
+        return get().deliveryNotes.filter((dn) => dn.merchantId === merchantId && !dn.deletedAt);
+    },
+
+    addDeliveryNote: (deliveryNote) => {
+        set((state) => ({ deliveryNotes: [deliveryNote, ...state.deliveryNotes] }));
+    },
+
+    updateDeliveryNote: (id, data) => {
+        set((state) => ({
+            deliveryNotes: state.deliveryNotes.map((dn) =>
+                dn.id === id ? { ...dn, ...data } : dn
+            ),
+        }));
+    },
+
+    deleteDeliveryNote: (id) => {
+        set((state) => ({
+            deliveryNotes: state.deliveryNotes.map((dn) =>
+                dn.id === id ? { ...dn, deletedAt: new Date().toISOString() } : dn
+            ),
+        }));
+    },
+
+    // Receipts
+    getMerchantReceipts: (merchantId) => {
+        return get().receipts.filter((rc) => rc.merchantId === merchantId && !rc.deletedAt);
+    },
+
+    addReceipt: (receipt) => {
+        set((state) => ({ receipts: [receipt, ...state.receipts] }));
+    },
+
+    updateReceipt: (id, data) => {
+        set((state) => ({
+            receipts: state.receipts.map((rc) =>
+                rc.id === id ? { ...rc, ...data } : rc
+            ),
+        }));
+    },
+
+    deleteReceipt: (id) => {
+        set((state) => ({
+            receipts: state.receipts.map((rc) =>
+                rc.id === id ? { ...rc, deletedAt: new Date().toISOString() } : rc
             ),
         }));
     },
