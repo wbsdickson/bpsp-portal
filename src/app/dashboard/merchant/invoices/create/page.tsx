@@ -1,27 +1,28 @@
 "use client";
 
 import { useAppStore } from "@/lib/store";
-import { InvoiceList } from "./invoice-list";
+import { InvoiceForm } from "../invoice-form";
 
-export default function InvoicesPage() {
+export default function CreateInvoicePage() {
     const { currentUser } = useAppStore();
 
     if (!currentUser) return <div>Loading...</div>;
 
-    // Fallback to user ID if merchantId is missing (e.g. for testing or if user is the merchant entity)
     const merchantId = currentUser.merchantId || currentUser.id;
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">Invoice Management</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Create Invoice</h2>
                     <p className="text-muted-foreground">
-                        Create, view, and manage your invoices.
+                        Create a new invoice for your client.
                     </p>
                 </div>
             </div>
-            <InvoiceList merchantId={merchantId} />
+            <div className="max-w-4xl">
+                <InvoiceForm merchantId={merchantId} />
+            </div>
         </div>
     );
 }

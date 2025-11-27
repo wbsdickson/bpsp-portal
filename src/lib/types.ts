@@ -17,20 +17,42 @@ export interface User {
     customFeePercentage?: number;
 }
 
-export type InvoiceStatus = 'pending' | 'approved' | 'paid' | 'rejected';
+export type InvoiceStatus = 'draft' | 'pending' | 'approved' | 'paid' | 'rejected' | 'void';
+
+export interface InvoiceItem {
+    id: string;
+    invoiceId: string;
+    itemId?: string;
+    name: string;
+    quantity: number;
+    unitPrice: number;
+    taxId: string;
+    amount: number;
+}
 
 export interface Invoice {
     id: string;
     merchantId: string;
-    recipientName: string;
-    recipientBank: string;
-    accountNumber: string;
+    clientId: string;
+    invoiceNumber: string;
+    invoiceDate: string;
+    dueDate?: string;
+    status: InvoiceStatus;
     amount: number;
     currency: string;
-    status: InvoiceStatus;
-    dueDate: string;
+    notes?: string;
+    items: InvoiceItem[];
     createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    createdBy?: string;
+    updatedBy?: string;
     fileUrl?: string;
+
+    // Legacy fields (optional for backward compatibility during migration)
+    recipientName?: string;
+    recipientBank?: string;
+    accountNumber?: string;
 }
 
 export type PaymentStatus = 'pending_approval' | 'settled' | 'failed';
@@ -123,4 +145,89 @@ export interface Tax {
     name: string;
     rate: number; // e.g., 0.10 for 10%
     description?: string;
+}
+
+export interface Item {
+    id: string;
+    merchantId: string;
+    name: string;
+    unitPrice?: number;
+    taxId: string;
+    createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    createdBy?: string;
+    updatedBy?: string;
+}
+
+export interface DocumentSettings {
+    merchantId: string;
+    companyName: string;
+    address?: string;
+    phoneNumber?: string;
+    representativeName?: string;
+    logoUrl?: string;
+    footerText?: string;
+    updatedBy?: string;
+    updatedAt?: string;
+}
+
+export interface InvoiceTemplate {
+    id: string;
+    merchantId: string;
+    name: string;
+    items: InvoiceItem[];
+    notes?: string;
+    createdAt: string;
+    updatedAt?: string;
+}
+
+export interface InvoiceAutoSetting {
+    id: string;
+    merchantId: string;
+    scheduleName: string;
+    clientId: string;
+    intervalType: 'daily' | 'weekly' | 'monthly' | 'yearly';
+    intervalValue: number;
+    nextIssuanceDate: string;
+    startDate?: string;
+    endDate?: string;
+    templateId: string;
+    enabled: boolean;
+    createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    createdBy?: string;
+    updatedBy?: string;
+}
+
+export type QuotationStatus = 'draft' | 'sent' | 'accepted' | 'rejected' | 'expired';
+
+export interface QuotationItem {
+    id: string;
+    quotationId: string;
+    itemId?: string;
+    name: string;
+    quantity: number;
+    unitPrice: number;
+    taxId: string;
+    amount: number;
+}
+
+export interface Quotation {
+    id: string;
+    merchantId: string;
+    clientId: string;
+    quotationNumber: string;
+    quotationDate: string;
+    status: QuotationStatus;
+    amount: number;
+    currency: string;
+    notes?: string;
+    items: QuotationItem[];
+    createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    createdBy?: string;
+    updatedBy?: string;
 }

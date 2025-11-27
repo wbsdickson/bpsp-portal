@@ -7,7 +7,9 @@ import { MemberList } from "./members/member-list";
 import { ClientList } from "./clients/client-list";
 import { BankAccountList } from "./bank-accounts/bank-account-list";
 import { CardList } from "./cards/card-list";
+import { ItemList } from "./items/item-list";
 import { TaxSettingsForm } from "./settings/tax-settings-form";
+import { DocumentSettingsForm } from "./settings/document/document-settings-form";
 import { useAppStore } from "@/lib/store";
 
 export default function AccountManagementPage() {
@@ -37,6 +39,9 @@ export default function AccountManagementPage() {
     // Show cards tab - accessible to merchant users
     const showCardsTab = showMembersTab;
 
+    // Show items tab - accessible to merchant users
+    const showItemsTab = showMembersTab;
+
     // Show settings tab - accessible to merchant users (owner only for editing, but maybe view for others?)
     // The requirement says "Access Control: Only owner-role users can edit."
     // It doesn't explicitly say others can't view, but usually settings are restricted.
@@ -58,7 +63,9 @@ export default function AccountManagementPage() {
                     {showClientsTab && <TabsTrigger value="clients">Clients</TabsTrigger>}
                     {showBankAccountsTab && <TabsTrigger value="bank-accounts">Bank Accounts</TabsTrigger>}
                     {showCardsTab && <TabsTrigger value="cards">Payment Cards</TabsTrigger>}
-                    {showSettingsTab && <TabsTrigger value="settings">Settings</TabsTrigger>}
+                    {showItemsTab && <TabsTrigger value="items">Items</TabsTrigger>}
+                    {showSettingsTab && <TabsTrigger value="document-settings">Document Settings</TabsTrigger>}
+                    {showSettingsTab && <TabsTrigger value="settings">Tax Settings</TabsTrigger>}
                 </TabsList>
                 <TabsContent value="profile" className="space-y-4">
                     <UserProfileForm />
@@ -86,6 +93,16 @@ export default function AccountManagementPage() {
                 {showCardsTab && (
                     <TabsContent value="cards" className="space-y-4">
                         <CardList />
+                    </TabsContent>
+                )}
+                {showItemsTab && (
+                    <TabsContent value="items" className="space-y-4">
+                        <ItemList merchantId={currentUser.merchantId!} />
+                    </TabsContent>
+                )}
+                {showSettingsTab && (
+                    <TabsContent value="document-settings" className="space-y-4">
+                        <DocumentSettingsForm />
                     </TabsContent>
                 )}
                 {showSettingsTab && (

@@ -1,27 +1,26 @@
 "use client";
 
 import { useAppStore } from "@/lib/store";
-import { InvoiceList } from "./invoice-list";
+import { AutoIssuanceList } from "./auto-issuance-list";
 
-export default function InvoicesPage() {
+export default function InvoiceAutoPage() {
     const { currentUser } = useAppStore();
 
     if (!currentUser) return <div>Loading...</div>;
 
-    // Fallback to user ID if merchantId is missing (e.g. for testing or if user is the merchant entity)
     const merchantId = currentUser.merchantId || currentUser.id;
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">Invoice Management</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Invoice Auto-Issuance</h2>
                     <p className="text-muted-foreground">
-                        Create, view, and manage your invoices.
+                        Manage automatic invoice issuance schedules.
                     </p>
                 </div>
             </div>
-            <InvoiceList merchantId={merchantId} />
+            <AutoIssuanceList merchantId={merchantId} />
         </div>
     );
 }

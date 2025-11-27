@@ -14,7 +14,7 @@ export async function createClient(prevState: any, formData: FormData) {
         name: formData.get("name"),
         email: formData.get("email"),
         phoneNumber: formData.get("phoneNumber"),
-        address: formData.get("address"),
+        address: formData.get("address") || undefined,
     });
 
     if (!validatedFields.success) {
@@ -47,7 +47,7 @@ export async function updateClient(prevState: any, formData: FormData) {
         name: formData.get("name"),
         email: formData.get("email"),
         phoneNumber: formData.get("phoneNumber"),
-        address: formData.get("address"),
+        address: formData.get("address") || undefined,
     });
 
     if (!validatedFields.success) {

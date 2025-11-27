@@ -18,6 +18,8 @@ import {
     ChevronDown,
     ChevronRight,
     ShieldCheck,
+    CalendarClock,
+    ScrollText,
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
@@ -33,9 +35,19 @@ const merchantLinks = [
         icon: LayoutDashboard,
     },
     {
+        name: "Quotations / 見積書",
+        href: "/dashboard/merchant/quotations",
+        icon: ScrollText,
+    },
+    {
         name: "Invoices / 請求書",
         href: "/dashboard/merchant/invoices",
         icon: FileText,
+    },
+    {
+        name: "Auto-Issuance / 自動発行",
+        href: "/dashboard/merchant/invoice-auto",
+        icon: CalendarClock,
     },
     {
         name: "Make Payment / 支払い",
