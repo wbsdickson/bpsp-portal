@@ -12,15 +12,17 @@ import {
 import { useRouter } from "next/navigation";
 import { Bell, ShieldAlert, Moon, Sun, Laptop } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { logoutUser } from "@/app/logout/actions";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 export function Header() {
   const router = useRouter();
-  const { currentUser, logout, originalAdmin, stopImpersonating } =
+  const { currentUser, logout, originalAdmin, stopImpersonating, getMerchantNotifications } =
     useAppStore();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -30,6 +32,10 @@ export function Header() {
   }, []);
 
   if (!currentUser) return null;
+
+  const notifications = getMerchantNotifications(currentUser.merchantId || '', currentUser.id);
+  const unreadCount = notifications.filter(n => !n.isRead).length;
+  const recentNotifications = notifications.slice(0, 5);
 
   const handleStopImpersonating = () => {
     stopImpersonating();
@@ -103,9 +109,69 @@ export function Header() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button variant="ghost" size="icon">
-          <Bell className="h-5 w-5" />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="h-5 w-5" />
+              {unreadCount > 0 && (
+                <Badge
+                  variant="destructive"
+                  className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 rounded-full text-[10px]"
+                >
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </Badge>
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-80">
+            <DropdownMenuLabel className="flex items-center justify-between">
+              <span>Notifications</span>
+              {unreadCount > 0 && (
+                <span className="text-xs font-normal text-muted-foreground">
+                  {unreadCount} unread
+                </span>
+              )}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {recentNotifications.length === 0 ? (
+              <div className="p-4 text-center text-sm text-muted-foreground">
+                No notifications
+              </div>
+            ) : (
+              <div className="max-h-[300px] overflow-y-auto">
+                {recentNotifications.map((notification) => (
+                  <DropdownMenuItem
+                    key={notification.id}
+                    className="flex flex-col items-start gap-1 p-3 cursor-pointer"
+                    onClick={() => router.push(`/dashboard/merchant/notifications/${notification.id}`)}
+                  >
+                    <div className="flex w-full items-start justify-between gap-2">
+                      <span className={`font-medium text-sm ${!notification.isRead ? 'text-primary' : ''}`}>
+                        {notification.title}
+                      </span>
+                      {!notification.isRead && (
+                        <span className="h-2 w-2 rounded-full bg-primary shrink-0 mt-1" />
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      {notification.message}
+                    </p>
+                    <span className="text-[10px] text-muted-foreground mt-1">
+                      {format(new Date(notification.createdAt), 'MMM d, yyyy HH:mm')}
+                    </span>
+                  </DropdownMenuItem>
+                ))}
+              </div>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="w-full text-center justify-center text-primary font-medium cursor-pointer"
+              onClick={() => router.push('/dashboard/merchant/notifications')}
+            >
+              View all notifications
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

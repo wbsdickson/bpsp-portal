@@ -1,4 +1,4 @@
-import { User, Invoice, Payment, Notification, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation, PurchaseOrder, DeliveryNote, Receipt } from './types';
+import { User, Invoice, Payment, Notification, NotificationRead, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation, PurchaseOrder, DeliveryNote, Receipt } from './types';
 
 export const MOCK_MERCHANTS: Merchant[] = [
     // ...existing code...
@@ -309,7 +309,11 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
         message: 'Your payment for Invoice #inv_003 has been successfully processed.',
         type: 'success',
         isRead: false,
-        createdAt: '2023-11-11T10:00:00Z'
+        createdAt: '2023-11-11T10:00:00Z',
+        targetUserType: 'merchant',
+        publicationStartDate: '2023-11-11T10:00:00Z',
+        publicationEndDate: '2099-12-31T23:59:59Z',
+        createdBy: 'System'
     },
     {
         id: 'notif_002',
@@ -318,7 +322,11 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
         message: 'Invoice #inv_002 has been approved and is ready for payment.',
         type: 'info',
         isRead: true,
-        createdAt: '2023-11-26T09:30:00Z'
+        createdAt: '2023-11-26T09:30:00Z',
+        targetUserType: 'merchant',
+        publicationStartDate: '2023-11-26T09:30:00Z',
+        publicationEndDate: '2099-12-31T23:59:59Z',
+        createdBy: 'System'
     },
     {
         id: 'notif_003',
@@ -327,16 +335,23 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
         message: 'Payment for Invoice #inv_001 failed. Please check your payment method.',
         type: 'error',
         isRead: false,
-        createdAt: '2023-11-24T14:15:00Z'
+        createdAt: '2023-11-24T14:15:00Z',
+        targetUserType: 'merchant',
+        publicationStartDate: '2023-11-24T14:15:00Z',
+        publicationEndDate: '2099-12-31T23:59:59Z',
+        createdBy: 'System'
     },
     {
         id: 'notif_004',
-        merchantId: 'u1',
+        // Broadcast notification (no merchantId)
         title: 'System Maintenance',
-        message: 'Scheduled maintenance on Nov 30th from 2 AM to 4 AM.',
+        message: 'Scheduled maintenance on Nov 30th from 2 AM to 4 AM. Please save your work.',
         type: 'warning',
-        isRead: false,
-        createdAt: '2023-11-20T08:00:00Z'
+        targetUserType: 'merchant',
+        createdAt: '2023-11-20T08:00:00Z',
+        publicationStartDate: '2023-11-20T08:00:00Z',
+        publicationEndDate: '2023-12-01T00:00:00Z',
+        createdBy: 'Admin'
     },
     {
         id: 'notif_005',
@@ -345,7 +360,103 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
         message: 'Welcome to BPSP Portal!',
         type: 'info',
         isRead: true,
-        createdAt: '2023-11-22T10:00:00Z'
+        createdAt: '2023-11-22T10:00:00Z',
+        targetUserType: 'merchant',
+        publicationStartDate: '2023-11-22T10:00:00Z',
+        publicationEndDate: '2099-12-31T23:59:59Z',
+        createdBy: 'System'
+    },
+    {
+        id: 'notif_006',
+        // Broadcast notification
+        title: 'New Feature: Auto-Issuance',
+        message: 'We have launched a new feature for auto-issuing invoices. Check it out in the dashboard!',
+        type: 'info',
+        targetUserType: 'merchant',
+        createdAt: '2023-11-25T10:00:00Z',
+        publicationStartDate: '2023-11-25T10:00:00Z',
+        publicationEndDate: '2024-01-01T00:00:00Z',
+        createdBy: 'Admin'
+    },
+    {
+        id: 'notif_007',
+        title: 'Policy Update: Terms of Service',
+        message: 'We have updated our Terms of Service. Please review the changes in the settings menu.',
+        type: 'warning',
+        targetUserType: 'all',
+        createdAt: '2023-11-27T09:00:00Z',
+        publicationStartDate: '2023-11-27T09:00:00Z',
+        publicationEndDate: '2024-12-31T23:59:59Z',
+        createdBy: 'Admin'
+    },
+    {
+        id: 'notif_008',
+        merchantId: 'u1',
+        title: 'Security Alert: New Login',
+        message: 'We detected a new login from a device in Tokyo, Japan. If this was not you, please change your password immediately.',
+        type: 'error',
+        isRead: false,
+        createdAt: '2023-11-27T12:00:00Z',
+        targetUserType: 'merchant',
+        publicationStartDate: '2023-11-27T12:00:00Z',
+        publicationEndDate: '2099-12-31T23:59:59Z',
+        createdBy: 'System'
+    },
+    {
+        id: 'notif_009',
+        merchantId: 'u1',
+        title: 'Document Received',
+        message: 'You have received a new tax document from the administration.',
+        type: 'info',
+        isRead: false,
+        createdAt: '2023-11-27T14:30:00Z',
+        targetUserType: 'merchant',
+        publicationStartDate: '2023-11-27T14:30:00Z',
+        publicationEndDate: '2099-12-31T23:59:59Z',
+        createdBy: 'System'
+    },
+    {
+        id: 'notif_010',
+        title: 'Past Maintenance (Expired)',
+        message: 'This notification should not be visible as it is expired.',
+        type: 'warning',
+        targetUserType: 'all',
+        createdAt: '2023-01-01T00:00:00Z',
+        publicationStartDate: '2023-01-01T00:00:00Z',
+        publicationEndDate: '2023-01-02T00:00:00Z',
+        createdBy: 'Admin'
+    },
+    {
+        id: 'notif_011',
+        title: 'Future Event (Not yet visible)',
+        message: 'This notification should not be visible yet.',
+        type: 'info',
+        targetUserType: 'all',
+        createdAt: '2023-11-27T00:00:00Z',
+        publicationStartDate: '2025-01-01T00:00:00Z',
+        publicationEndDate: '2025-01-02T00:00:00Z',
+        createdBy: 'Admin'
+    }
+];
+
+export const MOCK_NOTIFICATION_READS: NotificationRead[] = [
+    {
+        id: 'nr_1',
+        notificationId: 'notif_002',
+        userId: 'u1',
+        readAt: '2023-11-26T10:00:00Z'
+    },
+    {
+        id: 'nr_2',
+        notificationId: 'notif_005',
+        userId: 'u3',
+        readAt: '2023-11-22T10:05:00Z'
+    },
+    {
+        id: 'nr_3',
+        notificationId: 'notif_007',
+        userId: 'u1',
+        readAt: '2023-11-27T10:00:00Z'
     }
 ];
 

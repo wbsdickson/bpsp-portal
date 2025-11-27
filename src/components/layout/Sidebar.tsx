@@ -22,6 +22,7 @@ import {
     ScrollText,
     ShoppingBag,
     Truck,
+    Bell,
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -36,6 +37,11 @@ const merchantLinks = [
         name: "Dashboard / ダッシュボード",
         href: "/dashboard/merchant",
         icon: LayoutDashboard,
+    },
+    {
+        name: "Notifications / お知らせ",
+        href: "/dashboard/merchant/notifications",
+        icon: Bell,
     },
     {
         name: "Quotations / 見積書",

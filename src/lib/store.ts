@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { User, Invoice, Payment, UserRole, Notification, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation, PurchaseOrder, DeliveryNote, Receipt } from './types';
-import { MOCK_USERS, MOCK_INVOICES, MOCK_PAYMENTS, MOCK_NOTIFICATIONS, MOCK_MERCHANTS, MOCK_CLIENTS, MOCK_BANK_ACCOUNTS, MOCK_MERCHANT_CARDS, MOCK_TAXES, MOCK_ITEMS, MOCK_DOCUMENT_SETTINGS, MOCK_INVOICE_AUTO_SETTINGS, MOCK_INVOICE_TEMPLATES, MOCK_QUOTATIONS, MOCK_PURCHASE_ORDERS, MOCK_DELIVERY_NOTES, MOCK_RECEIPTS } from './mock-data';
+import { User, Invoice, Payment, UserRole, Notification, NotificationRead, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation, PurchaseOrder, DeliveryNote, Receipt } from './types';
+import { MOCK_USERS, MOCK_INVOICES, MOCK_PAYMENTS, MOCK_NOTIFICATIONS, MOCK_NOTIFICATION_READS, MOCK_MERCHANTS, MOCK_CLIENTS, MOCK_BANK_ACCOUNTS, MOCK_MERCHANT_CARDS, MOCK_TAXES, MOCK_ITEMS, MOCK_DOCUMENT_SETTINGS, MOCK_INVOICE_AUTO_SETTINGS, MOCK_INVOICE_TEMPLATES, MOCK_QUOTATIONS, MOCK_PURCHASE_ORDERS, MOCK_DELIVERY_NOTES, MOCK_RECEIPTS } from './mock-data';
 
 interface AppState {
     currentUser: User | null;
@@ -16,6 +16,7 @@ interface AppState {
     invoices: Invoice[];
     payments: Payment[];
     notifications: Notification[];
+    notificationReads: NotificationRead[];
     invoiceAutoSettings: InvoiceAutoSetting[];
     invoiceTemplates: InvoiceTemplate[];
     quotations: Quotation[];
@@ -40,7 +41,8 @@ interface AppState {
     updateMerchant: (merchantId: string, data: Partial<Merchant>) => void;
     getMerchantInvoices: (merchantId: string) => Invoice[];
     getMerchantPayments: (merchantId: string) => Payment[];
-    getMerchantNotifications: (merchantId: string) => Notification[];
+    getMerchantNotifications: (merchantId: string, userId?: string) => (Notification & { isRead: boolean })[];
+    markNotificationAsRead: (notificationId: string, userId: string) => void;
     getMerchantMembers: (merchantId: string) => User[];
     addMember: (user: User) => void;
     updateMember: (userId: string, data: Partial<User>) => void;
@@ -116,6 +118,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     invoices: MOCK_INVOICES,
     payments: MOCK_PAYMENTS,
     notifications: MOCK_NOTIFICATIONS,
+    notificationReads: MOCK_NOTIFICATION_READS,
     invoiceAutoSettings: MOCK_INVOICE_AUTO_SETTINGS,
     invoiceTemplates: MOCK_INVOICE_TEMPLATES,
     quotations: MOCK_QUOTATIONS,
@@ -272,8 +275,73 @@ export const useAppStore = create<AppState>((set, get) => ({
         return get().payments.filter((pay) => pay.merchantId === merchantId);
     },
 
-    getMerchantNotifications: (merchantId) => {
-        return get().notifications.filter((notif) => notif.merchantId === merchantId);
+    getMerchantNotifications: (merchantId, userId) => {
+        const state = get();
+        const now = new Date();
+
+        return state.notifications
+            .filter((notif) => {
+                // 1. Target User Type
+                if (notif.targetUserType && notif.targetUserType !== 'merchant' && notif.targetUserType !== 'all') {
+                    return false;
+                }
+
+                // 2. Target Merchant
+                if (notif.merchantId && notif.merchantId !== merchantId) {
+                    return false;
+                }
+
+                // 3. Publication Period
+                if (notif.publicationStartDate && new Date(notif.publicationStartDate) > now) {
+                    return false;
+                }
+                if (notif.publicationEndDate && new Date(notif.publicationEndDate) < now) {
+                    return false;
+                }
+
+                return true;
+            })
+            .map(notif => {
+                let isRead = false;
+                if (userId) {
+                    // Check notificationReads table
+                    const readRecord = state.notificationReads.find(nr => nr.notificationId === notif.id && nr.userId === userId);
+                    if (readRecord) {
+                        isRead = true;
+                    } else if (notif.isRead && notif.merchantId) {
+                        // Fallback to legacy isRead for specific merchant notifications if no read record exists
+                        // This handles the case where we haven't migrated old data to notificationReads yet
+                        isRead = true;
+                    }
+                } else {
+                    // If no userId provided, fall back to legacy isRead or false
+                    isRead = !!notif.isRead;
+                }
+
+                return { ...notif, isRead };
+            })
+            .sort((a, b) => {
+                const dateA = new Date(a.updatedAt || a.createdAt).getTime();
+                const dateB = new Date(b.updatedAt || b.createdAt).getTime();
+                return dateB - dateA;
+            });
+    },
+
+    markNotificationAsRead: (notificationId, userId) => {
+        const state = get();
+        const alreadyRead = state.notificationReads.some(nr => nr.notificationId === notificationId && nr.userId === userId);
+
+        if (!alreadyRead) {
+            const newRead: NotificationRead = {
+                id: `nr_${Math.random().toString(36).substr(2, 9)}`,
+                notificationId,
+                userId,
+                readAt: new Date().toISOString()
+            };
+            set(state => ({
+                notificationReads: [...state.notificationReads, newRead]
+            }));
+        }
     },
 
     getMerchantMembers: (merchantId) => {

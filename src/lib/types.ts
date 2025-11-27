@@ -93,12 +93,27 @@ export interface MerchantStats {
 
 export interface Notification {
     id: string;
-    merchantId: string;
+    merchantId?: string; // Optional: If null/undefined, it targets all merchants (subject to targetUserType)
+    targetUserType?: 'merchant' | 'admin' | 'all';
     title: string;
     message: string;
     type: 'info' | 'warning' | 'error' | 'success';
-    isRead: boolean;
+    // isRead is deprecated in favor of NotificationRead for system notifications, 
+    // but kept for compatibility with existing transactional notifications if needed.
+    isRead?: boolean;
+    publicationStartDate?: string;
+    publicationEndDate?: string;
     createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    createdBy?: string;
+}
+
+export interface NotificationRead {
+    id: string;
+    notificationId: string;
+    userId: string;
+    readAt: string;
 }
 
 export interface Merchant {
