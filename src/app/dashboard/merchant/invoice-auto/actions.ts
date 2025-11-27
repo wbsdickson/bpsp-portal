@@ -4,6 +4,7 @@ import { z } from "zod";
 
 const invoiceAutoSettingSchema = z.object({
     scheduleName: z.string().min(1, "Schedule name is required"),
+    direction: z.enum(['receivable', 'payable']),
     clientId: z.string().min(1, "Client is required"),
     intervalType: z.enum(['daily', 'weekly', 'monthly', 'yearly']),
     intervalValue: z.coerce.number().min(1, "Interval value must be at least 1"),
@@ -16,6 +17,7 @@ const invoiceAutoSettingSchema = z.object({
 export async function createInvoiceAutoSettingAction(prevState: any, formData: FormData) {
     const validatedFields = invoiceAutoSettingSchema.safeParse({
         scheduleName: formData.get("scheduleName"),
+        direction: formData.get("direction"),
         clientId: formData.get("clientId"),
         intervalType: formData.get("intervalType"),
         intervalValue: formData.get("intervalValue"),
@@ -58,6 +60,7 @@ export async function updateInvoiceAutoSettingAction(prevState: any, formData: F
 
     const validatedFields = invoiceAutoSettingSchema.safeParse({
         scheduleName: formData.get("scheduleName"),
+        direction: formData.get("direction"),
         clientId: formData.get("clientId"),
         intervalType: formData.get("intervalType"),
         intervalValue: formData.get("intervalValue"),

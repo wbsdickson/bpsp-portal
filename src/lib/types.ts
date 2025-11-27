@@ -37,6 +37,8 @@ export interface Invoice {
     invoiceNumber: string;
     invoiceDate: string;
     dueDate?: string;
+    direction: 'receivable' | 'payable';
+    paymentMethod?: string;
     status: InvoiceStatus;
     amount: number;
     currency: string;
@@ -53,6 +55,19 @@ export interface Invoice {
     recipientName?: string;
     recipientBank?: string;
     accountNumber?: string;
+}
+
+export interface Transaction {
+    id: string;
+    merchantId: string;
+    invoiceId?: string;
+    type: 'payment' | 'refund' | 'payout';
+    amount: number;
+    currency: string;
+    status: 'captured' | 'failed' | 'refunded' | 'pending';
+    paymentMethod?: string;
+    createdAt: string;
+    updatedAt?: string;
 }
 
 export type PaymentStatus = 'pending_approval' | 'settled' | 'failed';
@@ -193,6 +208,7 @@ export interface InvoiceAutoSetting {
     startDate?: string;
     endDate?: string;
     templateId: string;
+    direction: 'receivable' | 'payable';
     enabled: boolean;
     createdAt: string;
     updatedAt?: string;

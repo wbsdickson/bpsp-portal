@@ -141,6 +141,7 @@ export const MOCK_USERS: User[] = [
 export const MOCK_INVOICES: Invoice[] = [
     {
         id: 'inv_001',
+        direction: 'receivable',
         merchantId: 'u1',
         clientId: 'c1',
         invoiceNumber: 'TC-0001',
@@ -168,6 +169,7 @@ export const MOCK_INVOICES: Invoice[] = [
     },
     {
         id: 'inv_002',
+        direction: 'receivable',
         merchantId: 'u1',
         clientId: 'c2',
         invoiceNumber: 'TC-0002',
@@ -195,6 +197,7 @@ export const MOCK_INVOICES: Invoice[] = [
     },
     {
         id: 'inv_003',
+        direction: 'receivable',
         merchantId: 'u1',
         clientId: 'c3',
         invoiceNumber: 'TC-0003',
@@ -229,6 +232,7 @@ export const MOCK_INVOICES: Invoice[] = [
         dueDate: '2023-12-05',
         status: 'pending',
         amount: 8000,
+        direction: 'receivable',
         currency: 'USD',
         items: [
             {
@@ -744,6 +748,7 @@ export const MOCK_INVOICE_AUTO_SETTINGS: InvoiceAutoSetting[] = [
         id: 'auto_1',
         merchantId: 'u1',
         scheduleName: 'Monthly Hosting Bill',
+        direction: 'receivable',
         clientId: 'c1',
         intervalType: 'monthly',
         intervalValue: 1,
@@ -758,6 +763,7 @@ export const MOCK_INVOICE_AUTO_SETTINGS: InvoiceAutoSetting[] = [
         id: 'auto_2',
         merchantId: 'u1',
         scheduleName: 'Weekly Maintenance',
+        direction: 'receivable',
         clientId: 'c2',
         intervalType: 'weekly',
         intervalValue: 1,
@@ -769,11 +775,27 @@ export const MOCK_INVOICE_AUTO_SETTINGS: InvoiceAutoSetting[] = [
         createdAt: '2023-11-05T14:30:00Z',
         createdBy: 'u1'
     },
+    {
+        id: 'auto_4',
+        merchantId: 'u1',
+        scheduleName: 'Monthly Office Rent',
+        direction: 'payable',
+        clientId: 'c3', // Assuming c3 is the landlord for this example
+        intervalType: 'monthly',
+        intervalValue: 1,
+        nextIssuanceDate: '2023-12-01',
+        startDate: '2023-11-01',
+        templateId: 'tpl_1', // Reusing template for simplicity
+        enabled: true,
+        createdAt: '2023-11-10T10:00:00Z',
+        createdBy: 'u1'
+    },
     // Eve's Auto Settings
     {
         id: 'auto_3',
         merchantId: 'u5',
         scheduleName: 'Monthly Retainer',
+        direction: 'receivable',
         clientId: 'c8',
         intervalType: 'monthly',
         intervalValue: 1,

@@ -10,6 +10,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import {
     Table,
     TableBody,
@@ -18,11 +26,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppStore } from "@/lib/store";
 import { format } from "date-fns";
 import { Edit, Eye, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 import { deleteInvoiceAutoSettingAction } from "./actions";
 
@@ -35,6 +45,11 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
     const { getMerchantInvoiceAutoSettings, getMerchantClients, deleteInvoiceAutoSetting } = useAppStore();
     const settings = getMerchantInvoiceAutoSettings(merchantId);
     const clients = getMerchantClients(merchantId);
+
+    // Filters
+    const [direction, setDirection] = useState<'receivable' | 'payable'>('receivable');
+    const [statusFilter, setStatusFilter] = useState<string>("all");
+    const [clientFilter, setClientFilter] = useState<string>("");
 
     const getClientName = (clientId: string) => {
         return clients.find(c => c.id === clientId)?.name || "Unknown Client";
@@ -66,15 +81,53 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
         return `Every ${value} ${type}s`;
     };
 
+    // Filter Logic
+    const filteredSettings = settings
+        .filter(setting => setting.direction === direction || (!setting.direction && direction === 'receivable')) // Default to receivable if missing
+        .filter(setting => {
+            if (statusFilter === "all") return true;
+            return statusFilter === "enabled" ? setting.enabled : !setting.enabled;
+        })
+        .filter(setting => {
+            if (!clientFilter) return true;
+            const clientName = getClientName(setting.clientId).toLowerCase();
+            return clientName.includes(clientFilter.toLowerCase());
+        })
+        .sort((a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime());
+
     return (
         <div className="space-y-4">
-            <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold tracking-tight">Auto-Issuance Settings</h2>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <Tabs value={direction} onValueChange={(v) => setDirection(v as any)} className="w-[400px]">
+                    <TabsList>
+                        <TabsTrigger value="receivable">Receivable (Income)</TabsTrigger>
+                        <TabsTrigger value="payable">Payable (Expense)</TabsTrigger>
+                    </TabsList>
+                </Tabs>
                 <Button asChild>
                     <Link href="/dashboard/merchant/invoice-auto/create">
                         <Plus className="mr-2 h-4 w-4" /> Create Schedule
                     </Link>
                 </Button>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-4">
+                <Input
+                    placeholder="Filter by Client Name..."
+                    value={clientFilter}
+                    onChange={(e) => setClientFilter(e.target.value)}
+                    className="max-w-sm"
+                />
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Filter by Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">All Statuses</SelectItem>
+                        <SelectItem value="enabled">Enabled</SelectItem>
+                        <SelectItem value="disabled">Disabled</SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
 
             <div className="rounded-md border">
@@ -90,14 +143,14 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {settings.length === 0 ? (
+                        {filteredSettings.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                                    No auto-issuance settings have been registered.
+                                    No {direction} auto-issuance settings found.
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            settings.map((setting) => (
+                            filteredSettings.map((setting) => (
                                 <TableRow key={setting.id}>
                                     <TableCell className="font-medium">{setting.scheduleName}</TableCell>
                                     <TableCell>{getClientName(setting.clientId)}</TableCell>

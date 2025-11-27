@@ -162,7 +162,7 @@ export function DeliveryNoteForm({ merchantId, initialData }: DeliveryNoteFormPr
                                 name="clientId"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Client</FormLabel>
+                                        <FormLabel>Client <span className="text-red-500">*</span></FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger>
