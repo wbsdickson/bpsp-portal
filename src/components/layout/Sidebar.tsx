@@ -111,6 +111,12 @@ const jpccAdminLinks = [
       },
     ],
   },
+  {
+    name: "BPSP",
+    icon: Home,
+    href: "#",
+    subItems: adminLinks,
+  },
 ];
 
 const jpccMerchantLinks = [
@@ -127,6 +133,12 @@ const jpccMerchantLinks = [
     name: "Account Management / アカウント管理",
     href: "/dashboard/jpcc/account-management",
     icon: UserCog,
+  },
+  {
+    name: "BPSP",
+    icon: Home,
+    href: "#",
+    subItems: merchantLinks,
   },
 ];
 
@@ -179,16 +191,10 @@ export function Sidebar() {
     navGroups = [{ links: adminLinks }];
     portalTitle = "BPSP Admin Portal";
   } else if (currentUser?.role === "jpcc_admin") {
-    navGroups = [
-      { title: "JPCC", links: jpccAdminLinks },
-      { title: "BPSP", links: adminLinks },
-    ];
+    navGroups = [{ title: "JPCC", links: jpccAdminLinks }];
     portalTitle = "JPCC Admin Portal";
   } else if (currentUser?.role === "merchant_jpcc") {
-    navGroups = [
-      { title: "JPCC", links: jpccMerchantLinks },
-      { title: "BPSP", links: merchantLinks },
-    ];
+    navGroups = [{ title: "JPCC", links: jpccMerchantLinks }];
     portalTitle = "JPCC Merchant Portal";
   } else {
     navGroups = [{ links: merchantLinks }];
