@@ -13,10 +13,10 @@ const documentSettingsSchema = z.object({
 export async function updateDocumentSettingsAction(prevState: any, formData: FormData) {
     const validatedFields = documentSettingsSchema.safeParse({
         companyName: formData.get("companyName"),
-        address: formData.get("address"),
-        phoneNumber: formData.get("phoneNumber"),
-        representativeName: formData.get("representativeName"),
-        footerText: formData.get("footerText"),
+        address: formData.get("address") || undefined,
+        phoneNumber: formData.get("phoneNumber") || undefined,
+        representativeName: formData.get("representativeName") || undefined,
+        footerText: formData.get("footerText") || undefined,
     });
 
     if (!validatedFields.success) {

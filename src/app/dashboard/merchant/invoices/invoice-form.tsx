@@ -54,9 +54,10 @@ type InvoiceFormValues = z.infer<typeof invoiceFormSchema>;
 interface InvoiceFormProps {
     invoice?: Invoice;
     merchantId: string;
+    enableFinanceFields?: boolean;
 }
 
-export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
+export function InvoiceForm({ invoice, merchantId, enableFinanceFields = false }: InvoiceFormProps) {
     const router = useRouter();
     const { getMerchantClients, getMerchantItems, taxes, addInvoice, updateInvoice } = useAppStore();
     const clients = getMerchantClients(merchantId);
@@ -126,7 +127,7 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
                         merchantId,
                     });
                 }
-                router.push("/dashboard/merchant/invoices");
+                router.push(enableFinanceFields ? "/dashboard/merchant/finance" : "/dashboard/merchant/invoices");
             } else {
                 toast.error(result.message || "Operation failed");
             }
@@ -201,51 +202,53 @@ export function InvoiceForm({ invoice, merchantId }: InvoiceFormProps) {
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="direction"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Direction</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select direction" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="receivable">Receivable (Income)</SelectItem>
-                                            <SelectItem value="payable">Payable (Expense)</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="paymentMethod"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Payment Method</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select payment method" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                                            <SelectItem value="credit_card">Credit Card</SelectItem>
-                                            <SelectItem value="cash">Cash</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                    {enableFinanceFields && (
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="direction"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Direction</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select direction" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="receivable">Receivable (Income)</SelectItem>
+                                                <SelectItem value="payable">Payable (Expense)</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="paymentMethod"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Payment Method</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select payment method" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                                                <SelectItem value="credit_card">Credit Card</SelectItem>
+                                                <SelectItem value="cash">Cash</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <div className="space-y-4">

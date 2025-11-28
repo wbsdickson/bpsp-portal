@@ -138,6 +138,13 @@ export function DeliveryNoteForm({ merchantId, initialData }: DeliveryNoteFormPr
                 router.push("/dashboard/merchant/delivery-notes");
             } else {
                 toast.error(result.message || "Something went wrong");
+                if (result.errors) {
+                    Object.entries(result.errors).forEach(([key, messages]) => {
+                        if (messages && messages.length > 0) {
+                            form.setError(key as any, { message: messages[0] });
+                        }
+                    });
+                }
             }
         } catch (error) {
             toast.error("An error occurred. Please try again.");

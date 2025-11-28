@@ -1,0 +1,110 @@
+Function ID,MERCHANT_010a
+Function Name,Invoice Management (List)
+Category,Screen Function（SSR）
+Objective,"Display issued and draft invoices in a list and provide access to view details, edit, or delete."
+Overview,"Retrieves invoices linked to merchant_id from the invoice table and displays them in a list.
+Logically deleted records (deleted_at not NULL) are excluded.
+Search filters can be applied."
+Preconditions,The logged-in merchant_user must belong to the merchant.
+Input Items,"Search Conditions (optional): Invoice Number / Billing Recipient / Status / Invoice Date (date range) / Due Date
+Pagination: 20 per page"
+Output Items,"Invoice Number / Invoice Date / Due Date / Status / Total Amount / Actions (Details, Edit, Delete)"
+Process Flow,"1. Retrieve invoices where merchant_id = logged-in merchant’s ID.
+2. Filter using WHERE deleted_at IS NULL.
+3. Apply AND filtering when search conditions are provided.
+4. Sort by Creation Date (descending) and display."
+Exceptional Handling,If no matching results: Display「請求書が登録されていません。」“No invoices have been registered.”
+Access Control,"owner, staff: accessible
+viewer: view-only"
+Transition Destination,Details Screen（MERCHANT_010e） / Edit Screen（MERCHANT_010c） / Delete（MERCHANT_010d）
+Related Tables,"invoice, merchant_client"
+Remarks,Client names are retrieved via JOIN with merchant_client.
+,
+Function ID,MERCHANT_010b
+Function Name,Invoice Management (Create)
+Category,Screen Function（SSR）
+Objective,Create a new invoice and either issue or save it as a draft.
+Overview,"Allows users to enter invoice header and line items and inserts via form entry.
+Invoice numbers are generated using merchant_settings.invoice_prefix and sequential numbering."
+Preconditions,The logged-in merchant_user must have owner or staff role.
+Input Items,"Client (client_id): Selectable (from merchant_client)
+Invoice Date (invoice_date): Required
+Due Date (due_date): Optional
+Item Lines (invoice_item): Multiple rows (Item / Quantity / Unit Price / Tax Category)
+Notes (notes): Optional"
+Output Items,"Success message:「請求書を登録しました。」""Invoice has been created.""
+Display the generated invoice number."
+Process Flow,"1. Validate input.
+2. INSERT invoice.
+3. INSERT invoice_item.
+4. Set created_by to the logged-in user.
+5. Manage draft/issued state using status."
+Exceptional Handling,"Missing required fields:「請求日を入力してください。」""Please enter the invoice date.""
+DB error:「登録に失敗しました。」""Failed to create."""
+Access Control,"owner, staff: can create"
+Transition Destination,List Screen（MERCHANT_010a） or Details（MERCHANT_010e）
+Related Tables,"invoice, invoice_item, merchant_client, tax"
+Remarks,Invoice numbers are unique.
+,
+Function ID,MERCHANT_010c
+Function Name,Invoice Management (Edit)
+Category,Screen Function（SSR）
+Objective,Modify contents of an existing invoice.
+Overview,"Allows editing of invoice and invoice_item.
+Issued or paid invoices cannot be edited."
+Preconditions,"The logged-in user must have owner or staff role.
+The invoice’s merchant_id must match the user’s merchant."
+Input Items,"Invoice Date / Due Date / Line Items (Item, Quantity, Unit Price, Tax Category) / Notes"
+Output Items,"Success message:「請求書を更新しました。」""Invoice has been updated."""
+Process Flow,"1. Retrieve invoice by invoice.id.
+2. Confirm status is draft (only draft invoices may be edited).
+3. UPDATE invoice.
+4. DELETE existing invoice_item, then re-INSERT.
+5. Set updated_by to the logged-in user."
+Exceptional Handling,"Not found：「請求書が見つかりません。」""Invoice not found.""
+Not editable：「発行済みの請求書は変更できません。」""Issued invoices cannot be modified"""
+Access Control,"owner, staff: editable"
+Transition Destination,Details Screen（MERCHANT_010e）or List Screen（MERCHANT_010a）。
+Related Tables,"invoice, invoice_item"
+Remarks,Perform consistency checks (total amount calculation) when updating.
+,
+Function ID,MERCHANT_010d
+Function Name,Invoice Management (Delete)
+Category,Screen Function（SSR）
+Objective,Logically delete invoices that were created in error or are no longer needed.
+Overview,"Upon confirmation, sets invoice.deleted_at to the current timestamp.
+Paid invoices cannot be deleted."
+Preconditions,"The logged-in user must have owner role.
+The invoice must be in a deletable status."
+Input Items,"Target ID (internal parameter)
+Confirmation: Select「はい」""Yes"""
+Output Items,"Success message:「請求書を削除しました。」""Invoice has been deleted."""
+Process Flow,"1. Retrieve invoice by invoice.id.
+2. Confirm the invoice is not paid.
+3. Set deleted_at to the current timestamp.
+4. Set updated_by to the logged-in user.
+5. Refresh the list."
+Exceptional Handling,"Status = paid:「支払済み請求書は削除できません。」""Paid invoices cannot be deleted.""
+DB error:「削除に失敗しました。」""Failed to delete."""
+Access Control,Only owner role may delete.
+Transition Destination,List Screen（MERCHANT_010a）
+Related Tables,"invoice, invoice_item"
+Remarks,Logically deleted invoices do not appear in the list.
+,
+Function ID,MERCHANT_010e
+Function Name,Invoice Management (Details)
+Category,Screen Function（SSR）
+Objective,Display the full details of an invoice.
+Overview,"Shows invoice header and line item information, including billing recipient, amounts, status, due date, and tax calculations."
+Preconditions,The logged-in merchant_user must belong to the merchant that owns the invoice.
+Input Items,Invoice ID (internal parameter)
+Output Items,"Invoice Number / Invoice Date / Due Date / Billing Recipient / Line Items (Item, Quantity, Unit Price, Subtotal, Tax Amount, Total)"
+Process Flow,"1. Retrieve invoice by invoice.id.
+2. JOIN merchant_client, invoice_item, tax.
+3. Calculate and display total amount.
+4. Control the Edit/Delete buttons based on invoice status"
+Exceptional Handling,"Not found: 「請求書が見つかりません。」""Invoice not found."""
+Access Control,"owner, staff, viewer; viewable for all roles"
+Transition Destination,Edit Screen（MERCHANT_010c） / List Screen（MERCHANT_010a）。
+Related Tables,"invoice, invoice_item, merchant_client, tax"
+Remarks,PDF export button will be provided as a separate feature.

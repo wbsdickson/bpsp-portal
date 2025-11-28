@@ -1,0 +1,106 @@
+Function ID,MERCHANT_016a
+Function Name,Invoice Auto-Issuance (List)
+Category,Screen Function（SSR）
+Objective,Display registered automatic invoice issuance schedules and allow editing and deletion.
+Overview,"Retrieves auto-issuance settings linked to merchant_id from the invoice_auto table and displays them in a list.
+Users can check execution status, next issuance date, target client, etc."
+Preconditions,The logged-in merchant_user must belong to the merchant.
+Input Items,"Search Filters (optional): Client Name / Schedule Name / Enabled Status
+Pagination: 20 items per page"
+Output Items,"Schedule Name / Target Client / Issuance Frequency / Next Issuance Date / Enabled Status / Actions (Details, Edit, Delete)"
+Process Flow,"1. Retrieve records from invoice_auto where merchant_id = logged-in merchant.
+2. Filter using WHERE deleted_at IS NULL.
+3. Apply LIKE filters when search conditions are provided.
+4. Sort by creation date (descending) and display."
+Exceptional Handling,"If no records: Display「自動発行設定は登録されていません。」""No auto-issuance settings have been registered."""
+Access Control,"owner, staff: accessible
+viewer: view-only"
+Transition Destination,Details Screen（MERCHANT_016b） / Edit（MERCHANT_016d） / Delete（MERCHANT_016e）。
+Related Tables,"invoice_auto, merchant_client"
+Remarks,The schedule uses cron format.
+,
+Function ID,MERCHANT_016b
+Function Name,Invoice Auto-Issuace (Details)
+Category,Screen Function（SSR）
+Objective,Display detailed information for a registered auto-issuance setting.
+Overview,"Retrieve detailed information for the specified ID from invoice_auto table, and show the target client, schedule, conditions, and issuance template."
+Preconditions,The logged-in user must belong to the merchant that owns the record.
+Input Items,Display Parameter: Auto-Issuance ID (auto_id)
+Output Items,Schedule Name / Target Client / Issuance Frequency / Start–End Dates / Issuance Conditions / Invoice Template Information
+Process Flow,"1. Retrieve the record from invoice_auto by auto_id.
+2. JOIN with merchant_client and invoice_template to assemble display information.
+3. Display in read-only mode."
+Exceptional Handling,"If not found:「該当する自動発行設定が見つかりません。」""The specified auto-issuance setting could not be found."""
+Access Control,"owner, staff: accessible
+viewer: view-only"
+Transition Destination,Edit（MERCHANT_016d） / List（MERCHANT_016a）。
+Related Tables,"invoice_auto, merchant_client, invoice_template"
+Remarks,Template content match those used in the invoice issuance screen.
+,
+Function ID,MERCHANT_016c
+Function Name,Invoice Auto-Issuance (Create)
+Category,Screen Function（SSR）
+Objective,Register a new automatic invoice issuance schedule.
+Overview,"Register an auto-issuance schedule by entering the target client, issuance frequency (monthly, weekly, etc.), start date, and template."
+Preconditions,The logged-in merchant_user must have owner or staff permissions.
+Input Items,"Schedule Name: Required
+Target Client (client_id): Dropdown
+Issuance Frequency (interval_type, interval_value): Required
+Start Date / End Date: Optional
+Template (template_id): Required
+Enabled (enabled): Checkbox"
+Output Items,"Success message:「自動発行スケジュールを登録しました。」""Auto-issuance schedule has been registered."""
+Process Flow,"1. Validate input.
+2. INSERT into invoice_auto.
+3. Set created_by to the logged-in user.
+4. Register to the schedule job."
+Exceptional Handling,"Entry issue:「必須項目が未入力です。」""Required fileds are missing.""
+DB error:「登録に失敗しました。」""Failed to register."""
+Access Control,"owner, staff may register"
+Transition Destination,List Screen（MERCHANT_016a）。
+Related Tables,"invoice_auto, merchant_client"
+Remarks,Registered schedules are processed periodically by background jobs.
+,
+Function ID,MERCHANT_016d
+Function Name,Invoice Auto-Issuance (Edit)
+Category,Screen Function（SSR）
+Objective,Modify and existing auto-issuacne schedule.
+Overview,"Retrieve existing settings from invoice_auto table and allow editing of items such as schedule name, frequency, and target client."
+Preconditions,The logged-in merchant_user must be owner or staff.
+Input Items,"Schedule Name: Required
+Target Client (client_id): Dropdown
+Issuance Frequency (interval_type, interval_value): Required
+Start Date / End Date: Optional
+Template (template_id): Required
+Enabled (enabled): Checkbox"
+Output Items,"Success message:「自動発行スケジュールを更新しました。」""Auto-issuance schedule has been updated."""
+Process Flow,"1. Retrieve record by invoice_auto.id.
+2. Validate input.
+3. UPDATE the record.
+4. Set updated_by to the logged-in user."
+Exceptional Handling,"Not found：「該当するスケジュールが存在しません。」""The specified schedule does not exist.""
+DB error:「更新に失敗しました。」""Failed to update."""
+Access Control,"owner, staff may edit"
+Transition Destination,List Screen（MERCHANT_016a）。
+Related Tables,"invoice_auto, merchant_client"
+Remarks,Changes will update the associated job schedule.
+,
+Function ID,MERCHANT_016e
+Function Name,Invoice Auto-Issuance (Delete)
+Category,Screen Function（SSR）
+Objective,Logically delete an auto-issuance schedule that is no longer needed.
+Overview,"After confirmation, set deleted_at in invoice_auto to the current timestamp for logical deletion."
+Preconditions,The logged in merchant_user must have owner role.
+Input Items,"Delete Target ID（auto_id）
+Confirmation: Select「はい」""Yes"""
+Output Items,"Success message:「自動発行設定を削除しました。」""Auto-issuance schedule has been deleted."""
+Process Flow,"1. Retrieve record by invoice_auto.id.
+2. Set deleted_at to current timestamp.
+3. Set updated_by to the logged-in user.
+4. Redisplay the list."
+Exceptional Handling,"Not found:「該当するスケジュールが存在しません。」""The specified schedule does not exist.""
+DB error:「削除に失敗しました。」""Failed to delete."""
+Access Control,Only owner role can delete
+Transition Destination,List Screen（MERCHANT_016a）
+Related Tables,invoice_auto
+Remarks,Deleted schedules are excluded from job execution.

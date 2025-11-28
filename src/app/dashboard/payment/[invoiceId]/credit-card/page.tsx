@@ -54,10 +54,10 @@ export default function PaymentCreditCardPage() {
         if (inv) {
             setInvoice(inv);
             if (inv.status === 'paid') {
-                router.replace(`/payment/${invoiceId}/complete`);
+                router.replace(`/dashboard/payment/${invoiceId}/complete`);
             }
         } else {
-            router.replace(`/payment/${invoiceId}`); // Redirect back to handle error there
+            router.replace(`/dashboard/payment/${invoiceId}`); // Redirect back to handle error there
         }
         setLoading(false);
     }, [invoiceId, getInvoiceById, router]);
@@ -69,9 +69,14 @@ export default function PaymentCreditCardPage() {
 
             if (result.success) {
                 toast.success("Payment successful!");
-                router.push(`/payment/${invoiceId}/complete`);
+                router.push(`/dashboard/payment/${invoiceId}/complete`);
             } else {
-                toast.error(result.error || "Payment failed");
+                // Map error messages to requirements
+                let errorMessage = "一時的なエラーが発生しました。再度お試しください。 (A temporary error occurred. Please try again.)";
+                if (result.error === 'Card declined') {
+                    errorMessage = "カードが利用できません。別のカードをお試しください。 (This card cannot be used. Please try another card.)";
+                }
+                toast.error(errorMessage);
             }
         } catch (error) {
             toast.error("An unexpected error occurred");

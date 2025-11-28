@@ -38,7 +38,7 @@ export async function updateCompanyInfo(
         phoneNumber: formData.get("phoneNumber"),
         invoiceEmail: formData.get("invoiceEmail"),
         websiteUrl: formData.get("websiteUrl"),
-        invoicePrefix: formData.get("invoicePrefix"),
+        invoicePrefix: formData.get("invoicePrefix") || undefined,
         enableCreditPayment: formData.get("enableCreditPayment") === "on",
     };
 

@@ -5,21 +5,29 @@ import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { CreditCard, Building } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Input } from '@/components/ui/input';
+import { Check, ChevronsUpDown, Search } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function PaymentPage() {
     const router = useRouter();
-    const { currentUser, getMerchantInvoices, createPayment } = useAppStore();
+    const { currentUser, getMerchantInvoices } = useAppStore();
     const [selectedInvoiceId, setSelectedInvoiceId] = useState<string>('');
-    const [paymentMethod, setPaymentMethod] = useState('card');
+    const [open, setOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
     if (!currentUser) return <div>Loading...</div>;
 
     const invoices = getMerchantInvoices(currentUser.id).filter(
         (inv) => inv.status === 'approved' || inv.status === 'pending'
+    );
+
+    const filteredInvoices = invoices.filter(inv =>
+        (inv.recipientName?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+        inv.amount.toString().includes(searchQuery) ||
+        (inv.invoiceNumber && inv.invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase()))
     );
 
     const selectedInvoice = invoices.find((inv) => inv.id === selectedInvoiceId);
@@ -28,8 +36,8 @@ export default function PaymentPage() {
 
     const handlePayment = () => {
         if (selectedInvoiceId) {
-            createPayment(selectedInvoiceId, paymentMethod === 'card' ? 'Credit Card' : 'Bank Transfer');
-            router.push('/dashboard/merchant');
+            // Redirect to the new payment flow
+            router.push(`/dashboard/payment/${selectedInvoiceId}`);
         }
     };
 
@@ -45,18 +53,66 @@ export default function PaymentPage() {
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <Label>Invoice</Label>
-                        <Select onValueChange={setSelectedInvoiceId} value={selectedInvoiceId}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select an invoice" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {invoices.map((inv) => (
-                                    <SelectItem key={inv.id} value={inv.id}>
-                                        {inv.recipientName} - ${inv.amount.toLocaleString()} (Due: {inv.dueDate})
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                        <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    aria-expanded={open}
+                                    className="w-full justify-between"
+                                >
+                                    {selectedInvoiceId
+                                        ? (() => {
+                                            const inv = invoices.find((i) => i.id === selectedInvoiceId);
+                                            return inv ? `${inv.recipientName} - $${inv.amount.toLocaleString()}` : "Select an invoice...";
+                                        })()
+                                        : "Select an invoice..."}
+                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+                                <div className="flex items-center border-b px-3">
+                                    <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+                                    <Input
+                                        placeholder="Search invoices..."
+                                        className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-none focus-visible:ring-0 shadow-none"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
+                                </div>
+                                <div className="max-h-[300px] overflow-y-auto p-1">
+                                    {filteredInvoices.length === 0 && (
+                                        <div className="py-6 text-center text-sm text-muted-foreground">No invoice found.</div>
+                                    )}
+                                    {filteredInvoices.map((inv) => (
+                                        <div
+                                            key={inv.id}
+                                            className={cn(
+                                                "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
+                                                selectedInvoiceId === inv.id ? "bg-accent text-accent-foreground" : ""
+                                            )}
+                                            onClick={() => {
+                                                setSelectedInvoiceId(inv.id);
+                                                setOpen(false);
+                                            }}
+                                        >
+                                            <Check
+                                                className={cn(
+                                                    "mr-2 h-4 w-4",
+                                                    selectedInvoiceId === inv.id ? "opacity-100" : "opacity-0"
+                                                )}
+                                            />
+                                            <div className="flex flex-col">
+                                                <span className="font-medium">{inv.recipientName}</span>
+                                                <span className="text-xs text-muted-foreground">
+                                                    {inv.invoiceNumber} - ${inv.amount.toLocaleString()} (Due: {inv.dueDate})
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </PopoverContent>
+                        </Popover>
                     </div>
 
                     {selectedInvoice && (
@@ -75,68 +131,11 @@ export default function PaymentPage() {
                             </div>
                         </div>
                     )}
+                    <Button className="w-full" size="lg" onClick={handlePayment}>
+                        Proceed to Payment
+                    </Button>
                 </CardContent>
             </Card>
-
-            {selectedInvoice && (
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Payment Method</CardTitle>
-                        <CardDescription>Select how you want to fund this payment</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <RadioGroup defaultValue="card" onValueChange={setPaymentMethod} className="grid grid-cols-2 gap-4">
-                            <div>
-                                <RadioGroupItem value="card" id="card" className="peer sr-only" />
-                                <Label
-                                    htmlFor="card"
-                                    className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                                >
-                                    <CreditCard className="mb-3 h-6 w-6" />
-                                    Credit Card
-                                </Label>
-                            </div>
-                            <div>
-                                <RadioGroupItem value="bank" id="bank" className="peer sr-only" />
-                                <Label
-                                    htmlFor="bank"
-                                    className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                                >
-                                    <Building className="mb-3 h-6 w-6" />
-                                    Bank Transfer
-                                </Label>
-                            </div>
-                        </RadioGroup>
-                    </CardContent>
-                </Card>
-            )}
-
-            {selectedInvoice && (
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Payment Summary</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                        <div className="flex justify-between">
-                            <span>Principal Amount</span>
-                            <span>${selectedInvoice.amount.toLocaleString()}</span>
-                        </div>
-                        <div className="flex justify-between text-muted-foreground">
-                            <span>BPSP Fee (2%)</span>
-                            <span>${fee.toLocaleString()}</span>
-                        </div>
-                        <div className="border-t pt-2 mt-2 flex justify-between font-bold text-lg">
-                            <span>Total Charge</span>
-                            <span>${total.toLocaleString()}</span>
-                        </div>
-                    </CardContent>
-                    <CardFooter>
-                        <Button className="w-full" size="lg" onClick={handlePayment}>
-                            Pay ${total.toLocaleString()}
-                        </Button>
-                    </CardFooter>
-                </Card>
-            )}
         </div>
     );
 }

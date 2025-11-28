@@ -1,0 +1,119 @@
+Function ID,MERCHANT_021a
+Function Name,Receivable and Payable Invoices (Summary)
+Category,Screen Function（SSR）
+Objective,"Display a monthly summary of received and payable invoices, allowing users to check income and payment status at a glance."
+Overview,"Aggregates invoice and transaction tables to show monthly totals and counts for amounts billed, amounts payable, paid, unpaid, and other status categories."
+Preconditions,User must be a logged-in merchant_user.
+Input Items,Target Month (dropdown)
+Output Items,Total Billed Amount / Total Payable Amount / Paid Count / Unpaid Count / Settled Count / Unsettled Count
+Process Flow,"1. Retrieve data linked to merchant_id  from invoice.
+2. Aggregate by direction (receivable / payable).
+3. Match with transaction table to determine payment status.
+4. Display results in summary cards."
+Exceptional Handling,No data found: 「該当する請求データはありません。」 “No matching invoice data found.”
+Access Control,"owner, staff: accessible"
+Transition Destination,List（MERCHANT_021b）。
+Related Tables,"invoice, transaction"
+Remarks,"Payment status references transaction.status (captured / failed / refunded, etc.)"
+,
+Function ID,MERCHANT_021b
+Function Name,Receivable and Payable Invoices (List)
+Category,Screen Function（SSR）
+Objective,"Display registered receivable/payable invoices and allow viewing, editing, and deletion."
+Overview,Retrieves data linked to merchant_id from invoice table and displays them by switching the direction (receivable / payable).
+Preconditions,User must be a logged-in merchant_user.
+Input Items,Search Conditions: Client Name / Status / Invoice Date Range / Direction (receivable / payable)
+Output Items,Invoice Number / Invoice Date / Client Name / Amount / Status / Payment Method / Actions (Details · Edit · Delete)
+Process Flow,"1. Retrieve records from invoice where merchant_id = logged-in merchant.
+2. Apply WHERE deleted_at IS NULL.
+3. Apply filters for direction and status when specified.
+4.Sort by invoice date DESC."
+Exceptional Handling,"No data found:「登録された請求書はありません。」 ""No invoices have been created."""
+Access Control,"owner, staff: accessible
+viewer: view-only"
+Transition Destination,Details (MERCHANT_021c) / Create (MERCHANT_021d) / Edit (MERCHANT_021e) / Delete (MERCHANT_021f)
+Related Tables,"invoice, transaction, merchant_client"
+Remarks,Switch views with direction='receive' / 'pay' 
+,
+Function ID,MERCHANT_021c
+Function Name,Receivable and Payable Invoices (Details)
+Category,Screen Function（SSR）
+Objective,View the details and payment status of a selected invoice.
+Overview,Links invoice information with transaction history to display detailed information.
+Preconditions,Target invoice must not be deleted (deleted_at IS NULL).
+Input Items,Display Parameter: invoice_id
+Output Items,Invoice Number / Client Name / Invoice Date / Due Date / Total Amount / Tax Amount / Payment Status / Transaction List
+Process Flow,"1. Retrieve invoice by invoice_id.
+2. JOIN transaction to obtain payment status.
+3. Calculate and display totals, payment date, etc."
+Exceptional Handling,"No matching record: 「該当する請求書が見つかりません。」 ""No matching invoice found."""
+Access Control,All users may view (owner / staff / viewer)
+Transition Destination,Edit (MERCHANT_021e) / List (MERCHANT_021b)
+Related Tables,"invoice, transaction, merchant_client, tax"
+Remarks,Transaction logs are shown in descending order.
+,
+Function ID,MERCHANT_021d
+Function Name,Receivable and Payable Invoices (Create)
+Category,Screen Function（SSR）
+Objective,Create a new receivable or payable invoice.
+Overview,"Enter client, invoice details, amount, and due date to register a new invoice."
+Preconditions,User must have an owner or staff role.
+Input Items,"Client (client_id): Selectable
+Invoice Date: Required
+Due Date: Optional
+Total Amount: Required
+Direction (receivable / payable): Selectable
+Payment Method (credit card / bank transfer, etc.): Selectable
+Notes: Optional"
+Output Items,"Success message: 「請求書を登録しました。」 ""Invoice has been created."""
+Process Flow,"1. Validate input.
+2. INSERT into invoice.
+3. Set created_by to the logged-in user.
+4. Create a transaction record when necessary."
+Exceptional Handling,"Missing required fields: 「必須項目を入力してください。」 ""Please enter all required fields.""
+DB error: 「登録に失敗しました。」 ""Failed to create."""
+Access Control,"owner, staff: can create
+viewer: cannot create"
+Transition Destination,List Screen（MERCHANT_021b）。
+Related Tables,"invoice, transaction, merchant_client, merchant_card"
+Remarks,Processing differs depending on direction (receivable / payable).
+,
+Function ID,MERCHANT_021e
+Function Name,Receivable and Payable Invoices (Edit)
+Category,Screen Function（SSR）
+Objective,Modify an existing invoice.
+Overview,Update the invoice header and payment information.
+Preconditions,Target invoice must not be deleted (deleted_at IS NULL).
+Input Items,"Client (client_id): Selectable
+Invoice Date / Due Date / Amount / Status / Payment Method / Notes"
+Output Items,"Success message: 「請求書を更新しました。」 ""Invoice has been updated."""
+Process Flow,"1. Retrieve target by invoice.id.
+2. Validate input.
+3. Execute UPDATE.
+4. Set updated_by to the logged-in user."
+Exceptional Handling,"No matching record: 「該当請求書が見つかりません。」 ""No matching invoice found.""
+DB error: 「更新に失敗しました。」 ""Failed to update."""
+Access Control,"owner, staff: editable
+viewer: view-only"
+Transition Destination,List Screen（MERCHANT_021b）。
+Related Tables,"invoice, transaction, merchant_client, tax"
+Remarks,"When amount is updated, associated transaction.amount is also updated."
+,
+Function ID,MERCHANT_021f
+Function Name,Receivable and Payable Invoices (Delete)
+Category,Screen Function（SSR）
+Objective,Logically delete a receivable/payable invoice that is no longer needed.
+Overview,"After confirmation, sets deleted_at in invoice to the current timestamp."
+Preconditions,Target must not already be deleted.
+Input Items,Target ID (invoice_id)
+Output Items,"Success message: 「請求書を削除しました。」 ""Invoice has been deleted."""
+Process Flow,"1. Retrieve target invoice by invoice.id.
+2. Set deleted_at to the current timestamp.
+3. Set updated_by to the logged-in user.
+4. Redirect back to list."
+Exceptional Handling,"No matching record: 「該当データが存在しません。」 ""No matching data found.""
+DB error: 「削除に失敗しました。」 ""Failed to delete."""
+Access Control,Only owner may delete.
+Transition Destination,List Screen（MERCHANT_021b）。
+Related Tables,"invoice, transaction"
+Remarks,Deleted invoices are excluded from summaries and payment processing.

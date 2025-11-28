@@ -31,7 +31,7 @@ export default function PaymentInvoicePage() {
             setMerchant(merchants.find(m => m.id === inv.merchantId));
 
             if (inv.status === 'paid') {
-                router.replace(`/payment/${invoiceId}/complete`);
+                router.replace(`/dashboard/payment/${invoiceId}/complete`);
             }
         } else {
             setError("Invoice not found.");
@@ -49,7 +49,7 @@ export default function PaymentInvoicePage() {
                 <CardContent className="pt-6 text-center">
                     <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
                     <h2 className="text-xl font-semibold text-destructive mb-2">Error</h2>
-                    <p className="text-muted-foreground">{error || "Invoice not found"}</p>
+                    <p className="text-muted-foreground">{error || "請求書が見つかりません。 (Invoice not found)"}</p>
                 </CardContent>
             </Card>
         );
@@ -111,7 +111,7 @@ export default function PaymentInvoicePage() {
                 <CardFooter className="bg-muted/30 pt-6">
                     <Button
                         className="w-full text-lg py-6"
-                        onClick={() => router.push(`/payment/${invoiceId}/credit-card`)}
+                        onClick={() => router.push(`/dashboard/payment/${invoiceId}/credit-card`)}
                     >
                         Proceed to Payment
                     </Button>

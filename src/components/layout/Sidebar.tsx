@@ -64,12 +64,22 @@ const merchantLinks = [
         icon: FileText,
     },
     {
+        name: "AR AP Invoices / 売掛金・買掛金請求書",
+        href: "/dashboard/merchant/finance",
+        icon: CreditCard,
+    },
+    {
         name: "Receipts / 領収書",
         href: "/dashboard/merchant/receipts",
         icon: FileText,
     },
     {
         name: "Auto-Issuance / 自動発行",
+        href: "/dashboard/merchant/simple-invoice-auto",
+        icon: CalendarClock,
+    },
+    {
+        name: "AR AP Auto-Issuance / AR AP自動発行",
         href: "/dashboard/merchant/invoice-auto",
         icon: CalendarClock,
     },
@@ -277,7 +287,7 @@ export function Sidebar() {
     // ...existing code...
 
 
-    const NavContent = () => (
+    const navContent = (
         <div
             className={cn(
                 "flex h-full flex-col gap-4 py-4",
@@ -497,7 +507,7 @@ export function Sidebar() {
                 )}
                 style={sidebarBgStyle}
             >
-                <NavContent />
+                {navContent}
             </aside>
 
             {/* Mobile Sidebar */}
@@ -520,7 +530,7 @@ export function Sidebar() {
                     )}
                     style={sidebarBgStyle}
                 >
-                    <NavContent />
+                    {navContent}
                 </SheetContent>
             </Sheet>
         </>

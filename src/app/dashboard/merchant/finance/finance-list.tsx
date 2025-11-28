@@ -7,7 +7,6 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -26,6 +25,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppStore } from "@/lib/store";
 import { format } from "date-fns";
 import { Edit, Eye, MoreHorizontal, Plus, Trash2 } from "lucide-react";
@@ -33,19 +33,20 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { deleteInvoiceAction } from "./actions";
+import { deleteInvoiceAction } from "../invoices/actions";
 
-interface InvoiceListProps {
+interface FinanceListProps {
     merchantId: string;
 }
 
-export function InvoiceList({ merchantId }: InvoiceListProps) {
+export function FinanceList({ merchantId }: FinanceListProps) {
     const router = useRouter();
     const { getMerchantInvoices, getMerchantClients, deleteInvoice } = useAppStore();
     const invoices = getMerchantInvoices(merchantId);
     const clients = getMerchantClients(merchantId);
 
     // Filters
+    const [direction, setDirection] = useState<'receivable' | 'payable'>('receivable');
     const [statusFilter, setStatusFilter] = useState<string>("all");
     const [clientFilter, setClientFilter] = useState<string>("");
 
@@ -91,7 +92,7 @@ export function InvoiceList({ merchantId }: InvoiceListProps) {
 
     // Filter Logic
     const filteredInvoices = invoices
-        .filter(inv => inv.direction === 'receivable' || !inv.direction)
+        .filter(inv => inv.direction === direction || (!inv.direction && direction === 'receivable'))
         .filter(inv => statusFilter === "all" || inv.status === statusFilter)
         .filter(inv => {
             if (!clientFilter) return true;
@@ -103,10 +104,15 @@ export function InvoiceList({ merchantId }: InvoiceListProps) {
     return (
         <div className="space-y-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div className="flex-1" />
+                <Tabs value={direction} onValueChange={(v) => setDirection(v as any)} className="w-[400px]">
+                    <TabsList>
+                        <TabsTrigger value="receivable">Receivable (Income)</TabsTrigger>
+                        <TabsTrigger value="payable">Payable (Expense)</TabsTrigger>
+                    </TabsList>
+                </Tabs>
                 <Button asChild>
-                    <Link href="/dashboard/merchant/invoices/create">
-                        <Plus className="mr-2 h-4 w-4" /> Create Invoice
+                    <Link href="/dashboard/merchant/finance/create">
+                        <Plus className="mr-2 h-4 w-4" /> Create Record
                     </Link>
                 </Button>
             </div>
@@ -142,6 +148,7 @@ export function InvoiceList({ merchantId }: InvoiceListProps) {
                             <TableHead>Date</TableHead>
                             <TableHead>Due Date</TableHead>
                             <TableHead>Amount</TableHead>
+                            <TableHead>Payment Method</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
@@ -149,8 +156,8 @@ export function InvoiceList({ merchantId }: InvoiceListProps) {
                     <TableBody>
                         {filteredInvoices.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                                    No invoices found.
+                                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                                    No {direction} records found.
                                 </TableCell>
                             </TableRow>
                         ) : (
@@ -164,6 +171,9 @@ export function InvoiceList({ merchantId }: InvoiceListProps) {
                                     </TableCell>
                                     <TableCell>
                                         {new Intl.NumberFormat('en-US', { style: 'currency', currency: invoice.currency }).format(invoice.amount)}
+                                    </TableCell>
+                                    <TableCell className="capitalize">
+                                        {invoice.paymentMethod ? invoice.paymentMethod.replace('_', ' ') : '-'}
                                     </TableCell>
                                     <TableCell>{getStatusBadge(invoice.status)}</TableCell>
                                     <TableCell className="text-right">
@@ -179,10 +189,9 @@ export function InvoiceList({ merchantId }: InvoiceListProps) {
                                                 <DropdownMenuItem onClick={() => router.push(`/dashboard/merchant/invoices/${invoice.id}`)}>
                                                     <Eye className="mr-2 h-4 w-4" /> View Details
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => router.push(`/dashboard/merchant/invoices/${invoice.id}/edit`)}>
+                                                <DropdownMenuItem onClick={() => router.push(`/dashboard/merchant/finance/${invoice.id}/edit`)}>
                                                     <Edit className="mr-2 h-4 w-4" /> Edit
                                                 </DropdownMenuItem>
-                                                <DropdownMenuSeparator />
                                                 <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(invoice.id)}>
                                                     <Trash2 className="mr-2 h-4 w-4" /> Delete
                                                 </DropdownMenuItem>

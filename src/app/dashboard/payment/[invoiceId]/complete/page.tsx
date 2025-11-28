@@ -36,7 +36,7 @@ export default function PaymentCompletePage() {
     if (!invoice || !transaction) {
         return (
             <div className="text-center py-12">
-                <h2 className="text-xl font-semibold text-destructive">Payment information not found</h2>
+                <h2 className="text-xl font-semibold text-destructive">決済情報が確認できません。 (Payment information could not be found.)</h2>
             </div>
         );
     }
