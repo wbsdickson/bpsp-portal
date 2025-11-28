@@ -5,7 +5,7 @@ import { ReceiptForm } from "../receipt-form";
 
 export default function CreateReceiptPage() {
     const { currentUser } = useAppStore();
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     if (!currentUser) {
         return <div>Please log in</div>;

@@ -8,7 +8,7 @@ export default function EditReceiptPage() {
     const params = useParams();
     const id = params.id as string;
     const { currentUser, receipts } = useAppStore();
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     const receipt = receipts.find(rc => rc.id === id);
 

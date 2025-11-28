@@ -9,7 +9,7 @@ export default function EditQuotationPage() {
     const id = params.id as string;
     const { quotations, currentUser } = useAppStore();
     const quotation = quotations.find(q => q.id === id);
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     if (!currentUser) {
         return <div>Please log in</div>;

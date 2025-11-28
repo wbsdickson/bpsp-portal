@@ -19,11 +19,13 @@ import { X } from 'lucide-react';
 
 export default function HistoryPage() {
     const { currentUser, getMerchantPayments, cancelPayment } = useAppStore();
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
+
     const [search, setSearch] = useState('');
 
     if (!currentUser) return <div>Loading...</div>;
 
-    const payments = getMerchantPayments(currentUser.id).filter(p =>
+    const payments = getMerchantPayments(merchantId).filter(p =>
         p.id.toLowerCase().includes(search.toLowerCase()) ||
         p.paymentMethod.toLowerCase().includes(search.toLowerCase())
     );

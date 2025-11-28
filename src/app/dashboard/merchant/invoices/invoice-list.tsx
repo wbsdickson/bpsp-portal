@@ -41,9 +41,11 @@ interface InvoiceListProps {
 
 export function InvoiceList({ merchantId }: InvoiceListProps) {
     const router = useRouter();
-    const { getMerchantInvoices, getMerchantClients, deleteInvoice } = useAppStore();
+    const { getMerchantInvoices, getMerchantClients, deleteInvoice, currentUser } = useAppStore();
     const invoices = getMerchantInvoices(merchantId);
     const clients = getMerchantClients(merchantId);
+
+    const isViewer = currentUser?.memberRole === 'viewer';
 
     // Filters
     const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -104,11 +106,13 @@ export function InvoiceList({ merchantId }: InvoiceListProps) {
         <div className="space-y-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div className="flex-1" />
-                <Button asChild>
-                    <Link href="/dashboard/merchant/invoices/create">
-                        <Plus className="mr-2 h-4 w-4" /> Create Invoice
-                    </Link>
-                </Button>
+                {!isViewer && (
+                    <Button asChild>
+                        <Link href="/dashboard/merchant/invoices/create">
+                            <Plus className="mr-2 h-4 w-4" /> Create Invoice
+                        </Link>
+                    </Button>
+                )}
             </div>
 
             <div className="flex flex-col md:flex-row gap-4">
@@ -179,13 +183,17 @@ export function InvoiceList({ merchantId }: InvoiceListProps) {
                                                 <DropdownMenuItem onClick={() => router.push(`/dashboard/merchant/invoices/${invoice.id}`)}>
                                                     <Eye className="mr-2 h-4 w-4" /> View Details
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => router.push(`/dashboard/merchant/invoices/${invoice.id}/edit`)}>
-                                                    <Edit className="mr-2 h-4 w-4" /> Edit
-                                                </DropdownMenuItem>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(invoice.id)}>
-                                                    <Trash2 className="mr-2 h-4 w-4" /> Delete
-                                                </DropdownMenuItem>
+                                                {!isViewer && (
+                                                    <>
+                                                        <DropdownMenuItem onClick={() => router.push(`/dashboard/merchant/invoices/${invoice.id}/edit`)}>
+                                                            <Edit className="mr-2 h-4 w-4" /> Edit
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(invoice.id)}>
+                                                            <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                                        </DropdownMenuItem>
+                                                    </>
+                                                )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>

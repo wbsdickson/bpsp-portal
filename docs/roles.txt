@@ -1,0 +1,11 @@
+1. jpcc's admin: JPCC + bpsp admin tab
+PG | User management | RentEase | BPSP
+
+2. merchant(owner): JPCC + bpsp fucntions
+PG | Account management | BPSP
+
+3. merchant(staff): can use bpsp fucntion only
+BPSP
+
+4. merchant(viewer): can view bpsp fucntion only
+BPSP

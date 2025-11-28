@@ -57,6 +57,7 @@ interface AppState {
     updateBankAccount: (bankAccountId: string, data: Partial<BankAccount>) => void;
     deleteBankAccount: (bankAccountId: string) => void;
     getMerchantCards: (merchantId: string) => MerchantCard[];
+    addMerchantCard: (card: MerchantCard) => void;
     deleteMerchantCard: (cardId: string) => void;
     getMerchantItems: (merchantId: string) => Item[];
     addItem: (item: Item) => void;
@@ -436,6 +437,10 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     getMerchantCards: (merchantId) => {
         return get().merchantCards.filter((card) => card.merchantId === merchantId);
+    },
+
+    addMerchantCard: (card) => {
+        set((state) => ({ merchantCards: [card, ...state.merchantCards] }));
     },
 
     deleteMerchantCard: (cardId) => {

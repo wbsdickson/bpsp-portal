@@ -20,6 +20,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 const cardSchema = z.object({
@@ -33,11 +34,12 @@ export default function PaymentCreditCardPage() {
     const params = useParams();
     const router = useRouter();
     const invoiceId = params.invoiceId as string;
-    const { getInvoiceById, processPayment } = useAppStore();
+    const { getInvoiceById, processPayment, addMerchantCard, currentUser } = useAppStore();
 
     const [invoice, setInvoice] = useState<Invoice | null>(null);
     const [loading, setLoading] = useState(true);
     const [processing, setProcessing] = useState(false);
+    const [saveCard, setSaveCard] = useState(false);
 
     const form = useForm<z.infer<typeof cardSchema>>({
         resolver: zodResolver(cardSchema),
@@ -68,6 +70,22 @@ export default function PaymentCreditCardPage() {
             const result = await processPayment(invoiceId, values);
 
             if (result.success) {
+                if (saveCard && currentUser) {
+                    const [expiryMonth, expiryYear] = values.expiryDate.split('/');
+                    addMerchantCard({
+                        id: `card_${Math.random().toString(36).substr(2, 9)}`,
+                        merchantId: currentUser.merchantId || currentUser.id,
+                        cardBrand: "Visa", // Mock detection
+                        last4: values.cardNumber.slice(-4),
+                        expiryMonth,
+                        expiryYear: `20${expiryYear}`,
+                        token: `tok_${Math.random().toString(36).substr(2, 9)}`,
+                        createdAt: new Date().toISOString(),
+                        updatedBy: currentUser.id
+                    });
+                    toast.success("Card saved successfully");
+                }
+
                 toast.success("Payment successful!");
                 router.push(`/dashboard/payment/${invoiceId}/complete`);
             } else {
@@ -164,6 +182,22 @@ export default function PaymentCreditCardPage() {
                                     </FormItem>
                                 )}
                             />
+
+                            {currentUser && (
+                                <div className="flex items-center space-x-2 pt-2">
+                                    <Checkbox
+                                        id="saveCard"
+                                        checked={saveCard}
+                                        onCheckedChange={(checked) => setSaveCard(checked as boolean)}
+                                    />
+                                    <label
+                                        htmlFor="saveCard"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                    >
+                                        Save this card for future payments
+                                    </label>
+                                </div>
+                            )}
 
                             <div className="pt-4">
                                 <Button type="submit" className="w-full py-6 text-lg" disabled={processing}>

@@ -5,7 +5,7 @@ import { DeliveryNoteForm } from "../delivery-note-form";
 
 export default function CreateDeliveryNotePage() {
     const { currentUser } = useAppStore();
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     if (!currentUser) {
         return <div>Please log in</div>;

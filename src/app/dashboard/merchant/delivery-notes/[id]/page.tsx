@@ -21,7 +21,7 @@ export default function DeliveryNoteDetailsPage() {
     const router = useRouter();
     const id = params.id as string;
     const { currentUser, deliveryNotes, getMerchantClients } = useAppStore();
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     const deliveryNote = deliveryNotes.find(dn => dn.id === id);
     const clients = getMerchantClients(merchantId);
@@ -58,11 +58,13 @@ export default function DeliveryNoteDetailsPage() {
                     <Button variant="outline" onClick={() => window.print()}>
                         <Printer className="mr-2 h-4 w-4" /> Print
                     </Button>
-                    <Link href={`/dashboard/merchant/delivery-notes/${id}/edit`}>
-                        <Button>
-                            <Edit className="mr-2 h-4 w-4" /> Edit
-                        </Button>
-                    </Link>
+                    {currentUser.memberRole !== 'viewer' && (
+                        <Link href={`/dashboard/merchant/delivery-notes/${id}/edit`}>
+                            <Button>
+                                <Edit className="mr-2 h-4 w-4" /> Edit
+                            </Button>
+                        </Link>
+                    )}
                 </div>
             </div>
 

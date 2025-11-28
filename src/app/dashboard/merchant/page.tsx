@@ -26,9 +26,10 @@ export default function MerchantDashboard() {
 
     if (!currentUser) return <div>Loading...</div>;
 
-    const invoices = getMerchantInvoices(currentUser.id);
-    const payments = getMerchantPayments(currentUser.id);
-    const notifications = getMerchantNotifications(currentUser.id);
+    const merchantId = currentUser.merchantId || currentUser.id;
+    const invoices = getMerchantInvoices(merchantId);
+    const payments = getMerchantPayments(merchantId);
+    const notifications = getMerchantNotifications(merchantId, currentUser.id);
 
     const now = new Date();
 
@@ -186,9 +187,9 @@ export default function MerchantDashboard() {
                                 {recentNotifications.map((notification) => (
                                     <div key={notification.id} className="flex items-start space-x-4 rounded-md border p-3">
                                         <Bell className={`mt-1 h-5 w-5 ${notification.type === 'error' ? 'text-red-500' :
-                                                notification.type === 'warning' ? 'text-yellow-500' :
-                                                    notification.type === 'success' ? 'text-green-500' :
-                                                        'text-blue-500'
+                                            notification.type === 'warning' ? 'text-yellow-500' :
+                                                notification.type === 'success' ? 'text-green-500' :
+                                                    'text-blue-500'
                                             }`} />
                                         <div className="space-y-1">
                                             <p className="text-sm font-medium leading-none">{notification.title}</p>

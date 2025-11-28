@@ -42,9 +42,11 @@ interface ReceiptListProps {
 }
 
 export function ReceiptList({ merchantId }: ReceiptListProps) {
-    const { getMerchantReceipts, getMerchantClients, deleteReceipt } = useAppStore();
+    const { getMerchantReceipts, getMerchantClients, deleteReceipt, currentUser } = useAppStore();
     const receipts = getMerchantReceipts(merchantId);
     const clients = getMerchantClients(merchantId);
+
+    const isViewer = currentUser?.memberRole === 'viewer';
 
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState<string>("ALL");
@@ -114,11 +116,13 @@ export function ReceiptList({ merchantId }: ReceiptListProps) {
                         </SelectContent>
                     </Select>
                 </div>
-                <Link href="/dashboard/merchant/receipts/create">
-                    <Button>
-                        <Plus className="mr-2 h-4 w-4" /> Create Receipt
-                    </Button>
-                </Link>
+                {!isViewer && (
+                    <Link href="/dashboard/merchant/receipts/create">
+                        <Button>
+                            <Plus className="mr-2 h-4 w-4" /> Create Receipt
+                        </Button>
+                    </Link>
+                )}
             </div>
 
             <div className="border rounded-md">
@@ -155,35 +159,39 @@ export function ReceiptList({ merchantId }: ReceiptListProps) {
                                                     <Eye className="h-4 w-4" />
                                                 </Button>
                                             </Link>
-                                            <Link href={`/dashboard/merchant/receipts/${rc.id}/edit`}>
-                                                <Button variant="ghost" size="icon" title="Edit">
-                                                    <Edit className="h-4 w-4" />
-                                                </Button>
-                                            </Link>
-                                            <AlertDialog>
-                                                <AlertDialogTrigger asChild>
-                                                    <Button variant="ghost" size="icon" className="text-red-500" title="Delete">
-                                                        <Trash2 className="h-4 w-4" />
-                                                    </Button>
-                                                </AlertDialogTrigger>
-                                                <AlertDialogContent>
-                                                    <AlertDialogHeader>
-                                                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                                        <AlertDialogDescription>
-                                                            This action cannot be undone. This will permanently delete the receipt.
-                                                        </AlertDialogDescription>
-                                                    </AlertDialogHeader>
-                                                    <AlertDialogFooter>
-                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                        <AlertDialogAction
-                                                            onClick={() => handleDelete(rc.id)}
-                                                            className="bg-red-500 hover:bg-red-600"
-                                                        >
-                                                            {isDeleting === rc.id ? "Deleting..." : "Delete"}
-                                                        </AlertDialogAction>
-                                                    </AlertDialogFooter>
-                                                </AlertDialogContent>
-                                            </AlertDialog>
+                                            {!isViewer && (
+                                                <>
+                                                    <Link href={`/dashboard/merchant/receipts/${rc.id}/edit`}>
+                                                        <Button variant="ghost" size="icon" title="Edit">
+                                                            <Edit className="h-4 w-4" />
+                                                        </Button>
+                                                    </Link>
+                                                    <AlertDialog>
+                                                        <AlertDialogTrigger asChild>
+                                                            <Button variant="ghost" size="icon" className="text-red-500" title="Delete">
+                                                                <Trash2 className="h-4 w-4" />
+                                                            </Button>
+                                                        </AlertDialogTrigger>
+                                                        <AlertDialogContent>
+                                                            <AlertDialogHeader>
+                                                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                                <AlertDialogDescription>
+                                                                    This action cannot be undone. This will permanently delete the receipt.
+                                                                </AlertDialogDescription>
+                                                            </AlertDialogHeader>
+                                                            <AlertDialogFooter>
+                                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                                <AlertDialogAction
+                                                                    onClick={() => handleDelete(rc.id)}
+                                                                    className="bg-red-500 hover:bg-red-600"
+                                                                >
+                                                                    {isDeleting === rc.id ? "Deleting..." : "Delete"}
+                                                                </AlertDialogAction>
+                                                            </AlertDialogFooter>
+                                                        </AlertDialogContent>
+                                                    </AlertDialog>
+                                                </>
+                                            )}
                                         </div>
                                     </TableCell>
                                 </TableRow>

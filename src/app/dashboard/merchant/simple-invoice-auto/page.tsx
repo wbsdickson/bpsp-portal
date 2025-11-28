@@ -1,8 +1,15 @@
+"use client";
+
+import { useAppStore } from "@/lib/store";
 import { AutoIssuanceList } from "./auto-issuance-list";
 
 export default function AutoIssuancePage() {
-    // In a real app, we would get the merchant ID from the session
-    const merchantId = "u1";
+    const { currentUser } = useAppStore();
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
+
+    if (!currentUser) {
+        return <div>Please log in</div>;
+    }
 
     return (
         <div className="space-y-6">

@@ -7,15 +7,16 @@ import { useAppStore } from "@/lib/store";
 import { format } from "date-fns";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, use } from "react";
 
 interface NotificationDetailsPageProps {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 }
 
 export default function NotificationDetailsPage({ params }: NotificationDetailsPageProps) {
+    const { id } = use(params);
     const router = useRouter();
     const { currentUser, getMerchantNotifications, markNotificationAsRead } = useAppStore();
 
@@ -26,7 +27,7 @@ export default function NotificationDetailsPage({ params }: NotificationDetailsP
         ? getMerchantNotifications(currentUser.merchantId, currentUser.id)
         : [];
 
-    const notification = notifications.find(n => n.id === params.id);
+    const notification = notifications.find(n => n.id === id);
 
     useEffect(() => {
         if (notification && currentUser && !notification.isRead) {
@@ -65,9 +66,9 @@ export default function NotificationDetailsPage({ params }: NotificationDetailsP
                         <div className="flex justify-between items-start">
                             <CardTitle className="text-2xl">{notification.title}</CardTitle>
                             <span className={`px-2 py-1 rounded text-xs font-medium ${notification.type === 'info' ? 'bg-blue-100 text-blue-800' :
-                                    notification.type === 'warning' ? 'bg-yellow-100 text-yellow-800' :
-                                        notification.type === 'error' ? 'bg-red-100 text-red-800' :
-                                            'bg-green-100 text-green-800'
+                                notification.type === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+                                    notification.type === 'error' ? 'bg-red-100 text-red-800' :
+                                        'bg-green-100 text-green-800'
                                 }`}>
                                 {notification.type.toUpperCase()}
                             </span>

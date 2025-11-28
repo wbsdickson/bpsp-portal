@@ -8,12 +8,12 @@ import { AutoIssuanceForm } from "../../auto-issuance-form";
 export default function EditAutoIssuancePage() {
     const params = useParams();
     const router = useRouter();
-    const { getMerchantInvoiceAutoSettings } = useAppStore();
+    const { getMerchantInvoiceAutoSettings, currentUser } = useAppStore();
     const [setting, setSetting] = useState<any>(null);
-    const merchantId = "u1";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     useEffect(() => {
-        if (params.id) {
+        if (params.id && merchantId) {
             const settings = getMerchantInvoiceAutoSettings(merchantId);
             const found = settings.find((s) => s.id === params.id);
             if (found) {
@@ -22,7 +22,11 @@ export default function EditAutoIssuancePage() {
                 router.push("/dashboard/merchant/simple-invoice-auto");
             }
         }
-    }, [params.id, getMerchantInvoiceAutoSettings, router]);
+    }, [params.id, getMerchantInvoiceAutoSettings, router, merchantId]);
+
+    if (!currentUser) {
+        return <div>Please log in</div>;
+    }
 
     if (!setting) {
         return <div>Loading...</div>;

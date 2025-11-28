@@ -42,9 +42,11 @@ interface AutoIssuanceListProps {
 
 export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
     const router = useRouter();
-    const { getMerchantInvoiceAutoSettings, getMerchantClients, deleteInvoiceAutoSetting } = useAppStore();
+    const { getMerchantInvoiceAutoSettings, getMerchantClients, deleteInvoiceAutoSetting, currentUser } = useAppStore();
     const settings = getMerchantInvoiceAutoSettings(merchantId);
     const clients = getMerchantClients(merchantId);
+
+    const isViewer = currentUser?.memberRole === 'viewer';
 
     // Filters
     const [direction, setDirection] = useState<'receivable' | 'payable'>('receivable');
@@ -104,11 +106,13 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
                         <TabsTrigger value="payable">Payable (Expense)</TabsTrigger>
                     </TabsList>
                 </Tabs>
-                <Button asChild>
-                    <Link href="/dashboard/merchant/invoice-auto/create">
-                        <Plus className="mr-2 h-4 w-4" /> Create Schedule
-                    </Link>
-                </Button>
+                {!isViewer && (
+                    <Button asChild>
+                        <Link href="/dashboard/merchant/invoice-auto/create">
+                            <Plus className="mr-2 h-4 w-4" /> Create Schedule
+                        </Link>
+                    </Button>
+                )}
             </div>
 
             <div className="flex flex-col md:flex-row gap-4">
@@ -176,13 +180,17 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
                                                 <DropdownMenuItem onClick={() => router.push(`/dashboard/merchant/invoice-auto/${setting.id}`)}>
                                                     <Eye className="mr-2 h-4 w-4" /> View Details
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => router.push(`/dashboard/merchant/invoice-auto/${setting.id}/edit`)}>
-                                                    <Edit className="mr-2 h-4 w-4" /> Edit
-                                                </DropdownMenuItem>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(setting.id)}>
-                                                    <Trash2 className="mr-2 h-4 w-4" /> Delete
-                                                </DropdownMenuItem>
+                                                {!isViewer && (
+                                                    <>
+                                                        <DropdownMenuItem onClick={() => router.push(`/dashboard/merchant/invoice-auto/${setting.id}/edit`)}>
+                                                            <Edit className="mr-2 h-4 w-4" /> Edit
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(setting.id)}>
+                                                            <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                                        </DropdownMenuItem>
+                                                    </>
+                                                )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>

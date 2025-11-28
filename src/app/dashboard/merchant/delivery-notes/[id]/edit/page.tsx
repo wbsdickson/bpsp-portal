@@ -8,7 +8,7 @@ export default function EditDeliveryNotePage() {
     const params = useParams();
     const id = params.id as string;
     const { currentUser, deliveryNotes } = useAppStore();
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     const deliveryNote = deliveryNotes.find(dn => dn.id === id);
 

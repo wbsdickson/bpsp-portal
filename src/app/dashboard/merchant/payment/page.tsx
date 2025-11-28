@@ -20,7 +20,8 @@ export default function PaymentPage() {
 
     if (!currentUser) return <div>Loading...</div>;
 
-    const invoices = getMerchantInvoices(currentUser.id).filter(
+    const merchantId = currentUser.merchantId || currentUser.id;
+    const invoices = getMerchantInvoices(merchantId).filter(
         (inv) => inv.status === 'approved' || inv.status === 'pending'
     );
 

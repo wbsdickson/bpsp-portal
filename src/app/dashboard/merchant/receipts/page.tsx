@@ -5,7 +5,7 @@ import { ReceiptList } from "./receipt-list";
 
 export default function ReceiptsPage() {
     const { currentUser } = useAppStore();
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     if (!currentUser) {
         return <div>Please log in</div>;

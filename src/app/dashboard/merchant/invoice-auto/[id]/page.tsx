@@ -60,12 +60,14 @@ export default function InvoiceAutoSettingDetailsPage() {
                     </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button variant="outline" asChild>
-                        <Link href={`/dashboard/merchant/invoice-auto/${setting.id}/edit`}>
-                            <Edit className="mr-2 h-4 w-4" />
-                            Edit Schedule
-                        </Link>
-                    </Button>
+                    {currentUser.memberRole !== 'viewer' && (
+                        <Button variant="outline" asChild>
+                            <Link href={`/dashboard/merchant/invoice-auto/${setting.id}/edit`}>
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit Schedule
+                            </Link>
+                        </Button>
+                    )}
                 </div>
             </div>
 

@@ -247,6 +247,8 @@ export function Sidebar() {
         currentUser?.role === "merchant_jpcc" ||
         !["admin", "jpcc_admin"].includes(currentUser?.role || "");
 
+    const isViewer = currentUser?.memberRole === 'viewer';
+
     // Check if sidebar has colored background (needs light text)
     const hasColoredBg =
         currentUser?.role === "jpcc_admin" ||
@@ -320,6 +322,9 @@ export function Sidebar() {
                             return (
                                 <div key={groupIndex} className="space-y-1">
                                     {group.links.map((link) => {
+                                        if (isViewer && link.href === "/dashboard/merchant/payment") {
+                                            return null;
+                                        }
                                         const Icon = link.icon;
                                         const isActive = pathname === link.href;
                                         return (
@@ -372,6 +377,9 @@ export function Sidebar() {
                                 {isOpen && (
                                     <div className="space-y-1">
                                         {group.links.map((link) => {
+                                            if (isViewer && link.href === "/dashboard/merchant/payment") {
+                                                return null;
+                                            }
                                             const Icon = link.icon;
 
                                             // Handle items with sub-menus

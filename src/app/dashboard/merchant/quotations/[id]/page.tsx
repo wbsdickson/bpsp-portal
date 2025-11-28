@@ -22,7 +22,7 @@ export default function QuotationDetailsPage() {
     const id = params.id as string;
     const { quotations, getMerchantClients, taxes, currentUser } = useAppStore();
     const quotation = quotations.find(q => q.id === id);
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     if (!currentUser) {
         return <div>Please log in</div>;
@@ -58,11 +58,13 @@ export default function QuotationDetailsPage() {
                     <Button variant="outline">
                         <Printer className="mr-2 h-4 w-4" /> Print
                     </Button>
-                    <Link href={`/dashboard/merchant/quotations/${quotation.id}/edit`}>
-                        <Button>
-                            <Edit className="mr-2 h-4 w-4" /> Edit
-                        </Button>
-                    </Link>
+                    {currentUser.memberRole !== 'viewer' && (
+                        <Link href={`/dashboard/merchant/quotations/${quotation.id}/edit`}>
+                            <Button>
+                                <Edit className="mr-2 h-4 w-4" /> Edit
+                            </Button>
+                        </Link>
+                    )}
                 </div>
             </div>
 

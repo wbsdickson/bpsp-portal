@@ -13,9 +13,15 @@ import { Separator } from "@/components/ui/separator";
 export default function ReceiptDetailsPage() {
     const params = useParams();
     const id = params.id as string;
-    const { receipts, clients } = useAppStore();
+    const { receipts, getMerchantClients, currentUser } = useAppStore();
     const receipt = receipts.find(rc => rc.id === id);
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
+    const clients = getMerchantClients(merchantId);
     const client = receipt ? clients.find(c => c.id === receipt.clientId) : null;
+
+    if (!currentUser) {
+        return <div>Please log in</div>;
+    }
 
     if (!receipt) {
         return <div>Receipt not found</div>;
@@ -57,7 +63,7 @@ export default function ReceiptDetailsPage() {
                         <Printer className="mr-2 h-4 w-4" />
                         Print
                     </Button>
-                    {receipt.status === 'draft' && (
+                    {receipt.status === 'draft' && currentUser.memberRole !== 'viewer' && (
                         <Link href={`/dashboard/merchant/receipts/${receipt.id}/edit`}>
                             <Button>Edit Receipt</Button>
                         </Link>

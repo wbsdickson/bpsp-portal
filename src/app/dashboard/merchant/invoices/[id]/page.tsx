@@ -73,11 +73,13 @@ export default function InvoiceDetailsPage() {
                     <Button variant="outline" onClick={() => window.print()}>
                         <Printer className="mr-2 h-4 w-4" /> Print
                     </Button>
-                    <Button asChild>
-                        <Link href={`/dashboard/merchant/invoices/${invoice.id}/edit`}>
-                            <Edit className="mr-2 h-4 w-4" /> Edit
-                        </Link>
-                    </Button>
+                    {currentUser.memberRole !== 'viewer' && (
+                        <Button asChild>
+                            <Link href={`/dashboard/merchant/invoices/${invoice.id}/edit`}>
+                                <Edit className="mr-2 h-4 w-4" /> Edit
+                            </Link>
+                        </Button>
+                    )}
                 </div>
             </div>
 

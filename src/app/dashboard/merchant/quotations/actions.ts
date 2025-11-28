@@ -30,7 +30,7 @@ export async function createQuotationAction(prevState: any, formData: FormData) 
         clientId: formData.get("clientId"),
         quotationDate: formData.get("quotationDate"),
         items: items,
-        notes: formData.get("notes"),
+        notes: formData.get("notes") || undefined,
     });
 
     if (!validatedFields.success) {
@@ -85,7 +85,7 @@ export async function updateQuotationAction(prevState: any, formData: FormData) 
         clientId: formData.get("clientId"),
         quotationDate: formData.get("quotationDate"),
         items: items,
-        notes: formData.get("notes"),
+        notes: formData.get("notes") || undefined,
     });
 
     if (!validatedFields.success) {

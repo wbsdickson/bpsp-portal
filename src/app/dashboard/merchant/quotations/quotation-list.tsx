@@ -42,9 +42,11 @@ interface QuotationListProps {
 }
 
 export function QuotationList({ merchantId }: QuotationListProps) {
-    const { getMerchantQuotations, getMerchantClients, deleteQuotation } = useAppStore();
+    const { getMerchantQuotations, getMerchantClients, deleteQuotation, currentUser } = useAppStore();
     const quotations = getMerchantQuotations(merchantId);
     const clients = getMerchantClients(merchantId);
+
+    const isViewer = currentUser?.memberRole === 'viewer';
 
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState<string>("ALL");
@@ -120,11 +122,13 @@ export function QuotationList({ merchantId }: QuotationListProps) {
                         </SelectContent>
                     </Select>
                 </div>
-                <Link href="/dashboard/merchant/quotations/create">
-                    <Button>
-                        <Plus className="mr-2 h-4 w-4" /> Create Quotation
-                    </Button>
-                </Link>
+                {!isViewer && (
+                    <Link href="/dashboard/merchant/quotations/create">
+                        <Button>
+                            <Plus className="mr-2 h-4 w-4" /> Create Quotation
+                        </Button>
+                    </Link>
+                )}
             </div>
 
             <div className="border rounded-md">
@@ -161,35 +165,39 @@ export function QuotationList({ merchantId }: QuotationListProps) {
                                                     <Eye className="h-4 w-4" />
                                                 </Button>
                                             </Link>
-                                            <Link href={`/dashboard/merchant/quotations/${quotation.id}/edit`}>
-                                                <Button variant="ghost" size="icon" title="Edit">
-                                                    <Edit className="h-4 w-4" />
-                                                </Button>
-                                            </Link>
-                                            <AlertDialog>
-                                                <AlertDialogTrigger asChild>
-                                                    <Button variant="ghost" size="icon" className="text-red-500" title="Delete">
-                                                        <Trash2 className="h-4 w-4" />
-                                                    </Button>
-                                                </AlertDialogTrigger>
-                                                <AlertDialogContent>
-                                                    <AlertDialogHeader>
-                                                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                                        <AlertDialogDescription>
-                                                            This action cannot be undone. This will permanently delete the quotation.
-                                                        </AlertDialogDescription>
-                                                    </AlertDialogHeader>
-                                                    <AlertDialogFooter>
-                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                        <AlertDialogAction
-                                                            onClick={() => handleDelete(quotation.id)}
-                                                            className="bg-red-500 hover:bg-red-600"
-                                                        >
-                                                            {isDeleting === quotation.id ? "Deleting..." : "Delete"}
-                                                        </AlertDialogAction>
-                                                    </AlertDialogFooter>
-                                                </AlertDialogContent>
-                                            </AlertDialog>
+                                            {!isViewer && (
+                                                <>
+                                                    <Link href={`/dashboard/merchant/quotations/${quotation.id}/edit`}>
+                                                        <Button variant="ghost" size="icon" title="Edit">
+                                                            <Edit className="h-4 w-4" />
+                                                        </Button>
+                                                    </Link>
+                                                    <AlertDialog>
+                                                        <AlertDialogTrigger asChild>
+                                                            <Button variant="ghost" size="icon" className="text-red-500" title="Delete">
+                                                                <Trash2 className="h-4 w-4" />
+                                                            </Button>
+                                                        </AlertDialogTrigger>
+                                                        <AlertDialogContent>
+                                                            <AlertDialogHeader>
+                                                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                                <AlertDialogDescription>
+                                                                    This action cannot be undone. This will permanently delete the quotation.
+                                                                </AlertDialogDescription>
+                                                            </AlertDialogHeader>
+                                                            <AlertDialogFooter>
+                                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                                <AlertDialogAction
+                                                                    onClick={() => handleDelete(quotation.id)}
+                                                                    className="bg-red-500 hover:bg-red-600"
+                                                                >
+                                                                    {isDeleting === quotation.id ? "Deleting..." : "Delete"}
+                                                                </AlertDialogAction>
+                                                            </AlertDialogFooter>
+                                                        </AlertDialogContent>
+                                                    </AlertDialog>
+                                                </>
+                                            )}
                                         </div>
                                     </TableCell>
                                 </TableRow>

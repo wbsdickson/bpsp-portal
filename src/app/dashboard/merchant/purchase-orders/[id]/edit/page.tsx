@@ -9,7 +9,7 @@ export default function EditPurchaseOrderPage() {
     const id = params.id as string;
     const { purchaseOrders, currentUser } = useAppStore();
     const purchaseOrder = purchaseOrders.find(po => po.id === id);
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     if (!currentUser) {
         return <div>Please log in</div>;

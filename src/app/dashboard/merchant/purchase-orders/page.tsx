@@ -5,7 +5,7 @@ import { PurchaseOrderList } from "./purchase-order-list";
 
 export default function PurchaseOrdersPage() {
     const { currentUser } = useAppStore();
-    const merchantId = currentUser?.id || "";
+    const merchantId = currentUser?.merchantId || currentUser?.id || "";
 
     if (!currentUser) {
         return <div>Please log in</div>;
