@@ -19,16 +19,21 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAppStore } from "@/lib/store";
 import { User } from "@/lib/types";
-import { Edit, MoreHorizontal, Plus, Search, Trash } from "lucide-react";
-import { useState } from "react";
+import { Edit, MoreHorizontal, Plus, Search, Trash, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
 import { DeleteMemberDialog } from "./delete-dialog";
 import { MemberDialog } from "./member-dialog";
 
 export function MemberList() {
     const { currentUser, getMerchantMembers } = useAppStore();
     const [searchQuery, setSearchQuery] = useState("");
+    const [roleFilter, setRoleFilter] = useState<string>("ALL");
+    const [statusFilter, setStatusFilter] = useState<string>("ALL");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editingMember, setEditingMember] = useState<User | null>(null);
@@ -44,11 +49,15 @@ export function MemberList() {
     // Filter members
     const filteredMembers = members.filter((member) => {
         const query = searchQuery.toLowerCase();
-        return (
+        const matchesSearch =
             member.name.toLowerCase().includes(query) ||
             member.email.toLowerCase().includes(query) ||
-            (member.memberRole || "").toLowerCase().includes(query)
-        );
+            (member.memberRole || "").toLowerCase().includes(query);
+
+        const matchesRole = roleFilter === "ALL" || member.memberRole === roleFilter;
+        const matchesStatus = statusFilter === "ALL" || (member.status || "active") === statusFilter;
+
+        return matchesSearch && matchesRole && matchesStatus;
     });
 
     // Sort by created date descending
@@ -58,6 +67,14 @@ export function MemberList() {
         }
         return 0;
     });
+
+    const totalPages = Math.ceil(sortedMembers.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedMembers = sortedMembers.slice(startIndex, startIndex + itemsPerPage);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, roleFilter, statusFilter]);
 
     const canManage = currentUser.memberRole === 'owner' || currentUser.role === 'merchant';
 
@@ -74,6 +91,27 @@ export function MemberList() {
                             className="pl-8 w-[250px]"
                         />
                     </div>
+                    <Select value={roleFilter} onValueChange={setRoleFilter}>
+                        <SelectTrigger className="w-[150px]">
+                            <SelectValue placeholder="Filter by Role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="ALL">All Roles</SelectItem>
+                            <SelectItem value="owner">Owner</SelectItem>
+                            <SelectItem value="staff">Staff</SelectItem>
+                            <SelectItem value="viewer">Viewer</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                        <SelectTrigger className="w-[150px]">
+                            <SelectValue placeholder="Filter by Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="ALL">All Statuses</SelectItem>
+                            <SelectItem value="active">Active</SelectItem>
+                            <SelectItem value="inactive">Inactive</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
                 {canManage && (
                     <Button onClick={() => setIsCreateOpen(true)}>
@@ -95,14 +133,14 @@ export function MemberList() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {sortedMembers.length === 0 ? (
+                        {paginatedMembers.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} className="h-24 text-center">
                                     No members found.
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            sortedMembers.map((member) => (
+                            paginatedMembers.map((member) => (
                                 <TableRow key={member.id}>
                                     <TableCell className="font-medium">{member.name}</TableCell>
                                     <TableCell>{member.email}</TableCell>
@@ -160,6 +198,58 @@ export function MemberList() {
                         )}
                     </TableBody>
                 </Table>
+            </div>
+
+            <div className="flex items-center justify-between py-4">
+                <div className="text-sm text-muted-foreground">
+                    Total {sortedMembers.length} items
+                </div>
+                <div className="flex items-center space-x-6 lg:space-x-8">
+                    <div className="flex items-center space-x-2">
+                        <p className="text-sm font-medium">Rows per page</p>
+                        <Select
+                            value={`${itemsPerPage}`}
+                            onValueChange={(value) => {
+                                setItemsPerPage(Number(value));
+                                setCurrentPage(1);
+                            }}
+                        >
+                            <SelectTrigger className="h-8 w-[70px]">
+                                <SelectValue placeholder={itemsPerPage} />
+                            </SelectTrigger>
+                            <SelectContent side="top">
+                                {[10, 20, 50, 100].map((pageSize) => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                        Page {currentPage} of {totalPages}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            <span className="sr-only">Go to previous page</span>
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            <span className="sr-only">Go to next page</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
             </div>
 
             <MemberDialog

@@ -21,14 +21,25 @@ import {
 import { useAppStore } from "@/lib/store";
 import { BankAccount } from "@/lib/types";
 import { Edit, MoreHorizontal, Plus, Search, Trash } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BankAccountDialog } from "./bank-account-dialog";
 import { DeleteBankAccountDialog } from "./delete-bank-account-dialog";
 import { Badge } from "@/components/ui/badge";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function BankAccountList() {
     const { currentUser, getMerchantBankAccounts } = useAppStore();
     const [searchQuery, setSearchQuery] = useState("");
+    const [typeFilter, setTypeFilter] = useState<string>("ALL");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editingAccount, setEditingAccount] = useState<BankAccount | null>(null);
@@ -42,17 +53,28 @@ export function BankAccountList() {
     // Filter accounts
     const filteredAccounts = bankAccounts.filter((account) => {
         const query = searchQuery.toLowerCase();
-        return (
+        const matchesSearch =
             account.bankName.toLowerCase().includes(query) ||
             (account.branchName || "").toLowerCase().includes(query) ||
-            account.accountHolder.toLowerCase().includes(query)
-        );
+            account.accountHolder.toLowerCase().includes(query);
+
+        const matchesType = typeFilter === "ALL" || account.accountType === typeFilter;
+
+        return matchesSearch && matchesType;
     });
 
     // Sort by created date descending
     const sortedAccounts = [...filteredAccounts].sort((a, b) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
+
+    const totalPages = Math.ceil(sortedAccounts.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedAccounts = sortedAccounts.slice(startIndex, startIndex + itemsPerPage);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, typeFilter]);
 
     // Access Control
     // owner, staff: accessible (view/edit/create)
@@ -74,6 +96,16 @@ export function BankAccountList() {
                             className="pl-8 w-[250px]"
                         />
                     </div>
+                    <Select value={typeFilter} onValueChange={setTypeFilter}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Filter by Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="ALL">All Types</SelectItem>
+                            <SelectItem value="savings">Savings (普通)</SelectItem>
+                            <SelectItem value="checking">Checking (当座)</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
                 {canManage && (
                     <Button onClick={() => setIsCreateOpen(true)}>
@@ -95,14 +127,14 @@ export function BankAccountList() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {sortedAccounts.length === 0 ? (
+                        {paginatedAccounts.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} className="h-24 text-center">
-                                    No bank accounts have been registered.
+                                    No bank accounts found.
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            sortedAccounts.map((account) => (
+                            paginatedAccounts.map((account) => (
                                 <TableRow key={account.id}>
                                     <TableCell className="font-medium">{account.bankName}</TableCell>
                                     <TableCell>{account.branchName || "-"}</TableCell>
@@ -154,6 +186,58 @@ export function BankAccountList() {
                         )}
                     </TableBody>
                 </Table>
+            </div>
+
+            <div className="flex items-center justify-between">
+                <div className="text-sm text-muted-foreground">
+                    Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredAccounts.length)} of {filteredAccounts.length} entries
+                </div>
+                <div className="flex items-center space-x-6 lg:space-x-8">
+                    <div className="flex items-center space-x-2">
+                        <p className="text-sm font-medium">Rows per page</p>
+                        <Select
+                            value={`${itemsPerPage}`}
+                            onValueChange={(value) => {
+                                setItemsPerPage(Number(value))
+                                setCurrentPage(1)
+                            }}
+                        >
+                            <SelectTrigger className="h-8 w-[70px]">
+                                <SelectValue placeholder={itemsPerPage} />
+                            </SelectTrigger>
+                            <SelectContent side="top">
+                                {[10, 20, 30, 40, 50].map((pageSize) => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                        Page {currentPage} of {totalPages}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage(page => Math.max(1, page - 1))}
+                            disabled={currentPage === 1}
+                        >
+                            <span className="sr-only">Go to previous page</span>
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage(page => Math.min(totalPages, page + 1))}
+                            disabled={currentPage === totalPages}
+                        >
+                            <span className="sr-only">Go to next page</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
             </div>
 
             <BankAccountDialog

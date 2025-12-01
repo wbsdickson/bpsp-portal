@@ -28,10 +28,10 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppStore } from "@/lib/store";
 import { format } from "date-fns";
-import { Edit, Eye, MoreHorizontal, Plus, Trash2 } from "lucide-react";
+import { Edit, Eye, MoreHorizontal, Plus, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { deleteInvoiceAction } from "../invoices/actions";
 
@@ -51,6 +51,8 @@ export function FinanceList({ merchantId }: FinanceListProps) {
     const [direction, setDirection] = useState<'receivable' | 'payable'>('receivable');
     const [statusFilter, setStatusFilter] = useState<string>("all");
     const [clientFilter, setClientFilter] = useState<string>("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
 
     const getClientName = (clientId: string) => {
         return clients.find(c => c.id === clientId)?.name || "Unknown Client";
@@ -102,6 +104,14 @@ export function FinanceList({ merchantId }: FinanceListProps) {
             return clientName.includes(clientFilter.toLowerCase());
         })
         .sort((a, b) => new Date(b.invoiceDate).getTime() - new Date(a.invoiceDate).getTime());
+
+    const totalPages = Math.ceil(filteredInvoices.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedInvoices = filteredInvoices.slice(startIndex, startIndex + itemsPerPage);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [direction, statusFilter, clientFilter]);
 
     return (
         <div className="space-y-4">
@@ -158,14 +168,14 @@ export function FinanceList({ merchantId }: FinanceListProps) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredInvoices.length === 0 ? (
+                        {paginatedInvoices.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                                     No {direction} records found.
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            filteredInvoices.map((invoice) => (
+                            paginatedInvoices.map((invoice) => (
                                 <TableRow key={invoice.id}>
                                     <TableCell className="font-medium">{invoice.invoiceNumber}</TableCell>
                                     <TableCell>{getClientName(invoice.clientId)}</TableCell>
@@ -211,6 +221,58 @@ export function FinanceList({ merchantId }: FinanceListProps) {
                         )}
                     </TableBody>
                 </Table>
+            </div>
+
+            <div className="flex items-center justify-between py-4">
+                <div className="text-sm text-muted-foreground">
+                    Total {filteredInvoices.length} items
+                </div>
+                <div className="flex items-center space-x-6 lg:space-x-8">
+                    <div className="flex items-center space-x-2">
+                        <p className="text-sm font-medium">Rows per page</p>
+                        <Select
+                            value={`${itemsPerPage}`}
+                            onValueChange={(value) => {
+                                setItemsPerPage(Number(value));
+                                setCurrentPage(1);
+                            }}
+                        >
+                            <SelectTrigger className="h-8 w-[70px]">
+                                <SelectValue placeholder={itemsPerPage} />
+                            </SelectTrigger>
+                            <SelectContent side="top">
+                                {[10, 20, 50, 100].map((pageSize) => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                        Page {currentPage} of {totalPages}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            <span className="sr-only">Go to previous page</span>
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            <span className="sr-only">Go to next page</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>
     );

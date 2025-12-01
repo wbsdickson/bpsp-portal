@@ -17,11 +17,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { useAppStore } from "@/lib/store";
 import { format } from "date-fns";
-import { Edit, MoreHorizontal, Plus, Trash2 } from "lucide-react";
+import { Edit, MoreHorizontal, Plus, Trash2, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { deleteAutoIssuanceAction } from "./actions";
 
@@ -36,10 +39,36 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
     const clients = getMerchantClients(merchantId);
 
     const isViewer = currentUser?.memberRole === 'viewer';
+    const [searchTerm, setSearchTerm] = useState("");
+    const [statusFilter, setStatusFilter] = useState<string>("ALL");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
 
     const getClientName = (clientId: string) => {
         return clients.find(c => c.id === clientId)?.name || "Unknown Client";
     };
+
+    const filteredSettings = settings.filter(setting => {
+        const matchesSearch =
+            setting.scheduleName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            getClientName(setting.clientId).toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesStatus = statusFilter === "ALL"
+            ? true
+            : statusFilter === "enabled"
+                ? setting.enabled
+                : !setting.enabled;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    const totalPages = Math.ceil(filteredSettings.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedSettings = filteredSettings.slice(startIndex, startIndex + itemsPerPage);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, statusFilter]);
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this schedule?")) return;
@@ -62,7 +91,28 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
 
     return (
         <div className="space-y-4">
-            <div className="flex justify-end">
+            <div className="flex justify-between items-center">
+                <div className="flex items-center space-x-2">
+                    <div className="relative">
+                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                            placeholder="Search schedules..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-8 w-[250px]"
+                        />
+                    </div>
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Filter by status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="ALL">All Statuses</SelectItem>
+                            <SelectItem value="enabled">Enabled</SelectItem>
+                            <SelectItem value="disabled">Disabled</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
                 {!isViewer && (
                     <Button asChild>
                         <Link href="/dashboard/merchant/simple-invoice-auto/create">
@@ -85,14 +135,14 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {settings.length === 0 ? (
+                        {filteredSettings.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={isViewer ? 5 : 6} className="text-center py-8 text-muted-foreground">
                                     No auto-issuance settings have been registered.
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            settings.map((setting) => (
+                            filteredSettings.map((setting) => (
                                 <TableRow key={setting.id}>
                                     <TableCell className="font-medium">{setting.scheduleName}</TableCell>
                                     <TableCell>{getClientName(setting.clientId)}</TableCell>
@@ -135,6 +185,58 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
                         )}
                     </TableBody>
                 </Table>
+            </div>
+
+            <div className="flex items-center justify-between py-4">
+                <div className="text-sm text-muted-foreground">
+                    Total {filteredSettings.length} items
+                </div>
+                <div className="flex items-center space-x-6 lg:space-x-8">
+                    <div className="flex items-center space-x-2">
+                        <p className="text-sm font-medium">Rows per page</p>
+                        <Select
+                            value={`${itemsPerPage}`}
+                            onValueChange={(value) => {
+                                setItemsPerPage(Number(value));
+                                setCurrentPage(1);
+                            }}
+                        >
+                            <SelectTrigger className="h-8 w-[70px]">
+                                <SelectValue placeholder={itemsPerPage} />
+                            </SelectTrigger>
+                            <SelectContent side="top">
+                                {[10, 20, 50, 100].map((pageSize) => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                        Page {currentPage} of {totalPages}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            <span className="sr-only">Go to previous page</span>
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            <span className="sr-only">Go to next page</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -18,16 +18,19 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAppStore } from "@/lib/store";
 import { Client } from "@/lib/types";
-import { Edit, MoreHorizontal, Plus, Search, Trash } from "lucide-react";
-import { useState } from "react";
+import { ChevronLeft, ChevronRight, Edit, MoreHorizontal, Plus, Search, Trash } from "lucide-react";
+import { useState, useEffect } from "react";
 import { ClientDialog } from "./client-dialog";
 import { DeleteClientDialog } from "./delete-client-dialog";
 
 export function ClientList() {
     const { currentUser, getMerchantClients } = useAppStore();
     const [searchQuery, setSearchQuery] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editingClient, setEditingClient] = useState<Client | null>(null);
@@ -52,6 +55,14 @@ export function ClientList() {
     const sortedClients = [...filteredClients].sort((a, b) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
+
+    const totalPages = Math.ceil(sortedClients.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedClients = sortedClients.slice(startIndex, startIndex + itemsPerPage);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery]);
 
     // Access Control
     // owner, staff: accessible (view/edit/create)
@@ -93,14 +104,14 @@ export function ClientList() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {sortedClients.length === 0 ? (
+                        {paginatedClients.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={5} className="h-24 text-center">
                                     No clients have been registered.
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            sortedClients.map((client) => (
+                            paginatedClients.map((client) => (
                                 <TableRow key={client.id}>
                                     <TableCell className="font-medium">{client.name}</TableCell>
                                     <TableCell>{client.email}</TableCell>
@@ -149,6 +160,58 @@ export function ClientList() {
                         )}
                     </TableBody>
                 </Table>
+            </div>
+
+            <div className="flex items-center justify-between py-4">
+                <div className="text-sm text-muted-foreground">
+                    Total {sortedClients.length} items
+                </div>
+                <div className="flex items-center space-x-6 lg:space-x-8">
+                    <div className="flex items-center space-x-2">
+                        <p className="text-sm font-medium">Rows per page</p>
+                        <Select
+                            value={`${itemsPerPage}`}
+                            onValueChange={(value) => {
+                                setItemsPerPage(Number(value));
+                                setCurrentPage(1);
+                            }}
+                        >
+                            <SelectTrigger className="h-8 w-[70px]">
+                                <SelectValue placeholder={itemsPerPage} />
+                            </SelectTrigger>
+                            <SelectContent side="top">
+                                {[10, 20, 50, 100].map((pageSize) => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                        Page {currentPage} of {totalPages}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            <span className="sr-only">Go to previous page</span>
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            <span className="sr-only">Go to next page</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
             </div>
 
             <ClientDialog

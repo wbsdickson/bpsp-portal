@@ -20,9 +20,9 @@ import {
 } from "@/components/ui/select";
 import { useAppStore } from "@/lib/store";
 import { PurchaseOrder, PurchaseOrderStatus } from "@/lib/types";
-import { Edit, Eye, Plus, Trash2, Search } from "lucide-react";
+import { Edit, Eye, Plus, Trash2, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { deletePurchaseOrderAction } from "./actions";
 import {
@@ -51,6 +51,8 @@ export function PurchaseOrderList({ merchantId }: PurchaseOrderListProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState<string>("ALL");
     const [isDeleting, setIsDeleting] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
 
     const getClientName = (clientId: string) => {
         return clients.find(c => c.id === clientId)?.name || "Unknown Client";
@@ -63,6 +65,14 @@ export function PurchaseOrderList({ merchantId }: PurchaseOrderListProps) {
         const matchesStatus = statusFilter === "ALL" || po.status === statusFilter;
         return matchesSearch && matchesStatus;
     });
+
+    const totalPages = Math.ceil(filteredPurchaseOrders.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedPurchaseOrders = filteredPurchaseOrders.slice(startIndex, startIndex + itemsPerPage);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, statusFilter]);
 
     const handleDelete = async (id: string) => {
         setIsDeleting(id);
@@ -138,14 +148,14 @@ export function PurchaseOrderList({ merchantId }: PurchaseOrderListProps) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredPurchaseOrders.length === 0 ? (
+                        {paginatedPurchaseOrders.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
                                     No purchase orders found.
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            filteredPurchaseOrders.map((po) => (
+                            paginatedPurchaseOrders.map((po) => (
                                 <TableRow key={po.id}>
                                     <TableCell className="font-medium">{po.poNumber}</TableCell>
                                     <TableCell>{new Date(po.poDate).toLocaleDateString()}</TableCell>
@@ -200,6 +210,58 @@ export function PurchaseOrderList({ merchantId }: PurchaseOrderListProps) {
                         )}
                     </TableBody>
                 </Table>
+            </div>
+
+            <div className="flex items-center justify-between py-4">
+                <div className="text-sm text-muted-foreground">
+                    Total {filteredPurchaseOrders.length} items
+                </div>
+                <div className="flex items-center space-x-6 lg:space-x-8">
+                    <div className="flex items-center space-x-2">
+                        <p className="text-sm font-medium">Rows per page</p>
+                        <Select
+                            value={`${itemsPerPage}`}
+                            onValueChange={(value) => {
+                                setItemsPerPage(Number(value));
+                                setCurrentPage(1);
+                            }}
+                        >
+                            <SelectTrigger className="h-8 w-[70px]">
+                                <SelectValue placeholder={itemsPerPage} />
+                            </SelectTrigger>
+                            <SelectContent side="top">
+                                {[10, 20, 50, 100].map((pageSize) => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                        Page {currentPage} of {totalPages}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            <span className="sr-only">Go to previous page</span>
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="h-8 w-8 p-0"
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            <span className="sr-only">Go to next page</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -194,8 +194,12 @@ export default function LoginPage() {
                                 <p className="font-semibold">Test Credentials (Password: password123)</p>
                                 <div className="grid grid-cols-1 gap-1 text-left pl-8">
                                     <div>
+                                        <span className="font-medium">Merchant (Viewer):</span>
+                                        <br />grace@techcorp.com
+                                    </div>
+                                    <div>
                                         <span className="font-medium">Merchant (BPSP Only):</span>
-                                        <br />alice@techcorp.com
+                                        <br />frank@techcorp.com
                                     </div>
                                     <div>
                                         <span className="font-medium">Merchant (JPCC + BPSP):</span>
