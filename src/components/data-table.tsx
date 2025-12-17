@@ -1,0 +1,327 @@
+"use client";
+
+import * as React from "react";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+  type Table as TanstackTable,
+  type ColumnDef,
+  type ColumnFiltersState,
+  type ColumnOrderState,
+  type PaginationState,
+  type SortingState,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  BarChart3,
+  ChevronDown,
+  Columns3,
+  Download,
+  GripVertical,
+} from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { PaginationControls } from "./ui/pagination-controls";
+
+function getColumnDefId<TData>(column: ColumnDef<TData>): string {
+  if ("id" in column && typeof column.id === "string") return column.id;
+  if ("accessorKey" in column && typeof column.accessorKey === "string") {
+    return column.accessorKey;
+  }
+  throw new Error(
+    "All columns must have an 'id' or string 'accessorKey' to support column ordering.",
+  );
+}
+
+function moveItem<T>(items: T[], fromIndex: number, toIndex: number) {
+  const next = items.slice();
+  const [moved] = next.splice(fromIndex, 1);
+  next.splice(toIndex, 0, moved);
+  return next;
+}
+
+export type DataTableProps<TData> = {
+  columns: ColumnDef<TData>[];
+  data: TData[];
+  filterColumnId?: string;
+  filterPlaceholder?: string;
+  enableColumnVisibility?: boolean;
+  enableColumnReorder?: boolean;
+  showToolbar?: boolean;
+  showFooter?: boolean;
+  toolbarRight?: React.ReactNode;
+  renderToolbar?: (table: TanstackTable<TData>) => React.ReactNode;
+};
+
+export function DataTable<TData>({
+  columns,
+  data,
+  filterColumnId,
+  filterPlaceholder,
+  enableColumnVisibility = true,
+  enableColumnReorder = true,
+  showToolbar = true,
+  showFooter = true,
+  toolbarRight,
+  renderToolbar,
+}: DataTableProps<TData>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [columnOrder, setColumnOrder] = React.useState<ColumnOrderState>(() =>
+    columns.map(getColumnDefId),
+  );
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [draggingColumnId, setDraggingColumnId] = React.useState<string | null>(
+    null,
+  );
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onPaginationChange: setPagination,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onColumnOrderChange: setColumnOrder,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      columnOrder,
+      rowSelection,
+      pagination,
+    },
+  });
+
+  const totalItems = table.getFilteredRowModel().rows.length;
+  const totalPages = Math.max(1, table.getPageCount());
+  const currentPage = pagination.pageIndex + 1;
+  const itemsPerPage = pagination.pageSize;
+
+  const fixedColumns = table.getAllLeafColumns().filter((c) => !c.getCanHide());
+  const activeColumns = table.getAllLeafColumns().filter((c) => c.getCanHide());
+
+  const setActiveColumnOrder = React.useCallback(
+    (sourceId: string, targetId: string) => {
+      if (!enableColumnReorder) return;
+      if (sourceId === targetId) return;
+
+      table.setColumnOrder((prev) => {
+        const leaf = table.getAllLeafColumns();
+        const canHideById = new Map(leaf.map((c) => [c.id, c.getCanHide()]));
+
+        const fixedIds = prev.filter((id) => !canHideById.get(id));
+        const activeIds = prev.filter((id) => canHideById.get(id));
+
+        const fromIndex = activeIds.indexOf(sourceId);
+        const toIndex = activeIds.indexOf(targetId);
+        if (fromIndex === -1 || toIndex === -1) return prev;
+
+        const nextActive = moveItem(activeIds, fromIndex, toIndex);
+        return [...fixedIds, ...nextActive];
+      });
+    },
+    [enableColumnReorder, table],
+  );
+
+  const filterColumn = filterColumnId
+    ? table.getColumn(filterColumnId)
+    : undefined;
+
+  return (
+    <div className="w-full">
+      {showToolbar ? (
+        <div className="flex items-center justify-between gap-2 py-4">
+          {renderToolbar ? <>{renderToolbar(table)}</> : null}
+
+          <div className="flex flex-wrap items-center gap-2">
+            {toolbarRight ?? (
+              <>
+                {/* <Button variant="outline" size="sm" className="h-9 gap-2">
+                  <Download className="h-4 w-4" /> Export
+                </Button>
+                <Button variant="outline" size="sm" className="h-9 gap-2">
+                  <BarChart3 className="h-4 w-4" /> Analyze
+                </Button> */}
+                {enableColumnVisibility ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="ml-auto">
+                        <Columns3 className="h-4 w-4" />
+                        Edit Columns <ChevronDown />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel className="text-muted-foreground">
+                        Fixed columns
+                      </DropdownMenuLabel>
+                      {fixedColumns.map((column) => (
+                        <DropdownMenuItem
+                          key={column.id}
+                          className="capitalize"
+                          onSelect={(e) => e.preventDefault()}
+                        >
+                          {column.id}
+                        </DropdownMenuItem>
+                      ))}
+                      <DropdownMenuSeparator />
+                      <DropdownMenuLabel className="text-muted-foreground">
+                        Active columns
+                      </DropdownMenuLabel>
+                      {activeColumns.map((column) => (
+                        <DropdownMenuItem
+                          key={column.id}
+                          className="capitalize"
+                          onDragOver={(e) => {
+                            if (!enableColumnReorder) return;
+                            if (
+                              !draggingColumnId ||
+                              draggingColumnId === column.id
+                            )
+                              return;
+                            e.preventDefault();
+                          }}
+                          onDrop={() => {
+                            if (!enableColumnReorder) return;
+                            if (!draggingColumnId) return;
+                            setActiveColumnOrder(draggingColumnId, column.id);
+                            setDraggingColumnId(null);
+                          }}
+                          onSelect={(e) => e.preventDefault()}
+                        >
+                          <div className="flex w-full items-center gap-2">
+                            <Checkbox
+                              checked={column.getIsVisible()}
+                              onCheckedChange={(value) =>
+                                column.toggleVisibility(Boolean(value))
+                              }
+                              aria-label={`Toggle ${column.id} column`}
+                            />
+                            <div className="flex-1">{column.id}</div>
+                            {enableColumnReorder ? (
+                              <div
+                                className="text-muted-foreground cursor-grab"
+                                aria-hidden
+                                draggable
+                                onDragStart={() =>
+                                  setDraggingColumnId(column.id)
+                                }
+                                onDragEnd={() => setDraggingColumnId(null)}
+                              >
+                                <GripVertical className="h-4 w-4" />
+                              </div>
+                            ) : null}
+                          </div>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : null}
+              </>
+            )}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className="overflow-hidden rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      {showFooter ? (
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          itemsPerPage={itemsPerPage}
+          totalItems={totalItems}
+          onPageChange={(page) => {
+            table.setPageIndex(Math.max(0, page - 1));
+          }}
+          onItemsPerPageChange={(value) => {
+            table.setPageSize(value);
+            table.setPageIndex(0);
+          }}
+        />
+      ) : null}
+    </div>
+  );
+}
