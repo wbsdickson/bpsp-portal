@@ -28,6 +28,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSession } from "next-auth/react";
 import { AppUser } from "@/types/user";
+import HeaderPage from "@/components/header-page";
 
 /**
  * Function ID: MERCHANT_004
@@ -107,182 +108,187 @@ export default function MerchantDashboard() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back, {currentUser.name}
-        </p>
-      </div>
+    <HeaderPage title="Dashboard">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <p className="text-muted-foreground">
+            Welcome back, {currentUser.name}
+          </p>
+        </div>
 
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Invoices (This Month)
-            </CardTitle>
-            <FileText className="text-muted-foreground h-4 w-4" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{invoicesThisMonth}</div>
-            <p className="text-muted-foreground text-xs">Issued this month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Sales (This Month)
-            </CardTitle>
-            <DollarSign className="text-muted-foreground h-4 w-4" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              ${salesThisMonth.toLocaleString()}
-            </div>
-            <p className="text-muted-foreground text-xs">
-              Total transaction volume
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Outstanding Amount
-            </CardTitle>
-            <AlertCircle className="text-muted-foreground h-4 w-4" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              ${outstandingAmount.toLocaleString()}
-            </div>
-            <p className="text-muted-foreground text-xs">
-              Pending & Approved invoices
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Amount Paid</CardTitle>
-            <CreditCard className="text-muted-foreground h-4 w-4" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              ${amountPaid.toLocaleString()}
-            </div>
-            <p className="text-muted-foreground text-xs">
-              Total settled amount
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        {/* Recent Transactions */}
-        <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle>Recent Transactions</CardTitle>
-            <CardDescription>Latest 10 successful transactions</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Invoice ID</TableHead>
-                  <TableHead>Method</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                  <TableHead className="text-right">Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {recentTransactions.map((payment) => (
-                  <TableRow key={payment.id}>
-                    <TableCell>
-                      {format(parseISO(payment.createdAt), "yyyy-MM-dd")}
-                    </TableCell>
-                    <TableCell>{payment.invoiceId}</TableCell>
-                    <TableCell>{payment.paymentMethod}</TableCell>
-                    <TableCell className="text-right">
-                      ${payment.totalAmount.toLocaleString()}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Badge
-                        variant={
-                          payment.status === "settled" ? "default" : "secondary"
-                        }
-                      >
-                        {payment.status}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {recentTransactions.length === 0 && (
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      className="text-muted-foreground text-center"
-                    >
-                      No recent transactions found.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-
-        {/* Notifications */}
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Notifications</CardTitle>
-            <CardDescription>Latest 5 updates</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[400px] pr-4">
-              <div className="space-y-4">
-                {recentNotifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className="flex items-start space-x-4 rounded-md border p-3"
-                  >
-                    <Bell
-                      className={`mt-1 h-5 w-5 ${
-                        notification.type === "error"
-                          ? "text-red-500"
-                          : notification.type === "warning"
-                            ? "text-yellow-500"
-                            : notification.type === "success"
-                              ? "text-green-500"
-                              : "text-blue-500"
-                      }`}
-                    />
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {notification.title}
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        {notification.message}
-                      </p>
-                      <p className="text-muted-foreground pt-1 text-xs">
-                        {format(
-                          parseISO(notification.createdAt),
-                          "yyyy-MM-dd HH:mm",
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-                {recentNotifications.length === 0 && (
-                  <p className="text-muted-foreground py-4 text-center text-sm">
-                    No notifications.
-                  </p>
-                )}
+        {/* Summary Cards */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Invoices (This Month)
+              </CardTitle>
+              <FileText className="text-muted-foreground h-4 w-4" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{invoicesThisMonth}</div>
+              <p className="text-muted-foreground text-xs">Issued this month</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Sales (This Month)
+              </CardTitle>
+              <DollarSign className="text-muted-foreground h-4 w-4" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                ${salesThisMonth.toLocaleString()}
               </div>
-            </ScrollArea>
-          </CardContent>
-        </Card>
+              <p className="text-muted-foreground text-xs">
+                Total transaction volume
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Outstanding Amount
+              </CardTitle>
+              <AlertCircle className="text-muted-foreground h-4 w-4" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                ${outstandingAmount.toLocaleString()}
+              </div>
+              <p className="text-muted-foreground text-xs">
+                Pending & Approved invoices
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Amount Paid</CardTitle>
+              <CreditCard className="text-muted-foreground h-4 w-4" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                ${amountPaid.toLocaleString()}
+              </div>
+              <p className="text-muted-foreground text-xs">
+                Total settled amount
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+          {/* Recent Transactions */}
+          <Card className="col-span-4">
+            <CardHeader>
+              <CardTitle>Recent Transactions</CardTitle>
+              <CardDescription>
+                Latest 10 successful transactions
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Invoice ID</TableHead>
+                    <TableHead>Method</TableHead>
+                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead className="text-right">Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {recentTransactions.map((payment) => (
+                    <TableRow key={payment.id}>
+                      <TableCell>
+                        {format(parseISO(payment.createdAt), "yyyy-MM-dd")}
+                      </TableCell>
+                      <TableCell>{payment.invoiceId}</TableCell>
+                      <TableCell>{payment.paymentMethod}</TableCell>
+                      <TableCell className="text-right">
+                        ${payment.totalAmount.toLocaleString()}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Badge
+                          variant={
+                            payment.status === "settled"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
+                          {payment.status}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {recentTransactions.length === 0 && (
+                    <TableRow>
+                      <TableCell
+                        colSpan={5}
+                        className="text-muted-foreground text-center"
+                      >
+                        No recent transactions found.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+
+          {/* Notifications */}
+          <Card className="col-span-3">
+            <CardHeader>
+              <CardTitle>Notifications</CardTitle>
+              <CardDescription>Latest 5 updates</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ScrollArea className="h-[400px] pr-4">
+                <div className="space-y-4">
+                  {recentNotifications.map((notification) => (
+                    <div
+                      key={notification.id}
+                      className="flex items-start space-x-4 rounded-md border p-3"
+                    >
+                      <Bell
+                        className={`mt-1 h-5 w-5 ${
+                          notification.type === "error"
+                            ? "text-red-500"
+                            : notification.type === "warning"
+                              ? "text-yellow-500"
+                              : notification.type === "success"
+                                ? "text-green-500"
+                                : "text-blue-500"
+                        }`}
+                      />
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {notification.title}
+                        </p>
+                        <p className="text-muted-foreground text-sm">
+                          {notification.message}
+                        </p>
+                        <p className="text-muted-foreground pt-1 text-xs">
+                          {format(
+                            parseISO(notification.createdAt),
+                            "yyyy-MM-dd HH:mm",
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  {recentNotifications.length === 0 && (
+                    <p className="text-muted-foreground py-4 text-center text-sm">
+                      No notifications.
+                    </p>
+                  )}
+                </div>
+              </ScrollArea>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-    </div>
+    </HeaderPage>
   );
 }
