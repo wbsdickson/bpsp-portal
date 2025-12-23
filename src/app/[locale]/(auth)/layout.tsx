@@ -1,3 +1,4 @@
+import LocaleSwitcher from "@/components/locale-switcher";
 import type { ReactNode } from "react";
 
 export default function AuthLayout({
@@ -26,7 +27,10 @@ export default function AuthLayout({
           </p>
         </div>
 
-        <div className="w-full max-w-xl justify-self-end">{children}</div>
+        <div className="w-full max-w-xl space-y-4 justify-self-end">
+          <LocaleSwitcher />
+          {children}
+        </div>
       </div>
     </div>
   );
