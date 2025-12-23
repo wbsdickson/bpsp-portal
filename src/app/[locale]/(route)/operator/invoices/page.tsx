@@ -25,6 +25,7 @@ import { useAppStore } from "@/lib/store";
 import { useInvoiceStore } from "@/store/invoice-store";
 import { useTranslations } from "next-intl";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
+import HeaderPage from "@/components/header-page";
 
 function ActionsCell({ id }: { id: string }) {
   const locale = useLocale();
@@ -206,11 +207,13 @@ export default function InvoicesPage() {
 
   const locale = useLocale();
   return (
-    <div className="p-6">
-      <div className="flex items-center justify-between gap-3">
-        <div className="text-lg font-semibold">{t("title")}</div>
+    <HeaderPage title="Invoices">
+      {/* <Button variant="outline" size="icon" className="h-9 w-9">
+            <MoreHorizontal className="h-4 w-4" />
+          </Button> */}
 
-        <div className="flex items-center gap-2">
+      <div className="space-y-3">
+        <div className="flex justify-end">
           <Button
             onClick={() => router.push(`/${locale}/operator/invoices/create`)}
             size="sm"
@@ -218,13 +221,8 @@ export default function InvoicesPage() {
           >
             <Plus className="mr-2 h-4 w-4" /> {t("create")}
           </Button>
-          {/* <Button variant="outline" size="icon" className="h-9 w-9">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button> */}
         </div>
-      </div>
 
-      <div className="mt-4 space-y-3">
         {/* <Tabs
           value={status}
           onValueChange={(v) => setStatus(v as StatusFilter)}
@@ -287,7 +285,7 @@ export default function InvoicesPage() {
                 : [];
 
             return (
-              <div className="flex flex-wrap items-center justify-between gap-2 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2 text-sm">
                   <FilterChipPopover
                     label={t("invoiceNumber")}
@@ -339,6 +337,6 @@ export default function InvoicesPage() {
           }}
         />
       </div>
-    </div>
+    </HeaderPage>
   );
 }
