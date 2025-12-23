@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/sidebar";
 import { signOut } from "next-auth/react";
 import { useLocale } from "next-intl";
+import LocaleSwitcher from "./locale-switcher";
 
 export function TeamSwitcher({
   name,
@@ -88,8 +89,9 @@ export function TeamSwitcher({
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-muted-foreground text-xs">
-              Account
+              <LocaleSwitcher />
             </DropdownMenuLabel>
+
             {actions.map((action, index) => (
               <DropdownMenuItem
                 key={action.label}
