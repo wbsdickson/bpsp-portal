@@ -13,7 +13,7 @@ const credentialsSchema = z.object({
   password: z.string().min(1),
 });
 
-type UserWithRole = (User | AdapterUser) & { role?: string };
+type AuthUser = (User | AdapterUser) & { role?: string; merchantId?: string };
 
 export const { handlers, auth } = NextAuth({
   providers: [
@@ -48,10 +48,12 @@ export const { handlers, auth } = NextAuth({
   ],
   session: { strategy: "jwt" },
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: User | AdapterUser }) {
-      const nextToken = token as JWT & { role?: string };
-      const maybeRole = (user as UserWithRole | undefined)?.role;
-      if (maybeRole) nextToken.role = maybeRole;
+    async jwt({ token, user }: { token: JWT; user?: AuthUser }) {
+      const nextToken = token as JWT & { role?: string; merchantId?: string };
+      if (user) {
+        nextToken.role = user.role;
+        nextToken.merchantId = user.merchantId;
+      }
       return nextToken;
     },
     async session({
@@ -59,10 +61,12 @@ export const { handlers, auth } = NextAuth({
       token,
     }: {
       session: Session;
-      token: JWT & { role?: string };
+      token: JWT & { role?: string; merchantId?: string };
     }) {
       if (session.user) {
-        (session.user as Session["user"] & { role?: string }).role = token.role;
+        const sessionUser = session.user as AuthUser;
+        sessionUser.role = token.role;
+        sessionUser.merchantId = token.merchantId;
       }
       return session;
     },

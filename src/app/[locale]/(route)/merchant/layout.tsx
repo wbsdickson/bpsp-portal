@@ -29,7 +29,6 @@ export default async function RouteLayout({
   const session = await auth();
   const currentUser = session?.user as AppUser;
 
-  console.log(currentUser);
 
   if (!currentUser) {
     redirect(`/${locale}/signin`);
