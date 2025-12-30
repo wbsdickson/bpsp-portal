@@ -5,7 +5,7 @@ export default getRequestConfig(async ({ locale }): Promise<RequestConfig> => {
   const messageFiles = [
     "auth",
     "operator",
-    // "common-component",
+    "common-component",
     // "general",
     // "user-management",
     // "rentease",
