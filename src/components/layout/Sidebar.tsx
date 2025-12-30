@@ -29,7 +29,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
-import { logoutUser } from "@/app/logout/actions";
 import { toast } from "sonner";
 
 const merchantLinks = [
@@ -221,7 +220,7 @@ export function Sidebar() {
     }));
   };
 
-  let navGroups: { title?: string; links: any[] }[] = [];
+  let navGroups: { title?: string; links: any[] }[] = []; 
   let portalTitle = "BPSP Merchant Portal";
 
   if (currentUser?.role === "admin") {
@@ -249,7 +248,6 @@ export function Sidebar() {
 
   const isViewer = currentUser?.memberRole === "viewer";
 
-  // Check if sidebar has colored background (needs light text)
   const hasColoredBg =
     currentUser?.role === "jpcc_admin" ||
     currentUser?.role === "merchant_jpcc" ||
@@ -280,7 +278,7 @@ export function Sidebar() {
   // ...existing code...
   const handleLogout = async () => {
     if (currentUser) {
-      await logoutUser(currentUser.id);
+      logout();
     }
     logout();
     toast.success("ログアウトしました");

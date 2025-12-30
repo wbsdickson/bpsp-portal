@@ -41,6 +41,7 @@ import {
   MOCK_PURCHASE_ORDERS,
   MOCK_DELIVERY_NOTES,
   MOCK_RECEIPTS,
+  MOCK_ACCOUNTS,
 } from "./mock-data";
 
 interface AppState {
@@ -59,6 +60,7 @@ interface AppState {
   notifications: Notification[];
   notificationReads: NotificationRead[];
   invoiceAutoSettings: InvoiceAutoSetting[];
+  accounts: User[];
   invoiceTemplates: InvoiceTemplate[];
   quotations: Quotation[];
   purchaseOrders: PurchaseOrder[];
@@ -162,6 +164,12 @@ interface AppState {
   updateReceipt: (id: string, data: Partial<Receipt>) => void;
   deleteReceipt: (id: string) => void;
 
+  // Accounts
+  getAccounts: () => User[];
+  addAccount: (account: User) => void;
+  updateAccount: (id: string, data: Partial<User>) => void;
+  deleteAccount: (id: string) => void;
+
   // Registration
   createMerchantSignup: (email: string) => string; // Returns token
   validateSignupToken: (token: string) => MerchantSignup | null;
@@ -196,6 +204,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   notifications: MOCK_NOTIFICATIONS,
   notificationReads: MOCK_NOTIFICATION_READS,
   invoiceAutoSettings: MOCK_INVOICE_AUTO_SETTINGS,
+  accounts: MOCK_ACCOUNTS,
   invoiceTemplates: MOCK_INVOICE_TEMPLATES,
   quotations: MOCK_QUOTATIONS,
   purchaseOrders: MOCK_PURCHASE_ORDERS,
@@ -740,6 +749,26 @@ export const useAppStore = create<AppState>((set, get) => ({
     set((state) => ({
       deliveryNotes: state.deliveryNotes.map((dn) =>
         dn.id === id ? { ...dn, deletedAt: new Date().toISOString() } : dn
+      ),
+    }));
+  },
+
+  // Accounts
+  getAccounts: () => get().accounts,
+  addAccount: (account) => {
+    set((state) => ({ accounts: [account, ...state.accounts] }));
+  },
+  updateAccount: (id, data) => {
+    set((state) => ({
+      accounts: state.accounts.map((account) =>
+        account.id === id ? { ...account, ...data } : account
+      ),
+    }));
+  },
+  deleteAccount: (id) => {
+    set((state) => ({
+      accounts: state.accounts.map((account) =>
+        account.id === id ? { ...account, deletedAt: new Date().toISOString() } : account
       ),
     }));
   },

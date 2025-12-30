@@ -1,3 +1,4 @@
+import { Account } from 'next-auth';
 import { User, Invoice, Payment, Notification, NotificationRead, Merchant, Client, BankAccount, MerchantCard, Tax, Item, DocumentSettings, InvoiceAutoSetting, InvoiceTemplate, Quotation, PurchaseOrder, DeliveryNote, Receipt } from './types';
 
 export const MOCK_MERCHANTS: Merchant[] = [
@@ -4853,4 +4854,104 @@ export const MOCK_RECEIPTS: Receipt[] = [
         createdAt: '2024-01-11T16:00:00Z',
         createdBy: 'u5'
     }
+];
+
+
+export const MOCK_ACCOUNTS: User[] = [
+    {
+        id: '1',
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '2',
+        name: 'Jane Doe',
+        email: 'jane.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '3',
+        name: 'Jim Doe',
+        email: 'jim.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '4',
+        name: 'Jill Doe',
+        email: 'jill.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '5',
+        name: 'Jack Doe',
+        email: 'jack.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '6',
+        name: 'Jill Doe',
+        email: 'jill.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '7',
+        name: 'Jill Doe',
+        email: 'jill.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '8',
+        name: 'Jill Doe',
+        email: 'jill.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '9',
+        name: 'Jill Doe',
+        email: 'jill.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '10',
+        name: 'Jill Doe',
+        email: 'jill.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '11',
+        name: 'Jill Doe',
+        email: 'jill.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
+    {
+        id: '12',
+        name: 'Jill Doe',
+        email: 'jill.doe@example.com',
+        role: 'merchant',
+        status: 'active',
+        createdAt: '2023-12-28T10:00:00Z',
+    },
 ];

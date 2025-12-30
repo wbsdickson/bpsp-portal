@@ -16,7 +16,6 @@ import { Badge } from "@/components/ui/badge";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { logoutUser } from "@/app/logout/actions";
 import { toast } from "sonner";
 import { format } from "date-fns";
 
@@ -45,7 +44,6 @@ export function Header() {
   // ...existing code...
   const handleLogout = async () => {
     if (currentUser) {
-      await logoutUser(currentUser.id);
     }
     logout();
     toast.success("ログアウトしました");
