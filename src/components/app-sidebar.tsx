@@ -250,6 +250,10 @@ const merchantRoutes = [
     route: "merchant/dashboard",
   },
   {
+    label: "Account Information Management",
+    route: "merchant/account",
+  },
+  {
     label: "Delivery Notes",
     route: "merchant/delivery-notes",
   },
