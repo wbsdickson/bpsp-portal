@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/sidebar";
 import { signOut } from "next-auth/react";
 import { useLocale } from "next-intl";
-import LocaleSwitcher from "./locale-switcher";
+import LocaleSwitcherHorizontal from "./locale-switcher-horizontal";
 
 export function TeamSwitcher({
   name,
@@ -83,13 +83,13 @@ export function TeamSwitcher({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-65 rounded-lg"
             align="start"
             side={isMobile ? "bottom" : "right"}
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-muted-foreground text-xs">
-              <LocaleSwitcher />
+              <LocaleSwitcherHorizontal />
             </DropdownMenuLabel>
 
             {actions.map((action, index) => (
