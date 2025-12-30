@@ -254,49 +254,10 @@ const merchantRoutes = [
     route: "merchant/account",
   },
   {
-    label: "Delivery Notes",
-    route: "merchant/delivery-notes",
+    label: "Company Information Management",
+    route: "merchant/company",
   },
-  {
-    label: "Finance",
-    route: "merchant/finance",
-  },
-  {
-    label: "History",
-    route: "merchant/history",
-  },
-  {
-    label: "Invoice Auto",
-    route: "merchant/invoice-auto",
-  },
-  {
-    label: "Invoices",
-    route: "merchant/invoices",
-  },
-  {
-    label: "Notifications",
-    route: "merchant/notifications",
-  },
-  {
-    label: "Payment",
-    route: "merchant/payment",
-  },
-  {
-    label: "Purchase Orders",
-    route: "merchant/purchase-orders",
-  },
-  {
-    label: "Quotations",
-    route: "merchant/quotations",
-  },
-  {
-    label: "Receipts",
-    route: "merchant/receipts",
-  },
-  {
-    label: "Simple Invoice Auto",
-    route: "merchant/simple-invoice-auto",
-  },
+  
 ];
 
 export function AppSidebar({

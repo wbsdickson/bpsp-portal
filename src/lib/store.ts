@@ -21,6 +21,7 @@ import {
   Receipt,
   MerchantSignup,
   Transaction,
+  Company,
 } from "./types";
 import {
   MOCK_USERS,
@@ -42,6 +43,7 @@ import {
   MOCK_DELIVERY_NOTES,
   MOCK_RECEIPTS,
   MOCK_ACCOUNTS,
+  MOCK_COMPANIES,
 } from "./mock-data";
 
 interface AppState {
@@ -67,6 +69,7 @@ interface AppState {
   deliveryNotes: DeliveryNote[];
   receipts: Receipt[];
   merchantSignups: MerchantSignup[]; // Track merchant signups
+  companies: Company[];
 
   // Actions
   login: (role: UserRole) => void;
@@ -170,6 +173,12 @@ interface AppState {
   updateAccount: (id: string, data: Partial<User>) => void;
   deleteAccount: (id: string) => void;
 
+  // Companies
+  getCompanies: () => Company[];
+  addCompany: (company: Company) => void;
+  updateCompany: (id: string, data: Partial<Company>) => void;
+  deleteCompany: (id: string) => void;
+
   // Registration
   createMerchantSignup: (email: string) => string; // Returns token
   validateSignupToken: (token: string) => MerchantSignup | null;
@@ -211,7 +220,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   deliveryNotes: MOCK_DELIVERY_NOTES,
   receipts: MOCK_RECEIPTS,
   merchantSignups: [],
-
+  companies: MOCK_COMPANIES,
   login: (role: UserRole) => {
     // Simulate login by picking the first user of that role
     const user = MOCK_USERS.find((u) => u.role === role);
@@ -771,6 +780,18 @@ export const useAppStore = create<AppState>((set, get) => ({
         account.id === id ? { ...account, deletedAt: new Date().toISOString() } : account
       ),
     }));
+  },
+
+  // Companies
+  getCompanies: () => get().companies,
+  addCompany: (company) => {
+    set((state) => ({ companies: [company, ...state.companies] }));
+  },
+  updateCompany: (id, data) => {
+    set((state) => ({ companies: state.companies.map((company) => company.id === id ? { ...company, ...data } : company) }));
+  },
+  deleteCompany: (id) => {
+    set((state) => ({ companies: state.companies.map((company) => company.id === id ? { ...company, deletedAt: new Date().toISOString() } : company) }));
   },
 
   // Receipts

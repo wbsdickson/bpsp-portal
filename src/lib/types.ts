@@ -363,3 +363,18 @@ export interface MerchantSignup {
     expiresAt: string;
     createdAt: string;
 }
+export interface Company {
+    id: string;
+    name: string;
+    address: string;
+    phoneNumber: string;
+    invoiceEmail: string;
+    websiteUrl?: string;
+    invoicePrefix?: string;
+    enableCreditPayment: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+    deletedAt?: string;
+    createdBy?: string;
+    updatedBy?: string;
+}
