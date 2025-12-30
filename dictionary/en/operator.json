@@ -2,6 +2,9 @@
   "Operator": {
     "Invoice": {
       "title": "Invoices",
+      "tabs": {
+        "all": "All"
+      },
       "create": "Create invoice",
       "invoiceNumber": "Invoice number",
       "merchant": "Merchant",
@@ -101,6 +104,725 @@
           "taxCategory": "Tax category",
           "amount": "Amount"
         }
+      }
+    },
+    "Accounts": {
+      "title": "Accounts",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "name": "Name",
+        "email": "Email address",
+        "role": "Role",
+        "lastLoginAt": "Last login timestamp",
+        "status": "Status",
+        "company": "Company"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create account",
+        "cancel": "Cancel",
+        "save": "Save",
+        "clearFilters": "Clear filters"
+      },
+      "filters": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "form": {
+        "createTitle": "Create user",
+        "editTitle": "Edit user",
+        "namePlaceholder": "Full name",
+        "emailPlaceholder": "name@company.com",
+        "selectRole": "Select role"
+      },
+      "roles": {
+        "merchant": "merchant",
+        "admin": "admin",
+        "jpcc_admin": "jpcc_admin",
+        "merchant_jpcc": "merchant_jpcc"
+      },
+      "messages": {
+        "userNotFound": "User not found."
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email"
+      }
+    },
+    "Merchants": {
+      "title": "Merchants",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "merchantId": "Merchant ID",
+        "name": "Name",
+        "registrationDate": "Registration date",
+        "status": "Status",
+        "transactionCount": "Transaction count",
+        "detailLink": "Detail link",
+        "invoiceEmail": "Invoice email",
+        "enableCreditPayment": "Enable credit card payment"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create merchant",
+        "cancel": "Cancel",
+        "save": "Save",
+        "clearFilters": "Clear filters"
+      },
+      "filters": {
+        "merchantId": "Merchant ID",
+        "name": "Name"
+      },
+      "form": {
+        "createTitle": "Create merchant",
+        "editTitle": "Edit merchant",
+        "namePlaceholder": "Merchant name",
+        "invoiceEmailPlaceholder": "billing@company.com",
+        "selectStatus": "Select status"
+      },
+      "statuses": {
+        "active": "active",
+        "suspended": "suspended"
+      },
+      "labels": {
+        "yes": "Yes",
+        "no": "No"
+      },
+      "messages": {
+        "merchantNotFound": "Merchant not found."
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "invoiceEmailRequired": "Invoice email is required",
+        "emailInvalid": "Invalid email"
+      }
+    },
+    "MerchantMembers": {
+      "title": "Merchant members",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "id": "ID",
+        "merchantId": "Merchant ID",
+        "name": "Name",
+        "email": "Email address",
+        "role": "Role",
+        "memberRole": "Member role",
+        "registrationDate": "Registration date",
+        "status": "Status",
+        "detailLink": "Detail link"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create member",
+        "cancel": "Cancel",
+        "save": "Save",
+        "clearFilters": "Clear filters"
+      },
+      "filters": {
+        "name": "Name",
+        "email": "Email",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "form": {
+        "createTitle": "Create member",
+        "editTitle": "Edit member",
+        "selectMerchant": "Select merchant",
+        "namePlaceholder": "Full name",
+        "emailPlaceholder": "name@company.com",
+        "selectRole": "Select role",
+        "selectMemberRole": "Select member role",
+        "selectStatus": "Select status"
+      },
+      "roles": {
+        "merchant": "merchant",
+        "admin": "admin",
+        "jpcc_admin": "jpcc_admin",
+        "merchant_jpcc": "merchant_jpcc"
+      },
+      "memberRoles": {
+        "owner": "owner",
+        "staff": "staff",
+        "viewer": "viewer"
+      },
+      "statuses": {
+        "active": "active",
+        "suspended": "suspended"
+      },
+      "messages": {
+        "userNotFound": "User not found."
+      },
+      "validation": {
+        "merchantRequired": "Merchant is required",
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email"
+      }
+    },
+    "MerchantMIDs": {
+      "title": "Merchant MIDs",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "merchantName": "Merchant name",
+        "mid": "MID",
+        "brand": "Brand",
+        "registrationDate": "Registration date",
+        "status": "Status",
+        "active": "Active",
+        "detailLink": "Detail link"
+      },
+      "filters": {
+        "merchantName": "Merchant name",
+        "mid": "MID",
+        "brand": "Brand",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "active": "active",
+        "inactive": "inactive"
+      },
+      "active": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete",
+        "copyMid": "Copy MID"
+      },
+      "buttons": {
+        "create": "Create MID",
+        "cancel": "Cancel",
+        "save": "Save",
+        "clearFilters": "Clear filters"
+      },
+      "form": {
+        "createTitle": "Create MID",
+        "editTitle": "Edit MID",
+        "selectMerchant": "Select merchant",
+        "midPlaceholder": "MID",
+        "brandPlaceholder": "Brand",
+        "selectStatus": "Select status",
+        "effectiveStartDate": "Effective start date",
+        "effectiveEndDate": "Effective end date",
+        "effectiveStartDatePlaceholder": "Select start date",
+        "effectiveEndDatePlaceholder": "Select end date"
+      },
+      "validation": {
+        "merchantRequired": "Merchant is required",
+        "midRequired": "MID is required",
+        "brandRequired": "Brand is required",
+        "effectiveStartDateRequired": "Effective start date is required",
+        "effectiveEndDateRequired": "Effective end date is required"
+      },
+      "messages": {
+        "notFound": "MID not found."
+      }
+    },
+    "MerchantFees": {
+      "title": "Merchant Fee Management",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "merchantName": "Merchant name",
+        "brand": "Brand",
+        "paymentMethodType": "Payment method type",
+        "mdrPercent": "MDR%",
+        "fixedFee": "Fixed fee",
+        "registrationDate": "Registration date",
+        "lastUpdatedDate": "Last updated date",
+        "status": "Status",
+        "detailLink": "Detail link"
+      },
+      "filters": {
+        "merchantName": "Merchant name",
+        "brand": "Brand",
+        "paymentMethodType": "Payment method type",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "paymentMethodTypes": {
+        "card": "Card",
+        "bank": "Bank transfer"
+      },
+      "statuses": {
+        "active": "active",
+        "suspended": "suspended"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create fee",
+        "cancel": "Cancel",
+        "save": "Save",
+        "clearFilters": "Clear filters"
+      },
+      "form": {
+        "createTitle": "Create fee",
+        "editTitle": "Edit fee",
+        "selectMerchant": "Select merchant",
+        "brandPlaceholder": "Brand",
+        "selectPaymentMethodType": "Select payment method",
+        "mdrPercentPlaceholder": "MDR%",
+        "fixedFeePlaceholder": "Fixed fee",
+        "selectStatus": "Select status"
+      },
+      "validation": {
+        "merchantRequired": "Merchant is required",
+        "brandRequired": "Brand is required",
+        "mdrPercentMin": "MDR% must be >= 0",
+        "mdrPercentMax": "MDR% must be <= 100",
+        "fixedFeeMin": "Fixed fee must be >= 0"
+      },
+      "messages": {
+        "notFound": "Fee setting not found."
+      }
+    },
+    "Clients": {
+      "title": "Clients",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "merchantId": "Merchant ID",
+        "name": "Name",
+        "contactPerson": "Contact person",
+        "phoneNumber": "Phone number",
+        "email": "Email",
+        "registrationDate": "Registration date",
+        "detailLink": "Detail link"
+      },
+      "filters": {
+        "name": "Client name",
+        "phoneNumber": "Phone number",
+        "email": "Email address"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "editTitle": "Edit client",
+        "namePlaceholder": "Client name",
+        "phonePlaceholder": "Phone number",
+        "emailPlaceholder": "name@company.com"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "phoneRequired": "Phone number is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email"
+      },
+      "messages": {
+        "notFound": "Client not found."
+      }
+    },
+    "BankAccounts": {
+      "title": "Bank accounts",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "merchantId": "Merchant ID",
+        "bankName": "Bank name",
+        "branchName": "Branch name",
+        "accountType": "Account type",
+        "accountNumber": "Account number",
+        "accountHolder": "Account holder",
+        "registrationDate": "Registration date",
+        "detailLink": "Detail link"
+      },
+      "filters": {
+        "bankName": "Bank name",
+        "branchName": "Branch name",
+        "accountHolder": "Account holder"
+      },
+      "accountTypes": {
+        "checking": "Checking",
+        "savings": "Savings"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "editTitle": "Edit bank account",
+        "bankNamePlaceholder": "Bank name",
+        "branchNamePlaceholder": "Branch name",
+        "selectAccountType": "Select account type",
+        "accountNumberPlaceholder": "Account number",
+        "accountHolderPlaceholder": "Account holder"
+      },
+      "validation": {
+        "bankNameRequired": "Bank name is required",
+        "accountNumberRequired": "Account number is required",
+        "accountHolderRequired": "Account holder is required"
+      },
+      "messages": {
+        "notFound": "Bank account not found."
+      }
+    },
+    "MerchantCards": {
+      "title": "Merchant cards",
+      "columns": {
+        "brand": "Brand",
+        "last4": "Last 4 digits",
+        "expirationDate": "Expiration date",
+        "registrationDate": "Registration date",
+        "status": "Status",
+        "deleteLink": "Delete link"
+      },
+      "filters": {
+        "brand": "Card brand",
+        "last4": "Last 4 digits",
+        "expirationDate": "Expiration date"
+      },
+      "statuses": {
+        "used": "Used",
+        "unused": "Unused"
+      },
+      "actions": {
+        "label": "Actions",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters"
+      }
+    },
+    "Items": {
+      "title": "Items",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "id": "ID",
+        "name": "Item name",
+        "unitPrice": "Unit price",
+        "taxCategory": "Tax category",
+        "description": "Description",
+        "status": "Status"
+      },
+      "filters": {
+        "name": "Item name",
+        "taxCategory": "Tax category",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "active": "Active",
+        "deleted": "Deleted"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create item",
+        "clearFilters": "Clear filters",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "createTitle": "Create item",
+        "editTitle": "Edit item",
+        "namePlaceholder": "Item name",
+        "unitPricePlaceholder": "Unit price",
+        "selectTax": "Select tax"
+      },
+      "validation": {
+        "nameRequired": "Item name is required",
+        "unitPriceRequired": "Unit price is required",
+        "unitPriceInvalid": "Unit price is invalid",
+        "taxRequired": "Tax is required"
+      },
+      "messages": {
+        "notFound": "Item not found."
+      }
+    },
+    "DeliveryNotes": {
+      "title": "Delivery notes",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "number": "Number",
+        "client": "Client",
+        "amount": "Amount",
+        "issueDate": "Issue date",
+        "status": "Status",
+        "detailLink": "Detail link",
+        "editLink": "Edit link",
+        "deleteLink": "Delete link"
+      },
+      "filters": {
+        "number": "Delivery note number",
+        "client": "Client",
+        "issueDate": "Issue date",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "draft": "Draft",
+        "issued": "Issued"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "editTitle": "Edit delivery note",
+        "numberPlaceholder": "Delivery note number",
+        "selectClient": "Select client",
+        "selectStatus": "Select status",
+        "amountPlaceholder": "Amount"
+      },
+      "validation": {
+        "numberRequired": "Delivery note number is required",
+        "clientRequired": "Client is required",
+        "issueDateRequired": "Issue date is required",
+        "amountRequired": "Amount is required",
+        "amountInvalid": "Amount is invalid"
+      },
+      "messages": {
+        "notFound": "Delivery note not found."
+      }
+    },
+    "Quotations": {
+      "title": "Quotations",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "number": "Number",
+        "client": "Client",
+        "amount": "Amount",
+        "issueDate": "Issue date",
+        "status": "Status",
+        "detailLink": "Detail link",
+        "editLink": "Edit link",
+        "deleteLink": "Delete link"
+      },
+      "filters": {
+        "number": "Quotation number",
+        "client": "Client",
+        "issueDate": "Issue date",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "draft": "Draft",
+        "sent": "Sent",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "expired": "Expired"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters",
+        "back": "Back",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "editTitle": "Edit quotation",
+        "numberPlaceholder": "Quotation number",
+        "selectClient": "Select client",
+        "selectStatus": "Select status",
+        "amountPlaceholder": "Amount"
+      },
+      "validation": {
+        "numberRequired": "Quotation number is required",
+        "clientRequired": "Client is required",
+        "issueDateRequired": "Issue date is required",
+        "amountRequired": "Amount is required",
+        "amountInvalid": "Amount is invalid"
+      },
+      "messages": {
+        "notFound": "Quotation not found."
+      }
+    },
+    "BankTransferTransactions": {
+      "title": "Bank transfer transactions",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "transactionId": "Transaction ID",
+        "merchantName": "Merchant name",
+        "clientName": "Client name",
+        "amount": "Amount",
+        "transactionDateTime": "Transaction Date",
+        "payoutStatus": "Payout status"
+      },
+      "filters": {
+        "period": "Period",
+        "from": "From",
+        "to": "To",
+        "merchant": "Merchant",
+        "client": "Client",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "pending_approval": "Pending",
+        "settled": "Settled",
+        "failed": "Failed"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters",
+        "back": "Back"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit"
+      },
+      "messages": {
+        "notFound": "Transaction not found."
+      }
+    },
+    "Notifications": {
+      "title": "Notifications",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "id": "ID",
+        "title": "Title",
+        "publicationStatus": "Publication status",
+        "publicationStartDate": "Publication start date",
+        "publicationEndDate": "Publication end date",
+        "targetMerchantsCount": "Target merchants",
+        "editLink": "Edit link",
+        "deleteLink": "Delete link"
+      },
+      "filters": {
+        "title": "Title",
+        "publicationStatus": "Publication status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "scheduled": "Scheduled",
+        "published": "Published",
+        "expired": "Expired"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create notification",
+        "clearFilters": "Clear filters",
+        "back": "Back",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "createTitle": "Create notification",
+        "editTitle": "Edit notification",
+        "titlePlaceholder": "Title",
+        "message": "Message",
+        "messagePlaceholder": "Message",
+        "targetMerchant": "Target merchant",
+        "allMerchants": "All merchants"
+      },
+      "validation": {
+        "titleRequired": "Title is required",
+        "messageRequired": "Message is required",
+        "publicationPeriodInvalid": "Publication end date must be after start date"
+      },
+      "messages": {
+        "notFound": "Notification not found."
       }
     }
   }

@@ -9,4 +9,10 @@ export type AppUser = {
   email: string;
   role: string;
   merchantId?: string;
+  lastLoginAt?: string;
+  deletedAt?: string | null;
+  createdAt?: string;
+  avatarUrl?: string;
+  companyName?: string;
+  status?: "active" | "suspended";
 };

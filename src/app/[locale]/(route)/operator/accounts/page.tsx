@@ -1,62 +1,56 @@
 "use client";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { DataTableDemo } from "./demo";
+import HeaderPage from "@/components/header-page";
+import RecordTabs, { type RecordTab } from "@/components/record-tabs";
+import UserDetail from "./_components/user-detail";
+import UserTable from "./_components/user-table";
+import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function AccountsPage() {
-  const rows = [
-    {
-      id: "acc_001",
-      name: "JPCC Main Account",
-      type: "Business",
-      status: "Active",
-      currency: "JPY",
-    },
-    {
-      id: "acc_002",
-      name: "Sandbox Account",
-      type: "Test",
-      status: "Inactive",
-      currency: "USD",
-    },
-  ];
+  const t = useTranslations("Operator.Accounts");
+  const router = useRouter();
 
   return (
-    <div className="p-6">
-      <div className="text-lg font-semibold">Accounts</div>
-
-      <div className="mt-4 rounded-xl border bg-background p-5">
-        {/* <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[180px]">Account ID</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Currency</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell className="font-medium">{row.id}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.type}</TableCell>
-                <TableCell>{row.status}</TableCell>
-                <TableCell className="text-right">{row.currency}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table> */}
-        <DataTableDemo />
-      </div>
-    </div>
+    <HeaderPage title={t("title")}>
+      <RecordTabs
+        initialTabs={[
+          {
+            label: t("tabs.all"),
+            key: "table",
+            closable: false,
+          },
+        ]}
+        defaultActiveKey="table"
+        renderRight={() => (
+          <Button
+            type="button"
+            size="sm"
+            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            onClick={() => router.push(`/operator/accounts/create`)}
+          >
+            <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
+          </Button>
+        )}
+        renderTab={(tab, helpers) => {
+          if (tab.key === "table") {
+            return (
+              <UserTable
+                addTab={(id) =>
+                  helpers.addTab({
+                    key: id,
+                    label: id,
+                    closable: true,
+                  } satisfies RecordTab)
+                }
+              />
+            );
+          }
+          return <UserDetail userId={tab.key} />;
+        }}
+      />
+    </HeaderPage>
   );
 }

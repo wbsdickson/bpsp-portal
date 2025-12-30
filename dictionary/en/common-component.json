@@ -1,0 +1,19 @@
+{
+  "Calendar": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "last7Days": "Last 7 Days",
+    "last14Days": "Last 14 Days",
+    "last30Days": "Last 30 Days",
+    "lastWeek": "Last Week",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "cancel": "Cancel",
+    "update": "Update"
+  },
+  "DatePicker": {
+    "pick_date": "Pick a date",
+    "reset": "Reset",
+    "cancel": "Cancel"
+  }
+}
