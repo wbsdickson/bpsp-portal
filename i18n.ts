@@ -6,6 +6,7 @@ export default getRequestConfig(async ({ locale }): Promise<RequestConfig> => {
     "auth",
     "operator",
     "common-component",
+    "merchant",
     // "general",
     // "user-management",
     // "rentease",

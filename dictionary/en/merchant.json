@@ -1,0 +1,106 @@
+{
+  "Merchant": {
+    "MemberInformationManagement": {
+      "title": "Member Information Management",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "id": "ID",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "memberRole": "Member role",
+        "registrationDate": "Registration date",
+        "status": "Status"
+      }
+    },
+    "CompanyInformationManagement": {
+      "title": "Company Information Management",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "id": "ID",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "registrationDate": "Registration date",
+        "status": "Status"
+      }
+    },
+    "MerchantMembers": {
+      "title": "Members Management",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "id": "ID",
+        "merchantId": "Merchant ID",
+        "name": "Name",
+        "email": "Email address",
+        "role": "Role",
+        "memberRole": "Member role",
+        "lastLoginAt": "Last login at",
+        "status": "Status",
+        "detailLink": "Detail link"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create member",
+        "cancel": "Cancel",
+        "save": "Save",
+        "clearFilters": "Clear filters"
+      },
+      "filters": {
+        "name": "Name",
+        "email": "Email",
+        "status": "Status",
+        "role": "Role",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "form": {
+        "createTitle": "Create member",
+        "editTitle": "Edit member",
+        "selectMerchant": "Select merchant",
+        "namePlaceholder": "Full name",
+        "emailPlaceholder": "name@company.com",
+        "selectRole": "Select role",
+        "selectMemberRole": "Select member role",
+        "selectStatus": "Select status"
+      },
+      "roles": {
+        "merchant": "merchant",
+        "admin": "admin",
+        "jpcc_admin": "jpcc_admin",
+        "merchant_jpcc": "merchant_jpcc"
+      },
+      "memberRoles": {
+        "owner": "Owner",
+        "staff": "Staff",
+        "viewer": "Viewer"
+      },
+      "statuses": {
+        "active": "active",
+        "suspended": "suspended"
+      },
+      "messages": {
+        "userNotFound": "User not found."
+      },
+      "validation": {
+        "merchantRequired": "Merchant is required",
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email"
+      }
+    }
+  }
+}
