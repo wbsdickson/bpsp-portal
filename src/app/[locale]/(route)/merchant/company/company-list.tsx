@@ -66,7 +66,7 @@ export function CompanyList() {
           <div className="flex items-center space-x-2">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search accounts..." className="pl-8 w-[250px]" />
+              <Input placeholder="Search companies..." className="pl-8 w-[250px]" />
             </div>
           </div>
           {!isViewer && (

@@ -2,28 +2,19 @@
 
 import * as React from "react";
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
   CreditCard,
   FileText,
-  Frame,
-  GalleryVerticalEnd,
   Grid2X2,
   HelpCircle,
   Link2,
-  Map,
   Bell,
-  PieChart,
   Settings,
-  Settings2,
-  SquareTerminal,
   Plus,
+  Users,
+  Building,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
@@ -47,203 +38,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Dashboard",
-      url: "/dashboard",
-      icon: Frame,
-    },
-    {
-      name: "Accounts",
-      url: "/accounts",
-      icon: PieChart,
-    },
-    {
-      name: "Merchants",
-      url: "/merchants",
-      icon: Map,
-    },
-  ],
-};
-
-const operatorRoutes = [
-  {
-    label: "Dashboard",
-    route: "operator/dashboard",
-  },
-  {
-    label: "Invoices",
-    route: "operator/invoices",
-  },
-  // {
-  //   label: "Payment",
-  //   route: "payment",
-  //   children: [
-  //     {
-  //       label: "Transactions",
-  //       route: "transactions",
-  //     },
-  //     {
-  //       label: "Chargebacks",
-  //       route: "chargeback",
-  //     },
-  //     {
-  //       label: "Checkout Sessions",
-  //       route: "checkout-sessions",
-  //     },
-  //     {
-  //       label: "Payment Links",
-  //       route: "payment-links",
-  //     },
-  //     {
-  //       label: "Payment Methods",
-  //       route: "payment-methods",
-  //     },
-  //     {
-  //       label: "Subscriptions",
-  //       route: "subscriptions",
-  //     },
-  //     {
-  //       label: "Webhooks",
-  //       route: "webhooks",
-  //     },
-  //   ],
-  // },
-  // {
-  //   label: "Gateway Management",
-  //   route: "gateway-management",
-  //   children: [
-  //     {
-  //       label: "Routing",
-  //       route: "routing",
-  //     },
-  //     {
-  //       label: "Mid",
-  //       route: "mid",
-  //     },
-  //     {
-  //       label: "Fee",
-  //       route: "fee",
-  //     },
-  //     {
-  //       label: "Blocked Card",
-  //       route: "blocked-card",
-  //     },
-  //   ],
-  // },
-];
-
 const merchantRoutes = [
   {
     label: "Dashboard",
@@ -257,33 +51,20 @@ const merchantRoutes = [
     label: "Company Information Management",
     route: "merchant/company",
   },
+  {
+    label: "Member Management",
+    route: "merchant/member",
+  },
   
 ];
 
 export function AppSidebar({
-  role = "operator",
   ...props
 }: React.ComponentProps<typeof Sidebar> & { role?: string }) {
-  const routes = role === "merchant" ? merchantRoutes : operatorRoutes;
+  const routes = merchantRoutes;
   const session = useSession();
   const user = session?.data?.user;
-  const teams = [
-    {
-      name: user?.name ?? "",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ];
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

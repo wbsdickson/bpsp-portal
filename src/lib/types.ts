@@ -378,3 +378,19 @@ export interface Company {
     createdBy?: string;
     updatedBy?: string;
 }
+
+export interface Member {
+    id: string;
+    name: string;
+    email: string;
+    role: UserRole;
+    memberRole: MemberRole;
+    merchantId: string;
+    lastLoginAt?: string;
+    status: 'active' | 'suspended';
+    createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string | null;
+    createdBy?: string;
+    updatedBy?: string;
+}

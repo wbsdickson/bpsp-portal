@@ -6,7 +6,6 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import {
   Breadcrumb,
@@ -17,6 +16,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { AppUser } from "@/types/user";
+import { AppSidebar } from "./_components/merchant-sidebar";
 
 export default async function RouteLayout({
   children,
