@@ -21,7 +21,6 @@ import {
   Receipt,
   MerchantSignup,
   Transaction,
-  Company,
 } from "./types";
 import {
   MOCK_USERS,
@@ -42,8 +41,6 @@ import {
   MOCK_PURCHASE_ORDERS,
   MOCK_DELIVERY_NOTES,
   MOCK_RECEIPTS,
-  MOCK_ACCOUNTS,
-  MOCK_COMPANIES,
 } from "./mock-data";
 
 interface AppState {
@@ -62,14 +59,12 @@ interface AppState {
   notifications: Notification[];
   notificationReads: NotificationRead[];
   invoiceAutoSettings: InvoiceAutoSetting[];
-  accounts: User[];
   invoiceTemplates: InvoiceTemplate[];
   quotations: Quotation[];
   purchaseOrders: PurchaseOrder[];
   deliveryNotes: DeliveryNote[];
   receipts: Receipt[];
   merchantSignups: MerchantSignup[]; // Track merchant signups
-  companies: Company[];
 
   // Actions
   login: (role: UserRole) => void;
@@ -80,7 +75,7 @@ interface AppState {
   addInvoice: (
     invoice: Omit<Invoice, "id" | "createdAt" | "status"> & {
       status?: Invoice["status"];
-    }
+    },
   ) => void;
   updateInvoice: (id: string, data: Partial<Invoice>) => void;
   deleteInvoice: (id: string) => void;
@@ -94,7 +89,7 @@ interface AppState {
   getMerchantPayments: (merchantId: string) => Payment[];
   getMerchantNotifications: (
     merchantId: string,
-    userId?: string
+    userId?: string,
   ) => (Notification & { isRead: boolean })[];
   markNotificationAsRead: (notificationId: string, userId: string) => void;
   getMerchantMembers: (merchantId: string) => User[];
@@ -109,7 +104,7 @@ interface AppState {
   addBankAccount: (bankAccount: BankAccount) => void;
   updateBankAccount: (
     bankAccountId: string,
-    data: Partial<BankAccount>
+    data: Partial<BankAccount>,
   ) => void;
   deleteBankAccount: (bankAccountId: string) => void;
   getMerchantCards: (merchantId: string) => MerchantCard[];
@@ -122,7 +117,7 @@ interface AppState {
   getDocumentSettings: (merchantId: string) => DocumentSettings | undefined;
   updateDocumentSettings: (
     merchantId: string,
-    data: Partial<DocumentSettings>
+    data: Partial<DocumentSettings>,
   ) => void;
   getCurrentMerchant: () => Merchant | undefined;
   getAllInvoices: () => Invoice[]; // For Admin
@@ -133,7 +128,7 @@ interface AppState {
   addInvoiceAutoSetting: (setting: InvoiceAutoSetting) => void;
   updateInvoiceAutoSetting: (
     id: string,
-    data: Partial<InvoiceAutoSetting>
+    data: Partial<InvoiceAutoSetting>,
   ) => void;
   deleteInvoiceAutoSetting: (id: string) => void;
 
@@ -167,32 +162,20 @@ interface AppState {
   updateReceipt: (id: string, data: Partial<Receipt>) => void;
   deleteReceipt: (id: string) => void;
 
-  // Accounts
-  getAccounts: () => User[];
-  addAccount: (account: User) => void;
-  updateAccount: (id: string, data: Partial<User>) => void;
-  deleteAccount: (id: string) => void;
-
-  // Companies
-  getCompanies: () => Company[];
-  addCompany: (company: Company) => void;
-  updateCompany: (id: string, data: Partial<Company>) => void;
-  deleteCompany: (id: string) => void;
-
   // Registration
   createMerchantSignup: (email: string) => string; // Returns token
   validateSignupToken: (token: string) => MerchantSignup | null;
   completeMerchantRegistration: (
     token: string,
     merchantData: Partial<Merchant>,
-    userData: Partial<User>
+    userData: Partial<User>,
   ) => void;
 
   // Payment Flow
   getInvoiceById: (id: string) => Invoice | undefined;
   processPayment: (
     invoiceId: string,
-    cardData: unknown
+    cardData: unknown,
   ) => Promise<{ success: boolean; error?: string; transactionId?: string }>;
   getTransactionByInvoiceId: (invoiceId: string) => Transaction | undefined;
 }
@@ -213,14 +196,12 @@ export const useAppStore = create<AppState>((set, get) => ({
   notifications: MOCK_NOTIFICATIONS,
   notificationReads: MOCK_NOTIFICATION_READS,
   invoiceAutoSettings: MOCK_INVOICE_AUTO_SETTINGS,
-  accounts: MOCK_ACCOUNTS,
   invoiceTemplates: MOCK_INVOICE_TEMPLATES,
   quotations: MOCK_QUOTATIONS,
   purchaseOrders: MOCK_PURCHASE_ORDERS,
   deliveryNotes: MOCK_DELIVERY_NOTES,
   receipts: MOCK_RECEIPTS,
   merchantSignups: [],
-  companies: MOCK_COMPANIES,
   login: (role: UserRole) => {
     // Simulate login by picking the first user of that role
     const user = MOCK_USERS.find((u) => u.role === role);
@@ -273,7 +254,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateInvoice: (id, data) => {
     set((state) => ({
       invoices: state.invoices.map((inv) =>
-        inv.id === id ? { ...inv, ...data } : inv
+        inv.id === id ? { ...inv, ...data } : inv,
       ),
     }));
   },
@@ -281,7 +262,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   deleteInvoice: (id) => {
     set((state) => ({
       invoices: state.invoices.map((inv) =>
-        inv.id === id ? { ...inv, deletedAt: new Date().toISOString() } : inv
+        inv.id === id ? { ...inv, deletedAt: new Date().toISOString() } : inv,
       ),
     }));
   },
@@ -289,7 +270,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateInvoiceStatus: (id, status) => {
     set((state) => ({
       invoices: state.invoices.map((inv) =>
-        inv.id === id ? { ...inv, status } : inv
+        inv.id === id ? { ...inv, status } : inv,
       ),
     }));
   },
@@ -314,7 +295,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     set((state) => ({
       payments: [newPayment, ...state.payments],
       invoices: state.invoices.map((inv) =>
-        inv.id === invoiceId ? { ...inv, status: "paid" } : inv
+        inv.id === invoiceId ? { ...inv, status: "paid" } : inv,
       ),
     }));
   },
@@ -324,7 +305,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       payments: state.payments.map((pay) =>
         pay.id === paymentId && pay.status === "pending_approval"
           ? { ...pay, status: "failed" } // Or 'cancelled' if we add that status
-          : pay
+          : pay,
       ),
     }));
   },
@@ -338,7 +319,7 @@ export const useAppStore = create<AppState>((set, get) => ({
               status: "settled",
               settledAt: new Date().toISOString().split("T")[0],
             }
-          : pay
+          : pay,
       ),
     }));
   },
@@ -346,7 +327,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateUser: (userId, data) => {
     set((state) => {
       const updatedUsers = state.users.map((user) =>
-        user.id === userId ? { ...user, ...data } : user
+        user.id === userId ? { ...user, ...data } : user,
       );
       const updatedCurrentUser =
         state.currentUser?.id === userId
@@ -362,14 +343,14 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateMerchant: (merchantId, data) => {
     set((state) => ({
       merchants: state.merchants.map((merchant) =>
-        merchant.id === merchantId ? { ...merchant, ...data } : merchant
+        merchant.id === merchantId ? { ...merchant, ...data } : merchant,
       ),
     }));
   },
 
   getMerchantInvoices: (merchantId) => {
     return get().invoices.filter(
-      (inv) => inv.merchantId === merchantId && !inv.deletedAt
+      (inv) => inv.merchantId === merchantId && !inv.deletedAt,
     );
   },
 
@@ -418,7 +399,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         if (userId) {
           // Check notificationReads table
           const readRecord = state.notificationReads.find(
-            (nr) => nr.notificationId === notif.id && nr.userId === userId
+            (nr) => nr.notificationId === notif.id && nr.userId === userId,
           );
           if (readRecord) {
             isRead = true;
@@ -444,7 +425,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   markNotificationAsRead: (notificationId, userId) => {
     const state = get();
     const alreadyRead = state.notificationReads.some(
-      (nr) => nr.notificationId === notificationId && nr.userId === userId
+      (nr) => nr.notificationId === notificationId && nr.userId === userId,
     );
 
     if (!alreadyRead) {
@@ -462,7 +443,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   getMerchantMembers: (merchantId) => {
     return get().users.filter(
-      (user) => user.merchantId === merchantId && !user.deletedAt
+      (user) => user.merchantId === merchantId && !user.deletedAt,
     );
   },
 
@@ -473,7 +454,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateMember: (userId, data) => {
     set((state) => ({
       users: state.users.map((user) =>
-        user.id === userId ? { ...user, ...data } : user
+        user.id === userId ? { ...user, ...data } : user,
       ),
     }));
   },
@@ -483,14 +464,14 @@ export const useAppStore = create<AppState>((set, get) => ({
       users: state.users.map((user) =>
         user.id === userId
           ? { ...user, deletedAt: new Date().toISOString() }
-          : user
+          : user,
       ),
     }));
   },
 
   getMerchantClients: (merchantId) => {
     return get().clients.filter(
-      (client) => client.merchantId === merchantId && !client.deletedAt
+      (client) => client.merchantId === merchantId && !client.deletedAt,
     );
   },
 
@@ -501,7 +482,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateClient: (clientId, data) => {
     set((state) => ({
       clients: state.clients.map((client) =>
-        client.id === clientId ? { ...client, ...data } : client
+        client.id === clientId ? { ...client, ...data } : client,
       ),
     }));
   },
@@ -511,14 +492,14 @@ export const useAppStore = create<AppState>((set, get) => ({
       clients: state.clients.map((client) =>
         client.id === clientId
           ? { ...client, deletedAt: new Date().toISOString() }
-          : client
+          : client,
       ),
     }));
   },
 
   getMerchantBankAccounts: (merchantId) => {
     return get().bankAccounts.filter(
-      (account) => account.merchantId === merchantId && !account.deletedAt
+      (account) => account.merchantId === merchantId && !account.deletedAt,
     );
   },
 
@@ -529,7 +510,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateBankAccount: (bankAccountId, data) => {
     set((state) => ({
       bankAccounts: state.bankAccounts.map((account) =>
-        account.id === bankAccountId ? { ...account, ...data } : account
+        account.id === bankAccountId ? { ...account, ...data } : account,
       ),
     }));
   },
@@ -539,7 +520,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       bankAccounts: state.bankAccounts.map((account) =>
         account.id === bankAccountId
           ? { ...account, deletedAt: new Date().toISOString() }
-          : account
+          : account,
       ),
     }));
   },
@@ -560,7 +541,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   getMerchantItems: (merchantId) => {
     return get().items.filter(
-      (item) => item.merchantId === merchantId && !item.deletedAt
+      (item) => item.merchantId === merchantId && !item.deletedAt,
     );
   },
 
@@ -571,7 +552,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateItem: (itemId, data) => {
     set((state) => ({
       items: state.items.map((item) =>
-        item.id === itemId ? { ...item, ...data } : item
+        item.id === itemId ? { ...item, ...data } : item,
       ),
     }));
   },
@@ -581,7 +562,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       items: state.items.map((item) =>
         item.id === itemId
           ? { ...item, deletedAt: new Date().toISOString() }
-          : item
+          : item,
       ),
     }));
   },
@@ -593,12 +574,12 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateDocumentSettings: (merchantId, data) => {
     set((state) => {
       const existing = state.documentSettings.find(
-        (s) => s.merchantId === merchantId
+        (s) => s.merchantId === merchantId,
       );
       if (existing) {
         return {
           documentSettings: state.documentSettings.map((s) =>
-            s.merchantId === merchantId ? { ...s, ...data } : s
+            s.merchantId === merchantId ? { ...s, ...data } : s,
           ),
         };
       } else {
@@ -628,7 +609,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   // Auto Issuance
   getMerchantInvoiceAutoSettings: (merchantId) => {
     return get().invoiceAutoSettings.filter(
-      (s) => s.merchantId === merchantId && !s.deletedAt
+      (s) => s.merchantId === merchantId && !s.deletedAt,
     );
   },
 
@@ -641,7 +622,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateInvoiceAutoSetting: (id, data) => {
     set((state) => ({
       invoiceAutoSettings: state.invoiceAutoSettings.map((s) =>
-        s.id === id ? { ...s, ...data } : s
+        s.id === id ? { ...s, ...data } : s,
       ),
     }));
   },
@@ -649,7 +630,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   deleteInvoiceAutoSetting: (id) => {
     set((state) => ({
       invoiceAutoSettings: state.invoiceAutoSettings.map((s) =>
-        s.id === id ? { ...s, deletedAt: new Date().toISOString() } : s
+        s.id === id ? { ...s, deletedAt: new Date().toISOString() } : s,
       ),
     }));
   },
@@ -668,7 +649,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateInvoiceTemplate: (id, data) => {
     set((state) => ({
       invoiceTemplates: state.invoiceTemplates.map((t) =>
-        t.id === id ? { ...t, ...data } : t
+        t.id === id ? { ...t, ...data } : t,
       ),
     }));
   },
@@ -682,7 +663,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   // Quotations
   getMerchantQuotations: (merchantId) => {
     return get().quotations.filter(
-      (q) => q.merchantId === merchantId && !q.deletedAt
+      (q) => q.merchantId === merchantId && !q.deletedAt,
     );
   },
 
@@ -693,7 +674,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateQuotation: (id, data) => {
     set((state) => ({
       quotations: state.quotations.map((q) =>
-        q.id === id ? { ...q, ...data } : q
+        q.id === id ? { ...q, ...data } : q,
       ),
     }));
   },
@@ -701,7 +682,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   deleteQuotation: (id) => {
     set((state) => ({
       quotations: state.quotations.map((q) =>
-        q.id === id ? { ...q, deletedAt: new Date().toISOString() } : q
+        q.id === id ? { ...q, deletedAt: new Date().toISOString() } : q,
       ),
     }));
   },
@@ -709,7 +690,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   // Purchase Orders
   getMerchantPurchaseOrders: (merchantId) => {
     return get().purchaseOrders.filter(
-      (po) => po.merchantId === merchantId && !po.deletedAt
+      (po) => po.merchantId === merchantId && !po.deletedAt,
     );
   },
 
@@ -722,7 +703,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updatePurchaseOrder: (id, data) => {
     set((state) => ({
       purchaseOrders: state.purchaseOrders.map((po) =>
-        po.id === id ? { ...po, ...data } : po
+        po.id === id ? { ...po, ...data } : po,
       ),
     }));
   },
@@ -730,7 +711,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   deletePurchaseOrder: (id) => {
     set((state) => ({
       purchaseOrders: state.purchaseOrders.map((po) =>
-        po.id === id ? { ...po, deletedAt: new Date().toISOString() } : po
+        po.id === id ? { ...po, deletedAt: new Date().toISOString() } : po,
       ),
     }));
   },
@@ -738,7 +719,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   // Delivery Notes
   getMerchantDeliveryNotes: (merchantId) => {
     return get().deliveryNotes.filter(
-      (dn) => dn.merchantId === merchantId && !dn.deletedAt
+      (dn) => dn.merchantId === merchantId && !dn.deletedAt,
     );
   },
 
@@ -749,7 +730,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateDeliveryNote: (id, data) => {
     set((state) => ({
       deliveryNotes: state.deliveryNotes.map((dn) =>
-        dn.id === id ? { ...dn, ...data } : dn
+        dn.id === id ? { ...dn, ...data } : dn,
       ),
     }));
   },
@@ -757,47 +738,15 @@ export const useAppStore = create<AppState>((set, get) => ({
   deleteDeliveryNote: (id) => {
     set((state) => ({
       deliveryNotes: state.deliveryNotes.map((dn) =>
-        dn.id === id ? { ...dn, deletedAt: new Date().toISOString() } : dn
+        dn.id === id ? { ...dn, deletedAt: new Date().toISOString() } : dn,
       ),
     }));
-  },
-
-  // Accounts
-  getAccounts: () => get().accounts,
-  addAccount: (account) => {
-    set((state) => ({ accounts: [account, ...state.accounts] }));
-  },
-  updateAccount: (id, data) => {
-    set((state) => ({
-      accounts: state.accounts.map((account) =>
-        account.id === id ? { ...account, ...data } : account
-      ),
-    }));
-  },
-  deleteAccount: (id) => {
-    set((state) => ({
-      accounts: state.accounts.map((account) =>
-        account.id === id ? { ...account, deletedAt: new Date().toISOString() } : account
-      ),
-    }));
-  },
-
-  // Companies
-  getCompanies: () => get().companies,
-  addCompany: (company) => {
-    set((state) => ({ companies: [company, ...state.companies] }));
-  },
-  updateCompany: (id, data) => {
-    set((state) => ({ companies: state.companies.map((company) => company.id === id ? { ...company, ...data } : company) }));
-  },
-  deleteCompany: (id) => {
-    set((state) => ({ companies: state.companies.map((company) => company.id === id ? { ...company, deletedAt: new Date().toISOString() } : company) }));
   },
 
   // Receipts
   getMerchantReceipts: (merchantId) => {
     return get().receipts.filter(
-      (rc) => rc.merchantId === merchantId && !rc.deletedAt
+      (rc) => rc.merchantId === merchantId && !rc.deletedAt,
     );
   },
 
@@ -808,7 +757,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateReceipt: (id, data) => {
     set((state) => ({
       receipts: state.receipts.map((rc) =>
-        rc.id === id ? { ...rc, ...data } : rc
+        rc.id === id ? { ...rc, ...data } : rc,
       ),
     }));
   },
@@ -816,7 +765,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   deleteReceipt: (id) => {
     set((state) => ({
       receipts: state.receipts.map((rc) =>
-        rc.id === id ? { ...rc, deletedAt: new Date().toISOString() } : rc
+        rc.id === id ? { ...rc, deletedAt: new Date().toISOString() } : rc,
       ),
     }));
   },
@@ -886,7 +835,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       merchants: [...state.merchants, newMerchant],
       users: [...state.users, newUser],
       merchantSignups: state.merchantSignups.map((s) =>
-        s.token === token ? { ...s, isUsed: true } : s
+        s.token === token ? { ...s, isUsed: true } : s,
       ),
     }));
   },
@@ -935,7 +884,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     set((state) => ({
       payments: [...state.payments, newPayment],
       invoices: state.invoices.map((inv) =>
-        inv.id === invoiceId ? { ...inv, status: "paid" } : inv
+        inv.id === invoiceId ? { ...inv, status: "paid" } : inv,
       ),
     }));
 
@@ -946,7 +895,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     // In this mock, we'll look up the Payment record which serves as the transaction
     // In a real system, Transaction and Payment might be separate entities
     const payment = get().payments.find(
-      (p) => p.invoiceId === invoiceId && p.status === "settled"
+      (p) => p.invoiceId === invoiceId && p.status === "settled",
     );
 
     if (!payment) return undefined;

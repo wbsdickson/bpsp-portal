@@ -2,18 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useMerchantMemberStore } from "@/store/merchant/merchant-member-store";
 import { Link } from "next-view-transitions";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useMerchantAccountStore } from "@/store/merchant/merchant-account-store";
+import { Badge } from "@/components/ui/badge";
 
-export default function MerchantMemberDetail({ userId }: { userId: string }) {
+export default function MerchantAccountDetail({
+  accountId,
+}: {
+  accountId: string;
+}) {
   const locale = useLocale();
-  const t = useTranslations("Merchant.MerchantMembers");
+  const t = useTranslations("Merchant.AccountInformationManagement");
   const router = useRouter();
-  const user = useMerchantMemberStore((s) => s.getMemberById(userId));
+  const account = useMerchantAccountStore((s) => s.getAccountById(accountId));
 
-  if (!user) {
+  if (!account) {
     return (
       <Card>
         <CardHeader>
@@ -28,11 +33,11 @@ export default function MerchantMemberDetail({ userId }: { userId: string }) {
     );
   }
 
-  const lastLoginLabel = user.lastLoginAt
+  const createdAtLabel = account.createdAt
     ? (() => {
-        const dt = new Date(user.lastLoginAt);
+        const dt = new Date(account.createdAt);
         return Number.isNaN(dt.getTime())
-          ? user.lastLoginAt
+          ? account.createdAt
           : dt.toLocaleString();
       })()
     : "—";
@@ -45,13 +50,13 @@ export default function MerchantMemberDetail({ userId }: { userId: string }) {
           variant="outline"
           className="h-9"
           onClick={() => {
-            router.push(`/${locale}/merchant/member`);
+            router.push(`/${locale}/merchant/account`);
           }}
         >
           {t("buttons.cancel")}
         </Button>
         <Button asChild className="h-9 bg-indigo-600 hover:bg-indigo-700">
-          <Link href={`/${locale}/merchant/member/edit/${user.id}`}>
+          <Link href={`/${locale}/merchant/account/edit/${account.id}`}>
             {t("actions.edit")}
           </Link>
         </Button>
@@ -64,39 +69,41 @@ export default function MerchantMemberDetail({ userId }: { userId: string }) {
               <div className="text-muted-foreground text-xs">
                 {t("columns.name")}
               </div>
-              <div className="font-medium">{user.name}</div>
+              <div className="font-medium">{account.name}</div>
             </div>
             <div>
               <div className="text-muted-foreground text-xs">
                 {t("columns.email")}
               </div>
-              <div className="font-medium">{user.email}</div>
+              <div className="font-medium">{account.email}</div>
             </div>
             <div>
               <div className="text-muted-foreground text-xs">
                 {t("columns.role")}
               </div>
-              <div className="font-medium">
-                {user.memberRole ?? user.role ?? "—"}
-              </div>
+              <div className="font-medium">{account.role ?? "—"}</div>
             </div>
             <div>
               <div className="text-muted-foreground text-xs">
-                {t("columns.lastLoginAt")}
+                {t("columns.createdAt")}
               </div>
-              <div className="font-medium">{lastLoginLabel}</div>
+              <div className="font-medium">{createdAtLabel}</div>
             </div>
             <div>
               <div className="text-muted-foreground text-xs">
                 {t("columns.status")}
               </div>
-              <div className="font-medium">{user.status ?? "—"}</div>
-            </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.merchantId")}
+              <div className="font-medium">
+                {account.status === "active" ? (
+                  <Badge className="bg-green-500">
+                    {t(`statuses.${account.status}`)}
+                  </Badge>
+                ) : (
+                  <Badge className="secondary">
+                    {t(`statuses.${account.status}`)}
+                  </Badge>
+                )}
               </div>
-              <div className="font-medium">{user.merchantId ?? "—"}</div>
             </div>
           </div>
         </CardContent>

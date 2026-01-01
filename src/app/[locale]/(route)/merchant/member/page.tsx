@@ -29,7 +29,6 @@ export default function MerchantMembersPage() {
           <Button
             type="button"
             size="sm"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
             onClick={() => {
               router.push(`/merchant/member/create`);
             }}

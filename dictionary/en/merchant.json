@@ -1,5 +1,76 @@
 {
   "Merchant": {
+    "AccountInformationManagement": {
+      "title": "Account Information Management",
+      "detailTitle": "Account Detail",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "id": "ID",
+        "name": "Account Name",
+        "email": "Email Address",
+        "role": "Role",
+        "createdAt": "Created At",
+        "status": "Status",
+        "merchantId": "Merchant ID",
+        "memberRole": "Member Role",
+        "password": "Password",
+        "confirmPassword": "Confirm Password"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create account",
+        "cancel": "Cancel",
+        "save": "Save",
+        "clearFilters": "Clear filters"
+      },
+      "filters": {
+        "name": "Account Name",
+        "email": "Email Address",
+        "role": "Role",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "active": "Active",
+        "suspended": "Suspended"
+      },
+      "messages": {
+        "accountNotFound": "Account not found."
+      },
+      "form": {
+        "createTitle": "Create account",
+        "editTitle": "Edit account",
+        "selectMerchant": "Select merchant",
+        "namePlaceholder": "Full name",
+        "emailPlaceholder": "name@company.com",
+        "selectRole": "Select role",
+        "selectMemberRole": "Select member role",
+        "selectStatus": "Select status",
+        "passwordPlaceholder": "Password",
+        "confirmPasswordPlaceholder": "Confirm password"
+      },
+      "roles": {
+        "merchant": "merchant",
+        "admin": "admin",
+        "jpcc_admin": "jpcc_admin",
+        "merchant_jpcc": "merchant_jpcc"
+      },
+      "memberRoles": {
+        "owner": "Owner",
+        "staff": "Staff",
+        "viewer": "Viewer"
+      }
+    },
     "MemberInformationManagement": {
       "title": "Member Information Management",
       "tabs": {
@@ -17,6 +88,7 @@
     },
     "CompanyInformationManagement": {
       "title": "Company Information Management",
+      "detailTitle": "Company Detail",
       "tabs": {
         "all": "All"
       },
@@ -26,11 +98,71 @@
         "email": "Email",
         "role": "Role",
         "registrationDate": "Registration date",
-        "status": "Status"
+        "status": "Status",
+        "address": "Address",
+        "phoneNumber": "Phone number",
+        "invoiceEmail": "Invoice email",
+        "websiteUrl": "Website URL",
+        "invoicePrefix": "Invoice prefix",
+        "enableCreditPayment": "Enable credit payment"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create company",
+        "cancel": "Cancel",
+        "save": "Save",
+        "clearFilters": "Clear filters"
+      },
+      "filters": {
+        "name": "Name",
+        "email": "Email",
+        "status": "Status",
+        "role": "Role",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "form": {
+        "createTitle": "Create company",
+        "editTitle": "Edit company",
+        "idPlaceholder": "ID",
+        "namePlaceholder": "Company name",
+        "emailPlaceholder": "name@company.com",
+        "selectStatus": "Select status",
+        "websiteUrlPlaceholder": "Website URL",
+        "invoicePrefixPlaceholder": "Invoice prefix",
+        "addressPlaceholder": "Address",
+        "phoneNumberPlaceholder": "Phone number",
+        "invoiceEmailPlaceholder": "Invoice email"
+      },
+      "statuses": {
+        "active": "active",
+        "suspended": "suspended"
+      },
+      "messages": {
+        "companyNotFound": "Company not found."
+      },
+      "validation": {
+        "idRequired": "ID is required",
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email",
+        "websiteUrlRequired": "Website URL is required",
+        "invoicePrefixRequired": "Invoice prefix is required",
+        "addressRequired": "Address is required",
+        "phoneNumberRequired": "Phone number is required",
+        "invoiceEmailRequired": "Invoice email is required"
       }
     },
     "MerchantMembers": {
       "title": "Members Management",
+      "detailTitle": "Member Detail",
       "tabs": {
         "all": "All"
       },

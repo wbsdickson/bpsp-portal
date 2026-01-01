@@ -5,41 +5,41 @@ import { useTranslations } from "next-intl";
 
 import type { User } from "@/lib/types";
 import ActionsCell from "../../_components/action-cell";
-import { useMerchantMemberStore } from "@/store/merchant/merchant-member-store";
+import { useMerchantAccountStore } from "@/store/merchant/merchant-account-store";
 import { Badge } from "@/components/ui/badge";
 
-export type MerchantMemberRow = User;
+export type MerchantAccountRow = User;
 
-export default function useMerchantMemberTableColumn({
+export default function useMerchantAccountTableColumn({
   addTab,
 }: {
   addTab: (id: string) => void;
 }) {
-  const t = useTranslations("Merchant.MerchantMembers");
+  const t = useTranslations("Merchant.AccountInformationManagement");
   const router = useRouter();
   const searchParams = useSearchParams();
   const merchantId = searchParams.get("merchantId");
 
-  const { deleteMember } = useMerchantMemberStore();
+  const deleteAccount = useMerchantAccountStore((s) => s.deleteAccount);
 
-  const onOpenDetail = (item: MerchantMemberRow) => {
-    router.push(`/merchant/member/${item.id}`);
+  const onOpenDetail = (item: MerchantAccountRow) => {
+    router.push(`/merchant/account/${item.id}`);
   };
 
-  const onOpenEdit = (item: MerchantMemberRow) => {
-    router.push(`/merchant/member/edit/${item.id}`);
+  const onOpenEdit = (item: MerchantAccountRow) => {
+    router.push(`/merchant/account/edit/${item.id}`);
   };
 
-  const onDelete = (item: MerchantMemberRow) => {
-    deleteMember(item.id);
+  const onDelete = (item: MerchantAccountRow) => {
+    deleteAccount(item.id);
   };
 
-  const column: ColumnDef<MerchantMemberRow>[] = [
+  const column: ColumnDef<MerchantAccountRow>[] = [
     {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => (
-        <ActionsCell<MerchantMemberRow>
+        <ActionsCell<MerchantAccountRow>
           item={row.original}
           onOpenDetail={onOpenDetail}
           onOpenEdit={onOpenEdit}
@@ -62,28 +62,9 @@ export default function useMerchantMemberTableColumn({
       ),
     },
     {
-      accessorKey: "merchantId",
-      header: t("columns.merchantId"),
-      cell: ({ row }) => {
-        const value = row.getValue("merchantId");
-        if (!value) return <div className="text-muted-foreground">—</div>;
-        return <>{String(value)}</>;
-      },
-      enableHiding: Boolean(merchantId),
-    },
-    {
       accessorKey: "name",
       header: t("columns.name"),
-      cell: ({ row }) => (
-        <Button
-          type="button"
-          variant="ghost"
-          className="h-8 px-2 font-medium"
-          onClick={() => addTab(row.original.id)}
-        >
-          {String(row.getValue("name") ?? "")}
-        </Button>
-      ),
+      cell: ({ row }) => <div>{String(row.getValue("name") ?? "")}</div>,
     },
     {
       accessorKey: "email",
@@ -92,18 +73,21 @@ export default function useMerchantMemberTableColumn({
     },
     {
       id: "role",
-      accessorKey: "memberRole",
+      accessorKey: "role",
       header: t("columns.role"),
       cell: ({ row }) => {
-        const role = row.original.memberRole ?? row.original.role;
-        return <div className="capitalize">{String(role ?? "—")}</div>;
+        return (
+          <div className="capitalize">
+            {String(row.getValue("role") ?? "—")}
+          </div>
+        );
       },
     },
     {
-      accessorKey: "lastLoginAt",
-      header: t("columns.lastLoginAt"),
+      accessorKey: "createdAt",
+      header: t("columns.createdAt"),
       cell: ({ row }) => {
-        const raw = row.getValue("lastLoginAt");
+        const raw = row.getValue("createdAt");
         const value = typeof raw === "string" ? raw : "";
         if (!value) return <div className="text-muted-foreground">—</div>;
         const dt = new Date(value);
