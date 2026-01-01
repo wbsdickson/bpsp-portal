@@ -6,12 +6,12 @@ import { useLocale, useTranslations } from "next-intl";
 
 import HeaderPage from "@/components/header-page";
 import { Button } from "@/components/ui/button";
-import MerchantMemberDetail from "../_components/merchant-member-detail";
+import MerchantAccountDetail from "../_components/account-detail";
 
-export default function MerchantMemberDetailPage() {
+export default function MerchantAccountDetailPage() {
   const params = useParams<{ id: string }>();
   const id = params?.id;
-  const t = useTranslations("Merchant.MerchantMembers");
+  const t = useTranslations("Merchant.AccountInformationManagement");
 
   const locale = useLocale();
 
@@ -19,9 +19,11 @@ export default function MerchantMemberDetailPage() {
     return (
       <HeaderPage title={t("detailTitle")}>
         <div className="space-y-4">
-          <div className="text-muted-foreground text-sm">Member not found.</div>
+          <div className="text-muted-foreground text-sm">
+            Account not found.
+          </div>
           <Button asChild variant="outline" className="h-9">
-            <Link href={`/${locale}/merchant/member`}>Back</Link>
+            <Link href={`/${locale}/merchant/account`}>Back</Link>
           </Button>
         </div>
       </HeaderPage>
@@ -30,7 +32,7 @@ export default function MerchantMemberDetailPage() {
 
   return (
     <HeaderPage title={t("detailTitle")}>
-      <MerchantMemberDetail userId={id} />
+      <MerchantAccountDetail accountId={id} />
     </HeaderPage>
   );
 }

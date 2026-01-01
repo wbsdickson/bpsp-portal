@@ -27,8 +27,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMerchantStore } from "@/store/merchant-store";
-import { useMerchantMemberStore } from "@/store/merchant/merchant-member-store";
-import type { MemberRole, User, UserRole } from "@/lib/types";
+import { useMerchantAccountStore } from "@/store/merchant/merchant-account-store";
+import type { Account, MemberRole, UserRole } from "@/lib/types";
 import { generateId } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -39,13 +39,15 @@ import { z } from "zod";
 
 type MerchantMemberStatus = "active" | "suspended";
 
-type MerchantMemberUpsertValues = {
+type MerchantAccountUpsertValues = {
   merchantId: string;
   name: string;
   email: string;
   role: UserRole;
   memberRole: MemberRole;
   status: MerchantMemberStatus;
+  password: string;
+  confirmPassword: string;
 };
 
 const ROLE_OPTIONS: UserRole[] = [
@@ -59,24 +61,24 @@ const MEMBER_ROLE_OPTIONS: MemberRole[] = ["owner", "staff", "viewer"];
 
 const STATUS_OPTIONS: MerchantMemberStatus[] = ["active", "suspended"];
 
-export default function MerchantMemberUpsertForm({
-  userId,
+export default function MerchantAccountUpsertForm({
+  accountId,
 }: {
-  userId?: string;
+  accountId?: string;
 }) {
   const router = useRouter();
   const locale = useLocale();
-  const t = useTranslations("Merchant.MerchantMembers");
+  const t = useTranslations("Merchant.AccountInformationManagement");
   const searchParams = useSearchParams();
   const preselectedMerchantId = searchParams.get("merchantId") ?? "";
 
-  const user = useMerchantMemberStore((s) =>
-    userId ? s.getMemberById(userId) : undefined,
+  const account = useMerchantAccountStore((s) =>
+    accountId ? s.getAccountById(accountId) : undefined,
   );
 
   const merchants = useMerchantStore((s) => s.merchants);
-  const addMember = useMerchantMemberStore((s) => s.addMember);
-  const updateMember = useMerchantMemberStore((s) => s.updateMember);
+  const addAccount = useMerchantAccountStore((s) => s.addAccount);
+  const updateAccount = useMerchantAccountStore((s) => s.updateAccount);
 
   const schema = React.useMemo(
     () =>
@@ -90,48 +92,58 @@ export default function MerchantMemberUpsertForm({
         role: z.enum(["merchant", "admin", "jpcc_admin", "merchant_jpcc"]),
         memberRole: z.enum(["owner", "staff", "viewer"]),
         status: z.enum(["active", "suspended"]),
+        password: z.string().min(1, t("validation.passwordRequired")),
+        confirmPassword: z
+          .string()
+          .min(1, t("validation.confirmPasswordRequired")),
       }),
     [t],
   );
 
-  const form = useForm<MerchantMemberUpsertValues>({
+  const form = useForm<MerchantAccountUpsertValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      merchantId: user?.merchantId ?? preselectedMerchantId,
-      name: user?.name ?? "",
-      email: user?.email ?? "",
-      role: (user?.role ?? "merchant") as UserRole,
-      memberRole: (user?.memberRole ?? "staff") as MemberRole,
-      status: (user?.status ?? "active") as MerchantMemberStatus,
+      merchantId: account?.merchantId ?? preselectedMerchantId,
+      name: account?.name ?? "",
+      email: account?.email ?? "",
+      role: (account?.role ?? "merchant") as UserRole,
+      memberRole: (account?.memberRole ?? "staff") as MemberRole,
+      status: (account?.status ?? "active") as MerchantMemberStatus,
+      password: "",
+      confirmPassword: "",
     },
   });
 
   useEffect(() => {
     form.reset({
-      merchantId: user?.merchantId ?? preselectedMerchantId,
-      name: user?.name ?? "",
-      email: user?.email ?? "",
-      role: (user?.role ?? "merchant") as UserRole,
-      memberRole: (user?.memberRole ?? "staff") as MemberRole,
-      status: (user?.status ?? "active") as MerchantMemberStatus,
+      merchantId: account?.merchantId ?? preselectedMerchantId,
+      name: account?.name ?? "",
+      email: account?.email ?? "",
+      role: (account?.role ?? "merchant") as UserRole,
+      memberRole: (account?.memberRole ?? "staff") as MemberRole,
+      status: (account?.status ?? "active") as MerchantMemberStatus,
+      password: "",
+      confirmPassword: "",
     });
-  }, [form, preselectedMerchantId, user]);
+  }, [form, preselectedMerchantId, account]);
 
-  const onSubmit = form.handleSubmit((data: MerchantMemberUpsertValues) => {
-    if (userId) {
-      updateMember(userId, {
+  const onSubmit = form.handleSubmit((data: MerchantAccountUpsertValues) => {
+    if (accountId) {
+      updateAccount(accountId, {
         merchantId: data.merchantId,
         name: data.name.trim(),
         email: data.email.trim(),
         role: data.role,
         memberRole: data.memberRole,
         status: data.status,
+        password: data.password,
+        confirmPassword: data.confirmPassword,
       });
-      router.push("/merchant/member");
+      router.push("/merchant/account");
       return;
     }
 
-    const newUser: User = {
+    const newAccount: Account = {
       id: generateId("u"),
       merchantId: data.merchantId,
       name: data.name.trim(),
@@ -141,13 +153,15 @@ export default function MerchantMemberUpsertForm({
       status: data.status,
       createdAt: new Date().toISOString(),
       lastLoginAt: new Date().toISOString(),
+      password: data.password,
+      confirmPassword: data.confirmPassword,
     };
 
-    addMember(newUser);
-    router.push("/merchant/member");
+    addAccount(newAccount);
+    router.push("/merchant/account");
   });
 
-  const title = userId ? t("form.editTitle") : t("form.createTitle");
+  const title = accountId ? t("form.editTitle") : t("form.createTitle");
 
   return (
     <Card>
@@ -289,6 +303,38 @@ export default function MerchantMemberUpsertForm({
                         ))}
                       </SelectContent>
                     </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("columns.password")} </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("form.passwordPlaceholder")}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("columns.confirmPassword")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("form.confirmPasswordPlaceholder")}
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

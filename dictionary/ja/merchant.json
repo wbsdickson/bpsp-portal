@@ -1,7 +1,79 @@
 {
   "Merchant": {
+    "AccountInformationManagement": {
+      "title": "アカウント情報管理",
+      "detailTitle": "アカウント詳細",
+      "tabs": {
+        "all": "すべて"
+      },
+      "columns": {
+        "id": "ID",
+        "name": "氏名",
+        "email": "メールアドレス",
+        "role": "ロール",
+        "registrationDate": "登録日",
+        "status": "ステータス",
+        "merchantId": "加盟店ID",
+        "memberRole": "メンバーロール",
+        "password": "パスワード",
+        "confirmPassword": "確認パスワード"
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "buttons": {
+        "create": "アカウントを作成",
+        "cancel": "キャンセル",
+        "save": "保存",
+        "clearFilters": "フィルターをクリア"
+      },
+      "filters": {
+        "accountName": "アカウント名",
+        "emailAddress": "メールアドレス",
+        "role": "ロール",
+        "status": "ステータス",
+        "all": "すべて",
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了"
+      },
+      "statuses": {
+        "active": "active",
+        "suspended": "suspended"
+      },
+      "messages": {
+        "accountNotFound": "アカウントが見つかりません。"
+      },
+      "form": {
+        "createTitle": "アカウントを作成",
+        "editTitle": "アカウントを編集",
+        "selectMerchant": "加盟店を選択",
+        "namePlaceholder": "氏名",
+        "emailPlaceholder": "name@company.com",
+        "selectRole": "ロールを選択",
+        "selectMemberRole": "メンバーロールを選択",
+        "selectStatus": "ステータスを選択",
+        "passwordPlaceholder": "パスワード",
+        "confirmPasswordPlaceholder": "確認パスワード"
+      },
+      "roles": {
+        "merchant": "merchant",
+        "admin": "admin",
+        "jpcc_admin": "jpcc_admin",
+        "merchant_jpcc": "merchant_jpcc"
+      },
+      "memberRoles": {
+        "owner": "Owner",
+        "staff": "Staff",
+        "viewer": "Viewer"
+      }
+    },
     "MemberInformationManagement": {
       "title": "メンバー情報管理",
+      "detailTitle": "メンバー詳細",
       "tabs": {
         "all": "すべて"
       },
@@ -17,6 +89,7 @@
     },
     "CompanyInformationManagement": {
       "title": "会社情報管理",
+      "detailTitle": "会社詳細",
       "tabs": {
         "all": "すべて"
       },
@@ -26,7 +99,66 @@
         "email": "メールアドレス",
         "role": "ロール",
         "registrationDate": "登録日",
-        "status": "ステータス"
+        "status": "ステータス",
+        "address": "住所",
+        "phoneNumber": "電話番号",
+        "invoiceEmail": "請求書メールアドレス",
+        "websiteUrl": "ウェブサイトURL",
+        "invoicePrefix": "請求書プレフィックス",
+        "enableCreditPayment": "クレジット決済を有効にする"
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "buttons": {
+        "create": "会社を作成",
+        "cancel": "キャンセル",
+        "save": "保存",
+        "clearFilters": "フィルターをクリア"
+      },
+      "filters": {
+        "name": "会社名",
+        "email": "メールアドレス",
+        "status": "ステータス",
+        "role": "ロール",
+        "all": "すべて",
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了"
+      },
+      "form": {
+        "createTitle": "会社を作成",
+        "editTitle": "会社を編集",
+        "idPlaceholder": "ID",
+        "namePlaceholder": "会社名",
+        "emailPlaceholder": "name@company.com",
+        "selectStatus": "ステータスを選択",
+        "websiteUrlPlaceholder": "ウェブサイトURL",
+        "invoicePrefixPlaceholder": "請求書プレフィックス",
+        "addressPlaceholder": "住所",
+        "phoneNumberPlaceholder": "電話番号",
+        "invoiceEmailPlaceholder": "請求書メールアドレス"
+      },
+      "statuses": {
+        "active": "active",
+        "suspended": "suspended"
+      },
+      "messages": {
+        "companyNotFound": "会社が見つかりません。"
+      },
+      "validation": {
+        "idRequired": "IDは必須です",
+        "nameRequired": "会社名は必須です",
+        "emailRequired": "メールアドレスは必須です",
+        "emailInvalid": "メールアドレスの形式が正しくありません",
+        "websiteUrlRequired": "ウェブサイトURLは必須です",
+        "invoicePrefixRequired": "請求書プレフィックスは必須です",
+        "addressRequired": "住所は必須です",
+        "phoneNumberRequired": "電話番号は必須です",
+        "invoiceEmailRequired": "請求書メールアドレスは必須です"
       }
     },
     "MerchantMembers": {
