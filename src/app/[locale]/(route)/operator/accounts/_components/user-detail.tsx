@@ -5,15 +5,14 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { useAppStore } from "@/lib/store";
 import { Link } from "next-view-transitions";
 import { useLocale, useTranslations } from "next-intl";
+import { useAccountStore } from "@/store/account-store";
 
 export default function UserDetail({ userId }: { userId: string }) {
-  console.log(userId);
   const locale = useLocale();
   const t = useTranslations("Operator.Accounts");
-  const user = useAppStore((s) => s.users.find((u) => u.id === userId));
+  const user = useAccountStore((s) => s.accounts.find((u) => u.id === userId));
 
   if (!user) {
     return (

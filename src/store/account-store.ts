@@ -21,7 +21,7 @@ export const useAccountStore = create<AccountStoreState>((set, get) => ({
   addAccount: (account: AddAccountInput) => {
     const id = uuid("acc");
     set((state) => ({
-      accounts: [...state.accounts, { ...account, id, status: "active" }],
+      accounts: [{ ...account, id, status: "active" }, ...state.accounts],
     }));
   },
   updateAccount: (id: string, data: Partial<AppUser>) => {

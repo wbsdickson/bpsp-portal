@@ -2,7 +2,7 @@ import ActionsCell from "../../_components/action-cell";
 import { Button } from "@/components/ui/button";
 import type { Notification } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export type PublicationStatus = "scheduled" | "published" | "expired";
@@ -21,12 +21,15 @@ export default function useNotificationTableColumn({
 }) {
   const t = useTranslations("Operator.Notifications");
   const router = useRouter();
+  const pathname = usePathname();
+
+  const basePath = pathname.replace(/\/+$/, "");
 
   const onOpenDetail = (item: NotificationRow) => {
-    router.push(`/operator/notifications/${item.id}`);
+    router.push(`${basePath}/${item.id}`);
   };
   const onOpenEdit = (item: NotificationRow) => {
-    router.push(`/operator/notifications/edit/${item.id}`);
+    router.push(`${basePath}/edit/${item.id}`);
   };
 
   const column: ColumnDef<NotificationRow>[] = [
