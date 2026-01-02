@@ -233,6 +233,52 @@
         "emailRequired": "Email is required",
         "emailInvalid": "Invalid email"
       }
+    },
+    "Clients": {
+      "title": "Client Management",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "merchantId": "Merchant ID",
+        "name": "Client Name",
+        "contactPerson": "Contact person",
+        "phoneNumber": "Phone number",
+        "email": "Email",
+        "registrationDate": "Registration date",
+        "detailLink": "Detail link"
+      },
+      "filters": {
+        "name": "Client name",
+        "phoneNumber": "Phone number",
+        "email": "Email address"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "editTitle": "Edit client",
+        "namePlaceholder": "Client name",
+        "phonePlaceholder": "Phone number",
+        "emailPlaceholder": "name@company.com"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "phoneRequired": "Phone number is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email"
+      },
+      "messages": {
+        "notFound": "Client not found."
+      }
     }
   }
 }

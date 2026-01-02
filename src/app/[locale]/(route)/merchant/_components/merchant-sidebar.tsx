@@ -10,8 +10,6 @@ import {
   Bell,
   Settings,
   Plus,
-  Users,
-  Building,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -55,7 +53,10 @@ const merchantRoutes = [
     label: "Member Management",
     route: "merchant/member",
   },
-  
+  {
+    label: "Client Management",
+    route: "merchant/client",
+  },
 ];
 
 export function AppSidebar({
