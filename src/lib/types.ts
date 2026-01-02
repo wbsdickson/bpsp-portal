@@ -5,6 +5,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  password?: string;
   role: UserRole;
   merchantId?: string; // Link to Merchant
   memberRole?: MemberRole; // Role within the merchant organization
@@ -130,7 +131,7 @@ export interface Merchant {
   invoiceEmail: string;
   websiteUrl?: string;
   invoicePrefix?: string;
-  enableCreditPayment: boolean;
+  enableCreditPayment?: boolean;
   defaultTaxId?: string;
   updatedBy?: string;
 }
@@ -139,9 +140,11 @@ export interface Client {
   id: string;
   merchantId: string;
   name: string;
+  contactPerson?: string;
   email: string;
   phoneNumber: string;
   address?: string;
+  memo?: string;
   createdAt: string;
   updatedAt?: string;
   deletedAt?: string | null;
@@ -189,6 +192,8 @@ export interface Item {
   name: string;
   unitPrice?: number;
   taxId: string;
+  description?: string;
+  status?: "active" | "inactive";
   createdAt: string;
   updatedAt?: string;
   deletedAt?: string | null;
@@ -266,6 +271,7 @@ export interface Quotation {
   amount: number;
   currency: string;
   notes?: string;
+  uploadedPdfName?: string;
   items: QuotationItem[];
   createdAt: string;
   updatedAt?: string;
@@ -328,6 +334,7 @@ export interface DeliveryNote {
   amount: number;
   currency: string;
   notes?: string;
+  uploadedPdfName?: string;
   items: DeliveryNoteItem[];
   createdAt: string;
   updatedAt?: string;
@@ -359,6 +366,7 @@ export interface Receipt {
   amount: number;
   currency: string;
   notes?: string;
+  uploadedPdfName?: string;
   items: ReceiptItem[];
   createdAt: string;
   updatedAt?: string;

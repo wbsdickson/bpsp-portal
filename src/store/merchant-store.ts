@@ -11,7 +11,7 @@ type AddMerchantInput = Omit<
 
 type MerchantStoreState = {
   merchants: AppMerchant[];
-  addMerchant: (merchant: AddMerchantInput) => void;
+  addMerchant: (merchant: AddMerchantInput) => string;
   updateMerchant: (id: string, data: Partial<AppMerchant>) => void;
   deleteMerchant: (id: string) => void;
   getMerchantById: (id: string) => AppMerchant | undefined;
@@ -80,6 +80,8 @@ export const useMerchantStore = create<MerchantStoreState>((set, get) => ({
         },
       ],
     }));
+
+    return id;
   },
   updateMerchant: (id: string, data: Partial<AppMerchant>) => {
     set((state) => ({

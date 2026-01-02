@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import ActionsCell from "../../_components/action-cell";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMerchantStore } from "@/store/merchant-store";
 import type { AppMerchant } from "@/types/merchant";
 
@@ -15,14 +15,17 @@ export default function useMerchantTableColumn({
 }) {
   const t = useTranslations("Operator.Merchants");
   const router = useRouter();
+  const pathname = usePathname();
   const { deleteMerchant } = useMerchantStore();
 
+  const basePath = pathname.replace(/\/+$/, "");
+
   const onOpenDetail = (item: MerchantRow) => {
-    router.push(`/operator/merchants/${item.id}`);
+    router.push(`${basePath}/${item.id}`);
   };
 
   const onOpenEdit = (item: MerchantRow) => {
-    router.push(`/operator/merchants/edit/${item.id}`);
+    router.push(`${basePath}/edit/${item.id}`);
   };
 
   const onDelete = (item: MerchantRow) => {

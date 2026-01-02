@@ -36,6 +36,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useEffect } from "react";
+import { useAccountStore } from "@/store/account-store";
 
 const ROLE_OPTIONS: UserRole[] = [
   "merchant",
@@ -48,6 +49,7 @@ type UserUpsertValues = {
   name: string;
   email: string;
   role: UserRole;
+  password: string;
 };
 
 export default function UserUpsertForm({ userId }: { userId?: string }) {
@@ -55,11 +57,11 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
   const locale = useLocale();
   const t = useTranslations("Operator.Accounts");
 
-  const user = useAppStore((s) =>
-    userId ? s.users.find((u) => u.id === userId) : undefined,
+  const user = useAccountStore((s) =>
+    userId ? s.accounts.find((u) => u.id === userId) : undefined,
   );
-  const updateUser = useAppStore((s) => s.updateUser);
-  const addMember = useAppStore((s) => s.addMember);
+  const updateUser = useAccountStore((s) => s.updateAccount);
+  const addMember = useAccountStore((s) => s.addAccount);
 
   const schema = React.useMemo(
     () =>
@@ -70,9 +72,12 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
           .min(1, t("validation.emailRequired"))
           .email(t("validation.emailInvalid")),
         role: z.enum(["merchant", "admin", "jpcc_admin", "merchant_jpcc"]),
+        password: z.string(),
       }),
     [t],
   );
+
+  type UserUpsertValues = z.infer<typeof schema>;
 
   const form = useForm<UserUpsertValues>({
     resolver: zodResolver(schema),
@@ -80,6 +85,7 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
       name: user?.name ?? "",
       email: user?.email ?? "",
       role: (user?.role ?? "merchant") as UserRole,
+      password: "",
     },
   });
 
@@ -88,17 +94,21 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
       name: user?.name ?? "",
       email: user?.email ?? "",
       role: (user?.role ?? "merchant") as UserRole,
+      password: "",
     });
   }, [form, user]);
 
-  const onSubmit = form.handleSubmit((data: UserUpsertValues) => {
+  const onSubmit = form.handleSubmit((data) => {
     if (userId) {
       updateUser(userId, {
         name: data.name.trim(),
         email: data.email.trim(),
         role: data.role,
+        ...(data.password.trim()
+          ? ({ password: data.password } satisfies Partial<User>)
+          : {}),
       });
-      router.push("/operator/accounts");
+      router.push(`/${locale}/operator/accounts`);
       return;
     }
 
@@ -107,12 +117,15 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
       name: data.name.trim(),
       email: data.email.trim(),
       role: data.role,
+      ...(data.password.trim()
+        ? ({ password: data.password } satisfies Partial<User>)
+        : {}),
       lastLoginAt: new Date().toISOString(),
       status: "active",
     };
 
     addMember(newUser);
-    router.push("/operator/accounts");
+    router.push(`/${locale}/operator/accounts`);
   });
 
   const title = userId ? t("form.editTitle") : t("form.createTitle");
@@ -184,10 +197,24 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           </CardContent>
 
-          <CardFooter className="justify-end gap-2">
+          <CardFooter className="mt-4 justify-end gap-2">
             <Button
               type="button"
               variant="outline"

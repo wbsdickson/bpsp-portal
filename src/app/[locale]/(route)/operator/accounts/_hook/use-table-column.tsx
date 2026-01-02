@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import ActionsCell from "../../_components/action-cell";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAccountStore } from "@/store/account-store";
 import { type AppUser } from "@/types/user";
 
@@ -15,13 +15,16 @@ export default function useAccounTableColumn({
 }) {
   const t = useTranslations("Operator.Accounts");
   const router = useRouter();
+  const pathname = usePathname();
   const { deleteAccount } = useAccountStore();
 
+  const basePath = pathname.replace(/\/+$/, "");
+
   const onOpenDetail = (item: UserRow) => {
-    router.push(`/operator/accounts/${item.id}`);
+    router.push(`${basePath}/${item.id}`);
   };
   const onOpenEdit = (item: UserRow) => {
-    router.push(`/operator/accounts/edit/${item.id}`);
+    router.push(`${basePath}/edit/${item.id}`);
   };
   const onDelete = (item: UserRow) => {
     deleteAccount(item.id);

@@ -35,130 +35,181 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
-const operatorRoutes = [
-  {
-    label: "Dashboard",
-    route: "operator/dashboard",
-  },
-  {
-    label: "Accounts",
-    route: "operator/accounts",
-  },
-  {
-    label: "Merchants",
-    route: "operator/merchants",
-  },
-  {
-    label: "Merchant MIDs",
-    route: "operator/merchant-mid",
-  },
-  {
-    label: "Merchant Fee Management",
-    route: "operator/merchant-fee",
-  },
-  {
-    label: "Clients",
-    route: "operator/clients",
-  },
-  {
-    label: "Bank Accounts",
-    route: "operator/bank-accounts",
-  },
-  {
-    label: "Merchant Cards",
-    route: "operator/merchant-cards",
-  },
-  {
-    label: "Items",
-    route: "operator/items",
-  },
-  {
-    label: "Delivery Notes",
-    route: "operator/delivery-notes",
-  },
-  {
-    label: "Quotations",
-    route: "operator/quotations",
-  },
-  {
-    label: "Bank Transfer Transactions",
-    route: "operator/bank-transfer-transactions",
-  },
-  {
-    label: "Notifications",
-    route: "operator/notifications",
-  },
-  {
-    label: "Merchant Members",
-    route: "operator/merchant-member",
-  },
-  {
-    label: "Invoices",
-    route: "operator/invoices",
-  },
-  // {
-  //   label: "Payment",
-  //   route: "payment",
-  //   children: [
-  //     {
-  //       label: "Transactions",
-  //       route: "transactions",
-  //     },
-  //     {
-  //       label: "Chargebacks",
-  //       route: "chargeback",
-  //     },
-  //     {
-  //       label: "Checkout Sessions",
-  //       route: "checkout-sessions",
-  //     },
-  //     {
-  //       label: "Payment Links",
-  //       route: "payment-links",
-  //     },
-  //     {
-  //       label: "Payment Methods",
-  //       route: "payment-methods",
-  //     },
-  //     {
-  //       label: "Subscriptions",
-  //       route: "subscriptions",
-  //     },
-  //     {
-  //       label: "Webhooks",
-  //       route: "webhooks",
-  //     },
-  //   ],
-  // },
-  // {
-  //   label: "Gateway Management",
-  //   route: "gateway-management",
-  //   children: [
-  //     {
-  //       label: "Routing",
-  //       route: "routing",
-  //     },
-  //     {
-  //       label: "Mid",
-  //       route: "mid",
-  //     },
-  //     {
-  //       label: "Fee",
-  //       route: "fee",
-  //     },
-  //     {
-  //       label: "Blocked Card",
-  //       route: "blocked-card",
-  //     },
-  //   ],
-  // },
-];
+type NavRoute = {
+  label: string;
+  route: string;
+  children?: NavRoute[];
+};
+// {
+//   label: "Payment",
+//   route: "payment",
+//   children: [
+//     {
+//       label: "Transactions",
+//       route: "transactions",
+//     },
+//     {
+//       label: "Chargebacks",
+//       route: "chargeback",
+//     },
+//     {
+//       label: "Checkout Sessions",
+//       route: "checkout-sessions",
+//     },
+//     {
+//       label: "Payment Links",
+//       route: "payment-links",
+//     },
+//     {
+//       label: "Payment Methods",
+//       route: "payment-methods",
+//     },
+//     {
+//       label: "Subscriptions",
+//       route: "subscriptions",
+//     },
+//     {
+//       label: "Webhooks",
+//       route: "webhooks",
+//     },
+//   ],
+// },
+// {
+//   label: "Gateway Management",
+//   route: "gateway-management",
+//   children: [
+//     {
+//       label: "Routing",
+//       route: "routing",
+//     },
+//     {
+//       label: "Mid",
+//       route: "mid",
+//     },
+//     {
+//       label: "Fee",
+//       route: "fee",
+//     },
+//     {
+//       label: "Blocked Card",
+//       route: "blocked-card",
+//     },
+//   ],
+// },
 
 export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar> & { role?: string }) {
-  const routes = operatorRoutes;
+  const t = useTranslations("Operator.Sidebar");
+  const routes = React.useMemo<NavRoute[]>(
+    () => [
+      {
+        label: t("dashboard"),
+        route: "operator/dashboard",
+      },
+      {
+        label: t("accounts"),
+        route: "operator/accounts",
+      },
+      {
+        label: t("merchantsManagement"),
+        route: "operator/merchant-management",
+        children: [
+          {
+            label: t("merchantManagement.dashboard"),
+            route: "operator/merchant-management/dashboard",
+          },
+          {
+            label: t("merchantManagement.member"),
+            route: "operator/merchant-management/members",
+          },
+          {
+            label: t("merchantManagement.midSettings"),
+            route: "operator/merchant-management/mid-settings",
+          },
+          {
+            label: t("merchantManagement.feeRate"),
+            route: "operator/merchant-management/fee-rate",
+          },
+          {
+            label: t("merchantManagement.transaction"),
+            route: "operator/merchant-management/transactions",
+          },
+          {
+            label: t("merchantManagement.client"),
+            route: "operator/merchant-management/clients",
+          },
+          {
+            label: t("merchantManagement.bankAccount"),
+            route: "operator/merchant-management/bank-accounts",
+          },
+          {
+            label: t("merchantManagement.cards"),
+            route: "operator/merchant-management/cards",
+          },
+          {
+            label: t("merchantManagement.taxSettings"),
+            route: "operator/merchant-management/tax-settings",
+          },
+          {
+            label: t("merchantManagement.items"),
+            route: "operator/merchant-management/items",
+          },
+          {
+            label: t("merchantManagement.invoicesIssuance"),
+            route: "operator/merchant-management/invoices",
+          },
+          {
+            label: t("merchantManagement.quotationsIssuance"),
+            route: "operator/merchant-management/quotations",
+          },
+          {
+            label: t("merchantManagement.deliveryNoteIssuance"),
+            route: "operator/merchant-management/delivery-notes",
+          },
+          {
+            label: t("merchantManagement.receiptIssuance"),
+            route: "operator/merchant-management/receipt",
+          },
+          {
+            label: t("merchantManagement.receivedPayableInvoices"),
+            route: "operator/merchant-management/received-payable-invoices",
+          },
+        ],
+      },
+      {
+        label: t("merchants"),
+        route: "operator/merchants",
+      },
+      {
+        label: t("payoutTransactions"),
+        route: "operator/payout-transactions",
+      },
+      {
+        label: t("notifications"),
+        route: "operator/notifications",
+      },
+      {
+        label: t("sales"),
+        route: "operator/sales",
+      },
+      {
+        label: t("systemSettings"),
+        route: "operator/system-settings",
+      },
+      {
+        label: t("midSettings"),
+        route: "operator/mid",
+      },
+      {
+        label: t("midFee"),
+        route: "operator/mid-fee",
+      },
+    ],
+    [t],
+  );
   const session = useSession();
   const user = session?.data?.user;
 

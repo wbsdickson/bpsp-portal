@@ -73,6 +73,7 @@ export type DataTableProps<TData> = {
   showFooter?: boolean;
   toolbarRight?: React.ReactNode;
   renderToolbar?: (table: TanstackTable<TData>) => React.ReactNode;
+  initialColumnVisibility?: VisibilityState;
 };
 
 export function DataTable<TData>({
@@ -86,13 +87,14 @@ export function DataTable<TData>({
   showFooter = true,
   toolbarRight,
   renderToolbar,
+  initialColumnVisibility,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>(() => initialColumnVisibility ?? {});
   const [columnOrder, setColumnOrder] = React.useState<ColumnOrderState>(() =>
     columns.map(getColumnDefId),
   );

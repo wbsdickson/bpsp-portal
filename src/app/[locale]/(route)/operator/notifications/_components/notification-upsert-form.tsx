@@ -37,6 +37,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
 
 type UpsertMode = "create" | "edit";
 
@@ -74,8 +75,6 @@ export default function NotificationUpsertForm({
   const t = useTranslations("Operator.Notifications");
 
   const merchants = useMerchantStore((s) => s.merchants);
-
-  console.log("merchants:", merchants);
 
   const notification = useNotificationStore((s) =>
     notificationId ? s.getNotificationById(notificationId) : undefined,
@@ -149,8 +148,10 @@ export default function NotificationUpsertForm({
 
     if (mode === "create") {
       addNotification(payload);
+      toast.success(t("messages.createSuccess"));
     } else if (notificationId) {
       updateNotification(notificationId, payload);
+      toast.success(t("messages.updateSuccess"));
     }
 
     router.push(`/${locale}/operator/notifications`);
