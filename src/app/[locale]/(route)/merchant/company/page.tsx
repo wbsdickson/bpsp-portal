@@ -9,11 +9,14 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import MerchantCompanyTable from "./_components/company-table";
 import MerchantCompanyDetail from "./_components/company-detail";
+import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
+import MerchantCompanyUpsertForm from "./_components/company-upsert-form";
+import { useState } from "react";
 
 export default function MerchantCompaniesPage() {
   const t = useTranslations("Merchant.CompanyInformationManagement");
   const router = useRouter();
-
+  const [modalOpen, setModalOpen] = useState(false);
   return (
     <HeaderPage title={t("title")}>
       <RecordTabs
@@ -30,7 +33,7 @@ export default function MerchantCompaniesPage() {
             type="button"
             size="sm"
             onClick={() => {
-              router.push(`/merchant/company/create`);
+              setModalOpen(true);
             }}
           >
             <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
@@ -54,6 +57,11 @@ export default function MerchantCompaniesPage() {
           return <MerchantCompanyDetail companyId={tab.key} />;
         }}
       />
+      <AlertDialog open={modalOpen} onOpenChange={setModalOpen}>
+        <AlertDialogContent>
+          <MerchantCompanyUpsertForm onSuccess={() => setModalOpen(false)} />
+        </AlertDialogContent>
+      </AlertDialog>
     </HeaderPage>
   );
 }

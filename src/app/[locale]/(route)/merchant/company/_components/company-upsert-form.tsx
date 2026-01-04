@@ -43,8 +43,10 @@ type MerchantCompanyUpsertValues = {
 
 export default function MerchantCompanyUpsertForm({
   companyId,
+  onSuccess,
 }: {
   companyId?: string;
+  onSuccess?: () => void;
 }) {
   const router = useRouter();
   const locale = useLocale();
@@ -110,7 +112,7 @@ export default function MerchantCompanyUpsertForm({
         invoicePrefix: data.invoicePrefix?.trim() ?? "",
         enableCreditPayment: data.enableCreditPayment,
       });
-      router.push("/merchant/company");
+      if (onSuccess) onSuccess();
       return;
     }
 
@@ -126,7 +128,7 @@ export default function MerchantCompanyUpsertForm({
     };
 
     addCompany(newCompany);
-    router.push("/merchant/company");
+    if (onSuccess) onSuccess();
   });
 
   const title = companyId ? t("form.editTitle") : t("form.createTitle");
@@ -280,6 +282,7 @@ export default function MerchantCompanyUpsertForm({
               variant="outline"
               className="h-9"
               onClick={() => {
+                if (onSuccess) onSuccess();
                 router.push(`/${locale}/merchant/company`);
               }}
             >

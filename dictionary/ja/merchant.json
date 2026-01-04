@@ -69,6 +69,19 @@
         "owner": "Owner",
         "staff": "Staff",
         "viewer": "Viewer"
+      },
+      "validation": {
+        "merchantRequired": "加盟店は必須です",
+        "nameRequired": "氏名は必須です",
+        "emailRequired": "メールアドレスは必須です",
+        "emailInvalid": "メールアドレスの形式が正しくありません",
+        "roleRequired": "ロールは必須です",
+        "memberRoleRequired": "メンバーロールは必須です",
+        "statusRequired": "ステータスは必須です",
+        "passwordRequired": "パスワードは必須です",
+        "passwordInvalid": "パスワードの形式が正しくありません",
+        "confirmPasswordRequired": "確認パスワードは必須です",
+        "confirmPasswordInvalid": "確認パスワードの形式が正しくありません"
       }
     },
     "MemberInformationManagement": {
@@ -274,6 +287,60 @@
         "phoneRequired": "電話番号は必須です",
         "emailRequired": "メールアドレスは必須です",
         "emailInvalid": "メールアドレスの形式が正しくありません"
+      }
+    },
+    "BankAccounts": {
+      "title": "振込先口座",
+      "tabs": {
+        "all": "すべて"
+      },
+      "columns": {
+        "merchantId": "加盟店",
+        "bankName": "銀行名",
+        "branchName": "支店名",
+        "accountType": "口座種別",
+        "accountNumber": "口座番号",
+        "accountHolder": "口座名義",
+        "registrationDate": "登録日",
+        "detailLink": "詳細"
+      },
+      "filters": {
+        "bankName": "銀行名",
+        "branchName": "支店名",
+        "accountHolder": "口座名義"
+      },
+      "accountTypes": {
+        "checking": "当座",
+        "savings": "普通"
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "buttons": {
+        "clearFilters": "フィルターをクリア",
+        "cancel": "キャンセル",
+        "save": "保存"
+      },
+      "form": {
+        "editTitle": "振込先口座を編集",
+        "bankNamePlaceholder": "銀行名",
+        "branchNamePlaceholder": "支店名",
+        "selectAccountType": "口座種別を選択",
+        "accountNumberPlaceholder": "口座番号",
+        "accountHolderPlaceholder": "口座名義"
+      },
+      "validation": {
+        "bankNameRequired": "銀行名は必須です",
+        "accountNumberRequired": "口座番号は必須です",
+        "accountHolderRequired": "口座名義は必須です"
+      },
+      "messages": {
+        "createSuccess": "振込先口座を作成しました。",
+        "updateSuccess": "振込先口座を更新しました。",
+        "notFound": "振込先口座が見つかりません。"
       }
     },
     "messages": {

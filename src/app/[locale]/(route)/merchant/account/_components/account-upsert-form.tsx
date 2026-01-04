@@ -63,8 +63,10 @@ const STATUS_OPTIONS: MerchantMemberStatus[] = ["active", "suspended"];
 
 export default function MerchantAccountUpsertForm({
   accountId,
+  onSuccess,
 }: {
   accountId?: string;
+  onSuccess?: () => void;
 }) {
   const router = useRouter();
   const locale = useLocale();
@@ -139,7 +141,8 @@ export default function MerchantAccountUpsertForm({
         password: data.password,
         confirmPassword: data.confirmPassword,
       });
-      router.push("/merchant/account");
+      if (onSuccess) onSuccess();
+      router.push(`/${locale}/merchant/account`);
       return;
     }
 
@@ -158,7 +161,7 @@ export default function MerchantAccountUpsertForm({
     };
 
     addAccount(newAccount);
-    router.push("/merchant/account");
+    if (onSuccess) onSuccess();
   });
 
   const title = accountId ? t("form.editTitle") : t("form.createTitle");
@@ -316,6 +319,7 @@ export default function MerchantAccountUpsertForm({
                     <FormControl>
                       <Input
                         placeholder={t("form.passwordPlaceholder")}
+                        type="password"
                         {...field}
                       />
                     </FormControl>
@@ -332,6 +336,7 @@ export default function MerchantAccountUpsertForm({
                     <FormControl>
                       <Input
                         placeholder={t("form.confirmPasswordPlaceholder")}
+                        type="password"
                         {...field}
                       />
                     </FormControl>
@@ -348,7 +353,8 @@ export default function MerchantAccountUpsertForm({
               variant="outline"
               className="h-9"
               onClick={() => {
-                router.push(`/${locale}/merchant/member`);
+                if (onSuccess) onSuccess();
+                router.push(`/${locale}/merchant/account`);
               }}
             >
               {t("buttons.cancel")}

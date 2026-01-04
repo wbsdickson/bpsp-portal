@@ -69,6 +69,19 @@
         "owner": "Owner",
         "staff": "Staff",
         "viewer": "Viewer"
+      },
+      "validation": {
+        "merchantRequired": "Merchant is required",
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email",
+        "roleRequired": "Role is required",
+        "memberRoleRequired": "Member role is required",
+        "statusRequired": "Status is required",
+        "passwordRequired": "Password is required",
+        "passwordInvalid": "Invalid password",
+        "confirmPasswordRequired": "Confirm password is required",
+        "confirmPasswordInvalid": "Confirm password is invalid"
       }
     },
     "MemberInformationManagement": {
@@ -157,7 +170,12 @@
         "invoicePrefixRequired": "Invoice prefix is required",
         "addressRequired": "Address is required",
         "phoneNumberRequired": "Phone number is required",
-        "invoiceEmailRequired": "Invoice email is required"
+        "invoiceEmailRequired": "Invoice email is required",
+        "invoiceEmailInvalid": "Invalid email address",
+        "confirmPasswordRequired": "Confirm password is required",
+        "confirmPasswordInvalid": "Confirm password is invalid",
+        "passwordRequired": "Password is required",
+        "passwordInvalid": "Invalid password"
       }
     },
     "MerchantMembers": {
@@ -278,6 +296,60 @@
       },
       "messages": {
         "notFound": "Client not found."
+      }
+    },
+    "BankAccounts": {
+      "title": "Bank accounts",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "merchantId": "Merchant",
+        "bankName": "Bank name",
+        "branchName": "Branch name",
+        "accountType": "Account type",
+        "accountNumber": "Account number",
+        "accountHolder": "Account holder",
+        "registrationDate": "Registration date",
+        "detailLink": "Detail link"
+      },
+      "filters": {
+        "bankName": "Bank name",
+        "branchName": "Branch name",
+        "accountHolder": "Account holder"
+      },
+      "accountTypes": {
+        "checking": "Checking",
+        "savings": "Savings"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "editTitle": "Edit bank account",
+        "bankNamePlaceholder": "Bank name",
+        "branchNamePlaceholder": "Branch name",
+        "selectAccountType": "Select account type",
+        "accountNumberPlaceholder": "Account number",
+        "accountHolderPlaceholder": "Account holder"
+      },
+      "validation": {
+        "bankNameRequired": "Bank name is required",
+        "accountNumberRequired": "Account number is required",
+        "accountHolderRequired": "Account holder is required"
+      },
+      "messages": {
+        "createSuccess": "Bank account created successfully.",
+        "updateSuccess": "Bank account updated successfully.",
+        "notFound": "Bank account not found."
       }
     }
   }
