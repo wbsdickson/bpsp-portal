@@ -6614,7 +6614,6 @@ export const MOCK_ACCOUNTS: User[] = [
     name: "Jill Doe",
     email: "jill.doe@example.com",
     role: "merchant",
-    status: "active",
     status: "suspended",
     createdAt: "2023-12-28T10:00:00Z",
   },
@@ -6632,7 +6631,6 @@ export const MOCK_ACCOUNTS: User[] = [
     email: "jill.doe@example.com",
     role: "merchant",
     status: "active",
-    status: "suspended",
     createdAt: "2023-12-28T10:00:00Z",
   },
   {
@@ -6664,7 +6662,6 @@ export const MOCK_ACCOUNTS: User[] = [
     name: "Jill Doe",
     email: "jill.doe@example.com",
     role: "merchant",
-    status: "active",
     status: "suspended",
     createdAt: "2023-12-28T10:00:00Z",
   },

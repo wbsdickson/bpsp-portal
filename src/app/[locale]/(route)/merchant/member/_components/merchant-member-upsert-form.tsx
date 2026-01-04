@@ -60,8 +60,10 @@ const MEMBER_ROLE_OPTIONS: MemberRole[] = ["owner", "staff", "viewer"];
 const STATUS_OPTIONS: MerchantMemberStatus[] = ["active", "suspended"];
 
 export default function MerchantMemberUpsertForm({
+  onSuccess,
   userId,
 }: {
+  onSuccess?: () => void;
   userId?: string;
 }) {
   const router = useRouter();
@@ -127,7 +129,7 @@ export default function MerchantMemberUpsertForm({
         memberRole: data.memberRole,
         status: data.status,
       });
-      router.push("/merchant/member");
+      if (onSuccess) onSuccess();
       return;
     }
 
@@ -144,7 +146,7 @@ export default function MerchantMemberUpsertForm({
     };
 
     addMember(newUser);
-    router.push("/merchant/member");
+    if (onSuccess) onSuccess();
   });
 
   const title = userId ? t("form.editTitle") : t("form.createTitle");
@@ -302,6 +304,7 @@ export default function MerchantMemberUpsertForm({
               variant="outline"
               className="h-9"
               onClick={() => {
+                if (onSuccess) onSuccess();
                 router.push(`/${locale}/merchant/member`);
               }}
             >

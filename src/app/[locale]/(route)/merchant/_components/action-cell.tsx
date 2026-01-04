@@ -40,7 +40,7 @@ export default function ActionsCell<T>({
           <MoreHorizontal />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="start">
         <DropdownMenuLabel>{t("actions.label")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {actions.map((res) => {
