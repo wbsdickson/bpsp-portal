@@ -4,13 +4,6 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -38,21 +31,22 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useBasePath } from "@/hooks/use-base-path";
 import { toast } from "sonner";
-
-type MerchantMidUpsertValues = {
-  merchantId: string;
-  mid: string;
-  brand: string;
-  status: MerchantMidStatus;
-  effectiveStartDate: string;
-  effectiveEndDate: string;
-};
+import { createMerchantMidSchema } from "../_lib/merchant-mid-schema";
 
 const STATUS_OPTIONS: MerchantMidStatus[] = ["active", "inactive"];
 
-export default function MerchantMidUpsertForm({ midId }: { midId?: string }) {
+export default function MerchantMidUpsertForm({
+  midId,
+  onCancel,
+  onSuccess,
+}: {
+  midId?: string;
+  onCancel?: () => void;
+  onSuccess?: () => void;
+}) {
   const router = useRouter();
   const t = useTranslations("Operator.MerchantMIDs");
+  const { basePath } = useBasePath();
 
   const mid = useMerchantMidStore((s) =>
     midId ? s.getMidById(midId) : undefined,
@@ -61,24 +55,9 @@ export default function MerchantMidUpsertForm({ midId }: { midId?: string }) {
   const merchants = useMerchantStore((s) => s.merchants);
   const addMid = useMerchantMidStore((s) => s.addMid);
   const updateMid = useMerchantMidStore((s) => s.updateMid);
-  const { basePath } = useBasePath();
 
-  const schema = React.useMemo(
-    () =>
-      z.object({
-        merchantId: z.string().min(1, t("validation.merchantRequired")),
-        mid: z.string().min(1, t("validation.midRequired")),
-        brand: z.string().min(1, t("validation.brandRequired")),
-        status: z.enum(["active", "inactive"]),
-        effectiveStartDate: z
-          .string()
-          .min(1, t("validation.effectiveStartDateRequired")),
-        effectiveEndDate: z
-          .string()
-          .min(1, t("validation.effectiveEndDateRequired")),
-      }),
-    [t],
-  );
+  const schema = React.useMemo(() => createMerchantMidSchema(t), [t]);
+  type MerchantMidUpsertValues = z.infer<typeof schema>;
 
   const form = useForm<MerchantMidUpsertValues>({
     resolver: zodResolver(schema),
@@ -120,178 +99,176 @@ export default function MerchantMidUpsertForm({ midId }: { midId?: string }) {
         effectiveEndDate: data.effectiveEndDate,
       });
       toast.success(t("messages.updateSuccess"));
-      router.push(basePath);
-      return;
+    } else {
+      addMid({
+        merchantId: data.merchantId,
+        mid: data.mid.trim(),
+        brand: data.brand.trim(),
+        status: data.status,
+        effectiveStartDate: data.effectiveStartDate,
+        effectiveEndDate: data.effectiveEndDate,
+      });
+      toast.success(t("messages.createSuccess"));
     }
 
-    addMid({
-      merchantId: data.merchantId,
-      mid: data.mid.trim(),
-      brand: data.brand.trim(),
-      status: data.status,
-      effectiveStartDate: data.effectiveStartDate,
-      effectiveEndDate: data.effectiveEndDate,
-    });
-    toast.success(t("messages.createSuccess"));
-    router.push(basePath);
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      router.push(basePath);
+    }
   });
 
-  const title = midId ? t("form.editTitle") : t("form.createTitle");
-
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <Form {...form}>
-        <form onSubmit={onSubmit}>
-          <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="merchantId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.merchantName")}</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="h-9 w-full">
-                          <SelectValue placeholder={t("form.selectMerchant")} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {merchants.map((m) => (
-                          <SelectItem key={m.id} value={m.id}>
-                            {m.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <Form {...form}>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 gap-4">
+          <FormField
+            control={form.control}
+            name="merchantId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.merchantName")}</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger className="h-9 w-full">
+                      <SelectValue placeholder={t("form.selectMerchant")} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {merchants.map((m) => (
+                      <SelectItem key={m.id} value={m.id}>
+                        {m.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="mid"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.mid")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.midPlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="mid"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.mid")}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t("form.midPlaceholder")}
+                    className="h-9"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="brand"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.brand")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.brandPlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="brand"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.brand")}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t("form.brandPlaceholder")}
+                    className="h-9"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.status")}</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="h-9 w-full">
-                          <SelectValue placeholder={t("form.selectStatus")} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {STATUS_OPTIONS.map((s) => (
-                          <SelectItem key={s} value={s}>
-                            {t(`statuses.${s}`)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.status")}</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger className="h-9 w-full">
+                      <SelectValue placeholder={t("form.selectStatus")} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {STATUS_OPTIONS.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {t(`statuses.${s}`)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="effectiveStartDate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.effectiveStartDate")}</FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        id="effectiveStartDate"
-                        label={null}
-                        placeholder={t("form.effectiveStartDatePlaceholder")}
-                        value={field.value ? new Date(field.value) : undefined}
-                        onChange={(d) => field.onChange(d?.toISOString() ?? "")}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="effectiveStartDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("form.effectiveStartDate")}</FormLabel>
+                <FormControl>
+                  <DatePicker
+                    id="effectiveStartDate"
+                    label={null}
+                    placeholder={t("form.effectiveStartDatePlaceholder")}
+                    value={field.value ? new Date(field.value) : undefined}
+                    onChange={(d) => field.onChange(d?.toISOString() ?? "")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="effectiveEndDate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("form.effectiveEndDate")}</FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        id="effectiveEndDate"
-                        label={null}
-                        placeholder={t("form.effectiveEndDatePlaceholder")}
-                        value={field.value ? new Date(field.value) : undefined}
-                        onChange={(d) => field.onChange(d?.toISOString() ?? "")}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </CardContent>
+          <FormField
+            control={form.control}
+            name="effectiveEndDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("form.effectiveEndDate")}</FormLabel>
+                <FormControl>
+                  <DatePicker
+                    id="effectiveEndDate"
+                    label={null}
+                    placeholder={t("form.effectiveEndDatePlaceholder")}
+                    value={field.value ? new Date(field.value) : undefined}
+                    onChange={(d) => field.onChange(d?.toISOString() ?? "")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-          <CardFooter className="mt-4 justify-end gap-2">
+        <div className="flex justify-end gap-2">
+          {onCancel && (
             <Button
               type="button"
               variant="outline"
               className="h-9"
-              onClick={() => router.push(basePath)}
+              onClick={onCancel}
             >
               {t("buttons.cancel")}
             </Button>
-            <Button
-              type="submit"
-              className="h-9 bg-indigo-600 hover:bg-indigo-700"
-              disabled={form.formState.isSubmitting}
-            >
-              {t("buttons.save")}
-            </Button>
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+          )}
+          <Button
+            type="submit"
+            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            disabled={form.formState.isSubmitting}
+          >
+            {t("buttons.save")}
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

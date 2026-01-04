@@ -1,20 +1,18 @@
 "use client";
 
-import * as React from "react";
-
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
-import HeaderPage from "@/components/header-page";
-import { Button } from "@/components/ui/button";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { useQuotationStore } from "@/store/quotation-store";
 import QuotationDetail from "../_components/quotation-detail";
+import { useBasePath } from "@/hooks/use-base-path";
 
 export default function OperatorQuotationDetailPage() {
   const params = useParams<{ id: string }>();
   const id = params?.id;
-
+  const router = useRouter();
+  const { basePath } = useBasePath();
   const locale = useLocale();
   const t = useTranslations("Operator.Quotations");
 
@@ -22,43 +20,20 @@ export default function OperatorQuotationDetailPage() {
     id ? s.getQuotationById(id) : undefined,
   );
 
-  if (!id) {
-    return (
-      <HeaderPage title={t("title")}>
-        <div className="space-y-4">
-          <div className="text-muted-foreground text-sm">
-            Missing quotation id.
-          </div>
-          <Button asChild variant="outline" className="h-9">
-            <Link href={`/${locale}/operator/quotations`}>
-              {t("buttons.back")}
-            </Link>
-          </Button>
-        </div>
-      </HeaderPage>
-    );
-  }
-
-  if (!quotation) {
-    return (
-      <HeaderPage title={t("title")}>
-        <div className="space-y-4">
-          <div className="text-muted-foreground text-sm">
-            {t("messages.notFound")}
-          </div>
-          <Button asChild variant="outline" className="h-9">
-            <Link href={`/${locale}/operator/quotations`}>
-              {t("buttons.back")}
-            </Link>
-          </Button>
-        </div>
-      </HeaderPage>
-    );
+  if (!id || !quotation) {
+    // Ideally handle 404 or redirect
+    return null;
   }
 
   return (
-    <HeaderPage title={quotation.quotationNumber}>
+    <div className="space-y-6">
+      <PageBreadcrumb
+        items={[
+          { label: t("title"), href: basePath },
+          { label: quotation.quotationNumber, href: `${basePath}/${id}` },
+        ]}
+      />
       <QuotationDetail quotationId={id} />
-    </HeaderPage>
+    </div>
   );
 }

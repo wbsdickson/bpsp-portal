@@ -10,6 +10,8 @@ import HeaderPage from "@/components/header-page";
 import { Button } from "@/components/ui/button";
 import { useInvoiceStore } from "@/store/invoice-store";
 import InvoiceDetail from "../_components/invoice-detail";
+import { useBasePath } from "@/hooks/use-base-path";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 
 export default function OperatorInvoiceDetailPage() {
   const params = useParams<{ id: string }>();
@@ -17,10 +19,16 @@ export default function OperatorInvoiceDetailPage() {
 
   const locale = useLocale();
   const t = useTranslations("Operator.Invoice");
+  const { basePath } = useBasePath();
 
   const invoice = useInvoiceStore((s) =>
     id ? s.getInvoiceById(id) : undefined,
   );
+
+  const breadcrumbItems = [
+    { label: t("title"), href: basePath },
+    { label: id, active: true },
+  ];
 
   if (!id) {
     return (
@@ -57,8 +65,9 @@ export default function OperatorInvoiceDetailPage() {
   }
 
   return (
-    <HeaderPage title={invoice.invoiceNumber}>
+    <div className="space-y-4">
+      <PageBreadcrumb items={breadcrumbItems} />
       <InvoiceDetail id={id} />
-    </HeaderPage>
+    </div>
   );
 }

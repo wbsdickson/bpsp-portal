@@ -28,8 +28,8 @@ export default function ActionsCell<T>({
       title: t("actions.view"),
       onPress: () => onOpenDetail(item),
     });
-  if (onOpenEdit)
-    actions.push({ title: t("actions.edit"), onPress: () => onOpenEdit(item) });
+  // if (onOpenEdit)
+  //   actions.push({ title: t("actions.edit"), onPress: () => onOpenEdit(item) });
   if (onDelete)
     actions.push({ title: t("actions.delete"), onPress: () => onDelete(item) });
 

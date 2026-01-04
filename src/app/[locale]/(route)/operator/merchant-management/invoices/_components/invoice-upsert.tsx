@@ -434,13 +434,10 @@ function CreateInvoiceForm({
                       <TableCell className="text-right font-medium">
                         {formatMoney(
                           (form.getValues(`items.${index}.quantity`) ?? 0) *
-                            (form.getValues(`items.${index}.unitPrice`) ?? 0) +
-                            (form.getValues(`items.${index}.quantity`) ?? 0) *
-                              (form.getValues(`items.${index}.unitPrice`) ??
-                                0) *
-                              (taxRateById.get(
-                                form.getValues(`items.${index}.taxId`) ?? "",
-                              ) ?? 0),
+                            (form.getValues(`items.${index}.unitPrice`) ?? 0) *
+                            (taxRateById.get(
+                              form.getValues(`items.${index}.taxId`) ?? "",
+                            ) ?? 0),
                           currency,
                         )}
                       </TableCell>
@@ -462,7 +459,7 @@ function CreateInvoiceForm({
               </Table>
 
               <Separator />
-              <div className="mt-2 flex items-center justify-between gap-4">
+              <div className="flex items-center justify-between gap-4 p-2">
                 <Button
                   type="button"
                   variant="outline"

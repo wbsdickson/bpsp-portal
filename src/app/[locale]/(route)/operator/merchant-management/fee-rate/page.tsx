@@ -10,14 +10,26 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBasePath } from "@/hooks/use-base-path";
+import { useModalStore } from "@/store/modal-store";
 
 export default function MerchantFeePage() {
   const t = useTranslations("Operator.MerchantFees");
   const router = useRouter();
   const { basePath } = useBasePath();
+  const { onOpen } = useModalStore();
 
   return (
     <HeaderPage title={t("title")}>
+      <div className="flex items-center justify-end">
+        <Button
+          type="button"
+          size="sm"
+          className="h-9 bg-indigo-600 hover:bg-indigo-700"
+          onClick={() => onOpen("create-merchant-fee")}
+        >
+          <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
+        </Button>
+      </div>
       <RecordTabs
         initialTabs={[
           {
@@ -27,16 +39,6 @@ export default function MerchantFeePage() {
           },
         ]}
         defaultActiveKey="table"
-        renderRight={() => (
-          <Button
-            type="button"
-            size="sm"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
-            onClick={() => router.push(`${basePath}/create`)}
-          >
-            <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
-          </Button>
-        )}
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (

@@ -7,13 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import useAccounTableColumn from "../_hook/use-table-column";
+import useAccounTableColumn, { UserRow } from "../_hook/use-table-column";
 import { useAccountStore } from "@/store/account-store";
 
 export default function UserTable({
   addTab,
 }: {
-  addTab: (id: string) => void;
+  addTab: (item: UserRow) => void;
 }) {
   const t = useTranslations("Operator.Accounts");
   const accounts = useAccountStore((s) => s.accounts);
@@ -26,7 +26,6 @@ export default function UserTable({
 
   return (
     <div className="space-y-3">
-      
       <DataTable
         columns={column}
         data={accounts}

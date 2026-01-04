@@ -199,6 +199,14 @@ const weeklySales = [
   { day: "Sun", a: 130, b: 75, c: 45 },
 ];
 
+const merchantSalesRanking = [
+  { name: "TechGiant Corp", sales: 450000 },
+  { name: "Global Traders", sales: 320000 },
+  { name: "EcoGoods Ltd", sales: 280000 },
+  { name: "FashionForward", sales: 210000 },
+  { name: "HomeEssentials", sales: 150000 },
+];
+
 const statsSpark = [
   { x: 1, y: 12 },
   { x: 2, y: 18 },
@@ -562,13 +570,13 @@ export default function DashboardClient() {
 
         <Card className="border-0 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base">Sales Statistics</CardTitle>
+            <CardTitle className="text-base">Merchant Sales Ranking</CardTitle>
             <Button type="button" variant="outline" className="h-8 bg-white">
               Sort By
             </Button>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-2">
+            {/* <div className="grid grid-cols-2 gap-2">
               <div className="rounded-xl border bg-white p-3">
                 <div className="text-muted-foreground text-xs">Total Sales</div>
                 <div className="text-sm font-semibold">$3.478B</div>
@@ -589,32 +597,37 @@ export default function DashboardClient() {
                 <div className="text-muted-foreground text-xs">Growth</div>
                 <div className="text-sm font-semibold">+12.4%</div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="h-[160px]">
+            <div className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={weeklySales} margin={{ left: 8, right: 8 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="day" tickLine={false} axisLine={false} />
-                  <YAxis tickLine={false} axisLine={false} />
-                  <Tooltip />
+                <BarChart
+                  layout="vertical"
+                  data={merchantSalesRanking}
+                  margin={{ left: 0, right: 30, top: 0, bottom: 0 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                  <XAxis type="number" tickLine={false} axisLine={false} />
+                  <YAxis
+                    dataKey="name"
+                    type="category"
+                    tickLine={false}
+                    axisLine={false}
+                    width={100}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <Tooltip
+                    cursor={{ fill: "transparent" }}
+                    formatter={(value: number) => [
+                      `$${value.toLocaleString()}`,
+                      "Sales",
+                    ]}
+                  />
                   <Bar
-                    dataKey="a"
-                    stackId="s"
+                    dataKey="sales"
                     fill="#4F46E5"
-                    radius={[6, 6, 0, 0]}
-                  />
-                  <Bar
-                    dataKey="b"
-                    stackId="s"
-                    fill="#EC4899"
-                    radius={[6, 6, 0, 0]}
-                  />
-                  <Bar
-                    dataKey="c"
-                    stackId="s"
-                    fill="#FB923C"
-                    radius={[6, 6, 0, 0]}
+                    radius={[0, 4, 4, 0]}
+                    barSize={20}
                   />
                 </BarChart>
               </ResponsiveContainer>
