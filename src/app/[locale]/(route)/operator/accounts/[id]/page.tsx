@@ -35,14 +35,16 @@ export default function UserDetailPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mx-auto w-[1280px] space-y-4">
       <PageBreadcrumb
         items={[
           { label: "Accounts", href: basePath },
           { label: id, active: true },
         ]}
       />
-      <UserDetail userId={id} />
+      <div className="">
+        <UserDetail userId={id} />
+      </div>
     </div>
   );
 }

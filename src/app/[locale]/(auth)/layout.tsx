@@ -12,7 +12,7 @@ export default function AuthLayout({
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url(/login-bg.jpg)" }}
       />
-      <div className="absolute inset-0 bg-black/55" />
+      <div className="bg-black/55 absolute inset-0" />
 
       <div className="relative mx-auto grid min-h-screen max-w-6xl items-center gap-10 px-6 py-10 lg:grid-cols-2">
         <div className="text-white">

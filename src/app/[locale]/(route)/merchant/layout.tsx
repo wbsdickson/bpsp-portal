@@ -29,7 +29,6 @@ export default async function RouteLayout({
   const session = await auth();
   const currentUser = session?.user as AppUser;
 
-
   if (!currentUser) {
     redirect(`/${locale}/signin`);
   }
@@ -42,7 +41,7 @@ export default async function RouteLayout({
     <SidebarProvider>
       <AppSidebar role={currentUser?.role} />
       <SidebarInset>
-        <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear">
+        <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-16 shrink-0 items-center gap-2 bg-[#F1F1F1] transition-[width,height] ease-linear">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             {/* <Separator
@@ -64,7 +63,9 @@ export default async function RouteLayout({
             </Breadcrumb> */}
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+        <div className="flex flex-1 flex-col gap-4 bg-[#F1F1F1] p-4 pt-0">
+          {children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

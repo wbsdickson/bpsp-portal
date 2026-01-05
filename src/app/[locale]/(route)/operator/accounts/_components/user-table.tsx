@@ -17,9 +17,6 @@ export default function UserTable({
 }) {
   const t = useTranslations("Operator.Accounts");
   const accounts = useAccountStore((s) => s.accounts);
-
-  const router = useRouter();
-
   const { column } = useAccounTableColumn({
     addTab,
   });

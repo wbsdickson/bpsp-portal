@@ -23,6 +23,7 @@ import {
 import { type UserRole } from "@/lib/types";
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createUserSchema } from "../_lib/user-schema";
+import { Card } from "@/components/ui/card";
 
 const ROLE_OPTIONS: UserRole[] = ["merchant", "admin"];
 
@@ -31,7 +32,6 @@ export default function UserDetail({ userId }: { userId: string }) {
   const user = useAccountStore((s) => s.accounts.find((u) => u.id === userId));
   const updateUser = useAccountStore((s) => s.updateAccount);
   const [isEditing, setIsEditing] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const schema = React.useMemo(() => createUserSchema(t), [t]);
 
@@ -103,40 +103,38 @@ export default function UserDetail({ userId }: { userId: string }) {
           {isEditing ? (
             <>
               <Button
-                variant="ghost"
-                size="icon"
+                variant="secondary"
+                size="xs"
                 onClick={onCancel}
                 title={t("buttons.cancel")}
               >
-                <X className="h-4 w-4" />
+                Discard
               </Button>
               <Button
-                variant="ghost"
-                size="icon"
+                variant="secondary"
+                size="xs"
                 onClick={onSubmit}
                 title={t("buttons.save")}
-                className="text-green-600 hover:bg-green-50 hover:text-green-700"
               >
-                <Check className="h-4 w-4" />
+                Save
               </Button>
             </>
           ) : (
             <Button
-              variant="outline"
-              size="icon"
+              variant="secondary"
+              size="xs"
               onClick={() => setIsEditing(true)}
               title={t("actions.edit")}
             >
-              <Pen className="h-4 w-4" />
+              Edit
             </Button>
           )}
         </div>
       </div>
-      <Separator />
 
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="bg-background grid grid-cols-1 gap-6 rounded-md p-4 md:grid-cols-2">
             <InlineEditField
               control={form.control}
               name="name"

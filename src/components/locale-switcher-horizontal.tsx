@@ -27,13 +27,7 @@ export default function LocaleSwitcherHorizontal() {
   return (
     <div className="flex items-center justify-between gap-3">
       <div className="flex items-center gap-3">
-        <div className="bg-muted flex size-9 items-center justify-center rounded-full">
-          <Languages className="size-4" />
-        </div>
-        <div className="leading-tight">
-          <div className="text-sm font-medium text-black">Language</div>
-          <div className="text-muted-foreground text-xs">{currentLabel}</div>
-        </div>
+        <div className="text-sm font-medium text-black">Language</div>
       </div>
 
       <div className="bg-muted flex rounded-full p-0.5">

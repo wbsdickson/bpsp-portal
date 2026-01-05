@@ -57,7 +57,7 @@ export function FilterChipPopover({
           variant="outline"
           size="sm"
           disabled={disabled}
-          className="h-8 gap-2 rounded-full px-3"
+          className="h-8 gap-2 rounded-md px-3"
         >
           <span
             className={active ? "text-foreground" : "text-muted-foreground"}

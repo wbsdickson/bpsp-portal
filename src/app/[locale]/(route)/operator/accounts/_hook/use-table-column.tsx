@@ -66,7 +66,7 @@ export default function useAccounTableColumn({
       header: t("columns.name"),
       cell: ({ row }) => (
         <Button
-          variant="ghost"
+          variant="ghost-secondary"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original)}
         >

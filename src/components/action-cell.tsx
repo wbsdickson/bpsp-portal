@@ -34,7 +34,6 @@ export default function ActionsCell<T>({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuLabel>{t("actions.label")}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         {actions.map((res) => {
           return (
             <DropdownMenuItem
