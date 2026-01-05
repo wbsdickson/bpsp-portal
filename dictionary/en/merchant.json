@@ -351,6 +351,34 @@
         "updateSuccess": "Bank account updated successfully.",
         "notFound": "Bank account not found."
       }
+    },
+    "MerchantCards": {
+      "title": "Merchant cards",
+      "columns": {
+        "merchant": "Merchant",
+        "brand": "Card brand",
+        "last4": "Last 4 digits",
+        "expirationDate": "Expiration date",
+        "registrationDate": "Registration date",
+        "status": "Status",
+        "deleteLink": "Delete link"
+      },
+      "filters": {
+        "brand": "Card brand",
+        "last4": "Last 4 digits",
+        "expirationDate": "Expiration date"
+      },
+      "statuses": {
+        "used": "Used",
+        "unused": "Unused"
+      },
+      "actions": {
+        "label": "Actions",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters"
+      }
     }
   }
 }
