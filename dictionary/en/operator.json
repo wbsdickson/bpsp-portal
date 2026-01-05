@@ -27,7 +27,20 @@
       "sales": "Sales",
       "systemSettings": "System Settings",
       "midSettings": "MID Settings",
-      "midFee": "MID Fee"
+      "midFee": "MID Fee",
+      "footer": {
+        "apps": "Apps",
+        "help": "Help",
+        "notifications": "Notifications",
+        "settings": "Settings"
+      },
+      "quickActions": {
+        "invoice": "Invoice",
+        "receipt": "Receipt",
+        "quotation": "Quotation",
+        "client": "Client",
+        "merchant": "Merchant"
+      }
     },
     "SystemSettings": {
       "title": "System Settings",

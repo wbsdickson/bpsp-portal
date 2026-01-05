@@ -2,14 +2,17 @@
 
 import * as React from "react";
 import {
-  CreditCard,
   FileText,
   Grid2X2,
   HelpCircle,
-  Link2,
   Bell,
   Settings,
   Plus,
+  Receipt,
+  ScrollText,
+  User,
+  Store,
+  type LucideIcon,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -42,230 +45,147 @@ type NavRoute = {
   route: string;
   children?: NavRoute[];
 };
-// {
-//   label: "Payment",
-//   route: "payment",
-//   children: [
-//     {
-//       label: "Transactions",
-//       route: "transactions",
-//     },
-//     {
-//       label: "Chargebacks",
-//       route: "chargeback",
-//     },
-//     {
-//       label: "Checkout Sessions",
-//       route: "checkout-sessions",
-//     },
-//     {
-//       label: "Payment Links",
-//       route: "payment-links",
-//     },
-//     {
-//       label: "Payment Methods",
-//       route: "payment-methods",
-//     },
-//     {
-//       label: "Subscriptions",
-//       route: "subscriptions",
-//     },
-//     {
-//       label: "Webhooks",
-//       route: "webhooks",
-//     },
-//   ],
-// },
-// {
-//   label: "Gateway Management",
-//   route: "gateway-management",
-//   children: [
-//     {
-//       label: "Routing",
-//       route: "routing",
-//     },
-//     {
-//       label: "Mid",
-//       route: "mid",
-//     },
-//     {
-//       label: "Fee",
-//       route: "fee",
-//     },
-//     {
-//       label: "Blocked Card",
-//       route: "blocked-card",
-//     },
-//   ],
-// },
 
-export function AppSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar> & { role?: string }) {
+type FooterButton = {
+  icon: LucideIcon;
+  tooltipKey: string;
+};
+
+type QuickActionItem = {
+  icon: LucideIcon;
+  labelKey: string;
+  shortcut: string;
+};
+
+const FOOTER_BUTTONS: FooterButton[] = [
+  { icon: Grid2X2, tooltipKey: "footer.apps" },
+  { icon: HelpCircle, tooltipKey: "footer.help" },
+  { icon: Bell, tooltipKey: "footer.notifications" },
+  { icon: Settings, tooltipKey: "footer.settings" },
+];
+
+const QUICK_ACTIONS: QuickActionItem[] = [
+  { icon: FileText, labelKey: "quickActions.invoice", shortcut: "C I" },
+  { icon: Receipt, labelKey: "quickActions.receipt", shortcut: "C S" },
+  { icon: ScrollText, labelKey: "quickActions.quotation", shortcut: "C S" },
+  { icon: User, labelKey: "quickActions.client", shortcut: "C S" },
+  { icon: Store, labelKey: "quickActions.merchant", shortcut: "C L" },
+];
+
+const MERCHANT_MANAGEMENT_ROUTES = [
+  { key: "dashboard", route: "operator/merchant-management/dashboard" },
+  { key: "member", route: "operator/merchant-management/members" },
+  { key: "midSettings", route: "operator/merchant-management/mid-settings" },
+  { key: "feeRate", route: "operator/merchant-management/fee-rate" },
+  { key: "transaction", route: "operator/merchant-management/transactions" },
+  { key: "client", route: "operator/merchant-management/clients" },
+  { key: "bankAccount", route: "operator/merchant-management/bank-accounts" },
+  { key: "cards", route: "operator/merchant-management/cards" },
+  { key: "taxSettings", route: "operator/merchant-management/tax-settings" },
+  { key: "items", route: "operator/merchant-management/items" },
+  { key: "invoicesIssuance", route: "operator/merchant-management/invoices" },
+  {
+    key: "quotationsIssuance",
+    route: "operator/merchant-management/quotations",
+  },
+  {
+    key: "deliveryNoteIssuance",
+    route: "operator/merchant-management/delivery-notes",
+  },
+  { key: "receiptIssuance", route: "operator/merchant-management/receipt" },
+  {
+    key: "receivedPayableInvoices",
+    route: "operator/merchant-management/received-payable-invoices",
+  },
+] as const;
+
+const MAIN_ROUTES = [
+  { key: "dashboard", route: "operator/dashboard" },
+  { key: "accounts", route: "operator/accounts" },
+  { key: "merchantsManagement", route: "operator/merchant-management" },
+  { key: "merchants", route: "operator/merchants" },
+  { key: "payoutTransactions", route: "operator/payout-transactions" },
+  { key: "notifications", route: "operator/notifications" },
+  { key: "sales", route: "operator/sales" },
+  { key: "systemSettings", route: "operator/system-settings" },
+  { key: "midSettings", route: "operator/mid" },
+  { key: "midFee", route: "operator/mid-fee" },
+] as const;
+
+function FooterButton({
+  icon: Icon,
+  tooltip,
+}: {
+  icon: LucideIcon;
+  tooltip: string;
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="ghost" size="icon" className="size-8">
+          <Icon className="size-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="top" align="center">
+        {tooltip}
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+
+export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const t = useTranslations("Operator.Sidebar");
+  const session = useSession();
+
+  const user = React.useMemo(
+    () => ({
+      name: session?.data?.user?.name ?? "",
+      email: session?.data?.user?.email ?? "",
+    }),
+    [session?.data?.user?.name, session?.data?.user?.email],
+  );
+
   const routes = React.useMemo<NavRoute[]>(
     () => [
-      {
-        label: t("dashboard"),
-        route: "operator/dashboard",
-      },
-      {
-        label: t("accounts"),
-        route: "operator/accounts",
-      },
-      {
-        label: t("merchantsManagement"),
-        route: "operator/merchant-management",
-        children: [
-          {
-            label: t("merchantManagement.dashboard"),
-            route: "operator/merchant-management/dashboard",
-          },
-          {
-            label: t("merchantManagement.member"),
-            route: "operator/merchant-management/members",
-          },
-          {
-            label: t("merchantManagement.midSettings"),
-            route: "operator/merchant-management/mid-settings",
-          },
-          {
-            label: t("merchantManagement.feeRate"),
-            route: "operator/merchant-management/fee-rate",
-          },
-          {
-            label: t("merchantManagement.transaction"),
-            route: "operator/merchant-management/transactions",
-          },
-          {
-            label: t("merchantManagement.client"),
-            route: "operator/merchant-management/clients",
-          },
-          {
-            label: t("merchantManagement.bankAccount"),
-            route: "operator/merchant-management/bank-accounts",
-          },
-          {
-            label: t("merchantManagement.cards"),
-            route: "operator/merchant-management/cards",
-          },
-          {
-            label: t("merchantManagement.taxSettings"),
-            route: "operator/merchant-management/tax-settings",
-          },
-          {
-            label: t("merchantManagement.items"),
-            route: "operator/merchant-management/items",
-          },
-          {
-            label: t("merchantManagement.invoicesIssuance"),
-            route: "operator/merchant-management/invoices",
-          },
-          {
-            label: t("merchantManagement.quotationsIssuance"),
-            route: "operator/merchant-management/quotations",
-          },
-          {
-            label: t("merchantManagement.deliveryNoteIssuance"),
-            route: "operator/merchant-management/delivery-notes",
-          },
-          {
-            label: t("merchantManagement.receiptIssuance"),
-            route: "operator/merchant-management/receipt",
-          },
-          {
-            label: t("merchantManagement.receivedPayableInvoices"),
-            route: "operator/merchant-management/received-payable-invoices",
-          },
-        ],
-      },
-      {
-        label: t("merchants"),
-        route: "operator/merchants",
-      },
-      {
-        label: t("payoutTransactions"),
-        route: "operator/payout-transactions",
-      },
-      {
-        label: t("notifications"),
-        route: "operator/notifications",
-      },
-      {
-        label: t("sales"),
-        route: "operator/sales",
-      },
-      {
-        label: t("systemSettings"),
-        route: "operator/system-settings",
-      },
-      {
-        label: t("midSettings"),
-        route: "operator/mid",
-      },
-      {
-        label: t("midFee"),
-        route: "operator/mid-fee",
-      },
+      ...MAIN_ROUTES.map(({ key, route }) => {
+        if (key === "merchantsManagement") {
+          return {
+            label: t(key),
+            route,
+            children: MERCHANT_MANAGEMENT_ROUTES.map(
+              ({ key: childKey, route: childRoute }) => ({
+                label: t(`merchantManagement.${childKey}`),
+                route: childRoute,
+              }),
+            ),
+          };
+        }
+        return {
+          label: t(key),
+          route,
+        };
+      }),
     ],
     [t],
   );
-  const session = useSession();
-  const user = session?.data?.user;
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher name={user?.name ?? ""} company={user?.email ?? ""} />
+        <TeamSwitcher name={user.name} company={user.email} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain routes={routes} />
       </SidebarContent>
       <SidebarFooter>
         <div className="flex items-center justify-between gap-1 px-1">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="size-8">
-                <Grid2X2 className="size-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top" align="center">
-              Apps
-            </TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="size-8">
-                <HelpCircle className="size-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top" align="center">
-              Help
-            </TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="size-8">
-                <Bell className="size-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top" align="center">
-              Notifications
-            </TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="size-8">
-                <Settings className="size-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top" align="center">
-              Settings
-            </TooltipContent>
-          </Tooltip>
+          {FOOTER_BUTTONS.map((button) => (
+            <FooterButton
+              key={button.tooltipKey}
+              {...button}
+              tooltip={t(button.tooltipKey)}
+            />
+          ))}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="size-8">
@@ -277,38 +197,18 @@ export function AppSidebar({
               align="end"
               className="w-56 rounded-xl p-2"
             >
-              <DropdownMenuItem className="gap-3 py-2">
-                <FileText className="size-4" />
-                <span>Invoice</span>
-                <DropdownMenuShortcut className="tracking-normal">
-                  C I
-                </DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-3 py-2">
-                <CreditCard className="size-4" />
-                <span>Subscription</span>
-                <DropdownMenuShortcut className="tracking-normal">
-                  C S
-                </DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-3 py-2">
-                <Link2 className="size-4" />
-                <span>Payment link</span>
-                <DropdownMenuShortcut className="tracking-normal">
-                  C L
-                </DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-3 py-2">
-                <CreditCard className="size-4" />
-                <span>Payment</span>
-                <DropdownMenuShortcut className="tracking-normal">
-                  C P
-                </DropdownMenuShortcut>
-              </DropdownMenuItem>
+              {QUICK_ACTIONS.map((action) => (
+                <DropdownMenuItem key={action.labelKey} className="gap-3 py-2">
+                  <action.icon className="size-4" />
+                  <span>{t(action.labelKey)}</span>
+                  <DropdownMenuShortcut className="tracking-normal">
+                    {action.shortcut}
+                  </DropdownMenuShortcut>
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {/* <NavUser user={data.user} /> */}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

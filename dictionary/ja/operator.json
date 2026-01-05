@@ -27,7 +27,20 @@
       "sales": "売上",
       "systemSettings": "システム設定",
       "midSettings": "MID設定",
-      "midFee": "MID手数料"
+      "midFee": "MID手数料",
+      "footer": {
+        "apps": "アプリ",
+        "help": "ヘルプ",
+        "notifications": "通知",
+        "settings": "設定"
+      },
+      "quickActions": {
+        "invoice": "請求書",
+        "receipt": "領収書",
+        "quotation": "見積書",
+        "client": "取引先",
+        "merchant": "加盟店"
+      }
     },
     "SystemSettings": {
       "title": "システム設定",
