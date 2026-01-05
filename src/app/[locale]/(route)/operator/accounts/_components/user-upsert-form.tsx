@@ -4,13 +4,6 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -26,7 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAppStore } from "@/lib/store";
 import { type User, type UserRole } from "@/lib/types";
 import { generateId } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,8 +27,10 @@ import { useLocale } from "next-intl";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAccountStore } from "@/store/account-store";
+import { Eye, EyeOff } from "lucide-react";
+import { createUserSchema } from "../_lib/user-schema";
 
 const ROLE_OPTIONS: UserRole[] = [
   "merchant",
@@ -45,17 +39,24 @@ const ROLE_OPTIONS: UserRole[] = [
   "merchant_jpcc",
 ];
 
-type UserUpsertValues = {
-  name: string;
-  email: string;
-  role: UserRole;
-  password: string;
-};
+export interface UserUpsertFormProps {
+  userId?: string;
+  onSuccess?: () => void;
+  onCancel?: () => void;
+}
 
-export default function UserUpsertForm({ userId }: { userId?: string }) {
+export interface UserUpsertFormHandle {
+  isDirty: boolean;
+}
+
+const UserUpsertForm = React.forwardRef<
+  UserUpsertFormHandle,
+  UserUpsertFormProps
+>(({ userId, onSuccess, onCancel }, ref) => {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Operator.Accounts");
+  const [showPassword, setShowPassword] = useState(false);
 
   const user = useAccountStore((s) =>
     userId ? s.accounts.find((u) => u.id === userId) : undefined,
@@ -63,19 +64,7 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
   const updateUser = useAccountStore((s) => s.updateAccount);
   const addMember = useAccountStore((s) => s.addAccount);
 
-  const schema = React.useMemo(
-    () =>
-      z.object({
-        name: z.string().min(1, t("validation.nameRequired")),
-        email: z
-          .string()
-          .min(1, t("validation.emailRequired"))
-          .email(t("validation.emailInvalid")),
-        role: z.enum(["merchant", "admin", "jpcc_admin", "merchant_jpcc"]),
-        password: z.string(),
-      }),
-    [t],
-  );
+  const schema = React.useMemo(() => createUserSchema(t), [t]);
 
   type UserUpsertValues = z.infer<typeof schema>;
 
@@ -88,6 +77,10 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
       password: "",
     },
   });
+
+  React.useImperativeHandle(ref, () => ({
+    isDirty: form.formState.isDirty,
+  }));
 
   useEffect(() => {
     form.reset({
@@ -104,11 +97,15 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
         name: data.name.trim(),
         email: data.email.trim(),
         role: data.role,
-        ...(data.password.trim()
+        ...(data.password?.trim()
           ? ({ password: data.password } satisfies Partial<User>)
           : {}),
       });
-      router.push(`/${locale}/operator/accounts`);
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push(`/${locale}/operator/accounts`);
+      }
       return;
     }
 
@@ -117,7 +114,7 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
       name: data.name.trim(),
       email: data.email.trim(),
       role: data.role,
-      ...(data.password.trim()
+      ...(data.password?.trim()
         ? ({ password: data.password } satisfies Partial<User>)
         : {}),
       lastLoginAt: new Date().toISOString(),
@@ -125,116 +122,133 @@ export default function UserUpsertForm({ userId }: { userId?: string }) {
     };
 
     addMember(newUser);
-    router.push(`/${locale}/operator/accounts`);
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      router.push(`/${locale}/operator/accounts`);
+    }
   });
 
-  const title = userId ? t("form.editTitle") : t("form.createTitle");
-
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <Form {...form}>
-        <form onSubmit={onSubmit}>
-          <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.name")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.namePlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <Form {...form}>
+      <form onSubmit={onSubmit}>
+        <div className="grid grid-cols-1 gap-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.name")}</FormLabel>
+                <FormControl>
+                  <Input placeholder={t("form.namePlaceholder")} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.email")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.emailPlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.email")}</FormLabel>
+                <FormControl>
+                  <Input placeholder={t("form.emailPlaceholder")} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.role")}</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="h-9 w-full">
-                          <SelectValue placeholder={t("form.selectRole")} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {ROLE_OPTIONS.map((r) => (
-                          <SelectItem key={r} value={r}>
-                            {t(`roles.${r}`)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.role")}</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger className="h-9 w-full">
+                      <SelectValue placeholder={t("form.selectRole")} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {ROLE_OPTIONS.map((r) => (
+                      <SelectItem key={r} value={r}>
+                        {t(`roles.${r}`)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </CardContent>
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      placeholder=""
+                      {...field}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                      <span className="sr-only">
+                        {showPassword ? "Hide password" : "Show password"}
+                      </span>
+                    </Button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-          <CardFooter className="mt-4 justify-end gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="h-9"
-              onClick={() => {
+        <div className="mt-4 flex justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="h-9"
+            onClick={() => {
+              if (onCancel) {
+                onCancel();
+              } else {
                 router.push(`/${locale}/operator/accounts`);
-              }}
-            >
-              {t("buttons.cancel")}
-            </Button>
-            <Button
-              type="submit"
-              className="h-9 bg-indigo-600 hover:bg-indigo-700"
-              disabled={form.formState.isSubmitting}
-            >
-              {t("buttons.save")}
-            </Button>
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+              }
+            }}
+          >
+            {t("buttons.cancel")}
+          </Button>
+          <Button
+            type="submit"
+            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            disabled={form.formState.isSubmitting}
+          >
+            {t("buttons.save")}
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
-}
+});
+
+export default UserUpsertForm;

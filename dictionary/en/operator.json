@@ -379,7 +379,8 @@
         "label": "Actions",
         "view": "View",
         "edit": "Edit",
-        "delete": "Delete"
+        "delete": "Delete",
+        "resetPassword": "Reset password"
       },
       "buttons": {
         "create": "Create account",
@@ -410,7 +411,9 @@
         "merchant_jpcc": "merchant_jpcc"
       },
       "messages": {
-        "userNotFound": "User not found."
+        "userNotFound": "User not found.",
+        "deleteSuccess": "Delete user successfully.",
+        "resetPasswordSuccess": "Password reset successfully."
       },
       "validation": {
         "nameRequired": "Name is required",
@@ -489,7 +492,8 @@
         "memberRole": "Member role",
         "registrationDate": "Registration date",
         "status": "Status",
-        "detailLink": "Detail link"
+        "detailLink": "Detail link",
+        "password": "Password"
       },
       "actions": {
         "label": "Actions",
@@ -520,7 +524,8 @@
         "emailPlaceholder": "name@company.com",
         "selectRole": "Select role",
         "selectMemberRole": "Select member role",
-        "selectStatus": "Select status"
+        "selectStatus": "Select status",
+        "passwordPlaceholder": "Password"
       },
       "roles": {
         "merchant": "merchant",
@@ -953,6 +958,12 @@
       "tabs": {
         "all": "All"
       },
+      "upsert": {
+        "createTitle": "Create quotation",
+        "editTitle": "Update quotation",
+        "createButton": "Create quotation",
+        "saveChanges": "Save changes"
+      },
       "columns": {
         "number": "Number",
         "client": "Client",
@@ -1010,7 +1021,8 @@
         "quantityPlaceholder": "Quantity",
         "unitPricePlaceholder": "Unit price",
         "remarksPlaceholder": "Remarks",
-        "amountPlaceholder": "Amount"
+        "amountPlaceholder": "Amount",
+        "addItem": "Add item"
       },
       "validation": {
         "numberRequired": "Quotation number is required",
@@ -1028,6 +1040,9 @@
         "createSuccess": "Quotation created successfully.",
         "updateSuccess": "Quotation updated successfully.",
         "notFound": "Quotation not found."
+      },
+      "preview": {
+        "total": "Total"
       }
     },
     "PayoutTransactions": {

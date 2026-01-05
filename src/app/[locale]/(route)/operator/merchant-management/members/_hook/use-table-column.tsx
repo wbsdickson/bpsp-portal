@@ -4,9 +4,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 import type { User } from "@/lib/types";
-import ActionsCell from "../../_components/action-cell";
 import { useMerchantMemberStore } from "@/store/merchant-member-store";
 import { useMerchantStore } from "@/store/merchant-store";
+import ActionsCell from "@/components/action-cell";
 
 export type MerchantMemberRow = User;
 

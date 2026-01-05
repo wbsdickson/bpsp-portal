@@ -151,4 +151,9 @@
     --primary-foreground: oklch(0.985 0 0);
     --sidebar-primary: oklch(0.4 0.12 190);
   }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }

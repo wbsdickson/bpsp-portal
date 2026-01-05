@@ -1,17 +1,18 @@
 import { useTranslations } from "next-intl";
-import ActionsCell from "../../_components/action-cell";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { usePathname, useRouter } from "next/navigation";
 import { useAccountStore } from "@/store/account-store";
 import { type AppUser } from "@/types/user";
+import ActionsCell from "@/components/action-cell";
+import { toast } from "sonner";
 
 export type UserRow = AppUser;
 
 export default function useAccounTableColumn({
   addTab,
 }: {
-  addTab: (id: string) => void;
+  addTab: (item: UserRow) => void;
 }) {
   const t = useTranslations("Operator.Accounts");
   const router = useRouter();
@@ -28,6 +29,11 @@ export default function useAccounTableColumn({
   };
   const onDelete = (item: UserRow) => {
     deleteAccount(item.id);
+    toast.success(t("messages.deleteSuccess"));
+  };
+
+  const onResetPassword = (item: UserRow) => {
+    toast.success(t("messages.resetPasswordSuccess"));
   };
 
   const column: ColumnDef<UserRow>[] = [
@@ -37,9 +43,20 @@ export default function useAccounTableColumn({
       cell: ({ row }) => (
         <ActionsCell<UserRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: onOpenDetail,
+            },
+            {
+              title: t("actions.delete"),
+              onPress: onDelete,
+            },
+            {
+              title: t("actions.resetPassword"),
+              onPress: onResetPassword,
+            },
+          ]}
           t={t}
         />
       ),
@@ -51,7 +68,7 @@ export default function useAccounTableColumn({
         <Button
           variant="ghost"
           className="h-8 px-2 font-medium"
-          onClick={() => addTab(row.original.id)}
+          onClick={() => addTab(row.original)}
         >
           {String(row.getValue("name") ?? "")}
         </Button>

@@ -379,7 +379,8 @@
         "label": "操作",
         "view": "表示",
         "edit": "編集",
-        "delete": "削除"
+        "delete": "削除",
+        "resetPassword": "パスワードをリセット"
       },
       "buttons": {
         "create": "アカウントを作成",
@@ -410,7 +411,9 @@
         "merchant_jpcc": "merchant_jpcc"
       },
       "messages": {
-        "userNotFound": "ユーザーが見つかりません。"
+        "userNotFound": "ユーザーが見つかりません。",
+        "deleteSuccess": "ユーザーを削除しました。",
+        "resetPasswordSuccess": "パスワードをリセットしました。"
       },
       "validation": {
         "nameRequired": "氏名は必須です",
@@ -489,7 +492,8 @@
         "memberRole": "メンバーロール",
         "registrationDate": "登録日",
         "status": "ステータス",
-        "detailLink": "詳細"
+        "detailLink": "詳細",
+        "password": "パスワード"
       },
       "actions": {
         "label": "操作",
@@ -520,7 +524,8 @@
         "emailPlaceholder": "name@company.com",
         "selectRole": "ロールを選択",
         "selectMemberRole": "メンバーロールを選択",
-        "selectStatus": "ステータスを選択"
+        "selectStatus": "ステータスを選択",
+        "passwordPlaceholder": "パスワード"
       },
       "roles": {
         "merchant": "merchant",
@@ -953,6 +958,12 @@
       "tabs": {
         "all": "すべて"
       },
+      "upsert": {
+        "createTitle": "見積書を作成",
+        "editTitle": "見積書を編集",
+        "createButton": "見積書を作成",
+        "saveChanges": "変更を保存"
+      },
       "columns": {
         "number": "番号",
         "client": "取引先",
@@ -1010,7 +1021,8 @@
         "quantityPlaceholder": "数量",
         "unitPricePlaceholder": "単価",
         "remarksPlaceholder": "備考",
-        "amountPlaceholder": "金額"
+        "amountPlaceholder": "金額",
+        "addItem": "商品を追加"
       },
       "validation": {
         "numberRequired": "見積書番号は必須です",
@@ -1028,6 +1040,9 @@
         "createSuccess": "見積書を作成しました。",
         "updateSuccess": "見積書を更新しました。",
         "notFound": "見積書が見つかりません。"
+      },
+      "preview": {
+        "total": "合計"
       }
     },
     "PayoutTransactions": {

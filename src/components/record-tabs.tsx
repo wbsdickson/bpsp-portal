@@ -8,21 +8,23 @@ import TabsHorizontal from "@/components/tabs-horizontal";
 import { Tabs } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
-export type RecordTab = {
+export type RecordTab<T> = {
   label: string;
   key: string;
   closable: boolean;
+  type?: string;
+  data?: T;
 };
 
-export type RecordTabsHelpers = {
-  tabItems: RecordTab[];
+export type RecordTabsHelpers<T> = {
+  tabItems: RecordTab<T>[];
   activeKey: string;
-  addTab: (tab: RecordTab) => void;
+  addTab: (tab: RecordTab<T>) => void;
   openTab: (key: string) => void;
   removeTab: (key: string) => void;
 };
 
-export default function RecordTabs({
+export default function RecordTabs<T>({
   initialTabs,
   defaultActiveKey,
   renderTab,
@@ -30,21 +32,21 @@ export default function RecordTabs({
   panelClassName,
   renderRight,
 }: {
-  initialTabs: RecordTab[];
+  initialTabs: RecordTab<T>[];
   defaultActiveKey: string;
-  renderTab: (tab: RecordTab, helpers: RecordTabsHelpers) => React.ReactNode;
+  renderTab: (tab: RecordTab<T>, helpers: RecordTabsHelpers<T>) => React.ReactNode;
   renderRight?: () => React.ReactNode;
   className?: string;
   panelClassName?: string;
 }) {
-  const [tabItems, setTabItems] = React.useState<RecordTab[]>(initialTabs);
+  const [tabItems, setTabItems] = React.useState<RecordTab<T>[]>(initialTabs);
   const [activeKey, setActiveKey] = React.useState(defaultActiveKey);
 
   const openTab = React.useCallback((key: string) => {
     setActiveKey(key);
   }, []);
 
-  const addTab = React.useCallback((tab: RecordTab) => {
+  const addTab = React.useCallback((tab: RecordTab<T>) => {
     setTabItems((prev) => {
       if (prev.some((t) => t.key === tab.key)) return prev;
       return [...prev, tab];
@@ -79,7 +81,7 @@ export default function RecordTabs({
     [activeKey, tabItems],
   );
 
-  const helpers = React.useMemo<RecordTabsHelpers>(
+  const helpers = React.useMemo<RecordTabsHelpers<T>>(
     () => ({
       tabItems,
       activeKey,
@@ -114,7 +116,7 @@ export default function RecordTabs({
           exit={{ opacity: 0 }}
           className={cn(
             activeKey !== item.key && "hidden",
-            "rounded-md border bg-white p-4 shadow",
+            "rounded-md bg-white",
             panelClassName,
           )}
         >
