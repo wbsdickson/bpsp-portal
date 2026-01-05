@@ -41,7 +41,7 @@ export const InlineEditField = <T extends FieldValues>({
           )}
         />
       ) : (
-        <div className="flex h-8 items-center text-sm font-medium">{value}</div>
+        <div className="flex items-center text-sm font-medium">{value}</div>
       )}
     </div>
   );

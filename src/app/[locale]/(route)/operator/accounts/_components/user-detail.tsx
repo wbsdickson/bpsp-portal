@@ -191,7 +191,7 @@ export default function UserDetail({ userId }: { userId: string }) {
               <div className="text-muted-foreground text-sm font-medium">
                 {t("columns.status")}
               </div>
-              <div className="flex h-9 items-center text-sm font-medium capitalize">
+              <div className="flex items-center text-sm font-medium capitalize">
                 {user.status ?? "—"}
               </div>
             </div>
@@ -200,7 +200,7 @@ export default function UserDetail({ userId }: { userId: string }) {
               <div className="text-muted-foreground text-sm font-medium">
                 {t("columns.company")}
               </div>
-              <div className="flex h-9 items-center overflow-hidden text-ellipsis text-sm font-medium">
+              <div className="flex items-center overflow-hidden text-ellipsis text-sm font-medium">
                 {user.companyName ?? "—"}
               </div>
             </div>
