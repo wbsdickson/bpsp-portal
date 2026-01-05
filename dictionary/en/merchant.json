@@ -379,6 +379,39 @@
       "buttons": {
         "clearFilters": "Clear filters"
       }
+    },
+    "TaxSettings": {
+      "title": "Tax Settings",
+      "form": {
+        "title": "Edit tax settings",
+        "merchant": "Merchant",
+        "selectMerchant": "Select merchant",
+        "taxable": "Taxable",
+        "taxableHelp": "Toggle whether tax should be applied for this merchant.",
+        "taxRate": "Tax rate (%)",
+        "roundingMethod": "Rounding method",
+        "selectRoundingMethod": "Select rounding method",
+        "updatedAt": "Updated at"
+      },
+      "roundingMethods": {
+        "round": "Round",
+        "floor": "Floor",
+        "ceil": "Ceil"
+      },
+      "buttons": {
+        "save": "Save",
+        "reset": "Reset"
+      },
+      "validation": {
+        "merchantRequired": "Merchant is required",
+        "taxRateRequired": "Tax rate is required",
+        "taxRateInvalid": "Tax rate must be a valid number",
+        "taxRateMin": "Tax rate must be at least 0",
+        "taxRateMax": "Tax rate must be less than or equal to 100"
+      },
+      "messages": {
+        "updateSuccess": "Tax settings saved successfully."
+      }
     }
   }
 }
