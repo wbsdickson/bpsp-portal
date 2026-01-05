@@ -73,6 +73,10 @@ const merchantRoutes = [
     label: "Items",
     route: "merchant/items",
   },
+  {
+    label: "Document Output Settings",
+    route: "merchant/document-output-settings",
+  },
 ];
 
 export function AppSidebar({
