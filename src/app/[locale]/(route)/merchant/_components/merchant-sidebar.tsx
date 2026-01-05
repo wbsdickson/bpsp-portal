@@ -61,6 +61,10 @@ const merchantRoutes = [
     label: "Merchant Bank Account",
     route: "merchant/bank-accounts",
   },
+  {
+    label: "Merchant Cards",
+    route: "merchant/cards",
+  },
 ];
 
 export function AppSidebar({

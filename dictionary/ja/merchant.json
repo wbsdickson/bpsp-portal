@@ -346,5 +346,33 @@
     "messages": {
       "notFound": "Clientが見つかりません。"
     }
+  },
+  "MerchantCards": {
+    "title": "カード",
+    "columns": {
+      "merchant": "加盟店名",
+      "brand": "カードブランド",
+      "last4": "下4桁",
+      "expirationDate": "有効期限",
+      "registrationDate": "登録日",
+      "status": "ステータス",
+      "deleteLink": "削除"
+    },
+    "filters": {
+      "brand": "カードブランド",
+      "last4": "下4桁",
+      "expirationDate": "有効期限"
+    },
+    "statuses": {
+      "used": "使用中",
+      "unused": "未使用"
+    },
+    "actions": {
+      "label": "操作",
+      "delete": "削除"
+    },
+    "buttons": {
+      "clearFilters": "フィルターをクリア"
+    }
   }
 }
