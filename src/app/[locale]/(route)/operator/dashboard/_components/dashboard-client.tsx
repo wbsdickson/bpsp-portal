@@ -304,30 +304,6 @@ export default function DashboardClient() {
           iconBgClass="bg-orange-50"
         />
 
-        <Card className="border-0 shadow-sm lg:col-span-1">
-          <CardContent className="p-4">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-fuchsia-500 via-rose-500 to-indigo-500 p-4 text-white">
-              <div className="relative z-10 max-w-[240px] space-y-2">
-                <div className="text-lg font-semibold leading-snug">
-                  Upgrade to get more
-                </div>
-                <div className="text-xs text-white/90">
-                  Maximize sales insights. Optimize performance. Achieve success
-                  with pro.
-                </div>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="h-8 bg-white/15 text-white hover:bg-white/20"
-                >
-                  Upgrade To Pro
-                </Button>
-              </div>
-              <div className="pointer-events-none absolute -right-6 -top-6 h-36 w-36 rounded-full bg-white/15" />
-              <div className="pointer-events-none absolute -bottom-10 -right-10 h-48 w-48 rounded-full bg-white/10" />
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
