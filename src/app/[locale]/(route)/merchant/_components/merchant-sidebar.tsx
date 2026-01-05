@@ -69,6 +69,10 @@ const merchantRoutes = [
     label: "Tax Settings",
     route: "merchant/tax-settings",
   },
+  {
+    label: "Items",
+    route: "merchant/items",
+  },
 ];
 
 export function AppSidebar({
