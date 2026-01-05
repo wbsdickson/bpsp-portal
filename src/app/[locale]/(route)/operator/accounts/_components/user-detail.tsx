@@ -182,7 +182,7 @@ export default function UserDetail({ userId }: { userId: string }) {
               <div className="text-muted-foreground text-sm font-medium">
                 {t("columns.lastLoginAt")}
               </div>
-              <div className="flex h-9 items-center text-sm font-medium">
+              <div className="flex items-center text-sm font-medium">
                 {lastLoginLabel}
               </div>
             </div>
