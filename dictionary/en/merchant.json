@@ -412,6 +412,65 @@
       "messages": {
         "updateSuccess": "Tax settings saved successfully."
       }
+    },
+    "Items": {
+      "title": "Items",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "id": "ID",
+        "name": "Item name",
+        "unitPrice": "Unit price",
+        "taxCategory": "Tax category",
+        "description": "Description",
+        "status": "Status",
+        "createDate": "Create date"
+      },
+      "filters": {
+        "name": "Item name",
+        "taxCategory": "Tax category",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "deleted": "Deleted"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create item",
+        "clearFilters": "Clear filters",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "createTitle": "Create item",
+        "editTitle": "Edit item",
+        "namePlaceholder": "Item name",
+        "unitPricePlaceholder": "Unit price",
+        "selectTax": "Select tax"
+      },
+      "validation": {
+        "nameRequired": "Item name is required",
+        "unitPriceRequired": "Unit price is required",
+        "unitPriceInvalid": "Unit price is invalid",
+        "taxRequired": "Tax is required"
+      },
+      "messages": {
+        "createSuccess": "Item created successfully.",
+        "updateSuccess": "Item updated successfully.",
+        "notFound": "Item not found."
+      }
     }
   }
 }

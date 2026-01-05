@@ -407,5 +407,64 @@
     "messages": {
       "updateSuccess": "税設定を保存しました。"
     }
+  },
+  "Items": {
+    "title": "商品マスタ",
+    "tabs": {
+      "all": "すべて"
+    },
+    "columns": {
+      "id": "ID",
+      "name": "商品名",
+      "unitPrice": "単価",
+      "taxCategory": "税区分",
+      "description": "説明",
+      "status": "ステータス",
+      "createDate": "登録日"
+    },
+    "filters": {
+      "name": "商品名",
+      "taxCategory": "税区分",
+      "status": "ステータス",
+      "all": "すべて",
+      "search": "検索...",
+      "reset": "リセット",
+      "done": "完了"
+    },
+    "statuses": {
+      "active": "有効",
+      "inactive": "無効",
+      "deleted": "削除済み"
+    },
+    "actions": {
+      "label": "操作",
+      "view": "表示",
+      "edit": "編集",
+      "delete": "削除"
+    },
+    "buttons": {
+      "create": "商品を作成",
+      "clearFilters": "フィルターをクリア",
+      "cancel": "キャンセル",
+      "save": "保存"
+    },
+    "form": {
+      "createTitle": "商品を作成",
+      "editTitle": "商品を編集",
+      "namePlaceholder": "商品名",
+      "unitPricePlaceholder": "単価",
+      "selectTax": "税区分を選択"
+    },
+    "validation": {
+      "nameRequired": "商品名は必須です",
+      "unitPriceRequired": "単価は必須です",
+      "unitPriceInvalid": "単価が正しくありません",
+      "taxRequired": "税区分は必須です"
+    },
+    "messages": {
+      "createSuccess": "商品を作成しました。",
+      "updateSuccess": "商品を更新しました。",
+      "notFound": "商品が見つかりません。"
+    }
   }
 }
