@@ -5,7 +5,9 @@ import RecordTabs, { type RecordTab } from "@/components/record-tabs";
 import { useTranslations } from "next-intl";
 
 import MerchantMidDetail from "./_components/merchant-mid-detail";
-import MerchantMidTable from "./_components/merchant-mid-table";
+import MerchantMidTable, {
+  MerchantMidRow,
+} from "./_components/merchant-mid-table";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -19,18 +21,20 @@ export default function MerchantMidsPage() {
   const { onOpen } = useModalStore();
 
   return (
-    <HeaderPage title={t("title")}>
-      <div className="flex items-center justify-end">
+    <HeaderPage
+      title={t("title")}
+      pageActions={
         <Button
           type="button"
           size="sm"
-          className="h-9 bg-indigo-600 hover:bg-indigo-700"
+          className="bg-indigo-600 hover:bg-indigo-700"
           onClick={() => onOpen("create-merchant-mid")}
         >
           <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
         </Button>
-      </div>
-      <RecordTabs
+      }
+    >
+      <RecordTabs<MerchantMidRow>
         initialTabs={[
           {
             label: t("tabs.all"),
@@ -43,12 +47,13 @@ export default function MerchantMidsPage() {
           if (tab.key === "table") {
             return (
               <MerchantMidTable
-                addTab={(id: string) =>
+                addTab={(item) =>
                   helpers.addTab({
-                    key: id,
-                    label: id,
+                    key: item.id,
+                    label: item.mid,
                     closable: true,
-                  } satisfies RecordTab)
+                    data: item,
+                  } satisfies RecordTab<MerchantMidRow>)
                 }
               />
             );

@@ -5,6 +5,7 @@ import RecordTabs, { type RecordTab } from "@/components/record-tabs";
 import MerchantTable from "./_components/merchant-table";
 import { useTranslations } from "next-intl";
 import MerchantDetail from "./_components/merchant-detail";
+import type { MerchantRow } from "./_hook/use-table-column";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -33,7 +34,7 @@ export default function MerchantsPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<MerchantRow>)
                 }
               />
             );

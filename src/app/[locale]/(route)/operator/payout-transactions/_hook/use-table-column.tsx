@@ -2,9 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import type { Payment, PaymentStatus } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import ActionsCell from "../../_components/action-cell";
+import ActionsCell from "@/components/action-cell";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useBasePath } from "@/hooks/use-base-path";
 
 export type PayoutTransaction = Payment & {
   merchantName: string;
@@ -20,13 +21,7 @@ export default function usePayoutTransactionTableColumn({
   const t = useTranslations("Operator.PayoutTransactions");
 
   const router = useRouter();
-  const pathname = usePathname();
-
-  const basePath = pathname.replace(/\/+$/, "");
-
-  const onOpenDetail = (item: PayoutTransaction) => {
-    router.push(`${basePath}/${item.id}`);
-  };
+  const { basePath } = useBasePath();
 
   const columns: ColumnDef<PayoutTransaction>[] = [
     {
@@ -35,8 +30,13 @@ export default function usePayoutTransactionTableColumn({
       cell: ({ row }) => (
         <ActionsCell<PayoutTransaction>
           item={row.original}
-          onOpenDetail={onOpenDetail}
           t={t}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: (item) => router.push(`${basePath}/${item.id}`),
+            },
+          ]}
         />
       ),
     },

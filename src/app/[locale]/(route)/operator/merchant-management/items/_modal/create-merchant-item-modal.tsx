@@ -17,8 +17,9 @@ export const CreateMerchantItemModal = () => {
       open={isModalOpen}
       onOpenChange={handleClose}
       title={t("form.createTitle")}
+      className="p-6"
     >
-      <div className="py-2 pb-4">
+      <div>
         <ItemUpsertForm onSuccess={onClose} onCancel={handleClose} />
       </div>
     </BaseModal>

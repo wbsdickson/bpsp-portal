@@ -10,22 +10,27 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
 
+import { InvoiceRow } from "./_hooks/use-table-column";
+
 export default function InvoicesPage() {
   const router = useRouter();
   const t = useTranslations("Operator.Invoice");
   const { basePath } = useBasePath();
 
   return (
-    <HeaderPage title={t("title")}>
-      <div className="flex items-center justify-end">
+    <HeaderPage
+      title={t("title")}
+      pageActions={
         <Button
           onClick={() => router.push(`${basePath}/create`)}
           size="sm"
-          className="h-9 bg-indigo-600 hover:bg-indigo-700"
+          className="bg-indigo-600 hover:bg-indigo-700"
         >
           <Plus className="mr-2 h-4 w-4" /> {t("create")}
         </Button>
-      </div>
+      }
+    >
+      <div className="flex items-center justify-end"></div>
       <RecordTabs
         initialTabs={[
           {
@@ -44,7 +49,7 @@ export default function InvoicesPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<InvoiceRow>)
                 }
               />
             );

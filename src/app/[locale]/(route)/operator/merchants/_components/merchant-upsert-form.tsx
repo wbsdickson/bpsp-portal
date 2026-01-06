@@ -43,8 +43,12 @@ const STATUS_OPTIONS: MerchantStatus[] = ["active", "suspended"];
 
 export default function MerchantUpsertForm({
   merchantId,
+  onSuccess,
+  onCancel,
 }: {
   merchantId?: string;
+  onSuccess?: () => void;
+  onCancel?: () => void;
 }) {
   const router = useRouter();
   const locale = useLocale();
@@ -148,7 +152,11 @@ export default function MerchantUpsertForm({
         }
       }
       toast.success(t("messages.updateSuccess"));
-      router.push(basePath);
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push(basePath);
+      }
       return;
     }
 
@@ -172,144 +180,143 @@ export default function MerchantUpsertForm({
     }
 
     toast.success(t("messages.createSuccess"));
-    router.push(basePath);
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      router.push(basePath);
+    }
   });
 
   const title = merchantId ? t("form.editTitle") : t("form.createTitle");
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <Form {...form}>
-        <form onSubmit={onSubmit}>
-          <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.name")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.namePlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <Form {...form}>
+      <form onSubmit={onSubmit}>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.name")}</FormLabel>
+                <FormControl>
+                  <Input placeholder={t("form.namePlaceholder")} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                      <Input placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone number</FormLabel>
-                    <FormControl>
-                      <Input placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone number</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="invoiceEmail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.invoiceEmail")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.invoiceEmailPlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="invoiceEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.invoiceEmail")}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t("form.invoiceEmailPlaceholder")}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="feeRatePercent"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Fee rate (%)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="" inputMode="decimal" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="feeRatePercent"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Fee rate (%)</FormLabel>
+                <FormControl>
+                  <Input placeholder="" inputMode="decimal" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.status")}</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="h-9 w-full">
-                          <SelectValue placeholder={t("form.selectStatus")} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {STATUS_OPTIONS.map((s) => (
-                          <SelectItem key={s} value={s}>
-                            {t(`statuses.${s}`)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </CardContent>
-
-          <CardFooter className="mt-4 justify-end gap-2">
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.status")}</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger className="h-9 w-full">
+                      <SelectValue placeholder={t("form.selectStatus")} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {STATUS_OPTIONS.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {t(`statuses.${s}`)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="mt-4 flex justify-end gap-2">
+          {(onCancel || !merchantId) && (
             <Button
               type="button"
               variant="outline"
               className="h-9"
               onClick={() => {
-                router.push(basePath);
+                if (onCancel) {
+                  onCancel();
+                } else {
+                  router.push(basePath);
+                }
               }}
             >
               {t("buttons.cancel")}
             </Button>
-            <Button
-              type="submit"
-              className="h-9 bg-indigo-600 hover:bg-indigo-700"
-              disabled={form.formState.isSubmitting}
-            >
-              {t("buttons.save")}
-            </Button>
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+          )}
+          <Button
+            type="submit"
+            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            disabled={form.formState.isSubmitting}
+          >
+            {t("buttons.save")}
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

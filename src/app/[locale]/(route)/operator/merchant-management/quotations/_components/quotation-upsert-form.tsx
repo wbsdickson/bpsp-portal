@@ -220,7 +220,7 @@ export default function QuotationUpsertForm({
   }, [taxes]);
 
   return (
-    <ScrollArea className="h-[calc(100vh-120px)] pr-2">
+    <ScrollArea className="bg-background h-[calc(100vh-120px)] rounded-lg p-4 pr-2">
       <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>

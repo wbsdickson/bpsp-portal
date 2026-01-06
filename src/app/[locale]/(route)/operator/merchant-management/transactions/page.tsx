@@ -7,6 +7,8 @@ import RecordTabs, { RecordTab } from "@/components/record-tabs";
 import TransactionDetail from "./_components/transaction-detail";
 import TransactionTable from "./_components/transaction-table";
 
+import { Transaction } from "./_hook/use-table-column";
+
 export default function OperatorTransactionsPage() {
   const t = useTranslations("Operator.Transactions");
 
@@ -30,7 +32,7 @@ export default function OperatorTransactionsPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<Transaction>)
                 }
               />
             );

@@ -1,4 +1,4 @@
-import ActionsCell from "../../_components/action-cell";
+import ActionsCell from "@/components/action-cell";
 import { Button } from "@/components/ui/button";
 import type { DeliveryNote } from "@/lib/types";
 import { useDeliveryNoteStore } from "@/store/delivery-note-store";
@@ -41,9 +41,20 @@ export default function useDeliveryNoteTableColumn({
       cell: ({ row }) => (
         <ActionsCell<DeliveryNoteRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: (item) => onOpenDetail(item),
+            },
+            {
+              title: t("actions.edit"),
+              onPress: (item) => onOpenEdit(item),
+            },
+            {
+              title: t("actions.delete"),
+              onPress: (item) => onDelete(item),
+            },
+          ]}
           t={t}
         />
       ),

@@ -10,22 +10,27 @@ import QuotationDetail from "./_components/quotation-detail";
 import QuotationTable from "./_components/quotation-table";
 import { useBasePath } from "@/hooks/use-base-path";
 
+import { QuotationRow } from "./_hook/use-table-column";
+
 export default function OperatorQuotationsPage() {
   const router = useRouter();
   const t = useTranslations("Operator.Quotations");
   const { basePath } = useBasePath();
 
   return (
-    <HeaderPage title={t("title")}>
-      <div className="flex justify-end">
+    <HeaderPage
+      title={t("title")}
+      pageActions={
         <Button
           type="button"
-          className="h-9 bg-indigo-600 hover:bg-indigo-700"
+          className="bg-indigo-600 hover:bg-indigo-700"
           onClick={() => router.push(`${basePath}/create`)}
         >
           {t("buttons.create")}
         </Button>
-      </div>
+      }
+    >
+      <div className="flex justify-end"></div>
       <RecordTabs
         initialTabs={[
           {
@@ -44,7 +49,7 @@ export default function OperatorQuotationsPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<QuotationRow>)
                 }
               />
             );

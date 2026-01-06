@@ -9,14 +9,29 @@ import DeliveryNoteTable from "./_components/delivery-note-table";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useBasePath } from "@/hooks/use-base-path";
+import { useModalStore } from "@/store/modal-store";
+
+import { DeliveryNoteRow } from "./_hook/use-table-column";
 
 export default function OperatorDeliveryNotesPage() {
   const t = useTranslations("Operator.DeliveryNotes");
   const router = useRouter();
   const { basePath } = useBasePath();
+  const onOpen = useModalStore((s) => s.onOpen);
 
   return (
-    <HeaderPage title={t("title")}>
+    <HeaderPage
+      title={t("title")}
+      pageActions={
+        <Button
+          type="button"
+          className="bg-indigo-600 hover:bg-indigo-700"
+          onClick={() => router.push(`${basePath}/create`)}
+        >
+          {t("buttons.create")}
+        </Button>
+      }
+    >
       <RecordTabs
         initialTabs={[
           {
@@ -26,15 +41,6 @@ export default function OperatorDeliveryNotesPage() {
           },
         ]}
         defaultActiveKey="table"
-        renderRight={() => (
-          <Button
-            type="button"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
-            onClick={() => router.push(`${basePath}/create`)}
-          >
-            {t("buttons.create")}
-          </Button>
-        )}
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
@@ -44,7 +50,7 @@ export default function OperatorDeliveryNotesPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<DeliveryNoteRow>)
                 }
               />
             );

@@ -97,31 +97,30 @@ export default function ItemDetail({ itemId }: { itemId: string }) {
           {isEditing ? (
             <>
               <Button
-                variant="ghost"
-                size="icon"
+                variant="secondary"
+                size="xs"
                 onClick={onCancel}
                 title={t("buttons.cancel")}
               >
-                <X className="h-4 w-4" />
+                Discard
               </Button>
               <Button
-                variant="ghost"
-                size="icon"
+                variant="secondary"
+                size="xs"
                 onClick={onSubmit}
                 title={t("buttons.save")}
-                className="text-green-600 hover:bg-green-50 hover:text-green-700"
               >
-                <Check className="h-4 w-4" />
+                Save
               </Button>
             </>
           ) : (
             <Button
-              variant="outline"
-              size="icon"
+              variant="secondary"
+              size="xs"
               onClick={() => setIsEditing(true)}
               title={t("actions.edit")}
             >
-              <Pen className="h-4 w-4" />
+              Edit
             </Button>
           )}
         </div>
@@ -129,7 +128,7 @@ export default function ItemDetail({ itemId }: { itemId: string }) {
 
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="bg-background grid grid-cols-1 gap-6 rounded-md p-4 md:grid-cols-2">
             <InlineEditField
               control={form.control}
               name="name"

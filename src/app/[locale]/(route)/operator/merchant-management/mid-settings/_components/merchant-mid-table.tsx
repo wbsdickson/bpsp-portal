@@ -15,12 +15,12 @@ import { useTranslations } from "next-intl";
 
 import useMerchantMidTableColumn from "../_hook/use-table-column";
 
-type MerchantMidRow = AppMerchantMid & { merchantName: string };
+export type MerchantMidRow = AppMerchantMid & { merchantName: string };
 
 export default function MerchantMidTable({
   addTab,
 }: {
-  addTab: (id: string) => void;
+  addTab: (item: MerchantMidRow) => void;
 }) {
   const t = useTranslations("Operator.MerchantMIDs");
   const router = useRouter();

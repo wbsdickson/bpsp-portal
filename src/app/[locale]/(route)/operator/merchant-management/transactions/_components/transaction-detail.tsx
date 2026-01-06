@@ -4,6 +4,8 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTransactionStore } from "@/store/transaction-store";
+import { TitleField } from "@/components/title-field";
+import { Separator } from "@/components/ui/separator";
 
 export default function TransactionDetail({ id }: { id: string }) {
   const t = useTranslations("Operator.Transactions");
@@ -38,48 +40,78 @@ export default function TransactionDetail({ id }: { id: string }) {
     );
   }
 
+  const gatewayResponse = {
+    id: transaction.id,
+    object: "payment_intent",
+    amount: transaction.amount,
+    currency: "jpy",
+    status: transaction.status,
+    payment_method: "pm_card_visa",
+    created: transaction.createdAt,
+    metadata: {
+      merchant_id: transaction.merchantId,
+      invoice_id: transaction.invoiceId,
+    },
+    charges: {
+      object: "list",
+      data: [
+        {
+          id: `ch_${transaction.id.substring(0, 8)}`,
+          paid: transaction.status === "settled",
+          status:
+            transaction.status === "settled" ? "succeeded" : transaction.status,
+        },
+      ],
+    },
+  };
+
   return (
-    <div className="bg-background space-y-3 rounded-lg border p-4">
-      <div className="grid grid-cols-1 gap-2 text-sm md:grid-cols-2">
-        <div>
-          <div className="text-muted-foreground">
-            {t("columns.transactionId")}
-          </div>
-          <div className="font-mono">{transaction.id}</div>
+    <div className="bg-background space-y-6 rounded-lg p-4">
+      <div className="space-y-3">
+        <div className="grid grid-cols-1 gap-2 text-sm md:grid-cols-2">
+          <TitleField
+            label={t("columns.transactionId")}
+            value={transaction.id}
+          />
+          <TitleField
+            label={t("columns.status")}
+            value={<div className="capitalize">{transaction.status}</div>}
+          />
+          <TitleField
+            label={t("columns.amount")}
+            value={Number(transaction.totalAmount ?? 0).toLocaleString()}
+          />
+          <TitleField
+            label={t("columns.transactionDateTime")}
+            value={
+              transaction.createdAt
+                ? new Date(transaction.createdAt).toLocaleString()
+                : "—"
+            }
+          />
+          <TitleField
+            label="Merchant ID"
+            value={<div className="font-mono">{transaction.merchantId}</div>}
+          />
+          <TitleField
+            label="Invoice ID"
+            value={<div className="font-mono">{transaction.invoiceId}</div>}
+          />
+          <TitleField
+            label="Payment method"
+            value={transaction.paymentMethod}
+          />
+          <TitleField label="Settled at" value={transaction.settledAt ?? "—"} />
         </div>
-        <div>
-          <div className="text-muted-foreground">{t("columns.status")}</div>
-          <div className="capitalize">{transaction.status}</div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">{t("columns.amount")}</div>
-          <div>{Number(transaction.totalAmount ?? 0).toLocaleString()}</div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">
-            {t("columns.transactionDateTime")}
-          </div>
-          <div>
-            {transaction.createdAt
-              ? new Date(transaction.createdAt).toLocaleString()
-              : "—"}
-          </div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">Merchant ID</div>
-          <div className="font-mono">{transaction.merchantId}</div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">Invoice ID</div>
-          <div className="font-mono">{transaction.invoiceId}</div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">Payment method</div>
-          <div>{transaction.paymentMethod}</div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">Settled at</div>
-          <div>{transaction.settledAt ?? "—"}</div>
+      </div>
+
+      <div className="bg-background space-y-3">
+        <h3 className="font-semibold">Payment Gateway Response</h3>
+        <Separator />
+        <div className="bg-muted/50 overflow-hidden">
+          <pre className="overflow-x-auto font-mono text-xs">
+            {JSON.stringify(gatewayResponse, null, 2)}
+          </pre>
         </div>
       </div>
     </div>

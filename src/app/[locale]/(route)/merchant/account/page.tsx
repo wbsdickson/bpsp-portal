@@ -42,7 +42,7 @@ export default function MerchantAccountsPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<object>)
                 }
               />
             );

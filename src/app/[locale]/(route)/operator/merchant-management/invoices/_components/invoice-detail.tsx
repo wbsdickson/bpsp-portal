@@ -144,29 +144,19 @@ export default function InvoiceDetail({ id }: { id: string }) {
   const merchant = merchants.find((m) => m.id === invoice.merchantId);
 
   const onSubmit = form.handleSubmit((data) => {
-    // For now, this just updates header fields. Items are tricky.
-    // If we want to support full update here, we need to map items back.
-    // But items editing is not in the Inline Fields for header.
-    // We will only update header fields that change.
-    // Actually, since this is a granular update, we might just update what we edit.
-    // But we are using the form for everything.
-    // Let's assume we update everything including items (which are hidden from header edit but present in form data).
-
     updateInvoice(id, {
       ...data,
       items: data.items.map((i: any) => ({
         ...i,
-        id: generateId("item"), // This creates new IDs if we don't track them. Ideally we should track them.
-        // Note: The schema for items doesn't have ID.
-        // This is a limitation of this granular refactor for complex objects.
-        // I will proceed with updating header fields mainly.
+        id: generateId("item"),
+
         name: i.description || "",
-        amount: i.quantity * i.unitPrice, // simplified calculation
+        amount: i.quantity * i.unitPrice,
       })) as any,
       notes: data.remark,
     });
     setIsEditing(false);
-    toast.success(t("messages.updateSuccess")); // Ensure translation key exists or use generic
+    toast.success(t("messages.updateSuccess"));
   });
 
   const onCancel = () => {
@@ -200,22 +190,23 @@ export default function InvoiceDetail({ id }: { id: string }) {
             </>
           ) : (
             <Button
-              variant="outline"
-              size="icon"
+              variant="secondary"
+              size="xs"
               onClick={() => {
                 // setIsEditing(true);
                 router.push(`${basePath}/edit/${invoice.id}`);
               }}
+              title={t("actions.edit")}
             >
-              <Pen className="h-4 w-4" />
+              Edit
             </Button>
           )}
         </div>
       </div>
 
       <Form {...form}>
-        <form onSubmit={onSubmit}>
-          <div className="bg-background">
+        <form onSubmit={onSubmit} className="bg-background rounded-md p-4">
+          <div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <InlineEditField
                 control={form.control}
@@ -335,8 +326,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
               />
             </div>
           </div>
-
-          <div className="bg-background mt-6">
+          <div className="mt-6">
             <div className="">
               <div className="text-sm font-semibold">{t("upsert.items")}</div>
             </div>

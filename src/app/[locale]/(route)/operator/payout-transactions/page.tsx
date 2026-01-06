@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import RecordTabs, { RecordTab } from "@/components/record-tabs";
 import PayoutTransactionDetail from "./_components/payout-transaction-detail";
 import PayoutTransactionTable from "./_components/payout-transaction-table";
+import type { PayoutTransaction } from "./_hook/use-table-column";
 
 export default function OperatorPayoutTransactionsPage() {
   const t = useTranslations("Operator.PayoutTransactions");
@@ -30,7 +31,7 @@ export default function OperatorPayoutTransactionsPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<PayoutTransaction>)
                 }
               />
             );

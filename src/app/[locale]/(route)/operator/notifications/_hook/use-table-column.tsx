@@ -1,9 +1,10 @@
-import ActionsCell from "../../_components/action-cell";
+import ActionsCell from "@/components/action-cell";
 import { Button } from "@/components/ui/button";
 import type { Notification } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useBasePath } from "@/hooks/use-base-path";
 
 export type PublicationStatus = "scheduled" | "published" | "expired";
 
@@ -21,16 +22,7 @@ export default function useNotificationTableColumn({
 }) {
   const t = useTranslations("Operator.Notifications");
   const router = useRouter();
-  const pathname = usePathname();
-
-  const basePath = pathname.replace(/\/+$/, "");
-
-  const onOpenDetail = (item: NotificationRow) => {
-    router.push(`${basePath}/${item.id}`);
-  };
-  const onOpenEdit = (item: NotificationRow) => {
-    router.push(`${basePath}/edit/${item.id}`);
-  };
+  const { basePath } = useBasePath();
 
   const column: ColumnDef<NotificationRow>[] = [
     {
@@ -39,9 +31,17 @@ export default function useNotificationTableColumn({
       cell: ({ row }) => (
         <ActionsCell<NotificationRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
           t={t}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: (item) => router.push(`${basePath}/${item.id}`),
+            },
+            {
+              title: t("actions.edit"),
+              onPress: (item) => router.push(`${basePath}/edit/${item.id}`),
+            },
+          ]}
         />
       ),
     },

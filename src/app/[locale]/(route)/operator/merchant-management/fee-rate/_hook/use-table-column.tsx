@@ -5,10 +5,10 @@ import { useTranslations } from "next-intl";
 import type { AppMerchantFee } from "@/types/merchant-fee";
 import { usePathname, useRouter } from "next/navigation";
 import { useMerchantFeeStore } from "@/store/merchant-fee-store";
-import ActionsCell from "../../_components/action-cell";
 import { useBasePath } from "@/hooks/use-base-path";
+import ActionsCell from "@/components/action-cell";
 
-type MerchantFeeRow = AppMerchantFee & { merchantName: string };
+export type MerchantFeeRow = AppMerchantFee & { merchantName: string };
 
 export default function useMerchantFeeTableColumn({
   addTab,
@@ -40,9 +40,16 @@ export default function useMerchantFeeTableColumn({
       cell: ({ row }) => (
         <ActionsCell<MerchantFeeRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: () => onOpenDetail(row.original),
+            },
+            {
+              title: t("actions.delete"),
+              onPress: () => onDelete(row.original),
+            },
+          ]}
           t={t}
         />
       ),

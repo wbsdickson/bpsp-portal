@@ -3,17 +3,17 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 
 import type { AppMerchantMid } from "@/types/merchant-mid";
-import ActionsCell from "@/app/[locale]/(route)/operator/_components/action-cell";
 import { usePathname, useRouter } from "next/navigation";
 import { useMerchantMidStore } from "@/store/merchant-mid-store";
 import { useBasePath } from "@/hooks/use-base-path";
+import ActionsCell from "@/components/action-cell";
 
 type MerchantMidRow = AppMerchantMid & { merchantName: string };
 
 export default function useMerchantMidTableColumn({
   addTab,
 }: {
-  addTab: (id: string) => void;
+  addTab: (item: MerchantMidRow) => void;
 }) {
   const t = useTranslations("Operator.MerchantMIDs");
 
@@ -38,9 +38,16 @@ export default function useMerchantMidTableColumn({
       cell: ({ row }) => (
         <ActionsCell<MerchantMidRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: () => onOpenDetail(row.original),
+            },
+            {
+              title: t("actions.delete"),
+              onPress: () => onDelete(row.original),
+            },
+          ]}
           t={t}
         />
       ),
@@ -60,7 +67,7 @@ export default function useMerchantMidTableColumn({
           type="button"
           variant="ghost"
           className="h-8 px-2 font-medium"
-          onClick={() => addTab(row.original.id)}
+          onClick={() => addTab(row.original)}
         >
           {String(row.getValue("mid") ?? "")}
         </Button>

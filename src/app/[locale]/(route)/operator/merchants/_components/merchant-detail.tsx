@@ -11,15 +11,49 @@ import { useMerchantFeeStore } from "@/store/merchant-fee-store";
 import { useMerchantMemberStore } from "@/store/merchant-member-store";
 import { Link } from "next-view-transitions";
 import { useLocale, useTranslations } from "next-intl";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { InlineEditField } from "@/components/inline-edit-field";
+import { createMerchantSchema } from "../_lib/merchant-schema";
 
 export default function MerchantDetail({ merchantId }: { merchantId: string }) {
   const locale = useLocale();
   const t = useTranslations("Operator.Merchants");
 
   const merchant = useMerchantStore((s) => s.getMerchantById(merchantId));
+  const updateMerchant = useMerchantStore((s) => s.updateMerchant);
   const fees = useMerchantFeeStore((s) => s.fees);
   const invoices = useInvoiceStore((s) => s.invoices);
-  const members = React.useMemo(() => useMerchantMemberStore.getState().getMembersByMerchantId(merchantId), [merchantId]);
+  const members = React.useMemo(
+    () => useMerchantMemberStore.getState().getMembersByMerchantId(merchantId),
+    [merchantId],
+  );
+
+  const [isEditing, setIsEditing] = React.useState(false);
+
+  const schema = React.useMemo(() => createMerchantSchema(t), [t]);
+  type MerchantDetailValues = z.infer<typeof schema>;
+
+  const form = useForm<MerchantDetailValues>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: merchant?.name ?? "",
+      address: merchant?.address ?? "",
+    },
+  });
+
+  // Reset form when merchant changes or edit mode closes (cancel)
+  React.useEffect(() => {
+    if (merchant) {
+      form.reset({
+        name: merchant.name,
+        address: merchant.address ?? "",
+      });
+    }
+  }, [merchant, form, isEditing]);
 
   if (!merchant) {
     return (
@@ -35,6 +69,19 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
       </Card>
     );
   }
+
+  const onSubmit = form.handleSubmit((data) => {
+    updateMerchant(merchantId, {
+      name: data.name,
+      address: data.address,
+    });
+    setIsEditing(false);
+  });
+
+  const onCancel = () => {
+    form.reset();
+    setIsEditing(false);
+  };
 
   const registrationLabel = merchant.createdAt
     ? (() => {
@@ -68,94 +115,121 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-end">
-        <Button asChild className="h-9 bg-indigo-600 hover:bg-indigo-700">
-          <Link href={`/${locale}/operator/merchants/edit/${merchant.id}`}>
-            {t("actions.edit")}
-          </Link>
-        </Button>
+      <div className="flex items-center justify-between gap-2">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">{merchant.name}</h2>
+        </div>
+        <div className="flex items-center gap-2">
+          {isEditing ? (
+            <>
+              <Button
+                variant="secondary"
+                size="xs"
+                onClick={onCancel}
+                title={t("buttons.cancel")}
+              >
+                Discard
+              </Button>
+              <Button
+                variant="secondary"
+                size="xs"
+                onClick={onSubmit}
+                title={t("buttons.save")}
+              >
+                Save
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="secondary"
+              size="xs"
+              onClick={() => setIsEditing(true)}
+              title={t("actions.edit")}
+            >
+              Edit
+            </Button>
+          )}
+        </div>
       </div>
+      <div className="bg-background rounded-lg p-4">
+        <Form {...form}>
+          <form onSubmit={onSubmit}>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <InlineEditField
+                control={form.control}
+                name="name"
+                label={t("columns.name")}
+                isEditing={isEditing}
+                value={merchant.name}
+                renderInput={(field) => <Input {...field} />}
+              />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Merchant information</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.name")}
+              <div>
+                <div className="text-muted-foreground text-xs">
+                  {t("columns.merchantId")}
+                </div>
+                <div className="font-medium">{merchant.id}</div>
               </div>
-              <div className="font-medium">{merchant.name}</div>
-            </div>
 
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.merchantId")}
+              <InlineEditField
+                control={form.control}
+                name="address"
+                label="Address"
+                isEditing={isEditing}
+                value={merchant.address ?? "—"}
+                renderInput={(field) => <Input {...field} />}
+              />
+
+              <div>
+                <div className="text-muted-foreground text-xs">
+                  {t("columns.registrationDate")}
+                </div>
+                <div className="font-medium">{registrationLabel}</div>
               </div>
-              <div className="font-medium">{merchant.id}</div>
             </div>
+          </form>
+        </Form>
 
-            <div>
-              <div className="text-muted-foreground text-xs">Address</div>
-              <div className="font-medium">{merchant.address ?? "—"}</div>
+        <Separator className="my-4" />
+
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div>
+            <div className="text-muted-foreground text-xs">Representative</div>
+            <div className="font-medium">{representative?.name ?? "—"}</div>
+          </div>
+
+          <div>
+            <div className="text-muted-foreground text-xs">Fee rate</div>
+            <div className="font-medium">{feeRateLabel}</div>
+          </div>
+
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.transactionCount")}
             </div>
+            <div className="font-medium">{merchant.transactionCount ?? 0}</div>
+          </div>
 
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.registrationDate")}
-              </div>
-              <div className="font-medium">{registrationLabel}</div>
+          <div>
+            <div className="text-muted-foreground text-xs">
+              Transaction amount
+            </div>
+            <div className="font-medium">
+              {transactionAmount.toLocaleString()}
             </div>
           </div>
 
-          <Separator className="my-4" />
-
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div>
-              <div className="text-muted-foreground text-xs">
-                Representative
-              </div>
-              <div className="font-medium">{representative?.name ?? "—"}</div>
-            </div>
-
-            <div>
-              <div className="text-muted-foreground text-xs">Fee rate</div>
-              <div className="font-medium">{feeRateLabel}</div>
-            </div>
-
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.transactionCount")}
-              </div>
-              <div className="font-medium">
-                {merchant.transactionCount ?? 0}
-              </div>
-            </div>
-
-            <div>
-              <div className="text-muted-foreground text-xs">
-                Transaction amount
-              </div>
-              <div className="font-medium">
-                {transactionAmount.toLocaleString()}
-              </div>
-            </div>
-
-            <div>
-              <div className="text-muted-foreground text-xs">
-                Contact person
-              </div>
-              <div className="font-medium">{representative?.name ?? "—"}</div>
-            </div>
-
-            <div>
-              <div className="text-muted-foreground text-xs">Contact email</div>
-              <div className="font-medium">{representative?.email ?? "—"}</div>
-            </div>
+          <div>
+            <div className="text-muted-foreground text-xs">Contact person</div>
+            <div className="font-medium">{representative?.name ?? "—"}</div>
           </div>
-        </CardContent>
-      </Card>
+
+          <div>
+            <div className="text-muted-foreground text-xs">Contact email</div>
+            <div className="font-medium">{representative?.email ?? "—"}</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

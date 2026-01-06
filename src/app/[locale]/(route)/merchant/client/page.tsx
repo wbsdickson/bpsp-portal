@@ -30,7 +30,7 @@ export default function ClientsPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<object>)
                 }
               />
             );

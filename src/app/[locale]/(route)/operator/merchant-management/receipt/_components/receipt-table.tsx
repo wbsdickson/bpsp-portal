@@ -16,10 +16,10 @@ import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceiptStore } from "@/store/receipt-store";
-import ActionsCell from "../../_components/action-cell";
+import ActionsCell from "@/components/action-cell";
 import { useBasePath } from "@/hooks/use-base-path";
 
-type ReceiptRow = {
+export type ReceiptRow = {
   id: string;
   receiptNumber: string;
   clientName: string;
@@ -80,9 +80,20 @@ export default function ReceiptTable({
         cell: ({ row }) => (
           <ActionsCell<ReceiptRow>
             item={row.original}
-            onOpenDetail={onOpenDetail}
-            onOpenEdit={onOpenEdit}
-            onDelete={onDelete}
+            actions={[
+              {
+                title: t("actions.view"),
+                onPress: (item) => onOpenDetail(item),
+              },
+              {
+                title: t("actions.edit"),
+                onPress: (item) => onOpenEdit(item),
+              },
+              {
+                title: t("actions.delete"),
+                onPress: (item) => onDelete(item),
+              },
+            ]}
             t={t}
           />
         ),

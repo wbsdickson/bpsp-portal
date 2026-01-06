@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 
 export default function ClientsPage() {
   const t = useTranslations("Operator.Clients");
- 
+
   return (
     <HeaderPage title={t("title")}>
       <RecordTabs
@@ -31,7 +31,7 @@ export default function ClientsPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<object>)
                 }
               />
             );

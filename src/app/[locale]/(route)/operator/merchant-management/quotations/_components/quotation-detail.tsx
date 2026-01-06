@@ -185,28 +185,22 @@ export default function QuotationDetail({
         <div className="flex gap-2">
           {isEditing ? (
             <>
-              <Button variant="ghost" size="icon" onClick={onCancel}>
-                <X className="h-4 w-4" />
+              <Button variant="secondary" size="xs" onClick={onCancel}>
+                Discard
               </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={onSubmit}
-                className="text-green-600 hover:bg-green-50"
-              >
-                <Check className="h-4 w-4" />
+              <Button variant="secondary" size="xs" onClick={onSubmit}>
+                Save
               </Button>
             </>
           ) : (
             <Button
-              variant="outline"
-              size="icon"
+              variant="secondary"
+              size="xs"
               onClick={() => {
                 setIsEditing(true);
-                // router.push(`${basePath}/edit/${quotation.id}`); // Legacy edit page
               }}
             >
-              <Pen className="h-4 w-4" />
+              Edit
             </Button>
           )}
         </div>
@@ -214,7 +208,7 @@ export default function QuotationDetail({
 
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="bg-background">
+          <div className="bg-background rounded-md">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <InlineEditField
                 control={form.control}
@@ -303,7 +297,7 @@ export default function QuotationDetail({
             </div>
           </div>
 
-          <div className="bg-background mt-6">
+          <div className="mt-6">
             <div className="">
               <div className="text-sm font-semibold">{t("columns.item")}</div>
             </div>

@@ -300,8 +300,8 @@
         "delete": "Delete"
       },
       "form": {
-        "createTitle": "Create receive",
-        "editTitle": "Edit receive",
+        "createTitle": "Create receipt",
+        "editTitle": "Edit receipt",
         "client": "Client",
         "issueDate": "Issue date",
         "notes": "Notes",
@@ -480,6 +480,7 @@
         "yes": "Yes",
         "no": "No"
       },
+
       "messages": {
         "createSuccess": "Merchant created successfully.",
         "updateSuccess": "Merchant updated successfully.",
@@ -898,6 +899,9 @@
       "tabs": {
         "all": "All"
       },
+      "preview": {
+        "total": "Total"
+      },
       "columns": {
         "number": "Number",
         "client": "Client",
@@ -949,7 +953,8 @@
         "selectItem": "Select item",
         "quantityPlaceholder": "Quantity",
         "unitPricePlaceholder": "Unit price",
-        "notesPlaceholder": "Notes"
+        "notesPlaceholder": "Notes",
+        "addItem": "Add item"
       },
       "validation": {
         "clientRequired": "Client is required",

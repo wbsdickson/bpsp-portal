@@ -13,7 +13,7 @@ export type MerchantMemberRow = User;
 export default function useMerchantMemberTableColumn({
   addTab,
 }: {
-  addTab: (id: string) => void;
+  addTab: (item: MerchantMemberRow) => void;
 }) {
   const t = useTranslations("Operator.MerchantMembers");
   const router = useRouter();
@@ -45,9 +45,16 @@ export default function useMerchantMemberTableColumn({
       cell: ({ row }) => (
         <ActionsCell<MerchantMemberRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: onOpenDetail,
+            },
+            {
+              title: t("actions.delete"),
+              onPress: onDelete,
+            },
+          ]}
           t={t}
         />
       ),
@@ -59,7 +66,7 @@ export default function useMerchantMemberTableColumn({
         <Button
           variant="ghost"
           className="h-8 px-2 font-medium"
-          onClick={() => addTab(String(row.getValue("id") ?? ""))}
+          onClick={() => addTab(row.original)}
         >
           {String(row.getValue("id") ?? "")}
         </Button>
@@ -86,7 +93,7 @@ export default function useMerchantMemberTableColumn({
           type="button"
           variant="ghost"
           className="h-8 px-2 font-medium"
-          onClick={() => addTab(row.original.id)}
+          onClick={() => addTab(row.original)}
         >
           {String(row.getValue("name") ?? "")}
         </Button>

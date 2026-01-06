@@ -227,7 +227,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
   };
 
   return (
-    <div className="bg-background min-h-[calc(100vh-0px)]">
+    <div className="bg-background min-h-[calc(100vh-0px)] rounded-lg p-4">
       <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
@@ -341,8 +341,8 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
               />
             </div>
 
-            <div className="bg-background rounded-xl border">
-              <div className="flex items-center justify-between px-4 py-3">
+            <div className="bg-background">
+              <div className="flex items-center justify-between py-3">
                 <div className="text-sm font-semibold">{t("form.items")}</div>
                 <Button
                   type="button"
@@ -363,8 +363,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                   <Plus className="mr-2 h-4 w-4" /> {t("buttons.addItem")}
                 </Button>
               </div>
-              <Separator />
-              <div className="p-4">
+              <div className="">
                 <div className="rounded-lg border">
                   <Table>
                     <TableHeader>

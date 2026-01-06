@@ -2,10 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import type { Payment, PaymentStatus } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import ActionsCell from "../../_components/action-cell";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useBasePath } from "@/hooks/use-base-path";
+import ActionsCell from "@/components/action-cell";
 
 export type Transaction = Payment & {
   merchantName: string;
@@ -35,7 +35,12 @@ export default function useTransactionTableColumn({
       cell: ({ row }) => (
         <ActionsCell<Transaction>
           item={row.original}
-          onOpenDetail={onOpenDetail}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: (item) => onOpenDetail(item),
+            },
+          ]}
           t={t}
         />
       ),

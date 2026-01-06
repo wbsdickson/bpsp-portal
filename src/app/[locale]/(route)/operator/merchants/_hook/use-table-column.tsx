@@ -1,10 +1,11 @@
 import { useTranslations } from "next-intl";
-import ActionsCell from "../../_components/action-cell";
+import ActionsCell from "@/components/action-cell";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { usePathname, useRouter } from "next/navigation";
 import { useMerchantStore } from "@/store/merchant-store";
 import type { AppMerchant } from "@/types/merchant";
+import { useBasePath } from "@/hooks/use-base-path";
 
 export type MerchantRow = AppMerchant;
 
@@ -15,22 +16,8 @@ export default function useMerchantTableColumn({
 }) {
   const t = useTranslations("Operator.Merchants");
   const router = useRouter();
-  const pathname = usePathname();
   const { deleteMerchant } = useMerchantStore();
-
-  const basePath = pathname.replace(/\/+$/, "");
-
-  const onOpenDetail = (item: MerchantRow) => {
-    router.push(`${basePath}/${item.id}`);
-  };
-
-  const onOpenEdit = (item: MerchantRow) => {
-    router.push(`${basePath}/edit/${item.id}`);
-  };
-
-  const onDelete = (item: MerchantRow) => {
-    deleteMerchant(item.id);
-  };
+  const { basePath } = useBasePath();
 
   const column: ColumnDef<MerchantRow>[] = [
     {
@@ -39,10 +26,21 @@ export default function useMerchantTableColumn({
       cell: ({ row }) => (
         <ActionsCell<MerchantRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
           t={t}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: (item) => router.push(`${basePath}/${item.id}`),
+            },
+            {
+              title: t("actions.edit"),
+              onPress: (item) => router.push(`${basePath}/edit/${item.id}`),
+            },
+            {
+              title: t("actions.delete"),
+              onPress: (item) => deleteMerchant(item.id),
+            },
+          ]}
         />
       ),
     },

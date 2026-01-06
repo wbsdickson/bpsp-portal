@@ -9,13 +9,28 @@ import NotificationDetail from "./_components/notification-detail";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import type { NotificationRow } from "./_hook/use-table-column";
+import { useBasePath } from "@/hooks/use-base-path";
 
 export default function OperatorNotificationsPage() {
   const t = useTranslations("Operator.Notifications");
   const router = useRouter();
+  const basePath = useBasePath();
 
   return (
-    <HeaderPage title={t("title")}>
+    <HeaderPage
+      title={t("title")}
+      pageActions={
+        <Button
+          type="button"
+          size="sm"
+          className="h-9 bg-indigo-600 hover:bg-indigo-700"
+          onClick={() => router.push(`${basePath}/create`)}
+        >
+          <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
+        </Button>
+      }
+    >
       <RecordTabs
         initialTabs={[
           {
@@ -24,16 +39,6 @@ export default function OperatorNotificationsPage() {
             closable: false,
           },
         ]}
-        renderRight={() => (
-          <Button
-            type="button"
-            size="sm"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
-            onClick={() => router.push(`/operator/notifications/create`)}
-          >
-            <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
-          </Button>
-        )}
         defaultActiveKey="table"
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
@@ -44,7 +49,7 @@ export default function OperatorNotificationsPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<NotificationRow>)
                 }
               />
             );

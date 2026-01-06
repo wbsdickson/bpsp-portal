@@ -1,8 +1,8 @@
+import ActionsCell from "@/components/action-cell";
 import { useMerchantCardStore } from "@/store/merchant-card-store";
 import type { AppMerchantCard } from "@/store/merchant-card-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import ActionsCell from "../../_components/action-cell";
 
 export type MerchantCardRow = AppMerchantCard & {
   statusLabel: string;
@@ -24,7 +24,12 @@ export default function useMerchantCardTableColumn() {
       cell: ({ row }) => (
         <ActionsCell<MerchantCardRow>
           item={row.original}
-          onDelete={onDelete}
+          actions={[
+            {
+              title: t("actions.delete"),
+              onPress: () => onDelete(row.original),
+            },
+          ]}
           t={t}
         />
       ),
