@@ -44,6 +44,7 @@ export interface DateRangePickerProps {
   className?: string;
   suffixIcon?: React.ReactNode;
   buttonVariant?: VariantKey;
+  label?: string;
 }
 
 const formatDate = (date: Date, locale: string = "en-us"): string => {
@@ -78,6 +79,7 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
   className,
   suffixIcon,
   buttonVariant = "outline",
+  label,
 }): React.JSX.Element => {
   const t = useTranslations("Calendar");
   const isMobile = useMediaQuery("(max-width: 767px)");
@@ -322,33 +324,35 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
   }, [isOpen]);
 
   const triggerButton = (
-    <Button
-      variant={buttonVariant as VariantKey}
-      className={cn("px-6", className)} // dark:hover:text-background
+    <div
+      className={cn(
+        "inline-flex items-center space-x-2 rounded-md border border-gray-200 px-2",
+        className,
+      )}
     >
-      <div className="text-right">
-        <div className="py-1">
-          <div>{`${formatDate(range.from, locale)}${
-            range.to != null ? " - " + formatDate(range.to, locale) : ""
-          }`}</div>
+      <span className="text-muted-foreground ml-2 whitespace-nowrap font-semibold text-gray-600">
+        {label || t("dateRange")}
+      </span>
+      <Button
+        variant={buttonVariant as VariantKey}
+        className="min-w-[180px] rounded-full border-0 bg-transparent p-0 !shadow-none hover:bg-transparent focus:bg-transparent"
+        style={{ boxShadow: "none" }}
+        tabIndex={0}
+      >
+        <div className="flex w-full min-w-[160px] items-center justify-between gap-2 text-right">
+          <span>
+            {`${formatDate(range.from, locale)}${
+              range.to != null ? " - " + formatDate(range.to, locale) : ""
+            }`}
+          </span>
+          <span className="pl-2">
+            {isOpen
+              ? (suffixIcon ?? <ChevronUpIcon width={16} />)
+              : (suffixIcon ?? <ChevronDownIcon width={16} />)}
+          </span>
         </div>
-        {rangeCompare != null && (
-          <div className="-mt-1 text-xs opacity-60">
-            <>
-              vs. {formatDate(rangeCompare.from, locale)}
-              {rangeCompare.to != null
-                ? ` - ${formatDate(rangeCompare.to, locale)}`
-                : ""}
-            </>
-          </div>
-        )}
-      </div>
-      <div className="pl-2">
-        {isOpen
-          ? (suffixIcon ?? <ChevronUpIcon width={16} />)
-          : (suffixIcon ?? <ChevronDownIcon width={16} />)}
-      </div>
-    </Button>
+      </Button>
+    </div>
   );
 
   const calendarContent = (
