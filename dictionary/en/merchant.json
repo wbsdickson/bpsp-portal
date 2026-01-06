@@ -471,6 +471,36 @@
         "updateSuccess": "Item updated successfully.",
         "notFound": "Item not found."
       }
+    },
+    "DocumentOutputSettings": {
+      "title": "Document Output Settings",
+      "form": {
+        "title": "Edit document output settings",
+        "companyName": "Company name",
+        "address": "Address",
+        "phoneNumber": "Phone number",
+        "representativeName": "Representative name",
+        "logo": "Logo",
+        "logoUploadButton": "Upload logo",
+        "footerText": "Footer text",
+        "footerTextPlaceholder": "Footer text (max 1,000 chars)",
+        "companyNamePlaceholder": "Company name",
+        "addressPlaceholder": "Address",
+        "phoneNumberPlaceholder": "Phone number",
+        "representativeNamePlaceholder": "Representative name"
+      },
+      "buttons": {
+        "save": "Save",
+        "reset": "Reset"
+      },
+      "validation": {
+        "companyNameRequired": "Company name is required",
+        "addressRequired": "Address is required",
+        "phoneNumberRequired": "Phone number is required"
+      },
+      "messages": {
+        "updateSuccess": "Document output settings saved successfully."
+      }
     }
   }
 }

@@ -343,128 +343,155 @@
         "notFound": "振込先口座が見つかりません。"
       }
     },
-    "messages": {
-      "notFound": "Clientが見つかりません。"
-    }
-  },
-  "MerchantCards": {
-    "title": "カード",
-    "columns": {
-      "merchant": "加盟店名",
-      "brand": "カードブランド",
-      "last4": "下4桁",
-      "expirationDate": "有効期限",
-      "registrationDate": "登録日",
-      "status": "ステータス",
-      "deleteLink": "削除"
+    "MerchantCards": {
+      "title": "カード",
+      "columns": {
+        "merchant": "加盟店名",
+        "brand": "カードブランド",
+        "last4": "下4桁",
+        "expirationDate": "有効期限",
+        "registrationDate": "登録日",
+        "status": "ステータス",
+        "deleteLink": "削除"
+      },
+      "filters": {
+        "brand": "カードブランド",
+        "last4": "下4桁",
+        "expirationDate": "有効期限"
+      },
+      "statuses": {
+        "used": "使用中",
+        "unused": "未使用"
+      },
+      "actions": {
+        "label": "操作",
+        "delete": "削除"
+      },
+      "buttons": {
+        "clearFilters": "フィルターをクリア"
+      }
     },
-    "filters": {
-      "brand": "カードブランド",
-      "last4": "下4桁",
-      "expirationDate": "有効期限"
+    "TaxSettings": {
+      "title": "税設定",
+      "form": {
+        "title": "税設定を編集",
+        "merchant": "加盟店",
+        "selectMerchant": "加盟店を選択",
+        "taxable": "課税",
+        "taxableHelp": "この加盟店に税を適用するかどうかを切り替えます。",
+        "taxRate": "税率(%)",
+        "roundingMethod": "端数処理",
+        "selectRoundingMethod": "端数処理を選択",
+        "updatedAt": "更新日"
+      },
+      "roundingMethods": {
+        "round": "四捨五入",
+        "floor": "切り捨て",
+        "ceil": "切り上げ"
+      },
+      "buttons": {
+        "save": "保存",
+        "reset": "リセット"
+      },
+      "validation": {
+        "merchantRequired": "加盟店は必須です",
+        "taxRateRequired": "税率は必須です",
+        "taxRateInvalid": "税率は有効な数値である必要があります",
+        "taxRateMin": "税率は0以上である必要があります",
+        "taxRateMax": "税率は100以下である必要があります"
+      },
+      "messages": {
+        "updateSuccess": "税設定を保存しました。"
+      }
     },
-    "statuses": {
-      "used": "使用中",
-      "unused": "未使用"
+    "Items": {
+      "title": "商品マスタ",
+      "tabs": {
+        "all": "すべて"
+      },
+      "columns": {
+        "id": "ID",
+        "name": "商品名",
+        "unitPrice": "単価",
+        "taxCategory": "税区分",
+        "description": "説明",
+        "status": "ステータス",
+        "createDate": "登録日"
+      },
+      "filters": {
+        "name": "商品名",
+        "taxCategory": "税区分",
+        "status": "ステータス",
+        "all": "すべて",
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了"
+      },
+      "statuses": {
+        "active": "有効",
+        "inactive": "無効",
+        "deleted": "削除済み"
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "buttons": {
+        "create": "商品を作成",
+        "clearFilters": "フィルターをクリア",
+        "cancel": "キャンセル",
+        "save": "保存"
+      },
+      "form": {
+        "createTitle": "商品を作成",
+        "editTitle": "商品を編集",
+        "namePlaceholder": "商品名",
+        "unitPricePlaceholder": "単価",
+        "selectTax": "税区分を選択"
+      },
+      "validation": {
+        "nameRequired": "商品名は必須です",
+        "unitPriceRequired": "単価は必須です",
+        "unitPriceInvalid": "単価が正しくありません",
+        "taxRequired": "税区分は必須です"
+      },
+      "messages": {
+        "createSuccess": "商品を作成しました。",
+        "updateSuccess": "商品を更新しました。",
+        "notFound": "商品が見つかりません。"
+      }
     },
-    "actions": {
-      "label": "操作",
-      "delete": "削除"
-    },
-    "buttons": {
-      "clearFilters": "フィルターをクリア"
-    }
-  },
-  "TaxSettings": {
-    "title": "税設定",
-    "form": {
-      "title": "税設定を編集",
-      "merchant": "加盟店",
-      "selectMerchant": "加盟店を選択",
-      "taxable": "課税",
-      "taxableHelp": "この加盟店に税を適用するかどうかを切り替えます。",
-      "taxRate": "税率(%)",
-      "roundingMethod": "端数処理",
-      "selectRoundingMethod": "端数処理を選択",
-      "updatedAt": "更新日"
-    },
-    "roundingMethods": {
-      "round": "四捨五入",
-      "floor": "切り捨て",
-      "ceil": "切り上げ"
-    },
-    "buttons": {
-      "save": "保存",
-      "reset": "リセット"
-    },
-    "validation": {
-      "merchantRequired": "加盟店は必須です",
-      "taxRateRequired": "税率は必須です",
-      "taxRateInvalid": "税率は有効な数値である必要があります",
-      "taxRateMin": "税率は0以上である必要があります",
-      "taxRateMax": "税率は100以下である必要があります"
-    },
-    "messages": {
-      "updateSuccess": "税設定を保存しました。"
-    }
-  },
-  "Items": {
-    "title": "商品マスタ",
-    "tabs": {
-      "all": "すべて"
-    },
-    "columns": {
-      "id": "ID",
-      "name": "商品名",
-      "unitPrice": "単価",
-      "taxCategory": "税区分",
-      "description": "説明",
-      "status": "ステータス",
-      "createDate": "登録日"
-    },
-    "filters": {
-      "name": "商品名",
-      "taxCategory": "税区分",
-      "status": "ステータス",
-      "all": "すべて",
-      "search": "検索...",
-      "reset": "リセット",
-      "done": "完了"
-    },
-    "statuses": {
-      "active": "有効",
-      "inactive": "無効",
-      "deleted": "削除済み"
-    },
-    "actions": {
-      "label": "操作",
-      "view": "表示",
-      "edit": "編集",
-      "delete": "削除"
-    },
-    "buttons": {
-      "create": "商品を作成",
-      "clearFilters": "フィルターをクリア",
-      "cancel": "キャンセル",
-      "save": "保存"
-    },
-    "form": {
-      "createTitle": "商品を作成",
-      "editTitle": "商品を編集",
-      "namePlaceholder": "商品名",
-      "unitPricePlaceholder": "単価",
-      "selectTax": "税区分を選択"
-    },
-    "validation": {
-      "nameRequired": "商品名は必須です",
-      "unitPriceRequired": "単価は必須です",
-      "unitPriceInvalid": "単価が正しくありません",
-      "taxRequired": "税区分は必須です"
-    },
-    "messages": {
-      "createSuccess": "商品を作成しました。",
-      "updateSuccess": "商品を更新しました。",
-      "notFound": "商品が見つかりません。"
+    "DocumentOutputSettings": {
+      "title": "ドキュメント出力設定",
+      "form": {
+        "title": "ドキュメント出力設定を編集",
+        "companyName": "会社名",
+        "address": "住所",
+        "phoneNumber": "電話番号",
+        "representativeName": "代表者名",
+        "logo": "ロゴ",
+        "logoUploadButton": "ロゴをアップロード",
+        "footerText": "フッターテキスト",
+        "footerTextPlaceholder": "フッターテキスト (最大1,000文字)",
+        "companyNamePlaceholder": "会社名",
+        "addressPlaceholder": "住所",
+        "phoneNumberPlaceholder": "電話番号",
+        "representativeNamePlaceholder": "代表者名"
+      },
+      "buttons": {
+        "save": "保存",
+        "reset": "リセット"
+      },
+      "validation": {
+        "companyNameRequired": "会社名は必須です",
+        "addressRequired": "住所は必須です",
+        "phoneNumberRequired": "電話番号は必須です"
+      },
+      "messages": {
+        "updateSuccess": "ドキュメント出力設定を保存しました。"
+      }
     }
   }
 }
