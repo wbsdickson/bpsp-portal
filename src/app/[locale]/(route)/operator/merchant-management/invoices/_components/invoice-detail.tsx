@@ -115,7 +115,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
         currency: invoice.currency,
         updatedAt: invoice.updatedAt,
         invoiceNumber: invoice.invoiceNumber,
-        status: invoice.status,
+        status: invoice.status as any,
         items: invoice.items.map((i) => ({
           itemId: i.itemId,
           description: i.name,

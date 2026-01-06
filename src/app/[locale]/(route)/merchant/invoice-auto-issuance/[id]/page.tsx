@@ -13,17 +13,13 @@ import InvoiceDetail from "../_components/invoice-detail";
 import { useBasePath } from "@/hooks/use-base-path";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 
-export default function InvoiceManagementDetailPage() {
+export default function InvoiceAutoIssuanceDetailPage() {
   const params = useParams<{ id: string }>();
   const id = params?.id;
 
   const locale = useLocale();
-  const t = useTranslations("Merchant.InvoiceManagement");
+  const t = useTranslations("Merchant.InvoiceAutoIssuance");
   const { basePath } = useBasePath();
-
-  const invoice = useInvoiceStore((s) =>
-    id ? s.getInvoiceById(id) : undefined,
-  );
 
   const breadcrumbItems = [
     { label: t("title"), href: basePath },
@@ -38,24 +34,7 @@ export default function InvoiceManagementDetailPage() {
             Missing invoice id.
           </div>
           <Button asChild variant="outline" className="h-9">
-            <Link href={`/${locale}/operator/invoices`}>
-              {t("payInfoBack")}
-            </Link>
-          </Button>
-        </div>
-      </HeaderPage>
-    );
-  }
-
-  if (!invoice) {
-    return (
-      <HeaderPage title={t("invoiceNumber")}>
-        <div className="space-y-4">
-          <div className="text-muted-foreground text-sm">
-            Invoice not found.
-          </div>
-          <Button asChild variant="outline" className="h-9">
-            <Link href={`/${locale}/operator/invoices`}>
+            <Link href={`/${locale}/merchant/invoice-auto-issuance`}>
               {t("payInfoBack")}
             </Link>
           </Button>

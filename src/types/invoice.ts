@@ -4,8 +4,9 @@ export type InvoiceStatus =
   | "approved"
   | "paid"
   | "rejected"
-  | "void";
-
+  | "void"
+  | "past_due"
+  | "open";
 export type InvoiceItem = {
   id: string;
   invoiceId: string;
@@ -42,4 +43,18 @@ export type Invoice = {
   recipientName?: string;
   recipientBank?: string;
   accountNumber?: string;
+};
+export type InvoiceAutoIssuanceStatus = "enabled" | "disabled";
+
+export type InvoiceAutoIssuance = {
+  id: string;
+  merchantId: string;
+  targetClient: string;
+  scheduleName: string;
+  issuanceFrequency: string;
+  intervalValue: number;
+  nextIssuanceDate: string;
+  enabled: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 };

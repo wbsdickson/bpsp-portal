@@ -27,6 +27,8 @@ export const createMerchantInvoiceSchema = (t: any) => {
       "paid",
       "rejected",
       "void",
+      "past_due",
+      "open",
     ]),
     items: z
       .array(createLineItemSchema(t))

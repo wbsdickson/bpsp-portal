@@ -7,7 +7,6 @@ import Link from "next/link";
 import { DataTable } from "@/components/data-table";
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -23,7 +22,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAppStore } from "@/lib/store";
 import { useTranslations } from "next-intl";
-import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import useMerchantInvoiceTableColumn from "../_hooks/use-table-column";
 import { useInvoiceStore } from "@/store/merchant/invoice-store";
 import { DateRangePicker } from "@/components/date-range-picker";
@@ -90,7 +88,15 @@ type InvoiceRow = {
   id: string;
   total: number;
   currency: string;
-  status: "open" | "draft" | "past_due" | "paid";
+  status:
+    | "draft"
+    | "pending"
+    | "approved"
+    | "paid"
+    | "rejected"
+    | "void"
+    | "past_due"
+    | "open";
   frequency?: string;
   invoiceNumber: string;
   merchantName: string;
@@ -148,12 +154,7 @@ export default function InvoiceTable({
           id: inv.id,
           total: inv.amount,
           currency: inv.currency,
-          status:
-            inv.status === "paid"
-              ? "paid"
-              : inv.status === "draft"
-                ? "draft"
-                : "open",
+          status: inv.status,
           frequency: "",
           invoiceNumber: inv.invoiceNumber,
           merchantName: merchant?.name ?? "—",
@@ -184,6 +185,10 @@ export default function InvoiceTable({
             const statusOptions = [
               { value: "open", label: t("statusOpen") },
               { value: "draft", label: t("statusDraft") },
+              { value: "pending", label: t("statusPending") },
+              { value: "approved", label: t("statusApproved") },
+              { value: "rejected", label: t("statusRejected") },
+              { value: "void", label: t("statusVoid") },
               { value: "past_due", label: t("statusPastDue") },
               { value: "paid", label: t("statusPaid") },
             ];

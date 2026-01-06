@@ -81,6 +81,10 @@ const merchantRoutes = [
     label: "Invoice Management",
     route: "merchant/invoice-management",
   },
+  {
+    label: "Invoice Auto-Issuance",
+    route: "merchant/invoice-auto-issuance",
+  },
 ];
 
 export function AppSidebar({
