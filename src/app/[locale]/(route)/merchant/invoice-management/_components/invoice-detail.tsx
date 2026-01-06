@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import { useAppStore } from "@/lib/store";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
-import { useInvoiceStore } from "@/store/invoice-store";
+import { useInvoiceStore } from "@/store/merchant/invoice-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { Pen, Check, X, Minus, Plus } from "lucide-react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
@@ -40,9 +40,11 @@ import { createMerchantInvoiceSchema } from "../_lib/merchant-invoice-schema";
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
+import { InvoiceStatus } from "@/types/invoice";
 
 export default function InvoiceDetail({ id }: { id: string }) {
-  const t = useTranslations("Operator.Invoice");
+  const t = useTranslations("Merchant.InvoiceManagement");
   const { basePath } = useBasePath();
   const router = useRouter();
 
@@ -71,7 +73,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
       currency: invoice?.currency ?? "USD",
       updatedAt: invoice?.updatedAt,
       invoiceNumber: invoice?.invoiceNumber ?? "",
-      status: (invoice?.status ?? "draft") as any,
+      status: (invoice?.status ?? "draft") as InvoiceStatus,
       billingRecipient: invoice?.recipientName ?? "",
       items:
         invoice?.items.map((i) => ({
@@ -114,7 +116,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
         currency: invoice.currency,
         updatedAt: invoice.updatedAt,
         invoiceNumber: invoice.invoiceNumber,
-        status: invoice.status,
+        status: invoice.status as InvoiceStatus,
         items: invoice.items.map((i) => ({
           itemId: i.itemId,
           description: i.name,
@@ -137,6 +139,8 @@ export default function InvoiceDetail({ id }: { id: string }) {
       <div className="text-muted-foreground p-4 text-sm">{t("notFound")}</div>
     );
   }
+
+  console.log(invoice);
 
   const client = clients.find((c) => c.id === invoice.clientId);
   const merchant = merchants.find((m) => m.id === invoice.merchantId);
@@ -168,7 +172,73 @@ export default function InvoiceDetail({ id }: { id: string }) {
           <h2 className="text-2xl font-bold tracking-tight">
             {invoice.invoiceNumber}
           </h2>
-          <p className="text-muted-foreground text-sm">{invoice.status}</p>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3">
+              {invoice.status === "draft" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-indigo-50 text-indigo-700"
+                >
+                  {t("statusDraft")}
+                </Badge>
+              )}
+
+              {invoice.status === "pending" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-amber-50 text-amber-700"
+                >
+                  {t("statusPending")}
+                </Badge>
+              )}
+
+              {invoice.status === "approved" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-amber-50 text-amber-700"
+                >
+                  {t("statusApproved")}
+                </Badge>
+              )}
+
+              {invoice.status === "rejected" && (
+                <Badge variant="secondary" className="bg-red-50 text-red-700">
+                  {t("statusRejected")}
+                </Badge>
+              )}
+
+              {invoice.status === "void" && (
+                <Badge variant="secondary" className="bg-gray-50 text-gray-700">
+                  {t("statusVoid")}
+                </Badge>
+              )}
+
+              {invoice.status === "paid" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-emerald-50 text-emerald-700"
+                >
+                  {t("statusPaid")}
+                </Badge>
+              )}
+              {invoice.status === "past_due" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-amber-50 text-amber-700"
+                >
+                  {t("statusPastDue")}
+                </Badge>
+              )}
+              {invoice.status === "open" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-indigo-50 text-indigo-700"
+                >
+                  {t("statusOpen")}
+                </Badge>
+              )}
+            </div>
+          </div>
         </div>
         <div className="flex gap-2">
           {isEditing ? (
@@ -243,7 +313,79 @@ export default function InvoiceDetail({ id }: { id: string }) {
                 name="status"
                 label={t("status")}
                 isEditing={isEditing}
-                value={invoice.status}
+                value={
+                  <div className="flex items-center gap-3">
+                    {invoice.status === "draft" && (
+                      <Badge
+                        variant="secondary"
+                        className="bg-indigo-50 text-indigo-700"
+                      >
+                        {t("statusDraft")}
+                      </Badge>
+                    )}
+
+                    {invoice.status === "pending" && (
+                      <Badge
+                        variant="secondary"
+                        className="bg-amber-50 text-amber-700"
+                      >
+                        {t("statusPending")}
+                      </Badge>
+                    )}
+
+                    {invoice.status === "approved" && (
+                      <Badge
+                        variant="secondary"
+                        className="bg-amber-50 text-amber-700"
+                      >
+                        {t("statusApproved")}
+                      </Badge>
+                    )}
+
+                    {invoice.status === "rejected" && (
+                      <Badge
+                        variant="secondary"
+                        className="bg-red-50 text-red-700"
+                      >
+                        {t("statusRejected")}
+                      </Badge>
+                    )}
+
+                    {invoice.status === "void" && (
+                      <Badge
+                        variant="secondary"
+                        className="bg-gray-50 text-gray-700"
+                      >
+                        {t("statusVoid")}
+                      </Badge>
+                    )}
+
+                    {invoice.status === "paid" && (
+                      <Badge
+                        variant="secondary"
+                        className="bg-emerald-50 text-emerald-700"
+                      >
+                        {t("statusPaid")}
+                      </Badge>
+                    )}
+                    {invoice.status === "past_due" && (
+                      <Badge
+                        variant="secondary"
+                        className="bg-amber-50 text-amber-700"
+                      >
+                        {t("statusPastDue")}
+                      </Badge>
+                    )}
+                    {invoice.status === "open" && (
+                      <Badge
+                        variant="secondary"
+                        className="bg-indigo-50 text-indigo-700"
+                      >
+                        {t("statusOpen")}
+                      </Badge>
+                    )}
+                  </div>
+                }
                 renderInput={(field) => (
                   <Select
                     onValueChange={field.onChange}
@@ -253,14 +395,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {[
-                        "draft",
-                        "pending",
-                        "approved",
-                        "paid",
-                        "rejected",
-                        "void",
-                      ].map((s) => (
+                      {["draft", "paid", "open", "past_due"].map((s) => (
                         <SelectItem key={s} value={s}>
                           {s}
                         </SelectItem>

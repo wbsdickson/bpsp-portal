@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 
-import type { AppMerchantFee } from "@/types/merchant-fee";
 import { useRouter } from "next/navigation";
 import { useMerchantFeeStore } from "@/store/merchant-fee-store";
 import { useBasePath } from "@/hooks/use-base-path";
@@ -36,7 +35,15 @@ export type InvoiceRow = {
   id: string;
   total: number;
   currency: string;
-  status: "open" | "draft" | "past_due" | "paid";
+  status:
+    | "draft"
+    | "pending"
+    | "approved"
+    | "paid"
+    | "rejected"
+    | "void"
+    | "past_due"
+    | "open";
   frequency?: string;
   invoiceNumber: string;
   merchantName: string;
@@ -137,28 +144,58 @@ export default function useMerchantInvoiceTableColumn({
         const inv = row.original;
         return (
           <div className="flex items-center gap-3">
-            {inv.status === "open" && (
+            {inv.status === "draft" && (
               <Badge
                 variant="secondary"
                 className="bg-indigo-50 text-indigo-700"
               >
-                {t("statusOpen")}
+                {t("statusDraft")}
               </Badge>
             )}
-            {inv.status === "draft" && (
-              <Badge variant="secondary">{t("statusDraft")}</Badge>
-            )}
-            {inv.status === "past_due" && (
+
+            {inv.status === "pending" && (
               <Badge variant="secondary" className="bg-amber-50 text-amber-700">
-                {t("statusPastDue")}
+                {t("statusPending")}
               </Badge>
             )}
+
+            {inv.status === "approved" && (
+              <Badge variant="secondary" className="bg-amber-50 text-amber-700">
+                {t("statusApproved")}
+              </Badge>
+            )}
+
+            {inv.status === "rejected" && (
+              <Badge variant="secondary" className="bg-red-50 text-red-700">
+                {t("statusRejected")}
+              </Badge>
+            )}
+
+            {inv.status === "void" && (
+              <Badge variant="secondary" className="bg-gray-50 text-gray-700">
+                {t("statusVoid")}
+              </Badge>
+            )}
+
             {inv.status === "paid" && (
               <Badge
                 variant="secondary"
                 className="bg-emerald-50 text-emerald-700"
               >
                 {t("statusPaid")}
+              </Badge>
+            )}
+            {inv.status === "past_due" && (
+              <Badge variant="secondary" className="bg-amber-50 text-amber-700">
+                {t("statusPastDue")}
+              </Badge>
+            )}
+            {inv.status === "open" && (
+              <Badge
+                variant="secondary"
+                className="bg-indigo-50 text-indigo-700"
+              >
+                {t("statusOpen")}
               </Badge>
             )}
           </div>
