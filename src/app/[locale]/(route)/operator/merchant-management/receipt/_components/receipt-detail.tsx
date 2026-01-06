@@ -71,7 +71,7 @@ export default function ReceiptDetail({ id }: { id: string }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-end gap-3">
-        <Button asChild className="h-9 bg-indigo-600 hover:bg-indigo-700">
+        <Button asChild variant="secondary" size="xs">
           <Link href={`${basePath}/edit/${receipt.id}`}>
             {t("buttons.edit")}
           </Link>

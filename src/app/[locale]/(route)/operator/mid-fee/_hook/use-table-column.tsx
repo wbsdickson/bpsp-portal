@@ -5,7 +5,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 
-import ActionsCell from "@/app/[locale]/(route)/operator/_components/action-cell";
+import ActionsCell from "@/components/action-cell";
+import { useBasePath } from "@/hooks/use-base-path";
 
 export type MidFeeRow = AppMidFee & {
   midLabel: string;
@@ -19,17 +20,7 @@ export default function useMidFeeTableColumn({
 }) {
   const t = useTranslations("Operator.MIDFee");
   const router = useRouter();
-  const pathname = usePathname();
-
-  const basePath = pathname.replace(/\/+$/, "");
-
-  const onOpenDetail = (item: MidFeeRow) => {
-    router.push(`${basePath}/${item.id}`);
-  };
-
-  const onOpenEdit = (item: MidFeeRow) => {
-    router.push(`${basePath}/edit/${item.id}`);
-  };
+  const { basePath } = useBasePath();
 
   const column: ColumnDef<MidFeeRow>[] = [
     {
@@ -38,9 +29,17 @@ export default function useMidFeeTableColumn({
       cell: ({ row }) => (
         <ActionsCell<MidFeeRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
           t={t}
+          actions={[
+            {
+              title: t("actions.detail"),
+              onPress: (item) => router.push(`${basePath}/${item.id}`),
+            },
+            {
+              title: t("actions.edit"),
+              onPress: (item) => router.push(`${basePath}/edit/${item.id}`),
+            },
+          ]}
         />
       ),
     },

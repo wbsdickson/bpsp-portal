@@ -33,7 +33,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { useInvoiceStore } from "@/store/invoice-store";
+import { useReceivedInvoiceStore } from "@/store/received-invoice-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { toast } from "sonner";
 
@@ -61,9 +61,9 @@ export function ReceivedPayableInvoiceUpsertPage({
 
   const clients = useAppStore((s) => s.clients);
 
-  const addInvoice = useInvoiceStore((s) => s.addInvoice);
-  const updateInvoice = useInvoiceStore((s) => s.updateInvoice);
-  const invoiceToEdit = useInvoiceStore((s) =>
+  const addInvoice = useReceivedInvoiceStore((s) => s.addInvoice);
+  const updateInvoice = useReceivedInvoiceStore((s) => s.updateInvoice);
+  const invoiceToEdit = useReceivedInvoiceStore((s) =>
     invoiceId ? s.getInvoiceById(invoiceId) : undefined,
   );
 
@@ -132,7 +132,7 @@ export function ReceivedPayableInvoiceUpsertPage({
   });
 
   return (
-    <div className="bg-background min-h-[calc(100vh-0px)]">
+    <div className="bg-background min-h-[calc(100vh-0px)] rounded-lg p-4">
       <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>

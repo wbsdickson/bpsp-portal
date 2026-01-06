@@ -1,10 +1,10 @@
-import ActionsCell from "../../_components/action-cell";
 import { Button } from "@/components/ui/button";
 import type { Client } from "@/lib/types";
 import { useClientStore } from "@/store/client-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import ActionsCell from "@/components/action-cell";
 
 export type ClientRow = Client;
 
@@ -40,9 +40,20 @@ export default function useClientTableColumn({
       cell: ({ row }) => (
         <ActionsCell<ClientRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: (item) => onOpenDetail(item),
+            },
+            {
+              title: t("actions.edit"),
+              onPress: (item) => onOpenEdit(item),
+            },
+            {
+              title: t("actions.delete"),
+              onPress: (item) => onDelete(item),
+            },
+          ]}
           t={t}
         />
       ),

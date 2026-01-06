@@ -29,7 +29,7 @@ export default function ItemDetailPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mx-auto w-[1280px] space-y-4">
       <PageBreadcrumb items={breadcrumbItems} />
       <ItemDetail itemId={id} />
     </div>

@@ -152,7 +152,9 @@ interface AppState {
 
   // Delivery Notes
   getMerchantDeliveryNotes: (merchantId: string) => DeliveryNote[];
-  addDeliveryNote: (deliveryNote: DeliveryNote) => void;
+  addDeliveryNote: (
+    deliveryNote: Omit<DeliveryNote, "id" | "createdAt">,
+  ) => void;
   updateDeliveryNote: (id: string, data: Partial<DeliveryNote>) => void;
   deleteDeliveryNote: (id: string) => void;
 
@@ -723,8 +725,15 @@ export const useAppStore = create<AppState>((set, get) => ({
     );
   },
 
-  addDeliveryNote: (deliveryNote) => {
-    set((state) => ({ deliveryNotes: [deliveryNote, ...state.deliveryNotes] }));
+  addDeliveryNote: (deliveryNoteData) => {
+    const newDeliveryNote: DeliveryNote = {
+      ...deliveryNoteData,
+      id: `dn_${Math.random().toString(36).substr(2, 9)}`,
+      createdAt: new Date().toISOString(),
+    } as DeliveryNote;
+    set((state) => ({
+      deliveryNotes: [newDeliveryNote, ...state.deliveryNotes],
+    }));
   },
 
   updateDeliveryNote: (id, data) => {

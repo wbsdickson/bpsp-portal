@@ -9,16 +9,19 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useAppStore } from "@/lib/store";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
-import { useInvoiceStore } from "@/store/invoice-store";
+import { useReceivedInvoiceStore } from "@/store/received-invoice-store";
 import { useBasePath } from "@/hooks/use-base-path";
+import { useRouter } from "next/navigation";
 
 export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
   const locale = useLocale();
   const t = useTranslations("Operator.ReceivedPayableInvoices");
+  const router = useRouter();
 
-  const invoice = useInvoiceStore((s) =>
+  const invoice = useReceivedInvoiceStore((s) =>
     id ? s.getInvoiceById(id) : undefined,
   );
+
   const clients = useAppStore((s) => s.clients);
   const { basePath } = useBasePath();
 
@@ -40,7 +43,7 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
     );
   }
 
-  if (!invoice || invoice.direction !== "payable") {
+  if (!invoice) {
     return (
       <div className="space-y-4">
         <div className="text-muted-foreground text-sm">
@@ -55,15 +58,29 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-end gap-3">
-        <Button asChild className="h-9 bg-indigo-600 hover:bg-indigo-700">
-          <Link href={`${basePath}/edit/${invoice.id}`}>
-            {t("buttons.edit")}
-          </Link>
-        </Button>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">
+            {invoice.invoiceNumber}
+          </h2>
+          <p className="text-muted-foreground text-sm">{invoice.status}</p>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant="secondary"
+            size="xs"
+            onClick={() => {
+              // setIsEditing(true);
+              router.push(`${basePath}/edit/${invoice.id}`);
+            }}
+            title={t("actions.edit")}
+          >
+            Edit
+          </Button>
+        </div>
       </div>
 
-      <div className="bg-background rounded-xl border p-4">
+      <div className="bg-background rounded-md p-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <div>
             <div className="text-muted-foreground text-xs">
@@ -122,19 +139,6 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
             <div className="whitespace-pre-wrap font-medium">
               {invoice.notes ?? "—"}
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-background rounded-xl border">
-        <div className="px-4 py-3">
-          <div className="text-sm font-semibold">Items</div>
-        </div>
-        <Separator />
-        <div className="p-4">
-          <div className="text-muted-foreground text-sm">
-            This page focuses on received payable invoices. Line items are not
-            edited here.
           </div>
         </div>
       </div>

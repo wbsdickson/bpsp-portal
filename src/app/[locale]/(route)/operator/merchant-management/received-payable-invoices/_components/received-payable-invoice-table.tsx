@@ -6,7 +6,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/data-table";
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
-import ActionsCell from "../../_components/action-cell";
+import ActionsCell from "@/components/action-cell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
@@ -18,8 +18,9 @@ import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useAppStore } from "@/lib/store";
 import { useInvoiceStore } from "@/store/invoice-store";
 import { useBasePath } from "@/hooks/use-base-path";
+import { useReceivedInvoiceStore } from "@/store/received-invoice-store";
 
-type PayableInvoiceRow = {
+export type PayableInvoiceRow = {
   id: string;
   invoiceNumber: string;
   clientName: string;
@@ -74,14 +75,13 @@ export default function ReceivedPayableInvoiceTable({
   const t = useTranslations("Operator.ReceivedPayableInvoices");
 
   const clients = useAppStore((s) => s.clients);
-  const invoices = useInvoiceStore((s) => s.invoices);
-  const deleteInvoice = useInvoiceStore((s) => s.deleteInvoice);
+  const invoices = useReceivedInvoiceStore((s) => s.invoices);
+  const deleteInvoice = useReceivedInvoiceStore((s) => s.deleteInvoice);
   const { basePath } = useBasePath();
 
   const rows = React.useMemo<PayableInvoiceRow[]>(() => {
     return invoices
       .filter((inv) => !inv.deletedAt)
-      .filter((inv) => inv.direction === "payable")
       .map((inv) => {
         const client = clients.find((c) => c.id === inv.clientId);
         const issueDate = inv.invoiceDate;
@@ -118,9 +118,20 @@ export default function ReceivedPayableInvoiceTable({
         cell: ({ row }) => (
           <ActionsCell<PayableInvoiceRow>
             item={row.original}
-            onOpenDetail={onOpenDetail}
-            onOpenEdit={onOpenEdit}
-            onDelete={onDelete}
+            actions={[
+              {
+                title: t("actions.view"),
+                onPress: (item) => onOpenDetail(item),
+              },
+              {
+                title: t("actions.edit"),
+                onPress: (item) => onOpenEdit(item),
+              },
+              {
+                title: t("actions.delete"),
+                onPress: (item) => onDelete(item),
+              },
+            ]}
             t={t}
           />
         ),

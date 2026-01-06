@@ -11,6 +11,7 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBasePath } from "@/hooks/use-base-path";
 import { useModalStore } from "@/store/modal-store";
+import { MerchantFeeRow } from "./_hook/use-table-column";
 
 export default function MerchantFeePage() {
   const t = useTranslations("Operator.MerchantFees");
@@ -19,17 +20,19 @@ export default function MerchantFeePage() {
   const { onOpen } = useModalStore();
 
   return (
-    <HeaderPage title={t("title")}>
-      <div className="flex items-center justify-end">
+    <HeaderPage
+      title={t("title")}
+      pageActions={
         <Button
           type="button"
           size="sm"
-          className="h-9 bg-indigo-600 hover:bg-indigo-700"
+          className="bg-indigo-600 hover:bg-indigo-700"
           onClick={() => onOpen("create-merchant-fee")}
         >
           <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
         </Button>
-      </div>
+      }
+    >
       <RecordTabs
         initialTabs={[
           {
@@ -48,7 +51,7 @@ export default function MerchantFeePage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<MerchantFeeRow>)
                 }
               />
             );

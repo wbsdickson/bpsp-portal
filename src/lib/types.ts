@@ -101,7 +101,7 @@ export interface MerchantStats {
 export interface Notification {
   id: string;
   merchantId?: string; // Optional: If null/undefined, it targets all merchants (subject to targetUserType)
-  targetUserType?: "merchant" | "admin" | "all";
+  targetUserType: "merchant" | "admin" | "all";
   title: string;
   message: string;
   type: "info" | "warning" | "error" | "success";

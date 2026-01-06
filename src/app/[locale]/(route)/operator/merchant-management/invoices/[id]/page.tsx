@@ -65,7 +65,7 @@ export default function OperatorInvoiceDetailPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mx-auto w-[1280px] space-y-4">
       <PageBreadcrumb items={breadcrumbItems} />
       <InvoiceDetail id={id} />
     </div>

@@ -29,7 +29,7 @@ export default function MerchantMidDetailPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mx-auto w-[1280px] space-y-4">
       <PageBreadcrumb items={breadcrumbItems} />
       <MerchantMidDetail midId={id} />
     </div>

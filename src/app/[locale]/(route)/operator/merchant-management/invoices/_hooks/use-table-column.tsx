@@ -8,7 +8,7 @@ import { useMerchantFeeStore } from "@/store/merchant-fee-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { Badge } from "@/components/ui/badge";
-import ActionsCell from "../../_components/action-cell";
+import ActionsCell from "@/components/action-cell";
 
 function InvoiceNumberCell({
   id,
@@ -32,7 +32,7 @@ function InvoiceNumberCell({
   );
 }
 
-type InvoiceRow = {
+export type InvoiceRow = {
   id: string;
   total: number;
   currency: string;
@@ -76,9 +76,20 @@ export default function useMerchantInvoiceTableColumn({
       cell: ({ row }) => (
         <ActionsCell<InvoiceRow>
           item={row.original}
-          onDelete={onDelete}
-          onOpenEdit={onOpenEdit}
-          onOpenDetail={onOpenDetail}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: (item) => onOpenDetail(item),
+            },
+            {
+              title: t("actions.edit"),
+              onPress: (item) => onOpenEdit(item),
+            },
+            {
+              title: t("actions.delete"),
+              onPress: (item) => onDelete(item),
+            },
+          ]}
           t={t}
         />
       ),

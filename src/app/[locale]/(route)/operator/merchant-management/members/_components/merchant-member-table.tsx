@@ -11,12 +11,14 @@ import { Plus, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-import useMerchantMemberTableColumn from "../_hook/use-table-column";
+import useMerchantMemberTableColumn, {
+  MerchantMemberRow,
+} from "../_hook/use-table-column";
 
 export default function MerchantMemberTable({
   addTab,
 }: {
-  addTab: (id: string) => void;
+  addTab: (item: MerchantMemberRow) => void;
 }) {
   const t = useTranslations("Operator.MerchantMembers");
   const router = useRouter();

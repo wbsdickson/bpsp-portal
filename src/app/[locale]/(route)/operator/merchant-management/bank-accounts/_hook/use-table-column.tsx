@@ -1,4 +1,4 @@
-import ActionsCell from "../../_components/action-cell";
+import ActionsCell from "@/components/action-cell";
 import { Button } from "@/components/ui/button";
 import type { BankAccount } from "@/lib/types";
 import { useBankAccountStore } from "@/store/bank-account-store";
@@ -39,9 +39,20 @@ export default function useBankAccountTableColumn({
       cell: ({ row }) => (
         <ActionsCell<BankAccountRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: (item) => onOpenDetail(item),
+            },
+            {
+              title: t("actions.edit"),
+              onPress: (item) => onOpenEdit(item),
+            },
+            {
+              title: t("actions.delete"),
+              onPress: (item) => onDelete(item),
+            },
+          ]}
           t={t}
         />
       ),

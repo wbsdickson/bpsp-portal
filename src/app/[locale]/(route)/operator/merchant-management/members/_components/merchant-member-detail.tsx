@@ -115,39 +115,37 @@ export default function MerchantMemberDetail({ userId }: { userId: string }) {
           {isEditing ? (
             <>
               <Button
-                variant="ghost"
-                size="icon"
+                variant="secondary"
+                size="xs"
                 onClick={onCancel}
                 title={t("buttons.cancel")}
               >
-                <X className="h-4 w-4" />
+                Discard
               </Button>
               <Button
-                variant="ghost"
-                size="icon"
+                variant="secondary"
+                size="xs"
                 onClick={onSubmit}
                 title={t("buttons.save")}
-                className="text-green-600 hover:bg-green-50 hover:text-green-700"
               >
-                <Check className="h-4 w-4" />
+                Save
               </Button>
             </>
           ) : (
             <Button
-              variant="outline"
-              size="icon"
+              variant="secondary"
+              size="xs"
               onClick={() => setIsEditing(true)}
               title={t("actions.edit")}
             >
-              <Pen className="h-4 w-4" />
+              Edit
             </Button>
           )}
         </div>
       </div>
-      <Separator />
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="bg-background grid grid-cols-1 gap-6 rounded-md p-4 md:grid-cols-2">
             <InlineEditField
               control={form.control}
               name="name"
@@ -218,57 +216,15 @@ export default function MerchantMemberDetail({ userId }: { userId: string }) {
 
             <InlineEditField
               control={form.control}
-              name="password"
-              label="Password"
-              isEditing={isEditing}
-              value="••••••••"
-              renderInput={(field) => (
-                <div className="relative">
-                  <Input
-                    {...field}
-                    type={showPassword ? "text" : "password"}
-                    className="h-9 pr-10"
-                    placeholder="Reset password"
-                    value={field.value ?? ""}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                    <span className="sr-only">
-                      {showPassword ? "Hide password" : "Show password"}
-                    </span>
-                  </Button>
-                </div>
-              )}
-            />
-
-            <InlineEditField
-              control={form.control}
               name="merchantId"
               label={t("columns.merchantId")}
-              isEditing={false} // Keeping merchant read-only in detail usually, or should it be editable? User can move to other merchant? Let's allow edit if it's an operator feature.
-              // Actually UserDetail doesn't have merchantId select. This is specific to MerchantMember.
-              // If I allow edit, I need the merchant list.
-              // Let's assume editable for parity with upsert form, but might be complex if list is huge.
-              // For now, let's keep it read-only or editable? Upsert form allows selecting merchant.
-              // I'll leave it View-Only for now as changing merchant is a significant action, or implement it if I have `merchants` list.
-              // I have `useMerchantStore`.
+              isEditing={false}
               value={
                 user.merchantId
                   ? `${merchant?.name ?? "—"} (${user.merchantId})`
                   : "—"
               }
               renderInput={(field) => (
-                // Placeholder if we wanted to make it editable
                 <Input {...field} className="h-9" disabled />
               )}
             />

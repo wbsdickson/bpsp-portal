@@ -48,7 +48,7 @@ export default function MerchantMembersPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<object>)
                 }
               />
             );

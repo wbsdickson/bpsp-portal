@@ -898,6 +898,9 @@
       "tabs": {
         "all": "すべて"
       },
+      "preview": {
+        "total": "合計"
+      },
       "columns": {
         "number": "番号",
         "client": "取引先",
@@ -949,7 +952,8 @@
         "selectItem": "商品を選択",
         "quantityPlaceholder": "数量",
         "unitPricePlaceholder": "単価",
-        "notesPlaceholder": "備考"
+        "notesPlaceholder": "備考",
+        "addItem": "商品を追加"
       },
       "validation": {
         "clientRequired": "取引先は必須です",
