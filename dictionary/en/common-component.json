@@ -9,7 +9,8 @@
     "thisMonth": "This Month",
     "lastMonth": "Last Month",
     "cancel": "Cancel",
-    "update": "Update"
+    "update": "Update",
+    "dateRange": "Date Range"
   },
   "DatePicker": {
     "pick_date": "Pick a date",

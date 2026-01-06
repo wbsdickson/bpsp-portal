@@ -50,7 +50,7 @@ export default function ItemsPage() {
                     key: id,
                     label: id,
                     closable: true,
-                  } satisfies RecordTab)
+                  } satisfies RecordTab<string>)
                 }
               />
             );

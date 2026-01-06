@@ -77,6 +77,10 @@ const merchantRoutes = [
     label: "Document Output Settings",
     route: "merchant/document-output-settings",
   },
+  {
+    label: "Invoice Management",
+    route: "merchant/invoice-management",
+  },
 ];
 
 export function AppSidebar({

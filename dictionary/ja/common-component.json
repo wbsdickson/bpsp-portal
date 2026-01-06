@@ -9,7 +9,8 @@
     "thisMonth": "今月",
     "lastMonth": "先月",
     "cancel": "キャンセル",
-    "update": "更新"
+    "update": "更新",
+    "dateRange": "日付範囲"
   },
   "DatePicker": {
     "pick_date": "日付を選択",

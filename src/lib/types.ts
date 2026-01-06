@@ -431,3 +431,12 @@ export interface Account {
   password: string;
   confirmPassword: string;
 }
+
+export interface InvoiceManagement {
+  id: string;
+  invoiceNumber: string;
+  invoiceDate: string;
+  dueDate: string;
+  totalAmount: number;
+  status: PaymentStatus;
+}
