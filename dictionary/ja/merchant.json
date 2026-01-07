@@ -757,6 +757,101 @@
         "createSuccess": "請求書自動発行を作成しました。",
         "updateSuccess": "請求書自動発行を更新しました。"
       }
+    },
+    "Quotations": {
+      "title": "見積書",
+      "tabs": {
+        "all": "すべて"
+      },
+      "upsert": {
+        "createTitle": "見積書を作成",
+        "editTitle": "見積書を編集",
+        "createButton": "見積書を作成",
+        "saveChanges": "変更を保存"
+      },
+      "columns": {
+        "quotationNumber": "見積書番号",
+        "clientName": "取引先名",
+        "totalAmount": "合計金額",
+        "client": "取引先",
+        "amount": "金額",
+        "issueDate": "発行日",
+        "quotationDate": "見積日",
+        "status": "ステータス",
+        "item": "商品",
+        "quantity": "数量",
+        "unitPrice": "単価",
+        "taxCategory": "税区分",
+        "remarks": "備考",
+        "uploadedPdf": "PDFアップロード（任意）",
+        "detailLink": "詳細",
+        "editLink": "編集",
+        "deleteLink": "削除"
+      },
+      "filters": {
+        "quotationDate": "見積日",
+        "number": "見積書番号",
+        "client": "取引先",
+        "issueDate": "発行日",
+        "status": "ステータス",
+        "all": "すべて",
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了"
+      },
+      "statuses": {
+        "draft": "下書き",
+        "sent": "送付済み",
+        "accepted": "承認済み",
+        "rejected": "却下",
+        "expired": "期限切れ"
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "buttons": {
+        "clearFilters": "フィルターをクリア",
+        "back": "戻る",
+        "create": "見積書を作成",
+        "cancel": "キャンセル",
+        "save": "保存"
+      },
+      "form": {
+        "createTitle": "見積書を作成",
+        "editTitle": "見積書を編集",
+        "numberPlaceholder": "見積書番号",
+        "selectClient": "取引先を選択",
+        "selectStatus": "ステータスを選択",
+        "selectItem": "商品を選択",
+        "quantityPlaceholder": "数量",
+        "unitPricePlaceholder": "単価",
+        "remarksPlaceholder": "備考",
+        "amountPlaceholder": "金額",
+        "addItem": "商品を追加"
+      },
+      "validation": {
+        "numberRequired": "見積書番号は必須です",
+        "clientRequired": "取引先は必須です",
+        "issueDateRequired": "発行日は必須です",
+        "amountRequired": "金額は必須です",
+        "amountInvalid": "金額が正しくありません",
+        "itemRequired": "商品は必須です",
+        "quantityRequired": "数量は必須です",
+        "quantityInvalid": "数量が正しくありません",
+        "unitPriceRequired": "単価は必須です",
+        "unitPriceInvalid": "単価が正しくありません"
+      },
+      "messages": {
+        "createSuccess": "見積書を作成しました。",
+        "updateSuccess": "見積書を更新しました。",
+        "notFound": "見積書が見つかりません。"
+      },
+      "preview": {
+        "total": "合計"
+      }
     }
   }
 }

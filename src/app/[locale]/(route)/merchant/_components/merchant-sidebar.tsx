@@ -85,6 +85,10 @@ const merchantRoutes = [
     label: "Invoice Auto-Issuance",
     route: "merchant/invoice-auto-issuance",
   },
+  {
+    label: "Quotation Issuance",
+    route: "merchant/quotations",
+  },
 ];
 
 export function AppSidebar({

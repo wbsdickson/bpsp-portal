@@ -272,9 +272,9 @@ export interface Quotation {
   id: string;
   merchantId: string;
   clientId: string;
-  quotationNumber: string;
+  quotationNumber?: string;
   quotationDate: string;
-  status: QuotationStatus;
+  status?: QuotationStatus;
   amount: number;
   currency: string;
   notes?: string;

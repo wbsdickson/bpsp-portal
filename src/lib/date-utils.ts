@@ -40,3 +40,16 @@ export function formatRequestDate(timeString: string | undefined) {
   const jstTime = add(utcTime, { hours: 9 });
   return format(jstTime, "yyyy-MM-dd HH:mm:ss");
 }
+
+export function asDateValue(input: string | undefined) {
+  if (!input) return undefined;
+  const dt = new Date(input);
+  if (Number.isNaN(dt.getTime())) return undefined;
+  return dt;
+}
+export function toYmd(date: Date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
