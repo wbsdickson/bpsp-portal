@@ -30,7 +30,10 @@ export default function OperatorQuotationDetailPage() {
       <PageBreadcrumb
         items={[
           { label: t("title"), href: basePath },
-          { label: quotation.quotationNumber, href: `${basePath}/${id}` },
+          {
+            label: quotation.quotationNumber ?? "",
+            href: `${basePath}/${id}`,
+          },
         ]}
       />
       <QuotationDetail quotationId={id} />

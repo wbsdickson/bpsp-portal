@@ -757,6 +757,99 @@
         "createSuccess": "Invoice created successfully.",
         "updateSuccess": "Invoice updated successfully."
       }
+    },
+    "Quotations": {
+      "title": "Quotations",
+      "tabs": {
+        "all": "All"
+      },
+      "upsert": {
+        "createTitle": "Create quotation",
+        "editTitle": "Update quotation",
+        "createButton": "Create quotation",
+        "saveChanges": "Save changes"
+      },
+      "columns": {
+        "quotationNumber": "Quotation number",
+        "clientName": "Client name",
+        "totalAmount": "Total amount",
+        "issueDate": "Issue date",
+        "quotationDate": "Quotation date",
+        "status": "Status",
+        "item": "Item",
+        "quantity": "Quantity",
+        "unitPrice": "Unit price",
+        "taxCategory": "Tax category",
+        "remarks": "Remarks",
+        "uploadedPdf": "Uploaded PDF (Optional)",
+        "detailLink": "Detail link",
+        "editLink": "Edit link",
+        "deleteLink": "Delete link"
+      },
+      "filters": {
+        "quotationDate": "Quotation date",
+        "number": "Quotation number",
+        "client": "Client",
+        "issueDate": "Issue date",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "draft": "Draft",
+        "sent": "Sent",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "expired": "Expired"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters",
+        "back": "Back",
+        "create": "Create quotation",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "createTitle": "Create quotation",
+        "editTitle": "Edit quotation",
+        "numberPlaceholder": "Quotation number",
+        "selectClient": "Select client",
+        "selectStatus": "Select status",
+        "selectItem": "Select item",
+        "quantityPlaceholder": "Quantity",
+        "unitPricePlaceholder": "Unit price",
+        "remarksPlaceholder": "Remarks",
+        "amountPlaceholder": "Amount",
+        "addItem": "Add item"
+      },
+      "validation": {
+        "numberRequired": "Quotation number is required",
+        "clientRequired": "Client is required",
+        "issueDateRequired": "Issue date is required",
+        "amountRequired": "Amount is required",
+        "amountInvalid": "Amount is invalid",
+        "itemRequired": "Item is required",
+        "quantityRequired": "Quantity is required",
+        "quantityInvalid": "Quantity is invalid",
+        "unitPriceRequired": "Unit price is required",
+        "unitPriceInvalid": "Unit price is invalid"
+      },
+      "messages": {
+        "createSuccess": "Quotation created successfully.",
+        "updateSuccess": "Quotation updated successfully.",
+        "notFound": "Quotation not found."
+      },
+      "preview": {
+        "total": "Total"
+      }
     }
   }
 }
