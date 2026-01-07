@@ -232,13 +232,65 @@
         "createTitle": "Create invoice",
         "saveChanges": "Save changes",
         "createButton": "Create invoice",
+        "showPreview": "Show Preview",
+        "hidePreview": "Hide Preview",
         "fallbackItem": "Item",
+        "sections": {
+          "invoiceInfo": "Invoice Information",
+          "merchantSourceInfo": "Merchant Source Info",
+          "lineItems": "Line Items",
+          "bankAccountInfo": "Bank Account Information",
+          "remarks": "Remarks"
+        },
+        "fields": {
+          "client": "Client",
+          "selectClient": "Select client",
+          "honorific": "Honorific",
+          "invoiceNumber": "Invoice Number",
+          "issueDate": "Issue Date",
+          "dueDate": "Due Date",
+          "subject": "Subject",
+          "editMerchantInfo": "Edit Merchant Info"
+        },
+        "honorifics": {
+          "gochu": "Mr./Ms.",
+          "sama": "Dear",
+          "dono": "Esq."
+        },
+        "units": {
+          "piece": "pc",
+          "unit": "unit",
+          "sheet": "sheet",
+          "set": "set",
+          "hour": "hour",
+          "day": "day",
+          "month": "month"
+        },
         "table": {
           "item": "Item",
+          "itemName": "Item Name",
+          "transactionDate": "Transaction Date",
           "qty": "Qty",
+          "unit": "Unit",
           "unitPrice": "Unit price",
           "taxCategory": "Tax category",
-          "amount": "Amount"
+          "withholdingTax": "Withholding Tax",
+          "amount": "Amount",
+          "selectItem": "Select item",
+          "selectTax": "Select tax"
+        },
+        "bankAccount": {
+          "bankName": "Bank Name",
+          "branchName": "Branch Name",
+          "accountType": "Account Type",
+          "accountNumber": "Account Number",
+          "accountHolder": "Account Holder",
+          "savings": "Savings",
+          "checking": "Checking",
+          "noAccounts": "No bank accounts registered"
+        },
+        "currency": {
+          "yen": "¥"
         }
       },
       "preview": {

@@ -5,7 +5,9 @@ export type ModalType =
   | "create-merchant-member"
   | "create-merchant-mid"
   | "create-merchant-fee"
-  | "create-merchant-item";
+  | "create-merchant-item"
+  | "create-invoice"
+  | "edit-invoice";
 
 interface ModalStore {
   type: ModalType | null;

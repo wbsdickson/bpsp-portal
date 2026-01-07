@@ -223,22 +223,75 @@
         "selectCurrency": "通貨を選択",
         "invoiceDate": "請求日",
         "items": "明細",
-        "addItem": "明細を追加",
+        "addItem": "行を追加",
         "subtotal": "小計",
         "selectTax": "税区分を選択",
         "remark": "備考",
         "remarkPlaceholder": "備考を入力",
         "editTitle": "請求書を編集",
-        "createTitle": "請求書を作成",
+        "createTitle": "請求書 作成",
         "saveChanges": "変更を保存",
-        "createButton": "請求書を作成",
+        "createButton": "保存",
+        "backButton": "戻る",
+        "showPreview": "プレビュー表示",
+        "hidePreview": "プレビュー非表示",
         "fallbackItem": "品目",
+        "sections": {
+          "invoiceInfo": "請求情報",
+          "merchantSourceInfo": "請求元情報",
+          "lineItems": "明細",
+          "bankAccountInfo": "振込先口座情報",
+          "remarks": "備考"
+        },
+        "fields": {
+          "client": "取引先",
+          "selectClient": "取引先を選択",
+          "honorific": "敬称",
+          "invoiceNumber": "請求書番号",
+          "issueDate": "発行日",
+          "dueDate": "期日",
+          "subject": "件名",
+          "editMerchantInfo": "自社情報編集"
+        },
+        "honorifics": {
+          "gochu": "御中",
+          "sama": "様",
+          "dono": "殿"
+        },
+        "units": {
+          "piece": "個",
+          "unit": "本",
+          "sheet": "枚",
+          "set": "式",
+          "hour": "時間",
+          "day": "日",
+          "month": "月"
+        },
         "table": {
           "item": "品目",
+          "itemName": "品目名",
+          "transactionDate": "取引日",
           "qty": "数量",
+          "unit": "単位",
           "unitPrice": "単価",
           "taxCategory": "税区分",
-          "amount": "金額"
+          "withholdingTax": "源泉徴収",
+          "amount": "金額",
+          "selectItem": "品目を選択",
+          "selectTax": "税区分"
+        },
+        "bankAccount": {
+          "bankName": "銀行名",
+          "branchName": "支店名",
+          "accountType": "区分",
+          "accountNumber": "口座番号",
+          "accountHolder": "名義",
+          "savings": "普通",
+          "checking": "当座",
+          "noAccounts": "口座情報がありません"
+        },
+        "currency": {
+          "yen": "円"
         }
       },
       "preview": {

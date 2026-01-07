@@ -31,9 +31,12 @@ export interface InvoiceItem {
   invoiceId: string;
   itemId?: string;
   name: string;
+  transactionDate?: string;
   quantity: number;
+  unit?: string;
   unitPrice: number;
   taxId: string;
+  withholdingTax?: boolean;
   amount: number;
 }
 
@@ -41,9 +44,11 @@ export interface Invoice {
   id: string;
   merchantId: string;
   clientId: string;
+  honorific?: string;
   invoiceNumber: string;
   invoiceDate: string;
   dueDate?: string;
+  subject?: string;
   direction: "receivable" | "payable";
   paymentMethod?: string;
   status: InvoiceStatus;
@@ -51,6 +56,8 @@ export interface Invoice {
   currency: string;
   notes?: string;
   items: InvoiceItem[];
+  bankAccountId?: string;
+  remark?: string;
   createdAt: string;
   updatedAt?: string;
   deletedAt?: string | null;
