@@ -4,8 +4,6 @@ import * as React from "react";
 import {
   FileText,
   Grid2X2,
-  HelpCircle,
-  Bell,
   Settings,
   Plus,
   Receipt,
@@ -14,6 +12,9 @@ import {
   Store,
   type LucideIcon,
 } from "lucide-react";
+
+import { HelpPopover } from "./help-popover";
+import { NotificationPopover } from "./notification-popover";
 
 import { NavMain } from "@/components/nav-main";
 import { TeamSwitcher } from "@/components/team-switcher";
@@ -39,6 +40,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { Link } from "next-view-transitions";
 
 type NavRoute = {
   label: string;
@@ -49,27 +51,55 @@ type NavRoute = {
 type FooterButton = {
   icon: LucideIcon;
   tooltipKey: string;
+  url: string;
 };
 
 type QuickActionItem = {
   icon: LucideIcon;
   labelKey: string;
   shortcut: string;
+  url: string;
 };
 
 const FOOTER_BUTTONS: FooterButton[] = [
-  { icon: Grid2X2, tooltipKey: "footer.apps" },
-  { icon: HelpCircle, tooltipKey: "footer.help" },
-  { icon: Bell, tooltipKey: "footer.notifications" },
-  { icon: Settings, tooltipKey: "footer.settings" },
+  {
+    icon: Settings,
+    tooltipKey: "footer.settings",
+    url: "/operator/system-settings",
+  },
 ];
 
 const QUICK_ACTIONS: QuickActionItem[] = [
-  { icon: FileText, labelKey: "quickActions.invoice", shortcut: "C I" },
-  { icon: Receipt, labelKey: "quickActions.receipt", shortcut: "C S" },
-  { icon: ScrollText, labelKey: "quickActions.quotation", shortcut: "C S" },
-  { icon: User, labelKey: "quickActions.client", shortcut: "C S" },
-  { icon: Store, labelKey: "quickActions.merchant", shortcut: "C L" },
+  {
+    icon: FileText,
+    labelKey: "quickActions.invoice",
+    shortcut: "C I",
+    url: "/operator/merchant-management/invoices/create",
+  },
+  {
+    icon: Receipt,
+    labelKey: "quickActions.receipt",
+    shortcut: "C S",
+    url: "/operator/merchant-management/receipt/create",
+  },
+  {
+    icon: ScrollText,
+    labelKey: "quickActions.quotation",
+    shortcut: "C S",
+    url: "/operator/merchant-management/quotations/create",
+  },
+  {
+    icon: User,
+    labelKey: "quickActions.client",
+    shortcut: "C S",
+    url: "/operator/merchant-management/clients/create",
+  },
+  {
+    icon: Store,
+    labelKey: "quickActions.merchant",
+    shortcut: "C L",
+    url: "/operator/merchants/create",
+  },
 ];
 
 const MERCHANT_MANAGEMENT_ROUTES = [
@@ -115,15 +145,19 @@ const MAIN_ROUTES = [
 function FooterButton({
   icon: Icon,
   tooltip,
+  url,
 }: {
   icon: LucideIcon;
   tooltip: string;
+  url: string;
 }) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant="ghost" size="icon" className="size-8">
-          <Icon className="size-4" />
+        <Button variant="ghost" size="icon" className="size-8" asChild>
+          <Link href={url}>
+            <Icon className="size-4" />
+          </Link>
         </Button>
       </TooltipTrigger>
       <TooltipContent side="top" align="center">
@@ -179,6 +213,8 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         <div className="flex items-center justify-between gap-1 px-1">
+          <HelpPopover />
+          <NotificationPopover />
           {FOOTER_BUTTONS.map((button) => (
             <FooterButton
               key={button.tooltipKey}
@@ -198,12 +234,18 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
               className="w-56 rounded-xl p-2"
             >
               {QUICK_ACTIONS.map((action) => (
-                <DropdownMenuItem key={action.labelKey} className="gap-3 py-2">
-                  <action.icon className="size-4" />
-                  <span>{t(action.labelKey)}</span>
-                  <DropdownMenuShortcut className="tracking-normal">
-                    {action.shortcut}
-                  </DropdownMenuShortcut>
+                <DropdownMenuItem
+                  key={action.labelKey}
+                  className="gap-3 py-2"
+                  asChild
+                >
+                  <Link href={action.url}>
+                    <action.icon className="size-4" />
+                    <span>{t(action.labelKey)}</span>
+                    <DropdownMenuShortcut className="tracking-normal">
+                      {action.shortcut}
+                    </DropdownMenuShortcut>
+                  </Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>

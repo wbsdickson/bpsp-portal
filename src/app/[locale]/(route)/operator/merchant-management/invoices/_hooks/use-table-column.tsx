@@ -9,6 +9,7 @@ import { useBasePath } from "@/hooks/use-base-path";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { Badge } from "@/components/ui/badge";
 import ActionsCell from "@/components/action-cell";
+import { useModalStore } from "@/store/modal-store";
 
 function InvoiceNumberCell({
   id,
@@ -53,6 +54,7 @@ export default function useMerchantInvoiceTableColumn({
 }) {
   const t = useTranslations("Operator.Invoice");
   const { deleteFee } = useMerchantFeeStore();
+  const { onOpen } = useModalStore();
 
   const router = useRouter();
 
@@ -62,7 +64,7 @@ export default function useMerchantInvoiceTableColumn({
     router.push(`${basePath}/${item.id}`);
   };
   const onOpenEdit = (item: InvoiceRow) => {
-    router.push(`${basePath}/edit/${item.id}`);
+    onOpen("edit-invoice", { invoiceId: item.id });
   };
 
   const onDelete = (item: InvoiceRow) => {
