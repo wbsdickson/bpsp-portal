@@ -1030,6 +1030,68 @@
         "updateSuccess": "納品書を更新しました。",
         "notFound": "納品書が見つかりません。"
       }
+    },
+    "Receipt": {
+      "title": "受領",
+      "tabs": {
+        "all": "すべて"
+      },
+      "buttons": {
+        "create": "作成",
+        "clearFilters": "フィルターをクリア",
+        "back": "戻る",
+        "edit": "編集",
+        "addItem": "明細を追加",
+        "saveChanges": "変更を保存"
+      },
+      "columns": {
+        "receiptNumber": "領収書番号",
+        "client": "取引先名",
+        "amount": "金額",
+        "issueDate": "発行日",
+        "status": "ステータス"
+      },
+      "filters": {
+        "receiptNumber": "領収書番号",
+        "client": "取引先名",
+        "issueDate": "発行日",
+        "status": "ステータス",
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了",
+        "all": "すべて"
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "form": {
+        "createTitle": "受領を作成",
+        "editTitle": "受領を編集",
+        "client": "取引先名",
+        "issueDate": "発行日",
+        "notes": "備考",
+        "pdf": "PDFアップロード（任意）",
+        "items": "明細",
+        "item": "品目",
+        "quantity": "数量",
+        "unitPrice": "単価",
+        "taxCategory": "税区分",
+        "total": "合計"
+      },
+      "statuses": {
+        "draft": "下書き",
+        "issued": "発行済み"
+      },
+      "messages": {
+        "createSuccess": "領収書を作成しました。",
+        "updateSuccess": "領収書を更新しました。",
+        "missingId": "領収書IDがありません。",
+        "notFound": "領収書が見つかりません。",
+        "empty": "—"
+      }
     }
   }
 }

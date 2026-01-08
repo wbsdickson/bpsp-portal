@@ -97,6 +97,10 @@ const merchantRoutes = [
     label: "Delivery Notes Issuance",
     route: "merchant/delivery-notes",
   },
+  {
+    label: "Receipt Issuance",
+    route: "merchant/receipt",
+  },
 ];
 
 export function AppSidebar({

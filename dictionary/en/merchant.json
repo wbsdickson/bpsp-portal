@@ -976,7 +976,7 @@
         "number": "Delivery note number",
         "deliveryDate": "Delivery date",
         "client": "Client Name",
-        "issueDate": "Issue date",
+        "issueDate": "Issue Date",
         "status": "Status",
         "all": "All",
         "search": "Search...",
@@ -1026,6 +1026,68 @@
         "createSuccess": "Delivery note created successfully.",
         "updateSuccess": "Delivery note updated successfully.",
         "notFound": "Delivery note not found."
+      }
+    },
+    "Receipt": {
+      "title": "Receipt Issuance",
+      "tabs": {
+        "all": "All"
+      },
+      "buttons": {
+        "create": "Create",
+        "clearFilters": "Clear filters",
+        "back": "Back",
+        "edit": "Edit",
+        "addItem": "Add item",
+        "saveChanges": "Save changes"
+      },
+      "columns": {
+        "receiptNumber": "Receipt Number",
+        "client": "Client Name",
+        "amount": "Total Amount",
+        "issueDate": "Issue Date",
+        "status": "Status"
+      },
+      "filters": {
+        "receiptNumber": "Receipt number",
+        "client": "Client Name",
+        "issueDate": "Issue Date",
+        "status": "Status",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done",
+        "all": "All"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "form": {
+        "createTitle": "Create receipt",
+        "editTitle": "Edit receipt",
+        "client": "Client Name",
+        "issueDate": "Issue Date",
+        "notes": "Notes",
+        "pdf": "PDF upload (optional)",
+        "items": "Items",
+        "item": "Item",
+        "quantity": "Quantity",
+        "unitPrice": "Unit price",
+        "taxCategory": "Tax category",
+        "total": "Total"
+      },
+      "statuses": {
+        "draft": "Draft",
+        "issued": "Issued"
+      },
+      "messages": {
+        "createSuccess": "Receipt created successfully.",
+        "updateSuccess": "Receipt updated successfully.",
+        "missingId": "Missing receipt id.",
+        "notFound": "Receipt not found.",
+        "empty": "—"
       }
     }
   }
