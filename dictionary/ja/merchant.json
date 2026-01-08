@@ -521,6 +521,9 @@
         "edit": "編集",
         "delete": "削除"
       },
+      "buttons": {
+        "clearFilters": "フィルターをクリア"
+      },
       "template": "テンプレート",
       "intervalValue": "間隔値",
       "enabled": "有効",

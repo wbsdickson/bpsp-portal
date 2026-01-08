@@ -94,44 +94,19 @@ export default function useDeliveryNoteTableColumn({
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
           {row.getValue("status") === "draft" && (
-            <Badge
-              variant="secondary"
-              className="bg-indigo-50 capitalize text-indigo-700"
-            >
-              {t("statuses.draft")}
-            </Badge>
+            <Badge variant="info">{t("statuses.draft")}</Badge>
           )}
           {row.getValue("status") === "sent" && (
-            <Badge
-              variant="secondary"
-              className="bg-amber-50 capitalize text-amber-700"
-            >
-              {t("statuses.sent")}
-            </Badge>
+            <Badge variant="warning">{t("statuses.sent")}</Badge>
           )}
           {row.getValue("status") === "accepted" && (
-            <Badge
-              variant="secondary"
-              className="bg-amber-50 capitalize text-amber-700"
-            >
-              {t("statuses.accepted")}
-            </Badge>
+            <Badge variant="success">{t("statuses.accepted")}</Badge>
           )}
           {row.getValue("status") === "rejected" && (
-            <Badge
-              variant="secondary"
-              className="bg-red-50 capitalize text-red-700"
-            >
-              {t("statuses.rejected")}
-            </Badge>
+            <Badge variant="destructive">{t("statuses.rejected")}</Badge>
           )}
           {row.getValue("status") === "expired" && (
-            <Badge
-              variant="secondary"
-              className="bg-amber-50 capitalize text-amber-700"
-            >
-              {t("statuses.expired")}
-            </Badge>
+            <Badge variant="warning">{t("statuses.expired")}</Badge>
           )}
         </div>
       ),

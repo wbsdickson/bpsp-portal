@@ -146,58 +146,33 @@ export default function useMerchantInvoiceTableColumn({
         return (
           <div className="flex items-center gap-3">
             {inv.status === "draft" && (
-              <Badge
-                variant="secondary"
-                className="bg-indigo-50 text-indigo-700"
-              >
-                {t("statusDraft")}
-              </Badge>
+              <Badge variant="info">{t("statusDraft")}</Badge>
             )}
 
             {inv.status === "pending" && (
-              <Badge variant="secondary" className="bg-amber-50 text-amber-700">
-                {t("statusPending")}
-              </Badge>
+              <Badge variant="warning">{t("statusPending")}</Badge>
             )}
 
             {inv.status === "approved" && (
-              <Badge variant="secondary" className="bg-amber-50 text-amber-700">
-                {t("statusApproved")}
-              </Badge>
+              <Badge variant="warning">{t("statusApproved")}</Badge>
             )}
 
             {inv.status === "rejected" && (
-              <Badge variant="secondary" className="bg-red-50 text-red-700">
-                {t("statusRejected")}
-              </Badge>
+              <Badge variant="destructive">{t("statusRejected")}</Badge>
             )}
 
             {inv.status === "void" && (
-              <Badge variant="secondary" className="bg-gray-50 text-gray-700">
-                {t("statusVoid")}
-              </Badge>
+              <Badge variant="secondary">{t("statusVoid")}</Badge>
             )}
 
             {inv.status === "paid" && (
-              <Badge
-                variant="secondary"
-                className="bg-emerald-50 text-emerald-700"
-              >
-                {t("statusPaid")}
-              </Badge>
+              <Badge variant="success">{t("statusPaid")}</Badge>
             )}
             {inv.status === "past_due" && (
-              <Badge variant="secondary" className="bg-amber-50 text-amber-700">
-                {t("statusPastDue")}
-              </Badge>
+              <Badge variant="warning">{t("statusPastDue")}</Badge>
             )}
             {inv.status === "open" && (
-              <Badge
-                variant="secondary"
-                className="bg-indigo-50 text-indigo-700"
-              >
-                {t("statusOpen")}
-              </Badge>
+              <Badge variant="info">{t("statusOpen")}</Badge>
             )}
           </div>
         );

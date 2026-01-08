@@ -529,6 +529,9 @@
         "edit": "Edit",
         "delete": "Delete"
       },
+      "buttons": {
+        "clearFilters": "Clear filters"
+      },
       "merchant": "Merchant",
       "create": "Create invoice",
       "invoiceNumber": "Invoice number",

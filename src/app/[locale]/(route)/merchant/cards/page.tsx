@@ -10,7 +10,9 @@ export default function MerchantCardsPage() {
 
   return (
     <HeaderPage title={t("title")}>
-      <MerchantCardTable />
+      <div className="rounded-lg bg-white p-4">
+        <MerchantCardTable />
+      </div>
     </HeaderPage>
   );
 }

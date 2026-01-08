@@ -6,6 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
+import { Badge } from "@/components/ui/badge";
 
 export type QuotationRow = Quotation & {
   clientName: string;
@@ -65,7 +66,6 @@ export default function useQuotationTableColumn({
       header: t("columns.quotationNumber"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
@@ -100,13 +100,24 @@ export default function useQuotationTableColumn({
       accessorKey: "status",
       header: t("columns.status"),
       cell: ({ row }) => (
-        <div className="capitalize">{String(row.getValue("status") ?? "")}</div>
+        <div className="flex items-center gap-3">
+          {row.original.status === "draft" && (
+            <Badge variant="info">{t("statuses.draft")}</Badge>
+          )}
+          {row.original.status === "sent" && (
+            <Badge variant="warning">{t("statuses.sent")}</Badge>
+          )}
+          {row.original.status === "accepted" && (
+            <Badge variant="success">{t("statuses.accepted")}</Badge>
+          )}
+          {row.original.status === "rejected" && (
+            <Badge variant="destructive">{t("statuses.rejected")}</Badge>
+          )}
+          {row.original.status === "expired" && (
+            <Badge variant="warning">{t("statuses.expired")}</Badge>
+          )}
+        </div>
       ),
-      filterFn: (row, id, value) => {
-        const cellValue = String(row.getValue(id) ?? "");
-        if (Array.isArray(value)) return value.includes(cellValue);
-        return cellValue === String(value ?? "");
-      },
     },
   ];
 

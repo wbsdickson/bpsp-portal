@@ -18,7 +18,6 @@ export default function OperatorDeliveryNotesPage() {
   const t = useTranslations("Merchant.DeliveryNotes");
   const router = useRouter();
   const { basePath } = useBasePath();
-  const onOpen = useModalStore((s) => s.onOpen);
 
   return (
     <HeaderPage

@@ -136,16 +136,9 @@ export default function useInvoiceAutoIssuanceTableColumn({
         return (
           <div className="flex items-center gap-3">
             {autoIssuance.enabled ? (
-              <Badge
-                variant="secondary"
-                className="bg-emerald-50 text-emerald-700"
-              >
-                {t("enabled")}
-              </Badge>
+              <Badge variant="success">{t("enabled")}</Badge>
             ) : (
-              <Badge variant="secondary" className="bg-gray-50 text-gray-700">
-                {t("disabled")}
-              </Badge>
+              <Badge variant="warning">{t("disabled")}</Badge>
             )}
           </div>
         );
