@@ -93,6 +93,10 @@ const merchantRoutes = [
     label: "Purchase Orders",
     route: "merchant/purchase-orders",
   },
+  {
+    label: "Delivery Notes Issuance",
+    route: "merchant/delivery-notes",
+  },
 ];
 
 export function AppSidebar({

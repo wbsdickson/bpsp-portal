@@ -45,7 +45,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { useDeliveryNoteStore } from "@/store/delivery-note-store";
+import { useDeliveryNoteStore } from "@/store/merchant/delivery-note-store";
+import { DeliveryNoteStatus } from "@/lib/types";
 
 const DEFAULT_MERCHANT_ID = "u1";
 const DEFAULT_CURRENCY = "USD";
@@ -67,7 +68,7 @@ export default function DeliveryNoteUpsertForm({
 }) {
   const router = useRouter();
   const locale = useLocale();
-  const t = useTranslations("Operator.DeliveryNotes");
+  const t = useTranslations("Merchant.DeliveryNotes");
   const { basePath } = useBasePath();
 
   const deliveryNote = useDeliveryNoteStore((s) =>
@@ -105,7 +106,7 @@ export default function DeliveryNoteUpsertForm({
     defaultValues: {
       deliveryNoteNumber: deliveryNote?.deliveryNoteNumber ?? "",
       clientId: deliveryNote?.clientId ?? "",
-      status: (deliveryNote?.status ?? "draft") as "draft" | "issued",
+      status: (deliveryNote?.status ?? "draft") as DeliveryNoteStatus,
       deliveryDate: deliveryNote?.deliveryDate ?? "",
       amount: deliveryNote?.amount ?? 0,
       notes: deliveryNote?.notes ?? "",
@@ -196,6 +197,7 @@ export default function DeliveryNoteUpsertForm({
       updateDeliveryNote(deliveryNoteId, {
         deliveryNoteNumber: data.deliveryNoteNumber,
         clientId: data.clientId,
+        status: data.status,
         deliveryDate: data.deliveryDate,
         amount: totalAmount,
         notes: data.notes?.trim() || undefined,
@@ -242,14 +244,14 @@ export default function DeliveryNoteUpsertForm({
           </Button>
 
           <div className="flex-1">
-            <div className="text-sm font-medium">
+            <div className="text-xl font-bold">
               {deliveryNoteId ? t("form.editTitle") : t("form.createTitle")}
             </div>
           </div>
 
           <Button
             size="sm"
-            className="h-9"
+            className="h-9 bg-indigo-600 hover:bg-indigo-700"
             onClick={onSubmit}
             disabled={form.formState.isSubmitting}
           >
@@ -262,24 +264,6 @@ export default function DeliveryNoteUpsertForm({
         <Form {...form}>
           <form onSubmit={onSubmit} className="p-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="deliveryNoteNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.number")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="DN-YYYYMMDD-XXX"
-                        {...field}
-                        onChange={(e) => field.onChange(e.target.value)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               <FormField
                 control={form.control}
                 name="clientId"
@@ -319,28 +303,6 @@ export default function DeliveryNoteUpsertForm({
                         onChange={(d) => field.onChange(d ? toYmd(d) : "")}
                       />
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.status")}</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="h-9 w-full">
-                          <SelectValue placeholder={t("columns.status")} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="draft">Draft</SelectItem>
-                        <SelectItem value="issued">Issued</SelectItem>
-                      </SelectContent>
-                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -428,7 +390,7 @@ export default function DeliveryNoteUpsertForm({
                         <TableCell>
                           <div className="flex items-center justify-end gap-2">
                             <Button
-                              
+                              type="button"
                               variant="outline"
                               size="icon"
                               className="h-8 w-8"
@@ -467,7 +429,7 @@ export default function DeliveryNoteUpsertForm({
                               )}
                             />
                             <Button
-                              
+                              type="button"
                               variant="outline"
                               size="icon"
                               className="h-8 w-8"
@@ -554,7 +516,7 @@ export default function DeliveryNoteUpsertForm({
                         </TableCell>
                         <TableCell>
                           <Button
-                            
+                            type="button"
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8"
@@ -573,7 +535,7 @@ export default function DeliveryNoteUpsertForm({
 
                 <div className="mt-2 flex items-center justify-between gap-4 p-2">
                   <Button
-                    
+                    type="button"
                     variant="outline"
                     size="sm"
                     className="h-9"
@@ -600,52 +562,6 @@ export default function DeliveryNoteUpsertForm({
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="uploadedPdfName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.uploadedPdf")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="file"
-                        accept="application/pdf"
-                        className="h-9"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          field.onChange(file?.name ?? "");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                    {field.value ? (
-                      <div className="text-muted-foreground text-xs">
-                        {field.value}
-                      </div>
-                    ) : null}
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="notes"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel>{t("columns.notes")}</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder={t("form.notesPlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
           </form>
         </Form>

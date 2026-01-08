@@ -300,6 +300,7 @@
     },
     "BankAccounts": {
       "title": "Bank accounts",
+
       "tabs": {
         "all": "All"
       },
@@ -329,6 +330,7 @@
         "delete": "Delete"
       },
       "buttons": {
+        "create": "Create bank account",
         "clearFilters": "Clear filters",
         "cancel": "Cancel",
         "save": "Save"
@@ -942,6 +944,88 @@
       },
       "preview": {
         "total": "Total"
+      }
+    },
+    "DeliveryNotes": {
+      "title": "Delivery Notes Issuance",
+      "tabs": {
+        "all": "All"
+      },
+      "preview": {
+        "total": "Total"
+      },
+      "columns": {
+        "number": "Number",
+        "deliveryNoteNumber": "Delivery note number",
+        "client": "Client Name",
+        "amount": "Amount",
+        "issueDate": "Issue date",
+        "deliveryDate": "Delivery date",
+        "status": "Status",
+        "item": "Item",
+        "quantity": "Quantity",
+        "unitPrice": "Unit price",
+        "taxCategory": "Tax category",
+        "notes": "Notes",
+        "uploadedPdf": "Uploaded PDF (Optional)",
+        "detailLink": "Detail link",
+        "editLink": "Edit link",
+        "deleteLink": "Delete link"
+      },
+      "filters": {
+        "number": "Delivery note number",
+        "deliveryDate": "Delivery date",
+        "client": "Client Name",
+        "issueDate": "Issue date",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "draft": "Draft",
+        "sent": "Sent",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "expired": "Expired"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create delivery note",
+        "clearFilters": "Clear filters",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "createTitle": "Create delivery note",
+        "editTitle": "Edit delivery note",
+        "numberPlaceholder": "Delivery note number",
+        "selectClient": "Select client",
+        "selectItem": "Select item",
+        "quantityPlaceholder": "Quantity",
+        "unitPricePlaceholder": "Unit price",
+        "notesPlaceholder": "Notes",
+        "addItem": "Add item"
+      },
+      "validation": {
+        "clientRequired": "Client is required",
+        "issueDateRequired": "Issue date is required",
+        "itemRequired": "Item is required",
+        "quantityRequired": "Quantity is required",
+        "quantityInvalid": "Quantity is invalid",
+        "unitPriceRequired": "Unit price is required",
+        "unitPriceInvalid": "Unit price is invalid"
+      },
+      "messages": {
+        "createSuccess": "Delivery note created successfully.",
+        "updateSuccess": "Delivery note updated successfully.",
+        "notFound": "Delivery note not found."
       }
     }
   }

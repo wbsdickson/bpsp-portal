@@ -50,18 +50,19 @@ const ACCOUNT_TYPES: BankAccount["accountType"][] = ["checking", "savings"];
 export default function BankAccountUpsertForm({
   bankAccountId,
 }: {
-  bankAccountId: string;
+  bankAccountId?: string;
 }) {
   const router = useRouter();
   const t = useTranslations("Merchant.BankAccounts");
   const { basePath } = useBasePath();
 
   const bankAccount = useMerchantBankAccountStore((s) =>
-    s.getBankAccountById(bankAccountId),
+    bankAccountId ? s.getBankAccountById(bankAccountId) : undefined,
   );
   const updateBankAccount = useMerchantBankAccountStore(
     (s) => s.updateBankAccount,
   );
+  const addBankAccount = useMerchantBankAccountStore((s) => s.addBankAccount);
 
   const schema = React.useMemo(
     () =>
@@ -99,13 +100,23 @@ export default function BankAccountUpsertForm({
   }, [form, bankAccount]);
 
   const onSubmit = form.handleSubmit((data) => {
-    updateBankAccount(bankAccountId, {
-      bankName: data.bankName.trim(),
-      branchName: data.branchName.trim() || undefined,
-      accountType: data.accountType,
-      accountNumber: data.accountNumber.trim(),
-      accountHolder: data.accountHolder.trim(),
-    });
+    if (bankAccountId) {
+      updateBankAccount(bankAccountId, {
+        bankName: data.bankName.trim(),
+        branchName: data.branchName.trim() || undefined,
+        accountType: data.accountType,
+        accountNumber: data.accountNumber.trim(),
+        accountHolder: data.accountHolder.trim(),
+      });
+    } else {
+      addBankAccount({
+        bankName: data.bankName.trim(),
+        branchName: data.branchName.trim() || undefined,
+        accountType: data.accountType,
+        accountNumber: data.accountNumber.trim(),
+        accountHolder: data.accountHolder.trim(),
+      } as any);
+    }
     toast.success(t("messages.updateSuccess"));
     router.push(`${basePath}`);
   });

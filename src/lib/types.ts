@@ -323,7 +323,13 @@ export interface PurchaseOrder {
   updatedBy?: string;
 }
 
-export type DeliveryNoteStatus = "draft" | "issued";
+export type DeliveryNoteStatus =
+  | "draft"
+  | "sent"
+  | "accepted"
+  | "rejected"
+  | "expired"
+  | "issued";
 
 export interface DeliveryNoteItem {
   id: string;
