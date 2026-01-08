@@ -7,6 +7,7 @@ import { useMemo } from "react";
 
 import { useLocale } from "next-intl";
 
+import { cn } from "@/lib/utils";
 import {
   Collapsible,
   CollapsibleContent,
@@ -111,7 +112,9 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
           <SidebarMenuSubItem key={item.route}>
             <SidebarMenuSubButton asChild isActive={item.isActive}>
               <Link href={href}>
-                <span>{item.label}</span>
+                <span className={cn(item.isActive && "font-bold")}>
+                  {item.label}
+                </span>
               </Link>
             </SidebarMenuSubButton>
           </SidebarMenuSubItem>
@@ -127,7 +130,9 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
           >
             <Link href={href}>
               {item.icon && <item.icon />}
-              <span>{item.label}</span>
+              <span className={item.isActive ? "font-bold" : ""}>
+                {item.label}
+              </span>
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>
