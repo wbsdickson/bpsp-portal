@@ -54,7 +54,11 @@ export default function MidFeePage() {
             );
           }
 
-          return <MidFeeDetail feeId={tab.key} />;
+          return (
+            <div className="p-4">
+              <MidFeeDetail feeId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

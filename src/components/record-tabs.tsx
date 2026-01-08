@@ -34,7 +34,10 @@ export default function RecordTabs<T>({
 }: {
   initialTabs: RecordTab<T>[];
   defaultActiveKey: string;
-  renderTab: (tab: RecordTab<T>, helpers: RecordTabsHelpers<T>) => React.ReactNode;
+  renderTab: (
+    tab: RecordTab<T>,
+    helpers: RecordTabsHelpers<T>,
+  ) => React.ReactNode;
   renderRight?: () => React.ReactNode;
   className?: string;
   panelClassName?: string;
@@ -94,7 +97,7 @@ export default function RecordTabs<T>({
 
   return (
     <Tabs
-      className={cn("w-full", className)}
+      className={cn("w-full gap-0", className)}
       value={activeKey}
       defaultValue={defaultActiveKey}
       onValueChange={openTab}
@@ -108,21 +111,26 @@ export default function RecordTabs<T>({
         {renderRight && renderRight()}
       </div>
 
-      {tabItems.map((item) => (
-        <motion.div
-          key={item.key}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: activeKey === item.key ? 1 : 0 }}
-          exit={{ opacity: 0 }}
-          className={cn(
-            activeKey !== item.key && "hidden",
-            "rounded-md bg-white",
-            panelClassName,
-          )}
-        >
-          {renderTab(item, helpers)}
-        </motion.div>
-      ))}
+      {tabItems.map((item, index) => {
+        const isActive = activeKey === item.key;
+        const isFirstTab = index === 0;
+        return (
+          <motion.div
+            key={item.key}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isActive ? 1 : 0 }}
+            exit={{ opacity: 0 }}
+            className={cn(
+              !isActive && "hidden",
+              "rounded-md bg-white",
+              isFirstTab && isActive && "rounded-tl-none",
+              panelClassName,
+            )}
+          >
+            {renderTab(item, helpers)}
+          </motion.div>
+        );
+      })}
     </Tabs>
   );
 }

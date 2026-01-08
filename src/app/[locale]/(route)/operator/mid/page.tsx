@@ -54,7 +54,11 @@ export default function MidPage() {
             );
           }
 
-          return <MidDetail id={tab.key} />;
+          return (
+            <div className="p-4">
+              <MidDetail id={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

@@ -52,7 +52,11 @@ export default function MerchantFeePage() {
             );
           }
 
-          return <MerchantFeeDetail feeId={tab.key} />;
+          return (
+            <div className="p-4">
+              <MerchantFeeDetail feeId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

@@ -22,10 +22,7 @@ export default function OperatorQuotationsPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          onClick={() => router.push(`${basePath}/create`)}
-          size="sm"
-        >
+        <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
           <Plus className="h-4 w-4" /> Create {t("title")}
         </Button>
       }
@@ -55,7 +52,11 @@ export default function OperatorQuotationsPage() {
             );
           }
 
-          return <QuotationDetail quotationId={tab.key} />;
+          return (
+            <div className="p-4">
+              <QuotationDetail quotationId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

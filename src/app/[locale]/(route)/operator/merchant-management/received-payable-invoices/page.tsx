@@ -51,7 +51,11 @@ export default function ReceivedPayableInvoicesPage() {
             );
           }
 
-          return <ReceivedPayableInvoiceDetail id={tab.key} />;
+          return (
+            <div className="p-4">
+              <ReceivedPayableInvoiceDetail id={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

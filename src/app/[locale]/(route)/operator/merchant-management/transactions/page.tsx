@@ -38,7 +38,11 @@ export default function OperatorTransactionsPage() {
             );
           }
 
-          return <TransactionDetail id={tab.key} />;
+          return (
+            <div className="p-4">
+              <TransactionDetail id={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

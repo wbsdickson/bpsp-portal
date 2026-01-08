@@ -54,7 +54,11 @@ export default function MerchantCompaniesPage() {
             );
           }
 
-          return <MerchantCompanyDetail companyId={tab.key} />;
+          return (
+            <div className="p-4">
+              <MerchantCompanyDetail companyId={tab.key} />
+            </div>
+          );
         }}
       />
       <AlertDialog open={modalOpen} onOpenChange={setModalOpen}>

@@ -21,14 +21,11 @@ export default function MerchantQuotationsPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          onClick={() => router.push(`${basePath}/create`)}
-        >
+        <Button onClick={() => router.push(`${basePath}/create`)}>
           {t("buttons.create")}
         </Button>
       }
     >
-      <div className="flex justify-end"></div>
       <RecordTabs
         initialTabs={[
           {
@@ -53,7 +50,11 @@ export default function MerchantQuotationsPage() {
             );
           }
 
-          return <QuotationDetail quotationId={tab.key} />;
+          return (
+            <div className="p-4">
+              <QuotationDetail quotationId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

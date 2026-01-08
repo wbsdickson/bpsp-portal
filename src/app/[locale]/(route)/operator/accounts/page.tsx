@@ -51,7 +51,11 @@ export default function AccountsPage() {
               />
             );
           }
-          return <UserDetail userId={tab.data?.id ?? ""} />;
+          return (
+            <div className="p-4">
+              <UserDetail userId={tab.data?.id ?? ""} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

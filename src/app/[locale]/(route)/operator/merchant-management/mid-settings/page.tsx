@@ -57,7 +57,11 @@ export default function MerchantMidsPage() {
             );
           }
 
-          return <MerchantMidDetail midId={tab.key} />;
+          return (
+            <div className="p-4">
+              <MerchantMidDetail midId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

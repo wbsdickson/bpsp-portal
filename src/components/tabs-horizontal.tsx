@@ -3,6 +3,7 @@ import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 export type RecordTab = {
   label: string;
@@ -65,7 +66,7 @@ const TabsHorizontal = ({
     <div className="relative w-full">
       {showLeftScroll && (
         <div className="absolute bottom-0 left-0 top-1/2 z-10 flex -translate-y-1/2 items-center">
-          <div className="absolute bottom-0 left-0 top-0 w-12"></div>
+          <div className="from-background bg-linear-to-r absolute bottom-0 left-0 top-0 w-12 to-transparent"></div>
           <Button
             className="bg-background/80 hover:bg-background z-20 flex items-center justify-center rounded-sm p-1 shadow-sm"
             variant="outline"
@@ -81,7 +82,7 @@ const TabsHorizontal = ({
 
       {showRightScroll && (
         <div className="absolute right-0 top-1/2 z-10 flex -translate-y-1/2 items-center">
-          <div className="absolute bottom-0 right-0 top-0 w-12"></div>
+          <div className="from-background bg-linear-to-r absolute bottom-0 right-0 top-0 w-12 to-transparent"></div>
           <Button
             className="bg-background/80 hover:bg-background z-20 flex items-center justify-center rounded-sm p-1 shadow-sm"
             variant="outline"
@@ -97,49 +98,59 @@ const TabsHorizontal = ({
 
       <div
         ref={scrollContainerRef}
-        className="w-full overflow-x-auto py-2"
+        className="w-full overflow-x-auto"
         onScroll={checkForScrollIndicators}
       >
-        <TabsList className="inline-flex whitespace-nowrap">
-          {tabItems.map((item, index) => (
-            <span
-              key={item.key}
-              className={cn(
-                "relative min-w-4 items-center overflow-hidden",
-                item.key === "table" && "flex-none",
-                index > 0 && "border-l",
-              )}
-            >
-              <TabsTrigger
-                value={item.key}
-                onMouseDown={(e) => {
-                  if (e.button === 1 && item.closable) {
-                    e.preventDefault();
-                    remove(item.key);
-                  }
-                }}
+        <TabsList className="inline-flex w-fit items-end justify-start p-0">
+          {tabItems.map((item, index) => {
+            const isActive = activeKey === item.key;
+            const prevIsActive = tabItems[index - 1]?.key === activeKey;
+            return (
+              <span
+                key={item.key}
                 className={cn(
-                  item.closable && "pr-[40px]",
-                  activeKey === item.key && "data-[state=active]:text-primary",
+                  "relative flex min-w-4 items-center overflow-hidden",
+                  item.key === "table" && "flex-none",
+                  (prevIsActive || isActive) && "border-l-white",
                 )}
               >
-                {item.label}
-              </TabsTrigger>
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "p[2px] absolute right-2 top-1/2 h-5 w-5 -translate-y-1/2 transform rounded hover:bg-gray-200",
-                  !item.closable && "hidden",
+                <TabsTrigger
+                  value={item.key}
+                  onMouseDown={(e) => {
+                    if (e.button === 1 && item.closable) {
+                      e.preventDefault();
+                      remove(item.key);
+                    }
+                  }}
+                  className={cn(
+                    "inline-flex items-center whitespace-nowrap rounded-b-none rounded-t-md px-4 py-2 text-center text-sm transition-all",
+                    item.closable && "pr-[40px]",
+                    isActive
+                      ? "bg-white text-gray-900"
+                      : "cursor-base bg-muted text-gray-700",
+                  )}
+                >
+                  {item.label}
+                </TabsTrigger>
+                {item.closable && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "absolute right-2 top-1/2 h-5 w-5 -translate-y-1/2 transform rounded p-[2px] hover:bg-gray-200",
+                    )}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      remove(item.key);
+                    }}
+                  >
+                    <X className="h-full w-full" />
+                  </Button>
                 )}
-                onClick={() => {
-                  remove(item.key);
-                }}
-              >
-                <X className="h-full w-full" />
-              </Button>
-            </span>
-          ))}
+                <Separator orientation="vertical" />
+              </span>
+            );
+          })}
         </TabsList>
       </div>
     </div>

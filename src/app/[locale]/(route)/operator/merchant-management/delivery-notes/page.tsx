@@ -56,7 +56,11 @@ export default function OperatorDeliveryNotesPage() {
             );
           }
 
-          return <DeliveryNoteDetail deliveryNoteId={tab.key} />;
+          return (
+            <div className="p-4">
+              <DeliveryNoteDetail deliveryNoteId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

@@ -36,7 +36,11 @@ export default function BankAccountsPage() {
             );
           }
 
-          return <BankAccountDetail bankAccountId={tab.key} />;
+          return (
+            <div className="p-4">
+              <BankAccountDetail bankAccountId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

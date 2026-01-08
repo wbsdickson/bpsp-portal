@@ -245,7 +245,7 @@ export default function QuotationDetail({
           </div>
 
           <div className="mt-6">
-            <div >
+            <div>
               <div className="text-sm font-semibold">{t("columns.item")}</div>
             </div>
             <div className="py-4">
@@ -346,7 +346,6 @@ export default function QuotationDetail({
                             <TableCell className="text-right">
                               <div className="inline-flex items-center justify-end gap-2">
                                 <Button
-                                  
                                   variant="outline"
                                   size="icon"
                                   className="h-8 w-8"
@@ -389,7 +388,6 @@ export default function QuotationDetail({
                                   )}
                                 />
                                 <Button
-                                  
                                   variant="outline"
                                   size="icon"
                                   className="h-8 w-8"
@@ -478,7 +476,6 @@ export default function QuotationDetail({
                             </TableCell>
                             <TableCell className="text-right">
                               <Button
-                                
                                 variant="ghost"
                                 size="icon"
                                 className="h-8 w-8"
@@ -516,7 +513,6 @@ export default function QuotationDetail({
               {isEditing && (
                 <div className="mt-2">
                   <Button
-                    
                     variant="outline"
                     size="sm"
                     className="h-9"

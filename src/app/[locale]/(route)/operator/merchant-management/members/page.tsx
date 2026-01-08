@@ -56,7 +56,11 @@ export default function MerchantMembersPage() {
             );
           }
 
-          return <MerchantMemberDetail userId={tab.data?.id ?? ""} />;
+          return (
+            <div className="p-4">
+              <MerchantMemberDetail userId={tab.data?.id ?? ""} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

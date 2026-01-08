@@ -53,7 +53,11 @@ export default function InvoicesPage() {
               );
             }
 
-            return <InvoiceDetail id={tab.key} />;
+            return (
+              <div className="p-4">
+                <InvoiceDetail id={tab.key} />
+              </div>
+            );
           }}
         />
       </HeaderPage>

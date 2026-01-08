@@ -54,7 +54,11 @@ export default function ReceiptPage() {
             );
           }
 
-          return <ReceiptDetail id={tab.key} />;
+          return (
+            <div className="p-4">
+              <ReceiptDetail id={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

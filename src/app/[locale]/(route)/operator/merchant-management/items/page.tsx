@@ -55,7 +55,11 @@ export default function ItemsPage() {
             );
           }
 
-          return <ItemDetail itemId={tab.key} />;
+          return (
+            <div className="p-4">
+              <ItemDetail itemId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

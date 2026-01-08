@@ -54,7 +54,11 @@ export default function MerchantPurchaseOrdersPage() {
             );
           }
 
-          return <PurchaseOrderDetail purchaseOrderId={tab.key} />;
+          return (
+            <div className="p-4">
+              <PurchaseOrderDetail purchaseOrderId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

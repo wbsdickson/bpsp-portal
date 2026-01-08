@@ -36,7 +36,11 @@ export default function ClientsPage() {
             );
           }
 
-          return <ClientDetail clientId={tab.key} />;
+          return (
+            <div className="p-4">
+              <ClientDetail clientId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

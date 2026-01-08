@@ -54,7 +54,11 @@ export default function OperatorNotificationsPage() {
             );
           }
 
-          return <NotificationDetail id={tab.key} />;
+          return (
+            <div className="p-4">
+              <NotificationDetail id={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

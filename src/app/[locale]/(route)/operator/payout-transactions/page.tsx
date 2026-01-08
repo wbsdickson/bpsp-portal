@@ -37,7 +37,11 @@ export default function OperatorPayoutTransactionsPage() {
             );
           }
 
-          return <PayoutTransactionDetail id={tab.key} />;
+          return (
+            <div className="p-4">
+              <PayoutTransactionDetail id={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

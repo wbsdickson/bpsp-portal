@@ -40,7 +40,11 @@ export default function MerchantsPage() {
             );
           }
 
-          return <MerchantDetail merchantId={tab.key} />;
+          return (
+            <div className="p-4">
+              <MerchantDetail merchantId={tab.key} />
+            </div>
+          );
         }}
       />
     </HeaderPage>

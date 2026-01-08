@@ -54,7 +54,11 @@ export default function MerchantMembersPage() {
             );
           }
 
-          return <MerchantMemberDetail userId={tab.key} />;
+          return (
+            <div className="p-4">
+              <MerchantMemberDetail userId={tab.key} />
+            </div>
+          );
         }}
       />
       <AlertDialog open={modalOpen} onOpenChange={setModalOpen}>
