@@ -129,6 +129,7 @@ export default function ReceivedPayableInvoiceTable({
               },
               {
                 title: t("actions.delete"),
+                variant: "destructive",
                 onPress: (item) => onDelete(item),
               },
             ]}

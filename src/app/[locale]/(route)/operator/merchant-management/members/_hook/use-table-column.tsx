@@ -52,6 +52,7 @@ export default function useMerchantMemberTableColumn({
             },
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: onDelete,
             },
           ]}
@@ -90,7 +91,6 @@ export default function useMerchantMemberTableColumn({
       header: t("columns.name"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original)}

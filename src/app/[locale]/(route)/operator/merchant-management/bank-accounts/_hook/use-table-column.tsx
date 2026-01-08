@@ -50,6 +50,7 @@ export default function useBankAccountTableColumn({
             },
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: (item) => onDelete(item),
             },
           ]}

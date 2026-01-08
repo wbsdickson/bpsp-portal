@@ -45,6 +45,7 @@ export default function useMerchantMidTableColumn({
             },
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: () => onDelete(row.original),
             },
           ]}

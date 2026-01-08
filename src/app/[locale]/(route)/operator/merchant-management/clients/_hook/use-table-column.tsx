@@ -51,6 +51,7 @@ export default function useClientTableColumn({
             },
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: (item) => onDelete(item),
             },
           ]}

@@ -52,6 +52,7 @@ export default function useQuotationTableColumn({
             },
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: (item) => onDelete(item),
             },
           ]}

@@ -50,6 +50,7 @@ export default function useAccounTableColumn({
             },
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: onDelete,
             },
             {

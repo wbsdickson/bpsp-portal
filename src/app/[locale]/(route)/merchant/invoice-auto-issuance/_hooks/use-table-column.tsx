@@ -82,6 +82,7 @@ export default function useInvoiceAutoIssuanceTableColumn({
             },
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: (item) => onDelete(item),
             },
           ]}

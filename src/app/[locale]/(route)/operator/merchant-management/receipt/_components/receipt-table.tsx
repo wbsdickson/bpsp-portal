@@ -91,6 +91,7 @@ export default function ReceiptTable({
               },
               {
                 title: t("actions.delete"),
+                variant: "destructive",
                 onPress: (item) => onDelete(item),
               },
             ]}

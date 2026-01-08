@@ -89,6 +89,7 @@ export default function useMerchantInvoiceTableColumn({
             },
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: (item) => onDelete(item),
             },
           ]}

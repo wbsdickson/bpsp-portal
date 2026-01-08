@@ -27,6 +27,7 @@ export default function useMerchantCardTableColumn() {
           actions={[
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: () => onDelete(row.original),
             },
           ]}

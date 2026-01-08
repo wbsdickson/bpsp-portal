@@ -47,6 +47,7 @@ export default function useMerchantFeeTableColumn({
             },
             {
               title: t("actions.delete"),
+              variant: "destructive",
               onPress: () => onDelete(row.original),
             },
           ]}

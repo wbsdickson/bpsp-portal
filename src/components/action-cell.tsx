@@ -12,6 +12,7 @@ import { useMemo } from "react";
 export interface ActionItem<T> {
   title: string;
   icon?: React.ReactNode;
+  variant?: "default" | "destructive";
   onPress: (item: T) => void;
 }
 
@@ -38,6 +39,7 @@ export default function ActionsCell<T>({
           return (
             <DropdownMenuItem
               key={res.title}
+              variant={res.variant}
               onSelect={(e) => {
                 e.preventDefault();
                 res.onPress(item);

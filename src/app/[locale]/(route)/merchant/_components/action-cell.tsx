@@ -56,23 +56,6 @@ export default function ActionsCell<T>({
             </DropdownMenuItem>
           );
         })}
-
-        {/* <DropdownMenuItem
-          onSelect={(e) => {
-            e.preventDefault();
-            onOpenEdit(item);
-          }}
-        >
-          {t("actions.edit")}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onSelect={(e) => {
-            e.preventDefault();
-            onDelete(item);
-          }}
-        >
-          {t("actions.delete")}
-        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );
