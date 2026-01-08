@@ -242,11 +242,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
             </div>
           </div>
 
-          <Button
-            size="sm"
-            className="h-9"
-            onClick={onSubmit}
-          >
+          <Button size="sm" className="h-9" onClick={onSubmit}>
             {receiptId ? t("buttons.saveChanges") : t("buttons.create")}
           </Button>
         </div>
@@ -345,7 +341,6 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
               <div className="flex items-center justify-between py-3">
                 <div className="text-sm font-semibold">{t("form.items")}</div>
                 <Button
-                  
                   size="sm"
                   variant="outline"
                   className="h-9"
@@ -363,7 +358,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                   <Plus className="mr-2 h-4 w-4" /> {t("buttons.addItem")}
                 </Button>
               </div>
-              <div >
+              <div>
                 <div className="rounded-lg border">
                   <Table>
                     <TableHeader>
@@ -423,7 +418,6 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                           <TableCell className="text-right">
                             <div className="inline-flex items-center justify-end gap-2">
                               <Button
-                                
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
@@ -468,7 +462,6 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                               />
 
                               <Button
-                                
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
@@ -483,7 +476,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                                   );
                                 }}
                               >
-                                <Plus className="h-4 w-4" />
+                                <Plus />
                               </Button>
                             </div>
                           </TableCell>
@@ -544,7 +537,6 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
 
                           <TableCell className="text-right">
                             <Button
-                              
                               variant="ghost"
                               size="icon"
                               className="h-8 w-8"

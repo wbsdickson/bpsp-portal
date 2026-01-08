@@ -19,11 +19,8 @@ export default function AccountsPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          size="sm"
-          onClick={() => onOpen("create-account")}
-        >
-          <Plus className="h-4 w-4" /> Create {t("title")}
+        <Button size="sm" onClick={() => onOpen("create-account")}>
+          <Plus /> Create {t("title")}
         </Button>
       }
     >

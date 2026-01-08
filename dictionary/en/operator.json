@@ -97,6 +97,74 @@
         "sessionTimeoutMinutesInvalid": "Session timeout is invalid"
       }
     },
+    "Dashboard": {
+      "title": "Dashboard",
+      "buttons": {
+        "filter": "Filter",
+        "share": "Share",
+        "sortBy": "Sort By",
+        "viewAll": "View All",
+        "completeStatistics": "Complete Statistics"
+      },
+      "kpis": {
+        "totalProducts": "Total Products",
+        "totalUsers": "Total Users",
+        "totalRevenue": "Total Revenue",
+        "totalSales": "Total Sales"
+      },
+      "deltaLabels": {
+        "increasedBy": "increased by",
+        "decreasedBy": "decreased by"
+      },
+      "cards": {
+        "salesOverview": "Sales Overview",
+        "monthlyPerformance": "Monthly performance",
+        "orderStatistics": "Order Statistics",
+        "totalOrdersAndStatus": "Total orders and status",
+        "totalOrders": "Total Orders",
+        "earnings": "Earnings ?",
+        "topSellingCategories": "Top Selling Categories",
+        "overallSales": "Overall sales",
+        "latestTransactions": "Latest Transactions",
+        "recentActivity": "Recent Activity",
+        "merchantSalesRanking": "Merchant Sales Ranking",
+        "overallStatistics": "Overall Statistics"
+      },
+      "tableHeaders": {
+        "product": "Product",
+        "price": "Price",
+        "status": "Status"
+      },
+      "status": {
+        "success": "Success",
+        "pending": "Pending",
+        "failed": "Failed"
+      },
+      "orderStatus": {
+        "delivered": "Delivered",
+        "cancelled": "Cancelled",
+        "pending": "Pending",
+        "returned": "Returned"
+      },
+      "categories": {
+        "clothing": "Clothing",
+        "electronics": "Electronics",
+        "grocery": "Grocery",
+        "automobiles": "Automobiles",
+        "others": "Others"
+      },
+      "statistics": {
+        "totalExpenses": "Total Expenses",
+        "generalLeads": "General Leads",
+        "churnRate": "Churn Rate",
+        "newUsers": "New Users"
+      },
+      "chartLabels": {
+        "sales": "Sales",
+        "profit": "Profit",
+        "growth": "Growth"
+      }
+    },
     "Sales": {
       "title": "Sales",
       "filters": {

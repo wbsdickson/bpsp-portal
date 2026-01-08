@@ -30,6 +30,7 @@ import {
   ArrowUpRight,
   ArrowDownRight,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -109,44 +110,44 @@ const salesOverview = [
   { month: "Dec", sales: 490, profit: 370, growth: 260 },
 ];
 
-const orderBreakdown = [
-  { name: "Delivered", value: 56, color: "#4F46E5" },
-  { name: "Cancelled", value: 14, color: "#F43F5E" },
-  { name: "Pending", value: 18, color: "#A855F7" },
-  { name: "Returned", value: 12, color: "#FB923C" },
+const getOrderBreakdown = (t: (key: string) => string) => [
+  { name: t("orderStatus.delivered"), value: 56, color: "#4F46E5" },
+  { name: t("orderStatus.cancelled"), value: 14, color: "#F43F5E" },
+  { name: t("orderStatus.pending"), value: 18, color: "#A855F7" },
+  { name: t("orderStatus.returned"), value: 12, color: "#FB923C" },
 ];
 
-const categories = [
+const getCategories = (t: (key: string) => string) => [
   {
-    name: "Clothing",
+    name: t("categories.clothing"),
     sales: "31,245",
     gross: "25% Gross",
     delta: "0.45%",
     color: "#4F46E5",
   },
   {
-    name: "Electronics",
+    name: t("categories.electronics"),
     sales: "29,553",
     gross: "16% Gross",
     delta: "0.27%",
     color: "#EC4899",
   },
   {
-    name: "Grocery",
+    name: t("categories.grocery"),
     sales: "24,577",
     gross: "22% Gross",
     delta: "0.63%",
     color: "#F43F5E",
   },
   {
-    name: "Automobiles",
+    name: t("categories.automobiles"),
     sales: "19,278",
     gross: "18% Gross",
     delta: "1.14%",
     color: "#FB923C",
   },
   {
-    name: "Others",
+    name: t("categories.others"),
     sales: "15,934",
     gross: "15% Gross",
     delta: "3.87%",
@@ -154,12 +155,12 @@ const categories = [
   },
 ];
 
-const transactions = [
-  { product: "SwiftBuds", price: "$39.99", status: "Success" },
-  { product: "CozyCloud Pillow", price: "$19.95", status: "Pending" },
-  { product: "AquaGrip Bottle", price: "$9.99", status: "Failed" },
-  { product: "GlowLite Lamp", price: "$24.99", status: "Success" },
-  { product: "FitTrack", price: "$49.95", status: "Success" },
+const getTransactions = (t: (key: string) => string) => [
+  { product: "SwiftBuds", price: "$39.99", status: t("status.success") },
+  { product: "CozyCloud Pillow", price: "$19.95", status: t("status.pending") },
+  { product: "AquaGrip Bottle", price: "$9.99", status: t("status.failed") },
+  { product: "GlowLite Lamp", price: "$24.99", status: t("status.success") },
+  { product: "FitTrack", price: "$49.95", status: t("status.success") },
 ];
 
 const activity = [
@@ -255,6 +256,11 @@ function StatRow({
 }
 
 export default function DashboardClient() {
+  const t = useTranslations("Operator.Dashboard");
+  const orderBreakdown = React.useMemo(() => getOrderBreakdown(t), [t]);
+  const categories = React.useMemo(() => getCategories(t), [t]);
+  const transactions = React.useMemo(() => getTransactions(t), [t]);
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
@@ -263,66 +269,64 @@ export default function DashboardClient() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <Button  variant="outline" className="h-9 bg-white">
-            <CalendarDays className="mr-2 h-4 w-4" /> 2024-05-01 to 2024-05-30
+          <Button variant="outline" size="sm">
+            <CalendarDays /> 2024-05-01 to 2024-05-30
           </Button>
-          <Button  variant="outline" className="h-9 bg-white">
-            <Filter className="mr-2 h-4 w-4" /> Filter
+          <Button variant="outline" size="sm">
+            <Filter className="mr-2 h-4 w-4" /> {t("buttons.filter")}
           </Button>
-          <Button
-            
-            className="h-9 "
-          >
-            <Share2 className="mr-2 h-4 w-4" /> Share
+          <Button size="sm">
+            <Share2 className="mr-2 h-4 w-4" /> {t("buttons.share")}
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-5">
         <KpiCard
-          title="Total Products"
+          title={t("kpis.totalProducts")}
           value="854"
-          deltaLabel="increased by 2.56%"
+          deltaLabel={`${t("deltaLabels.increasedBy")} 2.56%`}
           deltaDirection="up"
           icon={<ShoppingCart className="h-5 w-5 text-indigo-600" />}
           iconBgClass="bg-indigo-50"
         />
         <KpiCard
-          title="Total Users"
+          title={t("kpis.totalUsers")}
           value="31,876"
-          deltaLabel="increased by 0.34%"
+          deltaLabel={`${t("deltaLabels.increasedBy")} 0.34%`}
           deltaDirection="up"
           icon={<Users className="h-5 w-5 text-fuchsia-600" />}
           iconBgClass="bg-fuchsia-50"
         />
         <KpiCard
-          title="Total Revenue"
+          title={t("kpis.totalRevenue")}
           value="$34,241"
-          deltaLabel="increased by 7.66%"
+          deltaLabel={`${t("deltaLabels.increasedBy")} 7.66%`}
           deltaDirection="up"
           icon={<DollarSign className="h-5 w-5 text-rose-600" />}
           iconBgClass="bg-rose-50"
         />
         <KpiCard
-          title="Total Sales"
+          title={t("kpis.totalSales")}
           value="176,586"
-          deltaLabel="decreased by 0.74%"
+          deltaLabel={`${t("deltaLabels.decreasedBy")} 0.74%`}
           deltaDirection="down"
           icon={<BarChart3 className="h-5 w-5 text-orange-600" />}
           iconBgClass="bg-orange-50"
         />
-
       </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
         <Card className="border-0 shadow-sm lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle className="text-base">Sales Overview</CardTitle>
-              <CardDescription>Monthly performance</CardDescription>
+              <CardTitle className="text-base">
+                {t("cards.salesOverview")}
+              </CardTitle>
+              <CardDescription>{t("cards.monthlyPerformance")}</CardDescription>
             </div>
-            <Button  variant="outline" className="h-8 bg-white">
-              Sort By
+            <Button variant="outline" className="h-8 bg-white">
+              {t("buttons.sortBy")}
             </Button>
           </CardHeader>
           <CardContent className="h-[280px]">
@@ -332,7 +336,14 @@ export default function DashboardClient() {
                 <XAxis dataKey="month" tickLine={false} axisLine={false} />
                 <YAxis tickLine={false} axisLine={false} />
                 <Tooltip />
-                <Legend />
+                <Legend
+                  formatter={(value) => {
+                    if (value === "growth") return t("chartLabels.growth");
+                    if (value === "profit") return t("chartLabels.profit");
+                    if (value === "sales") return t("chartLabels.sales");
+                    return value;
+                  }}
+                />
                 <Bar dataKey="growth" fill="#4F46E5" radius={[6, 6, 0, 0]} />
                 <Line
                   type="monotone"
@@ -356,19 +367,25 @@ export default function DashboardClient() {
         <div className="space-y-3">
           <Card className="border-0 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-base">Order Statistics</CardTitle>
-              <CardDescription>Total orders and status</CardDescription>
+              <CardTitle className="text-base">
+                {t("cards.orderStatistics")}
+              </CardTitle>
+              <CardDescription>
+                {t("cards.totalOrdersAndStatus")}
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="text-muted-foreground text-xs">
-                    Total Orders
+                    {t("cards.totalOrders")}
                   </div>
                   <div className="text-xl font-semibold">3,736</div>
                   <div className="text-xs text-emerald-600">+0.57%</div>
                 </div>
-                <div className="text-xs text-emerald-600">Earnings ?</div>
+                <div className="text-xs text-emerald-600">
+                  {t("cards.earnings")}
+                </div>
               </div>
 
               <div className="h-[160px]">
@@ -403,12 +420,8 @@ export default function DashboardClient() {
                 ))}
               </div>
 
-              <Button
-                
-                variant="outline"
-                className="h-9 w-full bg-white"
-              >
-                Complete Statistics
+              <Button variant="outline" className="h-9 w-full bg-white">
+                {t("buttons.completeStatistics")}
               </Button>
             </CardContent>
           </Card>
@@ -417,12 +430,12 @@ export default function DashboardClient() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle className="text-base">
-                  Top Selling Categories
+                  {t("cards.topSellingCategories")}
                 </CardTitle>
-                <CardDescription>Overall sales</CardDescription>
+                <CardDescription>{t("cards.overallSales")}</CardDescription>
               </div>
-              <Button  variant="outline" className="h-8 bg-white">
-                Sort By
+              <Button variant="outline" className="h-8 bg-white">
+                {t("buttons.sortBy")}
               </Button>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -477,16 +490,18 @@ export default function DashboardClient() {
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-4">
         <Card className="border-0 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base">Latest Transactions</CardTitle>
-            <Button  variant="ghost" className="h-8 px-2">
-              View All
+            <CardTitle className="text-base">
+              {t("cards.latestTransactions")}
+            </CardTitle>
+            <Button variant="ghost" className="h-8 px-2">
+              {t("buttons.viewAll")}
             </Button>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="text-muted-foreground grid grid-cols-3 text-xs">
-              <div>Product</div>
-              <div className="text-right">Price</div>
-              <div className="text-right">Status</div>
+              <div>{t("tableHeaders.product")}</div>
+              <div className="text-right">{t("tableHeaders.price")}</div>
+              <div className="text-right">{t("tableHeaders.status")}</div>
             </div>
             <div className="space-y-2">
               {transactions.map((tx) => (
@@ -500,9 +515,9 @@ export default function DashboardClient() {
                     <Badge
                       variant="secondary"
                       className={
-                        tx.status === "Success"
+                        tx.status === t("status.success")
                           ? "bg-emerald-50 text-emerald-700"
-                          : tx.status === "Pending"
+                          : tx.status === t("status.pending")
                             ? "bg-fuchsia-50 text-fuchsia-700"
                             : "bg-rose-50 text-rose-700"
                       }
@@ -518,9 +533,11 @@ export default function DashboardClient() {
 
         <Card className="border-0 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base">Recent Activity</CardTitle>
-            <Button  variant="ghost" className="h-8 px-2">
-              View All
+            <CardTitle className="text-base">
+              {t("cards.recentActivity")}
+            </CardTitle>
+            <Button variant="ghost" className="h-8 px-2">
+              {t("buttons.viewAll")}
             </Button>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -546,9 +563,11 @@ export default function DashboardClient() {
 
         <Card className="border-0 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base">Merchant Sales Ranking</CardTitle>
-            <Button  variant="outline" className="h-8 bg-white">
-              Sort By
+            <CardTitle className="text-base">
+              {t("cards.merchantSalesRanking")}
+            </CardTitle>
+            <Button variant="outline" className="h-8 bg-white">
+              {t("buttons.sortBy")}
             </Button>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -613,32 +632,34 @@ export default function DashboardClient() {
 
         <Card className="border-0 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base">Overall Statistics</CardTitle>
-            <Button  variant="ghost" className="h-8 px-2">
-              View All
+            <CardTitle className="text-base">
+              {t("cards.overallStatistics")}
+            </CardTitle>
+            <Button variant="ghost" className="h-8 px-2">
+              {t("buttons.viewAll")}
             </Button>
           </CardHeader>
           <CardContent className="space-y-2">
             <StatRow
-              title="Total Expenses"
+              title={t("statistics.totalExpenses")}
               value="$134,032"
               delta="0.45%"
               trendColor="#4F46E5"
             />
             <StatRow
-              title="General Leads"
+              title={t("statistics.generalLeads")}
               value="74,354"
               delta="-3.84%"
               trendColor="#EC4899"
             />
             <StatRow
-              title="Churn Rate"
+              title={t("statistics.churnRate")}
               value="6.02%"
               delta="0.72%"
               trendColor="#FB923C"
             />
             <StatRow
-              title="New Users"
+              title={t("statistics.newUsers")}
               value="7,893"
               delta="1.05%"
               trendColor="#8B5CF6"

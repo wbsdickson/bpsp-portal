@@ -203,11 +203,7 @@ export default function PurchaseOrderUpsertForm({
             </div>
           </div>
 
-          <Button
-            size="sm"
-            className="h-9"
-            onClick={onSubmit}
-          >
+          <Button size="sm" className="h-9" onClick={onSubmit}>
             {purchaseOrder?.id
               ? t("upsert.saveChanges")
               : t("upsert.createButton")}
@@ -356,7 +352,6 @@ export default function PurchaseOrderUpsertForm({
                           <TableCell className="text-right">
                             <div className="inline-flex items-center justify-end gap-2">
                               <Button
-                                
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
@@ -399,7 +394,6 @@ export default function PurchaseOrderUpsertForm({
                                 )}
                               />
                               <Button
-                                
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
@@ -412,7 +406,7 @@ export default function PurchaseOrderUpsertForm({
                                   )
                                 }
                               >
-                                <Plus className="h-4 w-4" />
+                                <Plus />
                               </Button>
                             </div>
                           </TableCell>
@@ -483,7 +477,6 @@ export default function PurchaseOrderUpsertForm({
                           </TableCell>
                           <TableCell className="text-right">
                             <Button
-                              
                               variant="ghost"
                               size="icon"
                               className="h-8 w-8"
@@ -500,7 +493,6 @@ export default function PurchaseOrderUpsertForm({
                   <Separator />
                   <div className="mt-2 flex items-center justify-between gap-4 p-2">
                     <Button
-                      
                       variant="outline"
                       size="sm"
                       className="h-9"

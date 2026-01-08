@@ -23,7 +23,7 @@ export default function ReceivedPayableInvoicesPage() {
       title={t("title")}
       pageActions={
         <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
-          <Plus className="h-4 w-4" /> Create {t("title")}
+          <Plus /> Create {t("title")}
         </Button>
       }
     >

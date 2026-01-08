@@ -15,19 +15,14 @@ import { MerchantMemberRow } from "./_hook/use-table-column";
 
 export default function MerchantMembersPage() {
   const t = useTranslations("Operator.MerchantMembers");
-  const router = useRouter();
-  const { basePath } = useBasePath();
   const { onOpen } = useModalStore();
 
   return (
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          size="sm"
-          onClick={() => onOpen("create-merchant-member")}
-        >
-          <Plus className="h-4 w-4" /> Create {t("title")}
+        <Button size="sm" onClick={() => onOpen("create-merchant-member")}>
+          <Plus /> Create {t("title")}
         </Button>
       }
     >

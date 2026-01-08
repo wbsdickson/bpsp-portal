@@ -23,11 +23,8 @@ export default function ItemsPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          onClick={() => onOpen("create-merchant-item")}
-          size="sm"
-        >
-          <Plus className="h-4 w-4" /> Create {t("title")}
+        <Button onClick={() => onOpen("create-merchant-item")} size="sm">
+          <Plus /> Create {t("title")}
         </Button>
       }
     >

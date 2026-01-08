@@ -26,7 +26,7 @@ export default function OperatorNotificationsPage() {
           className="h-9"
           onClick={() => router.push(`${basePath}/create`)}
         >
-          <Plus className="h-4 w-4" /> Create {t("title")}
+          <Plus /> Create {t("title")}
         </Button>
       }
     >

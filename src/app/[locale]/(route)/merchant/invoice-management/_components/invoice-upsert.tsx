@@ -297,7 +297,6 @@ function CreateInvoiceForm({
                       <TableCell className="text-right">
                         <div className="inline-flex items-center justify-end gap-2">
                           <Button
-                            
                             variant="outline"
                             size="icon"
                             className="h-8 w-8"
@@ -339,7 +338,6 @@ function CreateInvoiceForm({
                             )}
                           />
                           <Button
-                            
                             variant="outline"
                             size="icon"
                             className="h-8 w-8"
@@ -351,7 +349,7 @@ function CreateInvoiceForm({
                               )
                             }
                           >
-                            <Plus className="h-4 w-4" />
+                            <Plus />
                           </Button>
                         </div>
                       </TableCell>
@@ -416,7 +414,6 @@ function CreateInvoiceForm({
                       </TableCell>
                       <TableCell className="text-right">
                         <Button
-                          
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8"
@@ -434,7 +431,6 @@ function CreateInvoiceForm({
               <Separator />
               <div className="flex items-center justify-between gap-4 p-2">
                 <Button
-                  
                   variant="outline"
                   size="sm"
                   className="h-9"
@@ -843,11 +839,7 @@ export function InvoiceUpsertPage({ invoiceId }: { invoiceId?: string }) {
             </div>
           </div>
 
-          <Button
-            size="sm"
-            className="h-9"
-            onClick={onSubmit}
-          >
+          <Button size="sm" className="h-9" onClick={onSubmit}>
             {invoiceId ? t("upsert.saveChanges") : t("upsert.createButton")}
           </Button>
         </div>

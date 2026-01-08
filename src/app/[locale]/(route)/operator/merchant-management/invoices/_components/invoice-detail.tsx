@@ -327,7 +327,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
             </div>
           </div>
           <div className="mt-6">
-            <div >
+            <div>
               <div className="text-sm font-semibold">{t("upsert.items")}</div>
             </div>
             <div className="py-4">
@@ -430,7 +430,6 @@ export default function InvoiceDetail({ id }: { id: string }) {
                             <TableCell className="text-right">
                               <div className="inline-flex items-center justify-end gap-2">
                                 <Button
-                                  
                                   variant="outline"
                                   size="icon"
                                   className="h-8 w-8"
@@ -473,7 +472,6 @@ export default function InvoiceDetail({ id }: { id: string }) {
                                   )}
                                 />
                                 <Button
-                                  
                                   variant="outline"
                                   size="icon"
                                   className="h-8 w-8"
@@ -486,7 +484,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
                                     )
                                   }
                                 >
-                                  <Plus className="h-4 w-4" />
+                                  <Plus />
                                 </Button>
                               </div>
                             </TableCell>
@@ -562,7 +560,6 @@ export default function InvoiceDetail({ id }: { id: string }) {
                             </TableCell>
                             <TableCell className="text-right">
                               <Button
-                                
                                 variant="ghost"
                                 size="icon"
                                 className="h-8 w-8"
@@ -600,7 +597,6 @@ export default function InvoiceDetail({ id }: { id: string }) {
               {isEditing && (
                 <div className="mt-2">
                   <Button
-                    
                     variant="outline"
                     size="sm"
                     className="h-9"

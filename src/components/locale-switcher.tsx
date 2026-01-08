@@ -22,7 +22,7 @@ export default function LocaleSwitcher() {
 
   const options = [
     { value: "en", label: "English" },
-    { value: "ja", label: "Japanese" },
+    { value: "ja", label: "日本語" },
   ] as const;
 
   const current = options.find((o) => o.value === locale)?.label ?? locale;
@@ -38,7 +38,6 @@ export default function LocaleSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          
           variant="outline"
           size="sm"
           disabled={isPending}
@@ -48,7 +47,7 @@ export default function LocaleSwitcher() {
           <span className="text-sm">{current}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-40">
+      <DropdownMenuContent align="center" className="min-w-40">
         {options.map((opt) => (
           <DropdownMenuItem
             key={opt.value}

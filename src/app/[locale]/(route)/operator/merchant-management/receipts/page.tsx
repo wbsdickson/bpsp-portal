@@ -22,11 +22,8 @@ export default function ReceiptPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          onClick={() => router.push(`${basePath}/create`)}
-          size="sm"
-        >
-          <Plus className="h-4 w-4" /> Create {t("title")}
+        <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
+          <Plus /> Create {t("title")}
         </Button>
       }
     >

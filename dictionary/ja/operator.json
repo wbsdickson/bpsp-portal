@@ -97,6 +97,74 @@
         "sessionTimeoutMinutesInvalid": "セッションタイムアウト（分）が正しくありません"
       }
     },
+    "Dashboard": {
+      "title": "ダッシュボード",
+      "buttons": {
+        "filter": "フィルター",
+        "share": "共有",
+        "sortBy": "並び替え",
+        "viewAll": "すべて表示",
+        "completeStatistics": "完全な統計"
+      },
+      "kpis": {
+        "totalProducts": "総製品数",
+        "totalUsers": "総ユーザー数",
+        "totalRevenue": "総収益",
+        "totalSales": "総売上"
+      },
+      "deltaLabels": {
+        "increasedBy": "増加",
+        "decreasedBy": "減少"
+      },
+      "cards": {
+        "salesOverview": "売上概要",
+        "monthlyPerformance": "月次パフォーマンス",
+        "orderStatistics": "注文統計",
+        "totalOrdersAndStatus": "総注文数とステータス",
+        "totalOrders": "総注文数",
+        "earnings": "収益 ?",
+        "topSellingCategories": "トップセリングカテゴリー",
+        "overallSales": "総売上",
+        "latestTransactions": "最新の取引",
+        "recentActivity": "最近のアクティビティ",
+        "merchantSalesRanking": "加盟店売上ランキング",
+        "overallStatistics": "全体的な統計"
+      },
+      "tableHeaders": {
+        "product": "製品",
+        "price": "価格",
+        "status": "ステータス"
+      },
+      "status": {
+        "success": "成功",
+        "pending": "保留中",
+        "failed": "失敗"
+      },
+      "orderStatus": {
+        "delivered": "配送済み",
+        "cancelled": "キャンセル",
+        "pending": "保留中",
+        "returned": "返品"
+      },
+      "categories": {
+        "clothing": "衣類",
+        "electronics": "電子機器",
+        "grocery": "食料品",
+        "automobiles": "自動車",
+        "others": "その他"
+      },
+      "statistics": {
+        "totalExpenses": "総支出",
+        "generalLeads": "一般リード",
+        "churnRate": "解約率",
+        "newUsers": "新規ユーザー"
+      },
+      "chartLabels": {
+        "sales": "売上",
+        "profit": "利益",
+        "growth": "成長"
+      }
+    },
     "Sales": {
       "title": "売上",
       "filters": {

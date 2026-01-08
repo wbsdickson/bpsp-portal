@@ -235,11 +235,7 @@ export default function QuotationUpsertForm({
             </div>
           </div>
 
-          <Button
-            size="sm"
-            className="h-9"
-            onClick={onSubmit}
-          >
+          <Button size="sm" className="h-9" onClick={onSubmit}>
             {quotationId ? t("upsert.saveChanges") : t("upsert.createButton")}
           </Button>
         </div>
@@ -440,7 +436,6 @@ export default function QuotationUpsertForm({
                           <TableCell className="text-right">
                             <div className="inline-flex items-center justify-end gap-2">
                               <Button
-                                
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
@@ -483,7 +478,6 @@ export default function QuotationUpsertForm({
                                 )}
                               />
                               <Button
-                                
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
@@ -496,7 +490,7 @@ export default function QuotationUpsertForm({
                                   )
                                 }
                               >
-                                <Plus className="h-4 w-4" />
+                                <Plus />
                               </Button>
                             </div>
                           </TableCell>
@@ -567,7 +561,6 @@ export default function QuotationUpsertForm({
                           </TableCell>
                           <TableCell className="text-right">
                             <Button
-                              
                               variant="ghost"
                               size="icon"
                               className="h-8 w-8"
@@ -584,7 +577,6 @@ export default function QuotationUpsertForm({
                   <Separator />
                   <div className="mt-2 flex items-center justify-between gap-4 p-2">
                     <Button
-                      
                       variant="outline"
                       size="sm"
                       className="h-9"

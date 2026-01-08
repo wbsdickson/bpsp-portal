@@ -437,7 +437,6 @@ export function InvoiceUpsertForm({
                     <TableCell className="text-right">
                       <div className="inline-flex items-center justify-end gap-2">
                         <Button
-                          
                           variant="outline"
                           size="icon"
                           className="h-8 w-8"
@@ -476,7 +475,6 @@ export function InvoiceUpsertForm({
                           )}
                         />
                         <Button
-                          
                           variant="outline"
                           size="icon"
                           className="h-8 w-8"
@@ -488,7 +486,7 @@ export function InvoiceUpsertForm({
                             )
                           }
                         >
-                          <Plus className="h-4 w-4" />
+                          <Plus />
                         </Button>
                       </div>
                     </TableCell>
@@ -559,7 +557,6 @@ export function InvoiceUpsertForm({
                     </TableCell>
                     <TableCell className="text-right">
                       <Button
-                        
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8"
@@ -576,7 +573,6 @@ export function InvoiceUpsertForm({
           </div>
           <div className="flex items-center justify-between pt-2">
             <Button
-              
               variant="outline"
               size="sm"
               className="h-9"
@@ -601,7 +597,7 @@ export function InvoiceUpsertForm({
         </div>
 
         <div className="flex justify-end gap-3 pt-4">
-          <Button  variant="outline" onClick={onCancel}>
+          <Button variant="outline" onClick={onCancel}>
             {t("cancel")}
           </Button>
           <Button type="submit">{t("save")}</Button>

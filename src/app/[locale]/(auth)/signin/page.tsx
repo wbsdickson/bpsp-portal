@@ -25,7 +25,7 @@ export default async function SignInPage({
   return (
     <Card className="bg-background/90 w-full border-0 shadow-2xl backdrop-blur">
       <CardHeader className="space-y-3 text-center">
-        <CardTitle className="text-2xl">Sign in</CardTitle>
+        <CardTitle className="text-2xl">{t("signInTitle")}</CardTitle>
       </CardHeader>
 
       <CardContent>
@@ -33,15 +33,17 @@ export default async function SignInPage({
           <SignInForm locale={locale} />
 
           <div className="bg-muted/40 rounded-md border p-3 text-sm">
-            <div className="text-foreground/80 font-medium">Demo accounts</div>
+            <div className="text-foreground/80 font-medium">
+              {t("demoAccounts")}
+            </div>
             <div className="text-foreground/70 mt-2 space-y-1">
-              <div>Admin: bob@bpsp.com / password123</div>
-              <div>Merchant: alice@techcorp.com / password123</div>
+              <div>{t("demoAccountAdmin")}</div>
+              <div>{t("demoAccountMerchant")}</div>
             </div>
           </div>
 
           <p className="text-muted-foreground text-center text-sm">
-            Don&apos;t have an account?{" "}
+            {t("noAccount")}{" "}
             <Link
               href={
                 safeCallbackUrl

@@ -7,8 +7,6 @@ export default async function DashboardPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const session = await auth();
-
   return (
     <HeaderPage title="Dashboard">
       <DashboardClient />

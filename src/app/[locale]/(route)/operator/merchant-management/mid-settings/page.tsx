@@ -24,11 +24,8 @@ export default function MerchantMidsPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          size="sm"
-          onClick={() => onOpen("create-merchant-mid")}
-        >
-          <Plus className="h-4 w-4" /> Create {t("title")}
+        <Button size="sm" onClick={() => onOpen("create-merchant-mid")}>
+          <Plus /> Create {t("title")}
         </Button>
       }
     >

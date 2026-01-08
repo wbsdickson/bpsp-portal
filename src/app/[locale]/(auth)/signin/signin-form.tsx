@@ -22,18 +22,23 @@ import { useAppStore } from "@/lib/store";
 import { UserRole } from "@/lib/types";
 import { Link } from "next-view-transitions";
 
-const schema = z.object({
-  email: z.string().email({ message: "Invalid email" }),
-  password: z.string().min(1, { message: "Required" }),
-});
+const createSchema = (t: (key: string) => string) =>
+  z.object({
+    email: z.string().email({ message: t("invalidEmailError") }),
+    password: z.string().min(1, { message: t("requiredError") }),
+  });
 
-type Values = z.infer<typeof schema>;
+type Values = {
+  email: string;
+  password: string;
+};
 
 export function SignInForm({ locale }: { locale: string }) {
   const t = useTranslations("Auth");
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
   const searchParams = useSearchParams();
+  const schema = useMemo(() => createSchema(t), [t]);
   const form = useForm<Values>({
     resolver: zodResolver(schema),
     defaultValues: { email: "bob@bpsp.com", password: "password123" },
@@ -52,9 +57,9 @@ export function SignInForm({ locale }: { locale: string }) {
     if (!result || result.error) {
       const code = result?.error;
       if (code === "CredentialsSignin") {
-        setFormError("Invalid email or password");
+        setFormError(t("invalidCredentialsError"));
       } else {
-        setFormError(code ?? "Invalid email or password");
+        setFormError(code ?? t("invalidCredentialsError"));
       }
       return;
     }
@@ -120,7 +125,7 @@ export function SignInForm({ locale }: { locale: string }) {
                   href={nextForgetUrl}
                   className="ml-auto text-sm underline-offset-4 hover:underline"
                 >
-                  Forgot your password?
+                  {t("forgotPassword")}
                 </Link>
               </div>
               <FormControl>
@@ -145,22 +150,22 @@ export function SignInForm({ locale }: { locale: string }) {
           className="w-full bg-neutral-900 text-white hover:bg-neutral-900/90 dark:bg-white dark:text-neutral-900 dark:hover:bg-white/90"
           disabled={form.formState.isSubmitting || !form.formState.isValid}
         >
-          {form.formState.isSubmitting ? "..." : t("loginButton")}
+          {form.formState.isSubmitting ? t("loading") : t("loginButton")}
         </Button>
         <p className="text-muted-foreground text-center text-xs">
-          By clicking on &quot;Sign in now&quot; you agree to{" "}
+          {t("termsAgreement")}{" "}
           <a
             href="#"
             className="text-foreground text-xs underline underline-offset-4"
           >
-            Terms of Service
+            {t("termsOfService")}
           </a>{" "}
           |{" "}
           <a
             href="#"
             className="text-foreground text-xs underline underline-offset-4"
           >
-            Privacy Policy
+            {t("privacyPolicy")}
           </a>
         </p>
       </form>
