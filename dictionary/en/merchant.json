@@ -1089,6 +1089,67 @@
         "notFound": "Receipt not found.",
         "empty": "—"
       }
+    },
+    "ReceivedPayableInvoices": {
+      "title": "Received Payable Invoices",
+      "tabs": {
+        "summary": "Summary",
+        "all": "All"
+      },
+      "buttons": {
+        "create": "Create",
+        "clearFilters": "Clear filters",
+        "back": "Back",
+        "edit": "Edit",
+        "saveChanges": "Save changes"
+      },
+      "columns": {
+        "invoiceNumber": "Invoice Number",
+        "clientName": "Client Name",
+        "amount": "Amount",
+        "issueDate": "Issue date",
+        "invoiceDate": "Invoice Date",
+        "paymentDueDate": "Payment Due Date",
+        "paymentMethod": "Payment Method",
+        "status": "Status"
+      },
+      "filters": {
+        "invoiceNumber": "Invoice Number",
+        "period": "Period",
+        "client": "Client Name",
+        "status": "Status",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done",
+        "all": "All",
+        "direction": "Direction",
+        "invoiceDate": "Invoice Date"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "form": {
+        "createTitle": "Create received payable invoice",
+        "editTitle": "Edit received payable invoice",
+        "invoiceNumber": "Invoice Number",
+        "client": "Client Name",
+        "invoiceDate": "Invoice Date",
+        "paymentDueDate": "Payment Due Date",
+        "amount": "Total Amount",
+        "direction": "Direction",
+        "paymentMethod": "Payment Method",
+        "pdf": "PDF",
+        "notes": "Notes"
+      },
+      "messages": {
+        "createSuccess": "Invoice created successfully.",
+        "updateSuccess": "Invoice updated successfully.",
+        "missingId": "Missing invoice id.",
+        "notFound": "Invoice not found."
+      }
     }
   }
 }
