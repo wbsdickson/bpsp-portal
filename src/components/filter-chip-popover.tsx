@@ -53,7 +53,6 @@ export function FilterChipPopover({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          
           variant="outline"
           size="sm"
           disabled={disabled}
@@ -98,7 +97,6 @@ export function FilterChipPopover({
 
           <div className="flex items-center justify-end gap-2">
             <Button
-              
               variant="outline"
               size="sm"
               className="h-8"
@@ -111,7 +109,6 @@ export function FilterChipPopover({
               Reset
             </Button>
             <Button
-              
               size="sm"
               className="h-8"
               onClick={() => {

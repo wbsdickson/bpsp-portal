@@ -167,7 +167,7 @@ export function CommandMenu() {
 
   const localeOptions = [
     { value: "en", label: "English" },
-    { value: "ja", label: "Japanese" },
+    { value: "ja", label: "日本語" },
   ] as const;
 
   const runCommand = React.useCallback(
