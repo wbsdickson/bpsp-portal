@@ -49,13 +49,13 @@ export default function useAccounTableColumn({
               onPress: onOpenDetail,
             },
             {
+              title: t("actions.resetPassword"),
+              onPress: onResetPassword,
+            },
+            {
               title: t("actions.delete"),
               variant: "destructive",
               onPress: onDelete,
-            },
-            {
-              title: t("actions.resetPassword"),
-              onPress: onResetPassword,
             },
           ]}
           t={t}

@@ -192,9 +192,12 @@ export default function InvoiceAutoIssuanceTable({
                     placeholder="All"
                   />
 
-                  <Button size="sm" onClick={() => table.resetColumnFilters()}>
+                  <Button
+                    variant="ghost-primary"
+                    size="sm"
+                    onClick={() => table.resetColumnFilters()}
+                  >
                     {t("clearFilters")}
-                    <X className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </div>

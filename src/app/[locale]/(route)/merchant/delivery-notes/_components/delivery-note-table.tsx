@@ -120,12 +120,11 @@ export default function DeliveryNoteTable({
                 />
 
                 <Button
-                  type="button"
+                  variant="ghost-primary"
                   size="sm"
                   onClick={() => table.resetColumnFilters()}
                 >
                   {t("buttons.clearFilters")}
-                  <X className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </div>

@@ -50,9 +50,12 @@ export default function BankAccountTable({
                   onChange={(v) => accountHolderCol?.setFilterValue(v)}
                 />
 
-                <Button size="sm" onClick={() => table.resetColumnFilters()}>
+                <Button
+                  variant="ghost-primary"
+                  size="sm"
+                  onClick={() => table.resetColumnFilters()}
+                >
                   {t("buttons.clearFilters")}
-                  <X className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </div>

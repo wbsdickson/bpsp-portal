@@ -259,9 +259,12 @@ export default function InvoiceTable({
                     {t("moreFilters")}
                   </Button> */}
 
-                  <Button size="sm" onClick={() => table.resetColumnFilters()}>
-                    {t("clearFilters")}
-                    <X className="ml-2 h-4 w-4" />
+                  <Button
+                    variant="ghost-primary"
+                    size="sm"
+                    onClick={() => table.resetColumnFilters()}
+                  >
+                    {t("buttons.clearFilters")}
                   </Button>
                 </div>
               </div>

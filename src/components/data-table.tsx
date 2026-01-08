@@ -183,7 +183,7 @@ export function DataTable<TData>({
                 {enableColumnVisibility ? (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="ml-auto">
+                      <Button variant="outline" size="sm" className="ml-auto">
                         <Columns3 className="h-4 w-4" />
                         Edit Columns <ChevronDown />
                       </Button>

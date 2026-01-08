@@ -51,14 +51,11 @@ export default function BankAccountTable({
                 />
 
                 <Button
-                  
-                  variant="ghost"
+                  variant="ghost-primary"
                   size="sm"
-                  className="h-9 text-indigo-600 hover:text-indigo-700"
                   onClick={() => table.resetColumnFilters()}
                 >
                   {t("buttons.clearFilters")}
-                  <X className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </div>
