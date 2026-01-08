@@ -272,7 +272,7 @@ export default function NotificationUpsertForm({
 
           <CardFooter className="mt-4 flex items-center justify-end gap-2">
             <Button
-              type="button"
+              
               variant="outline"
               className="h-9"
               onClick={() => router.push(`/${locale}/operator/notifications`)}
@@ -281,7 +281,7 @@ export default function NotificationUpsertForm({
             </Button>
             <Button
               type="submit"
-              className="h-9 bg-indigo-600 hover:bg-indigo-700"
+              className="h-9"
             >
               {t("buttons.save")}
             </Button>

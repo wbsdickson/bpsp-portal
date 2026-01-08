@@ -22,13 +22,8 @@ export default function ReceivedPayableInvoicesPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          type="button"
-          size="sm"
-          className="bg-indigo-600 hover:bg-indigo-700"
-          onClick={() => router.push(`${basePath}/create`)}
-        >
-          <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
+        <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
+          <Plus className="h-4 w-4" /> Create {t("title")}
         </Button>
       }
     >

@@ -187,8 +187,6 @@ export function AutoIssuanceList({ merchantId }: AutoIssuanceListProps) {
                     </TableBody>
                 </Table>
             </div>
-
-
             <PaginationControls
                 currentPage={currentPage}
                 totalPages={totalPages}

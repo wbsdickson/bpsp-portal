@@ -250,7 +250,7 @@ export default function DeliveryNoteUpsertForm({
 
           <Button
             size="sm"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            className="h-9"
             onClick={onSubmit}
             disabled={form.formState.isSubmitting}
           >
@@ -429,7 +429,7 @@ export default function DeliveryNoteUpsertForm({
                         <TableCell>
                           <div className="flex items-center justify-end gap-2">
                             <Button
-                              type="button"
+                              
                               variant="outline"
                               size="icon"
                               className="h-8 w-8"
@@ -468,7 +468,7 @@ export default function DeliveryNoteUpsertForm({
                               )}
                             />
                             <Button
-                              type="button"
+                              
                               variant="outline"
                               size="icon"
                               className="h-8 w-8"
@@ -555,7 +555,7 @@ export default function DeliveryNoteUpsertForm({
                         </TableCell>
                         <TableCell>
                           <Button
-                            type="button"
+                            
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8"
@@ -574,7 +574,7 @@ export default function DeliveryNoteUpsertForm({
 
                 <div className="mt-2 flex items-center justify-between gap-4 p-2">
                   <Button
-                    type="button"
+                    
                     variant="outline"
                     size="sm"
                     className="h-9"

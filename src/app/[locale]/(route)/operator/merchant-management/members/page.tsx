@@ -24,12 +24,10 @@ export default function MerchantMembersPage() {
       title={t("title")}
       pageActions={
         <Button
-          type="button"
           size="sm"
-          className="bg-indigo-600 hover:bg-indigo-700"
           onClick={() => onOpen("create-merchant-member")}
         >
-          <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
+          <Plus className="h-4 w-4" /> Create {t("title")}
         </Button>
       }
     >

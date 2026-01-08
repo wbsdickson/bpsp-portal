@@ -67,7 +67,7 @@ export default function useQuotationTableColumn({
       header: t("columns.purchaseOrderNumber"),
       cell: ({ row }) => (
         <Button
-          type="button"
+          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}

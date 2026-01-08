@@ -610,7 +610,7 @@ export function InvoiceUpsertPage({ invoiceId }: { invoiceId?: string }) {
 
           <Button
             size="sm"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            className="h-9"
             onClick={onSubmit}
           >
             {invoiceId ? t("upsert.saveChanges") : t("upsert.createButton")}

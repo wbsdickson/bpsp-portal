@@ -50,7 +50,7 @@ export default function MerchantAccountTable({
                 />
 
                 <Button
-                  type="button"
+                  
                   variant="ghost"
                   size="sm"
                   className="h-9 text-indigo-600 hover:text-indigo-700"

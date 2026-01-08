@@ -22,7 +22,7 @@ export default function UserTable({
   });
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 p-4">
       <DataTable
         columns={column}
         data={accounts}
@@ -73,7 +73,7 @@ export default function UserTable({
                 />
 
                 <Button
-                  type="button"
+                  
                   variant="ghost"
                   size="sm"
                   className="h-9 text-indigo-600 hover:text-indigo-700"

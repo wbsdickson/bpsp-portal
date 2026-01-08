@@ -112,7 +112,7 @@ export default function PublicInvoicePage({
       <div className="mx-auto w-full max-w-7xl">
         <div className="bg-muted/10 rounded-lg border p-6">
           <div className="flex items-center justify-end">
-            <Button variant="ghost" size="sm" type="button">
+            <Button variant="ghost" size="sm" >
               <Download className="mr-2 h-4 w-4" />
               {t("publicDownload")}
             </Button>
@@ -136,7 +136,7 @@ export default function PublicInvoicePage({
                     {cardStep === "options" ? (
                       <div className="bg-background space-y-4 rounded-md border p-6">
                         <Button
-                          type="button"
+                          
                           variant="outline"
                           className="h-14 w-full rounded-xl border-2 text-base"
                           onClick={() => setCardStep("payInfo")}
@@ -144,7 +144,7 @@ export default function PublicInvoicePage({
                           {t("publicPayWithoutRegistration")}
                         </Button>
                         <Button
-                          type="button"
+                          
                           variant="outline"
                           className="h-14 w-full rounded-xl border-2 text-base"
                           onClick={onRegister}
@@ -161,7 +161,7 @@ export default function PublicInvoicePage({
                         </div>
 
                         <Button
-                          type="button"
+                          
                           variant="outline"
                           className="h-14 w-full rounded-xl border-2 text-base"
                           onClick={onLogin}

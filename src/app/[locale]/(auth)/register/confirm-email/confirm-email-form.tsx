@@ -80,7 +80,7 @@ export function ConfirmEmailForm() {
         <div className="flex items-center justify-between pt-1">
           <Button
             variant="link"
-            type="button"
+            
             className="px-0 text-sm"
             onClick={() => {
               // TODO: wire resend

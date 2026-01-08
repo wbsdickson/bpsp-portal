@@ -207,7 +207,7 @@ export default function DocumentOutputSettingsPage() {
                               style={{ display: "none" }}
                             />
                             <Button
-                              type="button"
+                              
                               variant="outline"
                               className="w-full"
                               onClick={() => fileRef.current?.click()}
@@ -254,7 +254,7 @@ export default function DocumentOutputSettingsPage() {
 
               <CardFooter className="justify-end gap-2 p-6">
                 <Button
-                  type="button"
+                  
                   variant="outline"
                   className="h-9"
                   onClick={() => form.reset()}
@@ -263,7 +263,7 @@ export default function DocumentOutputSettingsPage() {
                 </Button>
                 <Button
                   type="submit"
-                  className="h-9 bg-indigo-600 hover:bg-indigo-700"
+                  className="h-9"
                   disabled={form.formState.isSubmitting}
                 >
                   {t("buttons.save") || "Save"}

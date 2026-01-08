@@ -21,10 +21,9 @@ export default function AccountsPage() {
       pageActions={
         <Button
           size="sm"
-          className="bg-indigo-600 hover:bg-indigo-700"
           onClick={() => onOpen("create-account")}
         >
-          <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
+          <Plus className="h-4 w-4" /> Create {t("title")}
         </Button>
       }
     >

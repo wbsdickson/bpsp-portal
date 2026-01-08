@@ -20,7 +20,7 @@ export default function MerchantAccountsPage() {
   return (
     <HeaderPage title={t("title")}>
       <div className="mb-2 flex justify-end">
-        <Button type="button" size="sm" onClick={() => setModalOpen(true)}>
+        <Button  size="sm" onClick={() => setModalOpen(true)}>
           <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
         </Button>
       </div>

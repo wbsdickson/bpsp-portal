@@ -48,7 +48,7 @@ export default function MerchantCardTable() {
   const { column } = useMerchantCardTableColumn();
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 rounded-lg bg-white p-4">
       <DataTable
         columns={column}
         data={rows}
@@ -77,7 +77,6 @@ export default function MerchantCardTable() {
                 />
 
                 <Button
-                  type="button"
                   variant="ghost"
                   size="sm"
                   className="h-9 text-indigo-600 hover:text-indigo-700"

@@ -211,8 +211,6 @@ export function DeliveryNoteList({ merchantId }: DeliveryNoteListProps) {
                     </TableBody>
                 </Table>
             </div>
-
-
             <PaginationControls
                 currentPage={currentPage}
                 totalPages={totalPages}

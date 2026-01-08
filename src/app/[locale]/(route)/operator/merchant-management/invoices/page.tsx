@@ -23,7 +23,6 @@ export default function InvoicesPage() {
           <Button
             onClick={() => onOpen("create-invoice")}
             size="sm"
-            className="bg-indigo-600 hover:bg-indigo-700"
           >
             <Plus className="mr-2 h-4 w-4" /> {t("create")}
           </Button>

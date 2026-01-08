@@ -38,7 +38,7 @@ export default async function RouteLayout({
             <SidebarTrigger className="-ml-1" />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 bg-[#F1F1F1] p-4 pt-0">
+        <div className="flex flex-1 flex-col gap-4 bg-[#F1F1F1] p-4">
           {children}
         </div>
       </SidebarInset>

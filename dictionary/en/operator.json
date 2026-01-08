@@ -42,6 +42,13 @@
         "merchant": "Merchant"
       }
     },
+    "CommandMenu": {
+      "placeholder": "Search page/ function",
+      "noResults": "No results found.",
+      "navigation": "Navigation",
+      "locale": "Locale",
+      "theme": "Theme"
+    },
     "SystemSettings": {
       "title": "System Settings",
       "sections": {

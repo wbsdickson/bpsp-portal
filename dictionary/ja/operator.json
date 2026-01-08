@@ -42,6 +42,13 @@
         "merchant": "加盟店"
       }
     },
+    "CommandMenu": {
+      "placeholder": "ページ/機能を検索",
+      "noResults": "結果が見つかりません。",
+      "navigation": "ナビゲーション",
+      "locale": "言語",
+      "theme": "テーマ"
+    },
     "SystemSettings": {
       "title": "システム設定",
       "sections": {

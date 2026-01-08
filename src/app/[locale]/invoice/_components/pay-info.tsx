@@ -96,7 +96,7 @@ export function PayInfo({
           <div className="pt-10">
             <div className="flex items-center justify-between gap-4">
               <Button
-                type="button"
+                
                 variant="ghost"
                 className="h-12 px-6 text-slate-900 dark:text-slate-100"
                 onClick={onBack}
@@ -105,7 +105,7 @@ export function PayInfo({
               </Button>
 
               <Button
-                type="button"
+                
                 className="h-12 rounded-xl bg-slate-900 px-8 text-base text-white hover:bg-slate-900/90 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-100/90"
                 onClick={onConfirm}
               >

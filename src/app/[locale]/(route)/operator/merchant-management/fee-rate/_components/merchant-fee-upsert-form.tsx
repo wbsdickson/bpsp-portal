@@ -263,7 +263,7 @@ export default function MerchantFeeUpsertForm({
         <div className="flex justify-end gap-2">
           {onCancel && (
             <Button
-              type="button"
+              
               variant="outline"
               className="h-9"
               onClick={onCancel}
@@ -273,7 +273,7 @@ export default function MerchantFeeUpsertForm({
           )}
           <Button
             type="submit"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            className="h-9"
             disabled={form.formState.isSubmitting}
           >
             {t("buttons.save")}

@@ -191,7 +191,7 @@ export default function MidUpsertForm({ midId }: { midId?: string }) {
 
             <CardFooter className="justify-end gap-2 px-0">
               <Button
-                type="button"
+                
                 variant="outline"
                 className="h-9"
                 onClick={() => router.push(`/${locale}/operator/mid`)}
@@ -200,7 +200,7 @@ export default function MidUpsertForm({ midId }: { midId?: string }) {
               </Button>
               <Button
                 type="submit"
-                className="h-9 bg-indigo-600 hover:bg-indigo-700"
+                className="h-9"
               >
                 {t("buttons.save")}
               </Button>

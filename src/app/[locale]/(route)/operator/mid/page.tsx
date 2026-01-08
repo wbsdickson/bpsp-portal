@@ -22,12 +22,11 @@ export default function MidPage() {
       title={t("title")}
       pageActions={
         <Button
-          type="button"
           size="sm"
-          className="h-9 bg-indigo-600 hover:bg-indigo-700"
+          className="h-9"
           onClick={() => router.push(`${basePath}/create`)}
         >
-          <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
+          <Plus className="h-4 w-4" /> Create {t("title")}
         </Button>
       }
     >

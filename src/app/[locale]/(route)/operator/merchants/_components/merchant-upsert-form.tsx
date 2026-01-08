@@ -294,7 +294,7 @@ export default function MerchantUpsertForm({
         <div className="mt-4 flex justify-end gap-2">
           {(onCancel || !merchantId) && (
             <Button
-              type="button"
+              
               variant="outline"
               className="h-9"
               onClick={() => {
@@ -310,7 +310,7 @@ export default function MerchantUpsertForm({
           )}
           <Button
             type="submit"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            className="h-9"
             disabled={form.formState.isSubmitting}
           >
             {t("buttons.save")}

@@ -72,7 +72,7 @@ export function FilterChipMultiSelectPopover({
     >
       <PopoverTrigger asChild>
         <Button
-          type="button"
+          
           variant="outline"
           size="sm"
           disabled={disabled}
@@ -108,7 +108,7 @@ export function FilterChipMultiSelectPopover({
                 return (
                   <button
                     key={o.value}
-                    type="button"
+                    
                     className={cn(
                       "hover:bg-accent hover:text-accent-foreground flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm",
                       isSelected && "bg-accent",
@@ -145,7 +145,7 @@ export function FilterChipMultiSelectPopover({
 
           <div className="flex items-center justify-between gap-2">
             <Button
-              type="button"
+              
               variant="outline"
               size="sm"
               className="h-8"
@@ -158,7 +158,7 @@ export function FilterChipMultiSelectPopover({
               {resetLabel}
             </Button>
             <Button
-              type="button"
+              
               size="sm"
               className="h-8"
               onClick={() => {

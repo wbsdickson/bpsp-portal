@@ -59,7 +59,7 @@ export function FilterChipSelectPopover({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          type="button"
+          
           variant="outline"
           size="sm"
           disabled={disabled}
@@ -95,7 +95,7 @@ export function FilterChipSelectPopover({
                 return (
                   <button
                     key={o.value}
-                    type="button"
+                    
                     className={cn(
                       "hover:bg-accent hover:text-accent-foreground flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm",
                       isSelected && "bg-accent",
@@ -128,7 +128,7 @@ export function FilterChipSelectPopover({
           </ScrollArea>
 
           <button
-            type="button"
+            
             className="text-muted-foreground hover:text-foreground w-full rounded-md py-2 text-center text-sm"
             onClick={() => {
               onChange("");

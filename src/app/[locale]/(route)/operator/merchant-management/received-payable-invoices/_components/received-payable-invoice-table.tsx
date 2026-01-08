@@ -216,7 +216,7 @@ export default function ReceivedPayableInvoiceTable({
   );
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 p-4">
       <DataTable
         columns={columns}
         data={rows}
@@ -275,7 +275,7 @@ export default function ReceivedPayableInvoiceTable({
                 />
 
                 <Button
-                  type="button"
+                  
                   variant="ghost"
                   size="sm"
                   className="h-9 text-indigo-600 hover:text-indigo-700"

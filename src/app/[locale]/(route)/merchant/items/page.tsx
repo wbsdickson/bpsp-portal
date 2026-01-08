@@ -24,9 +24,9 @@ export default function ItemsPage() {
     <HeaderPage title={t("title")}>
       <div className="flex items-center justify-end">
         <Button
-          type="button"
+          
           size="sm"
-          className="h-9 bg-indigo-600 hover:bg-indigo-700"
+          className="h-9"
           onClick={() => onOpen("create-merchant-item")}
         >
           <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}

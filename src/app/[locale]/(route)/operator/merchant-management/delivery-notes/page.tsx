@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import DeliveryNoteDetail from "./_components/delivery-note-detail";
 import DeliveryNoteTable from "./_components/delivery-note-table";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBasePath } from "@/hooks/use-base-path";
 import { useModalStore } from "@/store/modal-store";
@@ -24,11 +25,10 @@ export default function OperatorDeliveryNotesPage() {
       title={t("title")}
       pageActions={
         <Button
-          type="button"
-          className="bg-indigo-600 hover:bg-indigo-700"
           onClick={() => router.push(`${basePath}/create`)}
+          size="sm"
         >
-          {t("buttons.create")}
+          <Plus className="h-4 w-4" /> Create {t("title")}
         </Button>
       }
     >

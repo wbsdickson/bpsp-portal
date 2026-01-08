@@ -216,7 +216,7 @@ export default function BankAccountUpsertForm({
 
           <CardFooter className="justify-end gap-2">
             <Button
-              type="button"
+              
               variant="outline"
               className="h-9"
               onClick={() => router.push(basePath)}
@@ -225,7 +225,7 @@ export default function BankAccountUpsertForm({
             </Button>
             <Button
               type="submit"
-              className="h-9 bg-indigo-600 hover:bg-indigo-700"
+              className="h-9"
               disabled={form.formState.isSubmitting}
             >
               {t("buttons.save")}

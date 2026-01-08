@@ -56,7 +56,7 @@ export default function BankAccountDetail({
     <div className="space-y-4">
       <div className="flex items-center justify-end gap-2">
         <Button
-          type="button"
+          
           variant="outline"
           className="h-9"
           onClick={() => {
@@ -65,7 +65,7 @@ export default function BankAccountDetail({
         >
           {t("buttons.cancel")}
         </Button>
-        <Button asChild className="h-9 bg-indigo-600 hover:bg-indigo-700">
+        <Button asChild className="h-9">
           <Link
             href={`/${locale}/merchant/bank-accounts/${bankAccount.id}/edit`}
           >

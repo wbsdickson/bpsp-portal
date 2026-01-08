@@ -30,7 +30,7 @@ export default function MerchantMembersPage() {
         defaultActiveKey="table"
         renderRight={() => (
           <Button
-            type="button"
+            
             size="sm"
             onClick={() => {
               setModalOpen(true);

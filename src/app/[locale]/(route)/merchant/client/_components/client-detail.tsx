@@ -45,7 +45,7 @@ export default function ClientDetail({ clientId }: { clientId: string }) {
     <div className="space-y-4">
       <div className="flex items-center justify-end gap-2">
         <Button
-          type="button"
+          
           variant="outline"
           className="h-9"
           onClick={() => {
@@ -55,8 +55,8 @@ export default function ClientDetail({ clientId }: { clientId: string }) {
           {t("buttons.cancel")}
         </Button>
         <Button
-          type="button"
-          className="h-9 bg-indigo-600 hover:bg-indigo-700"
+          
+          className="h-9 "
           onClick={() =>
             router.push(`/${locale}/merchant/client/edit/${client.id}`)
           }

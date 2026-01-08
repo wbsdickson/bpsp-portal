@@ -268,7 +268,7 @@ export default function MerchantMemberUpsertForm({
                       value={field.value ?? ""}
                     />
                     <Button
-                      type="button"
+                      
                       variant="ghost"
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
@@ -294,7 +294,7 @@ export default function MerchantMemberUpsertForm({
         <div className="flex justify-end gap-2">
           {onCancel && (
             <Button
-              type="button"
+              
               variant="outline"
               className="h-9"
               onClick={onCancel}
@@ -304,7 +304,7 @@ export default function MerchantMemberUpsertForm({
           )}
           <Button
             type="submit"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            className="h-9"
             disabled={form.formState.isSubmitting}
           >
             {t("buttons.save")}

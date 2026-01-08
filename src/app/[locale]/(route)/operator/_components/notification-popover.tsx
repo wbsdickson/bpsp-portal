@@ -32,7 +32,6 @@ function formatRelativeTime(dateString: string) {
 export function NotificationPopover() {
   const t = useTranslations("Operator.Sidebar.footer");
   const notifications = useNotificationStore((s) => s.notifications);
-  const { basePath } = useBasePath();
 
   const recentNotifications = notifications
     .filter((n) => !n.deletedAt)
@@ -43,10 +42,14 @@ export function NotificationPopover() {
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative size-8">
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="hover:bg-muted-foreground/20 relative rounded-full"
+            >
               <Bell className="size-4" />
               {recentNotifications.length > 0 && (
-                <span className="ring-background absolute right-1 top-1 flex h-2 w-2 rounded-full bg-red-600 ring-2" />
+                <span className="absolute right-1 top-1 flex h-2 w-2 rounded-full bg-red-600" />
               )}
             </Button>
           </PopoverTrigger>
@@ -70,7 +73,7 @@ export function NotificationPopover() {
           <div className="max-h-[300px] overflow-y-auto">
             {recentNotifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center px-4 py-8 text-center">
-                <Bell className="text-muted-foreground/30 mb-2 size-8" />
+                <Bell className="text-muted-foreground/30 size-8 mb-2" />
                 <p className="text-muted-foreground text-sm">
                   No new notifications
                 </p>

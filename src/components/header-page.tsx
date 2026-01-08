@@ -15,7 +15,7 @@ export default function HeaderPage({
         <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
         {pageActions}
       </div>
-      <div className="rounded-lg bg-white p-4">{children}</div>
+      <div>{children}</div>
     </div>
   );
 }

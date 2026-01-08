@@ -263,15 +263,15 @@ export default function DashboardClient() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <Button type="button" variant="outline" className="h-9 bg-white">
+          <Button  variant="outline" className="h-9 bg-white">
             <CalendarDays className="mr-2 h-4 w-4" /> 2024-05-01 to 2024-05-30
           </Button>
-          <Button type="button" variant="outline" className="h-9 bg-white">
+          <Button  variant="outline" className="h-9 bg-white">
             <Filter className="mr-2 h-4 w-4" /> Filter
           </Button>
           <Button
-            type="button"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            
+            className="h-9 "
           >
             <Share2 className="mr-2 h-4 w-4" /> Share
           </Button>
@@ -321,7 +321,7 @@ export default function DashboardClient() {
               <CardTitle className="text-base">Sales Overview</CardTitle>
               <CardDescription>Monthly performance</CardDescription>
             </div>
-            <Button type="button" variant="outline" className="h-8 bg-white">
+            <Button  variant="outline" className="h-8 bg-white">
               Sort By
             </Button>
           </CardHeader>
@@ -404,7 +404,7 @@ export default function DashboardClient() {
               </div>
 
               <Button
-                type="button"
+                
                 variant="outline"
                 className="h-9 w-full bg-white"
               >
@@ -421,7 +421,7 @@ export default function DashboardClient() {
                 </CardTitle>
                 <CardDescription>Overall sales</CardDescription>
               </div>
-              <Button type="button" variant="outline" className="h-8 bg-white">
+              <Button  variant="outline" className="h-8 bg-white">
                 Sort By
               </Button>
             </CardHeader>
@@ -478,7 +478,7 @@ export default function DashboardClient() {
         <Card className="border-0 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-base">Latest Transactions</CardTitle>
-            <Button type="button" variant="ghost" className="h-8 px-2">
+            <Button  variant="ghost" className="h-8 px-2">
               View All
             </Button>
           </CardHeader>
@@ -519,7 +519,7 @@ export default function DashboardClient() {
         <Card className="border-0 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-base">Recent Activity</CardTitle>
-            <Button type="button" variant="ghost" className="h-8 px-2">
+            <Button  variant="ghost" className="h-8 px-2">
               View All
             </Button>
           </CardHeader>
@@ -547,7 +547,7 @@ export default function DashboardClient() {
         <Card className="border-0 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-base">Merchant Sales Ranking</CardTitle>
-            <Button type="button" variant="outline" className="h-8 bg-white">
+            <Button  variant="outline" className="h-8 bg-white">
               Sort By
             </Button>
           </CardHeader>
@@ -614,7 +614,7 @@ export default function DashboardClient() {
         <Card className="border-0 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-base">Overall Statistics</CardTitle>
-            <Button type="button" variant="ghost" className="h-8 px-2">
+            <Button  variant="ghost" className="h-8 px-2">
               View All
             </Button>
           </CardHeader>

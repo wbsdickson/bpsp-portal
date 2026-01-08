@@ -46,7 +46,7 @@ export default function MerchantCompanyDetail({
     <div className="space-y-4">
       <div className="flex items-center justify-end gap-2">
         <Button
-          type="button"
+          
           variant="outline"
           className="h-9"
           onClick={() => {
@@ -55,7 +55,7 @@ export default function MerchantCompanyDetail({
         >
           {t("buttons.cancel")}
         </Button>
-        <Button asChild className="h-9 bg-indigo-600 hover:bg-indigo-700">
+        <Button asChild className="h-9">
           <Link href={`/${locale}/merchant/company/${company.id}/edit`}>
             {t("actions.edit")}
           </Link>

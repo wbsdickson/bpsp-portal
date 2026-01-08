@@ -289,7 +289,7 @@ export default function PurchaseOrderDetail({
           </div>
 
           <div className="mt-6">
-            <div className="">
+            <div >
               <div className="text-sm font-semibold">{t("columns.item")}</div>
             </div>
             <div className="py-4">
@@ -390,7 +390,7 @@ export default function PurchaseOrderDetail({
                             <TableCell className="text-right">
                               <div className="inline-flex items-center justify-end gap-2">
                                 <Button
-                                  type="button"
+                                  
                                   variant="outline"
                                   size="icon"
                                   className="h-8 w-8"
@@ -433,7 +433,7 @@ export default function PurchaseOrderDetail({
                                   )}
                                 />
                                 <Button
-                                  type="button"
+                                  
                                   variant="outline"
                                   size="icon"
                                   className="h-8 w-8"
@@ -522,7 +522,7 @@ export default function PurchaseOrderDetail({
                             </TableCell>
                             <TableCell className="text-right">
                               <Button
-                                type="button"
+                                
                                 variant="ghost"
                                 size="icon"
                                 className="h-8 w-8"
@@ -560,7 +560,7 @@ export default function PurchaseOrderDetail({
               {isEditing && (
                 <div className="mt-2">
                   <Button
-                    type="button"
+                    
                     variant="outline"
                     size="sm"
                     className="h-9"

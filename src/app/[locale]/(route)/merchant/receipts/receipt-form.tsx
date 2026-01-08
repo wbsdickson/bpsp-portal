@@ -254,7 +254,7 @@ export function ReceiptForm({ merchantId, initialData }: ReceiptFormProps) {
                     <div className="flex justify-between items-center">
                         <h3 className="text-lg font-medium">Line Items</h3>
                         <Button
-                            type="button"
+                            
                             variant="outline"
                             size="sm"
                             onClick={() => append({ name: "", quantity: 1, unitPrice: 0, taxId: taxes[0]?.id || "standard" })}
@@ -365,7 +365,7 @@ export function ReceiptForm({ merchantId, initialData }: ReceiptFormProps) {
                                 </div>
                                 <div className="col-span-6 md:col-span-1 flex justify-end">
                                     <Button
-                                        type="button"
+                                        
                                         variant="ghost"
                                         size="icon"
                                         className="text-red-500"
@@ -385,7 +385,7 @@ export function ReceiptForm({ merchantId, initialData }: ReceiptFormProps) {
 
                 <div className="flex justify-end space-x-4">
                     <Button
-                        type="button"
+                        
                         variant="outline"
                         onClick={() => router.push("/dashboard/merchant/receipts")}
                     >

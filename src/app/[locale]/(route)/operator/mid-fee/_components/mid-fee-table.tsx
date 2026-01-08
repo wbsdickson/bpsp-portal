@@ -42,7 +42,7 @@ export default function MidFeeTable({
   const { column } = useMidFeeTableColumn({ addTab });
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 p-4">
       <DataTable
         columns={column}
         data={rows}
@@ -92,7 +92,7 @@ export default function MidFeeTable({
                 />
 
                 <Button
-                  type="button"
+                  
                   variant="ghost"
                   size="sm"
                   className="h-9 text-indigo-600 hover:text-indigo-700"

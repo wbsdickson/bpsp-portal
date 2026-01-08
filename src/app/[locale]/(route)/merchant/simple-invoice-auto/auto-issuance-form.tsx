@@ -305,7 +305,7 @@ export function AutoIssuanceForm({
 
         <div className="flex justify-end gap-4">
           <Button
-            type="button"
+            
             variant="outline"
             onClick={() => router.back()}
             disabled={isPending}

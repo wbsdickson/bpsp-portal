@@ -48,7 +48,7 @@ export default function useMidFeeTableColumn({
       header: t("columns.mid"),
       cell: ({ row }) => (
         <Button
-          type="button"
+          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}

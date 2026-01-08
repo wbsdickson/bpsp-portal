@@ -30,7 +30,7 @@ export default function LocaleSwitcherHorizontal() {
 
       <div className="bg-muted flex rounded-full p-0.5">
         <Button
-          type="button"
+          
           variant="ghost"
           size="sm"
           disabled={isPending}
@@ -44,7 +44,7 @@ export default function LocaleSwitcherHorizontal() {
           日本語
         </Button>
         <Button
-          type="button"
+          
           variant="ghost"
           size="sm"
           disabled={isPending}

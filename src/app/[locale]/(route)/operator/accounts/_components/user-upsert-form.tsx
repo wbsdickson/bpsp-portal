@@ -200,7 +200,7 @@ const UserUpsertForm = React.forwardRef<
                       {...field}
                     />
                     <Button
-                      type="button"
+                      
                       variant="ghost"
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
@@ -225,7 +225,7 @@ const UserUpsertForm = React.forwardRef<
 
         <div className="mt-4 flex justify-end gap-2">
           <Button
-            type="button"
+            
             variant="outline"
             className="h-9"
             onClick={() => {
@@ -240,7 +240,7 @@ const UserUpsertForm = React.forwardRef<
           </Button>
           <Button
             type="submit"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            className="h-9"
             disabled={form.formState.isSubmitting}
           >
             {t("buttons.save")}

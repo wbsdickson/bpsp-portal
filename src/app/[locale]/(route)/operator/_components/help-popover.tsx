@@ -23,7 +23,11 @@ export function HelpPopover() {
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="icon" className="size-8">
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="hover:bg-muted-foreground/20 rounded-full"
+            >
               <HelpCircle className="size-4" />
             </Button>
           </PopoverTrigger>

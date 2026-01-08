@@ -597,7 +597,7 @@ export default function CreateInvoiceForm({
                       {/* Delete button */}
                       <TableCell className="px-2 text-right">
                         <Button
-                          type="button"
+                          
                           variant="ghost"
                           size="icon"
                           className="text-muted-foreground hover:text-destructive h-8 w-8"
@@ -615,7 +615,7 @@ export default function CreateInvoiceForm({
               <Separator />
               <div className="flex items-center justify-between gap-4 p-2">
                 <Button
-                  type="button"
+                  
                   variant="outline"
                   size="sm"
                   className="h-9"
@@ -714,7 +714,7 @@ export default function CreateInvoiceForm({
           <div className="text-sm font-semibold">
             {t("upsert.sections.remarks")}
           </div>
-          <div className="">
+          <div >
             <FormField
               control={form.control}
               name="remark"

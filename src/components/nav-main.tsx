@@ -96,7 +96,7 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <SidebarMenuSub>
+                <SidebarMenuSub className="before:bg-border/50 relative ml-6 border-l-0 pl-3 before:absolute before:bottom-0 before:left-0 before:top-0 before:w-px">
                   {renderRoute(item.children, true)}
                 </SidebarMenuSub>
               </CollapsibleContent>
@@ -109,10 +109,22 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
 
       if (isSub) {
         return (
-          <SidebarMenuSubItem key={item.route}>
+          <SidebarMenuSubItem
+            key={item.route}
+            className={cn(
+              "relative",
+              item.isActive &&
+                "before:bg-border before:absolute before:-left-3 before:top-1/2 before:z-10 before:h-px before:w-3 before:-translate-y-1/2",
+            )}
+          >
             <SidebarMenuSubButton asChild isActive={item.isActive}>
               <Link href={href}>
-                <span className={cn(item.isActive && "font-bold")}>
+                <span
+                  className={cn(
+                    item.isActive && "font-bold",
+                    !item.isActive && "text-muted-foreground",
+                  )}
+                >
                   {item.label}
                 </span>
               </Link>
@@ -130,7 +142,7 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
           >
             <Link href={href}>
               {item.icon && <item.icon />}
-              <span className={item.isActive ? "font-bold" : ""}>
+              <span className={cn(item.isActive && "font-bold")}>
                 {item.label}
               </span>
             </Link>

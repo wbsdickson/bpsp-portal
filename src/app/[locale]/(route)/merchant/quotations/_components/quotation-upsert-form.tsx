@@ -200,7 +200,7 @@ export default function QuotationUpsertForm({
 
           <Button
             size="sm"
-            className="h-9 bg-indigo-600 hover:bg-indigo-700"
+            className="h-9"
             onClick={onSubmit}
           >
             {quotationId ? t("upsert.saveChanges") : t("upsert.createButton")}
@@ -349,7 +349,7 @@ export default function QuotationUpsertForm({
                           <TableCell className="text-right">
                             <div className="inline-flex items-center justify-end gap-2">
                               <Button
-                                type="button"
+                                
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
@@ -392,7 +392,7 @@ export default function QuotationUpsertForm({
                                 )}
                               />
                               <Button
-                                type="button"
+                                
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
@@ -476,7 +476,7 @@ export default function QuotationUpsertForm({
                           </TableCell>
                           <TableCell className="text-right">
                             <Button
-                              type="button"
+                              
                               variant="ghost"
                               size="icon"
                               className="h-8 w-8"
@@ -493,7 +493,7 @@ export default function QuotationUpsertForm({
                   <Separator />
                   <div className="mt-2 flex items-center justify-between gap-4 p-2">
                     <Button
-                      type="button"
+                      
                       variant="outline"
                       size="sm"
                       className="h-9"
@@ -550,7 +550,7 @@ export default function QuotationUpsertForm({
 
             {/* <div className="flex items-center justify-end gap-2 pb-8">
               <Button
-                type="button"
+                
                 variant="outline"
                 className="h-9"
                 onClick={() => router.push(basePath)}
@@ -559,7 +559,7 @@ export default function QuotationUpsertForm({
               </Button>
               <Button
                 type="submit"
-                className="h-9 bg-indigo-600 hover:bg-indigo-700"
+                className="h-9"
               >
                 {t("buttons.save")}
               </Button>

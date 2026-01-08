@@ -38,7 +38,7 @@ export default function LocaleSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          type="button"
+          
           variant="outline"
           size="sm"
           disabled={isPending}

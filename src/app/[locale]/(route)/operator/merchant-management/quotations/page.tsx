@@ -3,6 +3,7 @@
 import HeaderPage from "@/components/header-page";
 import RecordTabs, { type RecordTab } from "@/components/record-tabs";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
@@ -22,11 +23,10 @@ export default function OperatorQuotationsPage() {
       title={t("title")}
       pageActions={
         <Button
-          type="button"
-          className="bg-indigo-600 hover:bg-indigo-700"
           onClick={() => router.push(`${basePath}/create`)}
+          size="sm"
         >
-          {t("buttons.create")}
+          <Plus className="h-4 w-4" /> Create {t("title")}
         </Button>
       }
     >

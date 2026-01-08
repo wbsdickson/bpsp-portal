@@ -53,7 +53,7 @@ export default function useBankAccountTableColumn({
       header: t("columns.bankName"),
       cell: ({ row }) => (
         <Button
-          type="button"
+          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}

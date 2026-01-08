@@ -1,0 +1,233 @@
+"use client";
+
+import React from "react";
+import { useTransition } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
+import {
+  ArrowRight,
+  ChevronRight,
+  Laptop,
+  Moon,
+  Sun,
+  ExternalLink,
+  Languages,
+  Check,
+} from "lucide-react";
+import { useSearch } from "@/context/search-provider";
+import { useTheme } from "next-themes";
+import { setUserLocale } from "@/actions/set-locale";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
+
+// Extract routes from sidebar structure
+function getSidebarRoutes(
+  t: ReturnType<typeof useTranslations>,
+  tCommand: ReturnType<typeof useTranslations<"Operator.CommandMenu">>,
+) {
+  const mainRoutes = [
+    { key: "dashboard", route: "operator/dashboard" },
+    { key: "accounts", route: "operator/accounts" },
+    { key: "merchantsManagement", route: "operator/merchant-management" },
+    { key: "merchants", route: "operator/merchants" },
+    { key: "payoutTransactions", route: "operator/payout-transactions" },
+    { key: "notifications", route: "operator/notifications" },
+    { key: "sales", route: "operator/sales" },
+    { key: "systemSettings", route: "operator/system-settings" },
+    { key: "midSettings", route: "operator/mid" },
+    { key: "midFee", route: "operator/mid-fee" },
+  ];
+
+  const merchantManagementRoutes = [
+    { key: "dashboard", route: "operator/merchant-management/dashboard" },
+    { key: "member", route: "operator/merchant-management/members" },
+    { key: "midSettings", route: "operator/merchant-management/mid-settings" },
+    { key: "feeRate", route: "operator/merchant-management/fee-rate" },
+    { key: "transaction", route: "operator/merchant-management/transactions" },
+    { key: "client", route: "operator/merchant-management/clients" },
+    { key: "bankAccount", route: "operator/merchant-management/bank-accounts" },
+    { key: "cards", route: "operator/merchant-management/cards" },
+    { key: "taxSettings", route: "operator/merchant-management/tax-settings" },
+    { key: "items", route: "operator/merchant-management/items" },
+    { key: "invoicesIssuance", route: "operator/merchant-management/invoices" },
+    {
+      key: "quotationsIssuance",
+      route: "operator/merchant-management/quotations",
+    },
+    {
+      key: "deliveryNoteIssuance",
+      route: "operator/merchant-management/delivery-notes",
+    },
+    { key: "receiptIssuance", route: "operator/merchant-management/receipt" },
+    {
+      key: "receivedPayableInvoices",
+      route: "operator/merchant-management/received-payable-invoices",
+    },
+  ];
+
+  return [
+    {
+      title: tCommand("navigation"),
+      items: mainRoutes.map((route) => {
+        if (route.key === "merchantsManagement") {
+          return {
+            title: t(`Operator.Sidebar.${route.key}`),
+            items: merchantManagementRoutes.map((subRoute) => ({
+              title: t(`Operator.Sidebar.merchantManagement.${subRoute.key}`),
+              url: `/${subRoute.route}`,
+            })),
+          };
+        }
+        return {
+          title: t(`Operator.Sidebar.${route.key}`),
+          url: `/${route.route}`,
+        };
+      }),
+    },
+  ];
+}
+
+export function CommandMenu() {
+  const router = useRouter();
+  const locale = useLocale();
+  const pathname = usePathname();
+  const { setTheme } = useTheme();
+  const { open, setOpen } = useSearch();
+  const t = useTranslations();
+  const tCommand = useTranslations("Operator.CommandMenu");
+  const [isPending, startTransition] = useTransition();
+
+  const sidebarData = React.useMemo(
+    () => getSidebarRoutes(t, tCommand),
+    [t, tCommand],
+  );
+  const [selectedUrl, setSelectedUrl] = React.useState<string | null>(null);
+
+  const localeOptions = [
+    { value: "en", label: "English" },
+    { value: "ja", label: "Japanese" },
+  ] as const;
+
+  const runCommand = React.useCallback(
+    (command: () => unknown) => {
+      setOpen(false);
+      command();
+    },
+    [setOpen],
+  );
+
+  const navigateTo = (url: string) => {
+    const localeUrl = url.startsWith(`/${locale}`) ? url : `/${locale}${url}`;
+    router.push(localeUrl);
+  };
+
+  const handleItemSelect = (url: string) => {
+    setSelectedUrl(url);
+    runCommand(() => navigateTo(url));
+  };
+
+  const handleLocaleChange = (newLocale: string) => {
+    if (newLocale === locale) return;
+    runCommand(() => {
+      startTransition(async () => {
+        await setUserLocale(newLocale);
+        router.refresh();
+      });
+    });
+  };
+
+  return (
+    <CommandDialog
+      modal
+      open={open}
+      onOpenChange={setOpen}
+      showCloseButton={false}
+    >
+      <CommandInput placeholder={tCommand("placeholder")} />
+      <CommandList>
+        <CommandEmpty>{tCommand("noResults")}</CommandEmpty>
+        {sidebarData.map((group) => (
+          <CommandGroup key={group.title} heading={group.title}>
+            {group.items.map((navItem, i) => {
+              if (navItem.url) {
+                const isActive =
+                  pathname === `/${locale}${navItem.url}` ||
+                  pathname === navItem.url;
+                return (
+                  <CommandItem
+                    key={`${navItem.url}-${i}`}
+                    value={navItem.title}
+                    onSelect={() => {
+                      handleItemSelect(navItem.url!);
+                    }}
+                    className={isActive ? "bg-muted" : ""}
+                  >
+                    <ArrowRight className="text-muted-foreground/80" />
+                    {navItem.title}
+                  </CommandItem>
+                );
+              }
+
+              return navItem.items?.map((subItem, j) => {
+                const isActive =
+                  pathname === `/${locale}${subItem.url}` ||
+                  pathname === subItem.url;
+                return (
+                  <CommandItem
+                    key={`${navItem.title}-${subItem.url}-${j}`}
+                    value={`${navItem.title}-${subItem.url}`}
+                    onSelect={() => {
+                      handleItemSelect(subItem.url);
+                    }}
+                    className={isActive ? "bg-muted" : ""}
+                  >
+                    <ArrowRight className="text-muted-foreground/80" />
+                    {navItem.title} <ChevronRight className="size-3.5" />{" "}
+                    {subItem.title}
+                  </CommandItem>
+                );
+              });
+            })}
+          </CommandGroup>
+        ))}
+        <CommandSeparator />
+        <CommandGroup heading={tCommand("locale")}>
+          {localeOptions.map((option) => (
+            <CommandItem
+              key={option.value}
+              onSelect={() => handleLocaleChange(option.value)}
+              disabled={isPending || option.value === locale}
+            >
+              <Languages className="size-3.5" />
+              <span className="flex-1">{option.label}</span>
+              {option.value === locale && <Check className="size-3.5" />}
+            </CommandItem>
+          ))}
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading={tCommand("theme")}>
+          <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
+            <Sun className="size-3.5" /> <span>Light</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
+            <Moon className="size-3.5 scale-90" />
+            <span>Dark</span>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
+            <Laptop className="size-3.5" />
+            <span>System</span>
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
+  );
+}

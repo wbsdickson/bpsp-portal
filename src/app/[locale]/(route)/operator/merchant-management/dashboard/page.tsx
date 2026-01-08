@@ -481,7 +481,7 @@ export default function MerchantManagementDashboardPage() {
                 <div className="text-sm font-semibold">Sales Report</div>
                 <div className="flex items-center gap-2">
                   <Button
-                    type="button"
+                    
                     size="sm"
                     variant={salesRange === "today" ? "default" : "outline"}
                     className="h-8"
@@ -490,7 +490,7 @@ export default function MerchantManagementDashboardPage() {
                     Today
                   </Button>
                   <Button
-                    type="button"
+                    
                     size="sm"
                     variant={salesRange === "weekly" ? "default" : "outline"}
                     className="h-8"
@@ -499,7 +499,7 @@ export default function MerchantManagementDashboardPage() {
                     Weekly
                   </Button>
                   <Button
-                    type="button"
+                    
                     size="sm"
                     variant={salesRange === "yearly" ? "default" : "outline"}
                     className="h-8"
@@ -534,7 +534,7 @@ export default function MerchantManagementDashboardPage() {
                 </div>
               </div>
               <Button
-                type="button"
+                
                 size="sm"
                 className="mt-3 h-8 bg-white/15 text-white hover:bg-white/20"
               >
@@ -548,7 +548,7 @@ export default function MerchantManagementDashboardPage() {
                   Top-Selling Products
                 </div>
                 <Button
-                  type="button"
+                  
                   size="sm"
                   variant="outline"
                   className="h-8"
@@ -588,7 +588,7 @@ export default function MerchantManagementDashboardPage() {
           <div className="rounded-2xl border bg-white p-4 shadow-sm lg:col-span-8">
             <div className="mb-3 flex items-center justify-between">
               <div className="text-sm font-semibold">Recent Orders</div>
-              <Button type="button" size="sm" variant="outline" className="h-8">
+              <Button  size="sm" variant="outline" className="h-8">
                 View All
               </Button>
             </div>
@@ -636,7 +636,7 @@ export default function MerchantManagementDashboardPage() {
           <div className="rounded-2xl border bg-white p-4 shadow-sm lg:col-span-4">
             <div className="mb-3 flex items-center justify-between">
               <div className="text-sm font-semibold">Total Orders</div>
-              <Button type="button" size="sm" variant="outline" className="h-8">
+              <Button  size="sm" variant="outline" className="h-8">
                 View All
               </Button>
             </div>
