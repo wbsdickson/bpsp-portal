@@ -14,6 +14,12 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
@@ -22,6 +28,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 type RouteType = {
@@ -36,6 +43,8 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
   console.log(routes);
   const locale = useLocale();
   const pathname = usePathname();
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
   const withLocale = (href: string) => {
     if (!href || href === "#") return href;
@@ -77,6 +86,45 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
   const renderRoute = (route: typeof processedRoutes, isSub = false) => {
     return route.map((item) => {
       if (item.children && item.children.length > 0) {
+        // When collapsed, show dropdown menu instead of collapsible
+        if (isCollapsed && !isSub) {
+          return (
+            <DropdownMenu key={item.label}>
+              <SidebarMenuItem>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    tooltip={item.label}
+                    isActive={item.isActive}
+                  >
+                    {item.icon && <item.icon />}
+                    <span>{item.label}</span>
+                    <ChevronRight className="ml-auto" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="right"
+                  align="start"
+                  className="w-56"
+                >
+                  {item.children.map((child) => {
+                    const childHref = withLocale(`/${child.route}`);
+                    return (
+                      <DropdownMenuItem key={child.route} asChild>
+                        <Link href={childHref}>
+                          <span className={cn(child.isActive && "font-bold")}>
+                            {child.label}
+                          </span>
+                        </Link>
+                      </DropdownMenuItem>
+                    );
+                  })}
+                </DropdownMenuContent>
+              </SidebarMenuItem>
+            </DropdownMenu>
+          );
+        }
+
+        // When expanded, use collapsible as before
         return (
           <Collapsible
             key={item.label}

@@ -10,6 +10,20 @@ import {
   Bell,
   Settings,
   Plus,
+  LayoutDashboard,
+  User,
+  Building2,
+  Users,
+  UserCircle,
+  Wallet,
+  ShoppingBag,
+  Receipt,
+  File,
+  FileCheck,
+  Zap,
+  Quote,
+  ShoppingCart,
+  type LucideIcon,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -36,62 +50,80 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
 
-const merchantRoutes = [
+const merchantRoutes: Array<{
+  label: string;
+  route: string;
+  icon?: LucideIcon;
+}> = [
   {
     label: "Dashboard",
     route: "merchant/dashboard",
+    icon: LayoutDashboard,
   },
   {
     label: "Account Information Management",
     route: "merchant/account",
+    icon: User,
   },
   {
     label: "Company Information Management",
     route: "merchant/company",
+    icon: Building2,
   },
   {
     label: "Member Management",
     route: "merchant/member",
+    icon: Users,
   },
   {
     label: "Client Management",
     route: "merchant/client",
+    icon: UserCircle,
   },
   {
     label: "Merchant Bank Account",
     route: "merchant/bank-accounts",
+    icon: Wallet,
   },
   {
     label: "Merchant Cards",
     route: "merchant/cards",
+    icon: CreditCard,
   },
   {
     label: "Tax Settings",
     route: "merchant/tax-settings",
+    icon: Receipt,
   },
   {
     label: "Items",
     route: "merchant/items",
+    icon: ShoppingBag,
   },
   {
     label: "Document Output Settings",
     route: "merchant/document-output-settings",
+    icon: File,
   },
   {
     label: "Invoice Management",
     route: "merchant/invoice-management",
+    icon: FileText,
   },
   {
     label: "Invoice Auto-Issuance",
     route: "merchant/invoice-auto-issuance",
+    icon: Zap,
   },
   {
     label: "Quotation Issuance",
     route: "merchant/quotations",
+    icon: Quote,
   },
   {
     label: "Purchase Orders",
     route: "merchant/purchase-orders",
+    icon: ShoppingCart,
   },
   {
     label: "Delivery Notes Issuance",

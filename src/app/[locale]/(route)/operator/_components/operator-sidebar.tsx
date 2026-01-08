@@ -1,6 +1,19 @@
 "use client";
 
 import * as React from "react";
+import {
+  LayoutDashboard,
+  Users,
+  Building2,
+  Store,
+  CreditCard,
+  Bell,
+  TrendingUp,
+  Settings,
+  Wallet,
+  Receipt,
+  type LucideIcon,
+} from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { TeamSwitcher } from "@/components/team-switcher";
@@ -16,6 +29,7 @@ import { useTranslations } from "next-intl";
 type NavRoute = {
   label: string;
   route: string;
+  icon?: LucideIcon;
   children?: NavRoute[];
 };
 
@@ -47,16 +61,16 @@ const MERCHANT_MANAGEMENT_ROUTES = [
 ] as const;
 
 const MAIN_ROUTES = [
-  { key: "dashboard", route: "operator/dashboard" },
-  { key: "accounts", route: "operator/accounts" },
-  { key: "merchantsManagement", route: "operator/merchant-management" },
-  { key: "merchants", route: "operator/merchants" },
-  { key: "payoutTransactions", route: "operator/payout-transactions" },
-  { key: "notifications", route: "operator/notifications" },
-  { key: "sales", route: "operator/sales" },
-  { key: "systemSettings", route: "operator/system-settings" },
-  { key: "midSettings", route: "operator/mid" },
-  { key: "midFee", route: "operator/mid-fee" },
+  { key: "dashboard", route: "operator/dashboard", icon: LayoutDashboard },
+  { key: "accounts", route: "operator/accounts", icon: Users },
+  { key: "merchantsManagement", route: "operator/merchant-management", icon: Building2 },
+  { key: "merchants", route: "operator/merchants", icon: Store },
+  { key: "payoutTransactions", route: "operator/payout-transactions", icon: CreditCard },
+  { key: "notifications", route: "operator/notifications", icon: Bell },
+  { key: "sales", route: "operator/sales", icon: TrendingUp },
+  { key: "systemSettings", route: "operator/system-settings", icon: Settings },
+  { key: "midSettings", route: "operator/mid", icon: Wallet },
+  { key: "midFee", route: "operator/mid-fee", icon: Receipt },
 ] as const;
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
@@ -73,11 +87,12 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 
   const routes = React.useMemo<NavRoute[]>(
     () => [
-      ...MAIN_ROUTES.map(({ key, route }) => {
+      ...MAIN_ROUTES.map(({ key, route, icon }) => {
         if (key === "merchantsManagement") {
           return {
             label: t(key),
             route,
+            icon,
             children: MERCHANT_MANAGEMENT_ROUTES.map(
               ({ key: childKey, route: childRoute }) => ({
                 label: t(`merchantManagement.${childKey}`),
@@ -89,6 +104,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
         return {
           label: t(key),
           route,
+          icon,
         };
       }),
     ],
