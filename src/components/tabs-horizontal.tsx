@@ -101,7 +101,7 @@ const TabsHorizontal = ({
         className="w-full overflow-x-auto"
         onScroll={checkForScrollIndicators}
       >
-        <TabsList className="inline-flex w-fit items-end justify-start p-0">
+        <TabsList className="inline-flex w-fit items-end justify-start rounded-none rounded-t-md p-0">
           {tabItems.map((item, index) => {
             const isActive = activeKey === item.key;
             const prevIsActive = tabItems[index - 1]?.key === activeKey;
@@ -111,7 +111,6 @@ const TabsHorizontal = ({
                 className={cn(
                   "relative flex min-w-4 items-center overflow-hidden",
                   item.key === "table" && "flex-none",
-                  (prevIsActive || isActive) && "border-l-white",
                 )}
               >
                 <TabsTrigger
@@ -123,11 +122,11 @@ const TabsHorizontal = ({
                     }
                   }}
                   className={cn(
-                    "inline-flex items-center whitespace-nowrap rounded-b-none rounded-t-md px-4 py-2 text-center text-sm transition-all",
+                    "inline-flex items-center whitespace-nowrap rounded-none rounded-t-md border-0 px-4 py-2 text-center text-sm transition-all",
                     item.closable && "pr-[40px]",
                     isActive
-                      ? "bg-white text-gray-900"
-                      : "cursor-base bg-input text-gray-700",
+                      ? "bg-card text-card-foreground"
+                      : "cursor-base bg-muted text-muted-foreground",
                   )}
                 >
                   {item.label}
@@ -137,7 +136,7 @@ const TabsHorizontal = ({
                     variant="ghost"
                     size="icon"
                     className={cn(
-                      "absolute right-2 top-1/2 h-5 w-5 -translate-y-1/2 transform rounded p-[2px] hover:bg-gray-200",
+                      "hover:bg-muted absolute right-2 top-1/2 h-5 w-5 -translate-y-1/2 transform rounded p-[2px]",
                     )}
                     onClick={(e) => {
                       e.stopPropagation();

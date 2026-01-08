@@ -144,7 +144,7 @@ export function CommandMenu() {
   const router = useRouter();
   const locale = useLocale();
   const pathname = usePathname();
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const { open, setOpen } = useSearch();
   const { data: session } = useSession();
   const currentUser = session?.user as AppUser | undefined;
@@ -275,16 +275,29 @@ export function CommandMenu() {
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading={tCommand("theme")}>
-          <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
-            <Sun className="size-3.5" /> <span>Light</span>
+          <CommandItem
+            onSelect={() => runCommand(() => setTheme("light"))}
+            disabled={theme === "light"}
+          >
+            <Sun className="size-3.5" />
+            <span className="flex-1">Light</span>
+            {theme === "light" && <Check className="size-3.5" />}
           </CommandItem>
-          <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
+          <CommandItem
+            onSelect={() => runCommand(() => setTheme("dark"))}
+            disabled={theme === "dark"}
+          >
             <Moon className="size-3.5 scale-90" />
-            <span>Dark</span>
+            <span className="flex-1">Dark</span>
+            {theme === "dark" && <Check className="size-3.5" />}
           </CommandItem>
-          <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
+          <CommandItem
+            onSelect={() => runCommand(() => setTheme("system"))}
+            disabled={theme === "system"}
+          >
             <Laptop className="size-3.5" />
-            <span>System</span>
+            <span className="flex-1">System</span>
+            {theme === "system" && <Check className="size-3.5" />}
           </CommandItem>
         </CommandGroup>
       </CommandList>

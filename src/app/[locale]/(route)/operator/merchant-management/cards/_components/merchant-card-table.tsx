@@ -48,7 +48,7 @@ export default function MerchantCardTable() {
   const { column } = useMerchantCardTableColumn();
 
   return (
-    <div className="space-y-3 rounded-lg bg-white p-4">
+    <div className="space-y-3 rounded-lg bg-card p-4">
       <DataTable
         columns={column}
         data={rows}

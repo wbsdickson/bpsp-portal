@@ -208,7 +208,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
               )}
 
               {invoice.status === "void" && (
-                <Badge variant="secondary" className="bg-gray-50 text-gray-700">
+                <Badge variant="secondary" className="bg-muted text-muted-foreground">
                   {t("statusVoid")}
                 </Badge>
               )}
@@ -354,7 +354,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
                     {invoice.status === "void" && (
                       <Badge
                         variant="secondary"
-                        className="bg-gray-50 text-gray-700"
+                        className="bg-muted text-muted-foreground"
                       >
                         {t("statusVoid")}
                       </Badge>

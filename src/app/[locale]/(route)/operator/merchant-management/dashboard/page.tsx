@@ -114,7 +114,7 @@ function KpiCard({
 }) {
   const tone = kpiDeltaTone(delta);
   return (
-    <div className="flex h-full flex-col rounded-2xl border bg-white p-4 shadow-sm">
+    <div className="flex h-full flex-col rounded-2xl border bg-card p-4 shadow-sm">
       <div className="flex flex-1 items-start justify-between gap-3">
         <div className="flex flex-1 flex-col justify-between space-y-1">
           <div className="text-muted-foreground text-xs font-medium">
@@ -420,7 +420,7 @@ export default function MerchantManagementDashboardPage() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="w-full max-w-sm">
             <Select value={merchantId} onValueChange={setMerchantId}>
-              <SelectTrigger className="h-9 w-full bg-white">
+              <SelectTrigger className="h-9 w-full bg-card">
                 <SelectValue placeholder={t("placeholders.selectMerchant")} />
               </SelectTrigger>
               <SelectContent>
@@ -484,7 +484,7 @@ export default function MerchantManagementDashboardPage() {
           </div>
 
           <div className="flex flex-col lg:col-span-6">
-            <div className="flex h-full flex-col rounded-2xl border bg-white p-4 shadow-sm">
+            <div className="flex h-full flex-col rounded-2xl border bg-card p-4 shadow-sm">
               <div className="flex items-center justify-between gap-3">
                 <div className="text-sm font-semibold">Sales Report</div>
                 <div className="flex items-center gap-2">
@@ -542,7 +542,7 @@ export default function MerchantManagementDashboardPage() {
               </div>
               <Button
                 size="sm"
-                className="bg-white/15 mt-3 h-8 text-white hover:bg-white/20"
+                className="bg-card/15 mt-3 h-8 text-card-foreground hover:bg-card/20"
               >
                 Add to Cart
               </Button>

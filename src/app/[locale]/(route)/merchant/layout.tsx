@@ -37,7 +37,7 @@ export default async function RouteLayout({
         <ModalProvider />
         <AppSidebar role={currentUser?.role} />
         <SidebarInset>
-          <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-16 shrink-0 items-center gap-2 bg-[#F1F1F1] transition-[width,height] ease-linear">
+          <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-16 shrink-0 items-center gap-2 bg-muted/50 transition-[width,height] ease-linear">
             <div className="flex flex-1 items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
               <Search />
@@ -46,7 +46,7 @@ export default async function RouteLayout({
               <HeaderButtons />
             </div>
           </header>
-          <div className="h-full bg-[#F1F1F1] p-4">{children}</div>
+          <div className="h-full bg-background p-4">{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </SearchProvider>
