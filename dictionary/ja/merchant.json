@@ -12,7 +12,31 @@
         "subscription": "サブスクリプション",
         "paymentLink": "支払いリンク",
         "payment": "支払い"
-      }
+      },
+      "dashboard": "ダッシュボード",
+      "accountInformationManagement": "アカウント情報管理",
+      "companyInformationManagement": "会社情報管理",
+      "memberManagement": "メンバー管理",
+      "clientManagement": "取引先管理",
+      "merchantBankAccount": "振込先口座",
+      "merchantCards": "カード",
+      "taxSettings": "税設定",
+      "items": "商品マスタ",
+      "documentOutputSettings": "ドキュメント出力設定",
+      "invoiceManagement": "請求書",
+      "invoiceAutoIssuance": "請求書自動発行",
+      "quotationIssuance": "見積書",
+      "purchaseOrders": "発注書",
+      "deliveryNotesIssuance": "納品書発行",
+      "receiptIssuance": "受領",
+      "receivedPayableInvoices": "受領した買掛請求書"
+    },
+    "CommandMenu": {
+      "placeholder": "ページ/機能を検索",
+      "noResults": "結果が見つかりません。",
+      "navigation": "ナビゲーション",
+      "locale": "言語",
+      "theme": "テーマ"
     },
     "AccountInformationManagement": {
       "title": "アカウント情報管理",

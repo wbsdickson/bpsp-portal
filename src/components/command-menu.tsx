@@ -28,9 +28,11 @@ import {
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
+import { AppUser } from "@/types/user";
 
-// Extract routes from sidebar structure
-function getSidebarRoutes(
+// Extract routes from sidebar structure for operator
+function getOperatorRoutes(
   t: ReturnType<typeof useTranslations>,
   tCommand: ReturnType<typeof useTranslations<"Operator.CommandMenu">>,
 ) {
@@ -96,20 +98,71 @@ function getSidebarRoutes(
   ];
 }
 
+// Extract routes from sidebar structure for merchant
+function getMerchantRoutes(
+  t: ReturnType<typeof useTranslations>,
+  tCommand: ReturnType<typeof useTranslations<"Merchant.CommandMenu">>,
+) {
+  const merchantRoutes = [
+    { key: "dashboard", route: "merchant/dashboard" },
+    { key: "accountInformationManagement", route: "merchant/account" },
+    { key: "companyInformationManagement", route: "merchant/company" },
+    { key: "memberManagement", route: "merchant/member" },
+    { key: "clientManagement", route: "merchant/client" },
+    { key: "merchantBankAccount", route: "merchant/bank-accounts" },
+    { key: "merchantCards", route: "merchant/cards" },
+    { key: "taxSettings", route: "merchant/tax-settings" },
+    { key: "items", route: "merchant/items" },
+    {
+      key: "documentOutputSettings",
+      route: "merchant/document-output-settings",
+    },
+    { key: "invoiceManagement", route: "merchant/invoice-management" },
+    { key: "invoiceAutoIssuance", route: "merchant/invoice-auto-issuance" },
+    { key: "quotationIssuance", route: "merchant/quotations" },
+    { key: "purchaseOrders", route: "merchant/purchase-orders" },
+    { key: "deliveryNotesIssuance", route: "merchant/delivery-notes" },
+    { key: "receiptIssuance", route: "merchant/receipt" },
+    {
+      key: "receivedPayableInvoices",
+      route: "merchant/received-payable-invoices",
+    },
+  ];
+
+  return [
+    {
+      title: tCommand("navigation"),
+      items: merchantRoutes.map((route) => ({
+        title: t(`Merchant.Sidebar.${route.key}`),
+        url: `/${route.route}`,
+      })),
+    },
+  ];
+}
+
 export function CommandMenu() {
   const router = useRouter();
   const locale = useLocale();
   const pathname = usePathname();
   const { setTheme } = useTheme();
   const { open, setOpen } = useSearch();
+  const { data: session } = useSession();
+  const currentUser = session?.user as AppUser | undefined;
+  const userRole = currentUser?.role;
   const t = useTranslations();
-  const tCommand = useTranslations("Operator.CommandMenu");
+  const merchantTCommand = useTranslations("Merchant.CommandMenu");
+  const operatorTCommand = useTranslations("Operator.CommandMenu");
+  const tCommand =
+    userRole === "merchant" ? merchantTCommand : operatorTCommand;
   const [isPending, startTransition] = useTransition();
 
-  const sidebarData = React.useMemo(
-    () => getSidebarRoutes(t, tCommand),
-    [t, tCommand],
-  );
+  const sidebarData = React.useMemo(() => {
+    if (userRole === "merchant") {
+      return getMerchantRoutes(t, merchantTCommand);
+    }
+    // For admin and other roles, show operator routes
+    return getOperatorRoutes(t, operatorTCommand);
+  }, [t, merchantTCommand, operatorTCommand, userRole]);
   const [selectedUrl, setSelectedUrl] = React.useState<string | null>(null);
 
   const localeOptions = [
@@ -158,7 +211,7 @@ export function CommandMenu() {
         {sidebarData.map((group) => (
           <CommandGroup key={group.title} heading={group.title}>
             {group.items.map((navItem, i) => {
-              if (navItem.url) {
+              if ("url" in navItem && navItem.url) {
                 const isActive =
                   pathname === `/${locale}${navItem.url}` ||
                   pathname === navItem.url;
@@ -177,25 +230,32 @@ export function CommandMenu() {
                 );
               }
 
-              return navItem.items?.map((subItem, j) => {
-                const isActive =
-                  pathname === `/${locale}${subItem.url}` ||
-                  pathname === subItem.url;
-                return (
-                  <CommandItem
-                    key={`${navItem.title}-${subItem.url}-${j}`}
-                    value={`${navItem.title}-${subItem.url}`}
-                    onSelect={() => {
-                      handleItemSelect(subItem.url);
-                    }}
-                    className={isActive ? "bg-muted" : ""}
-                  >
-                    <ArrowRight className="text-muted-foreground/80" />
-                    {navItem.title} <ChevronRight className="size-3.5" />{" "}
-                    {subItem.title}
-                  </CommandItem>
+              if ("items" in navItem && navItem.items) {
+                return navItem.items.map(
+                  (subItem: { title: string; url: string }, j: number) => {
+                    const isActive =
+                      pathname === `/${locale}${subItem.url}` ||
+                      pathname === subItem.url;
+                    return (
+                      <CommandItem
+                        key={`${navItem.title}-${subItem.url}-${j}`}
+                        value={`${navItem.title}-${subItem.url}`}
+                        onSelect={() => {
+                          handleItemSelect(subItem.url);
+                        }}
+                        className={isActive ? "bg-muted" : ""}
+                      >
+                        <ArrowRight className="text-muted-foreground/80" />
+                        {
+                          navItem.title
+                        } <ChevronRight className="size-3.5" /> {subItem.title}
+                      </CommandItem>
+                    );
+                  },
                 );
-              });
+              }
+
+              return null;
             })}
           </CommandGroup>
         ))}

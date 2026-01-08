@@ -12,7 +12,31 @@
         "subscription": "Subscription",
         "paymentLink": "Payment link",
         "payment": "Payment"
-      }
+      },
+      "dashboard": "Dashboard",
+      "accountInformationManagement": "Account Information Management",
+      "companyInformationManagement": "Company Information Management",
+      "memberManagement": "Member Management",
+      "clientManagement": "Client Management",
+      "merchantBankAccount": "Merchant Bank Account",
+      "merchantCards": "Merchant Cards",
+      "taxSettings": "Tax Settings",
+      "items": "Items",
+      "documentOutputSettings": "Document Output Settings",
+      "invoiceManagement": "Invoice Management",
+      "invoiceAutoIssuance": "Invoice Auto-Issuance",
+      "quotationIssuance": "Quotation Issuance",
+      "purchaseOrders": "Purchase Orders",
+      "deliveryNotesIssuance": "Delivery Notes Issuance",
+      "receiptIssuance": "Receipt Issuance",
+      "receivedPayableInvoices": "Received Payable Invoices"
+    },
+    "CommandMenu": {
+      "placeholder": "Search page/ function",
+      "noResults": "No results found.",
+      "navigation": "Navigation",
+      "locale": "Locale",
+      "theme": "Theme"
     },
     "AccountInformationManagement": {
       "title": "Account Information Management",
