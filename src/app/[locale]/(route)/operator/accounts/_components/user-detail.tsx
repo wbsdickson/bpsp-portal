@@ -134,7 +134,7 @@ export default function UserDetail({ userId }: { userId: string }) {
 
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="bg-background grid grid-cols-1 gap-6 rounded-md p-4 md:grid-cols-2">
+          <div className="bg-card grid grid-cols-1 gap-6 rounded-md p-4 md:grid-cols-2">
             <InlineEditField
               control={form.control}
               name="name"

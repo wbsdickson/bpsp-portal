@@ -71,7 +71,7 @@ export default function MidDetail({ id }: { id: string }) {
 
   if (!mid) {
     return (
-      <div className="bg-background rounded-lg p-4">
+      <div className="bg-card rounded-lg p-4">
         <h3 className="text-lg font-medium">{t("title")}</h3>
         <div className="text-muted-foreground mt-2 text-sm">
           {t("messages.notFound")}
@@ -96,7 +96,7 @@ export default function MidDetail({ id }: { id: string }) {
   };
 
   return (
-    <div className="bg-background space-y-4 rounded-lg p-4">
+    <div className="bg-card space-y-4 rounded-lg p-4">
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-lg font-medium">{mid.mid}</h3>
         <div className="flex gap-2">

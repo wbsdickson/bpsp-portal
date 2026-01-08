@@ -167,42 +167,27 @@ export default function PurchaseOrderDetail({
           <p className="text-muted-foreground text-sm">
             <div className="flex items-center gap-3">
               {purchaseOrder.status === "draft" && (
-                <Badge
-                  variant="secondary"
-                  className="bg-indigo-50 capitalize text-indigo-700"
-                >
+                <Badge variant="info" className="capitalize">
                   {t("statuses.draft")}
                 </Badge>
               )}
               {purchaseOrder.status === "sent" && (
-                <Badge
-                  variant="secondary"
-                  className="bg-amber-50 capitalize text-amber-700"
-                >
+                <Badge variant="warning" className="capitalize">
                   {t("statuses.sent")}
                 </Badge>
               )}
               {purchaseOrder.status === "accepted" && (
-                <Badge
-                  variant="secondary"
-                  className="bg-amber-50 capitalize text-amber-700"
-                >
+                <Badge variant="warning" className="capitalize">
                   {t("statuses.accepted")}
                 </Badge>
               )}
               {purchaseOrder.status === "rejected" && (
-                <Badge
-                  variant="secondary"
-                  className="bg-red-50 capitalize text-red-700"
-                >
+                <Badge variant="destructive" className="capitalize">
                   {t("statuses.rejected")}
                 </Badge>
               )}
               {purchaseOrder.status === "expired" && (
-                <Badge
-                  variant="secondary"
-                  className="bg-amber-50 capitalize text-amber-700"
-                >
+                <Badge variant="warning" className="capitalize">
                   {t("statuses.expired")}
                 </Badge>
               )}
@@ -235,7 +220,7 @@ export default function PurchaseOrderDetail({
 
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="bg-background rounded-md p-4">
+          <div className="bg-card rounded-md p-4">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <InlineEditField
                 control={form.control}
@@ -288,7 +273,7 @@ export default function PurchaseOrderDetail({
             </div>
           </div>
 
-          <div className="mt-6">
+          <div className="bg-card mt-6 rounded-md p-4">
             <div>
               <div className="text-sm font-semibold">{t("columns.item")}</div>
             </div>

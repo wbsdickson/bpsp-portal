@@ -151,7 +151,7 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
           )}
         </div>
       </div>
-      <div className="bg-background rounded-lg p-4">
+      <div className="bg-card rounded-lg p-4">
         <Form {...form}>
           <form onSubmit={onSubmit}>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">

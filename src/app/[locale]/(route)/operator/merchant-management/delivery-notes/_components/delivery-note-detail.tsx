@@ -90,7 +90,7 @@ export default function DeliveryNoteDetail({
 
   if (!deliveryNote || deliveryNote.deletedAt) {
     return (
-      <div className="bg-background rounded-md p-6">
+      <div className="bg-card rounded-md p-6">
         <h3 className="text-lg font-semibold">{t("title")}</h3>
         <div className="text-muted-foreground mt-4 text-sm">
           {t("messages.notFound")}
@@ -172,7 +172,7 @@ export default function DeliveryNoteDetail({
 
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="bg-background grid grid-cols-1 gap-4 rounded-md p-4 md:grid-cols-2">
+          <div className="bg-card grid grid-cols-1 gap-4 rounded-md p-4 md:grid-cols-2">
             <InlineEditField
               control={form.control}
               name="deliveryNoteNumber"

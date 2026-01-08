@@ -79,7 +79,7 @@ export default function ReceiptDetail({ id }: { id: string }) {
         </Button>
       </div>
 
-      <div className="bg-background rounded-xl border p-4">
+      <div className="bg-card rounded-xl border p-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <div>
             <div className="text-muted-foreground text-xs">
@@ -105,7 +105,7 @@ export default function ReceiptDetail({ id }: { id: string }) {
                   variant="secondary"
                   className="bg-amber-50 capitalize text-amber-700"
                 >
-                  {t("statuses.sent")}
+                  {t("statuses.issued")}
                 </Badge>
               )}
             </div>
@@ -147,7 +147,7 @@ export default function ReceiptDetail({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="bg-background rounded-xl border">
+      <div className="bg-card rounded-xl border">
         <div className="px-4 py-3">
           <div className="text-sm font-semibold">{t("form.items")}</div>
         </div>

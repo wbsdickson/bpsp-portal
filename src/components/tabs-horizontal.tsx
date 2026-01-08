@@ -126,7 +126,7 @@ const TabsHorizontal = ({
                     item.closable && "pr-[40px]",
                     isActive
                       ? "dark:bg-card! text-card-foreground bg-white!"
-                      : "cursor-base bg-muted text-muted-foreground",
+                      : "cursor-base text-muted-foreground light:bg-gray-200",
                   )}
                 >
                   {item.label}

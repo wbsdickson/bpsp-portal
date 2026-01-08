@@ -66,7 +66,7 @@ export default function TransactionDetail({ id }: { id: string }) {
   };
 
   return (
-    <div className="bg-background space-y-6 rounded-lg p-4">
+    <div className="bg-card space-y-6 rounded-lg p-4">
       <div className="space-y-3">
         <div className="grid grid-cols-1 gap-2 text-sm md:grid-cols-2">
           <TitleField
@@ -105,7 +105,7 @@ export default function TransactionDetail({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="bg-background space-y-3">
+      <div className="bg-card space-y-3">
         <h3 className="font-semibold">Payment Gateway Response</h3>
         <Separator />
         <div className="bg-muted/50 overflow-hidden">

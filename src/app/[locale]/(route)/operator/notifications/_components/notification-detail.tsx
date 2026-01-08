@@ -111,7 +111,7 @@ export default function NotificationDetail({ id }: { id: string }) {
   };
 
   return (
-    <div className="bg-background space-y-4 rounded-lg p-4">
+    <div className="bg-card space-y-4 rounded-lg p-4">
       <div className="flex items-center justify-end gap-2">
         {isEditing ? (
           <>

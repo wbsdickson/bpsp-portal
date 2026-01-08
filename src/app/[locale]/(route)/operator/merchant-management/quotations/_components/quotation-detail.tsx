@@ -208,7 +208,7 @@ export default function QuotationDetail({
 
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="bg-background rounded-md">
+          <div className="bg-card rounded-md">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <InlineEditField
                 control={form.control}

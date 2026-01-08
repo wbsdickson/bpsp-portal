@@ -80,7 +80,7 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="bg-background rounded-md p-4">
+      <div className="bg-card rounded-md p-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <div>
             <div className="text-muted-foreground text-xs">
