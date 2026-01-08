@@ -287,7 +287,12 @@ export interface Quotation {
   updatedBy?: string;
 }
 
-export type PurchaseOrderStatus = "draft" | "issued";
+export type PurchaseOrderStatus =
+  | "draft"
+  | "sent"
+  | "accepted"
+  | "rejected"
+  | "expired";
 
 export interface PurchaseOrderItem {
   id: string;

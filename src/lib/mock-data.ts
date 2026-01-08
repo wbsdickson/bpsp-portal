@@ -3959,7 +3959,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c2",
     poNumber: "PO-0002",
     poDate: "2023-11-29",
-    status: "issued",
+    status: "draft",
     amount: 5000,
     currency: "USD",
     items: [
@@ -3983,7 +3983,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1001",
     poDate: "2023-11-30",
-    status: "issued",
+    status: "sent",
     amount: 3000,
     currency: "USD",
     items: [
@@ -4007,7 +4007,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c3",
     poNumber: "PO-0003",
     poDate: "2023-12-01",
-    status: "draft",
+    status: "expired",
     amount: 1500,
     currency: "USD",
     items: [
@@ -4030,7 +4030,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c6",
     poNumber: "PO-0004",
     poDate: "2023-12-02",
-    status: "issued",
+    status: "accepted",
     amount: 2500,
     currency: "USD",
     items: [
@@ -4053,7 +4053,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1002",
     poDate: "2023-12-03",
-    status: "issued",
+    status: "rejected",
     amount: 3500,
     currency: "USD",
     items: [
@@ -4099,7 +4099,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c1",
     poNumber: "PO-0006",
     poDate: "2023-12-05",
-    status: "issued",
+    status: "draft",
     amount: 4000,
     currency: "USD",
     items: [
@@ -4145,7 +4145,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c2",
     poNumber: "PO-0007",
     poDate: "2023-12-07",
-    status: "issued",
+    status: "sent",
     amount: 5500,
     currency: "USD",
     items: [
@@ -4191,7 +4191,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1004",
     poDate: "2023-12-09",
-    status: "issued",
+    status: "draft",
     amount: 3200,
     currency: "USD",
     items: [
@@ -4237,7 +4237,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c7",
     poNumber: "PO-0010",
     poDate: "2023-12-11",
-    status: "issued",
+    status: "draft",
     amount: 4800,
     currency: "USD",
     items: [
@@ -4283,7 +4283,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c1",
     poNumber: "PO-0011",
     poDate: "2023-12-13",
-    status: "issued",
+    status: "draft",
     amount: 5200,
     currency: "USD",
     items: [
@@ -4329,7 +4329,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1006",
     poDate: "2023-12-15",
-    status: "issued",
+    status: "accepted",
     amount: 3800,
     currency: "USD",
     items: [
@@ -4375,7 +4375,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c6",
     poNumber: "PO-0014",
     poDate: "2023-12-17",
-    status: "issued",
+    status: "draft",
     amount: 4500,
     currency: "USD",
     items: [
@@ -4421,7 +4421,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c7",
     poNumber: "PO-0015",
     poDate: "2023-12-19",
-    status: "issued",
+    status: "draft",
     amount: 5800,
     currency: "USD",
     items: [
@@ -4468,7 +4468,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1100",
     poDate: "2023-12-21",
-    status: "issued",
+    status: "draft",
     amount: 4500,
     currency: "USD",
     items: [
@@ -4514,7 +4514,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1102",
     poDate: "2023-12-23",
-    status: "issued",
+    status: "draft",
     amount: 8900,
     currency: "USD",
     items: [
@@ -4537,7 +4537,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c9",
     poNumber: "PO-1103",
     poDate: "2023-12-24",
-    status: "draft",
+    status: "expired",
     amount: 3200,
     currency: "USD",
     items: [
@@ -4560,7 +4560,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1104",
     poDate: "2023-12-25",
-    status: "issued",
+    status: "draft",
     amount: 5400,
     currency: "USD",
     items: [
@@ -4606,7 +4606,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1106",
     poDate: "2023-12-27",
-    status: "issued",
+    status: "draft",
     amount: 7100,
     currency: "USD",
     items: [
@@ -4652,7 +4652,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1108",
     poDate: "2023-12-29",
-    status: "issued",
+    status: "draft",
     amount: 9500,
     currency: "USD",
     items: [
@@ -4698,7 +4698,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1110",
     poDate: "2023-12-31",
-    status: "issued",
+    status: "draft",
     amount: 6200,
     currency: "USD",
     items: [
@@ -4744,7 +4744,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1112",
     poDate: "2024-01-02",
-    status: "issued",
+    status: "expired",
     amount: 8400,
     currency: "USD",
     items: [
@@ -4790,7 +4790,7 @@ export const MOCK_PURCHASE_ORDERS: PurchaseOrder[] = [
     clientId: "c8",
     poNumber: "PO-1114",
     poDate: "2024-01-04",
-    status: "issued",
+    status: "draft",
     amount: 2300,
     currency: "USD",
     items: [
@@ -4839,7 +4839,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c2",
     deliveryNoteNumber: "DN-0002",
     deliveryDate: "2023-12-02",
-    status: "issued",
+    status: "draft",
     amount: 5000,
     currency: "USD",
     items: [
