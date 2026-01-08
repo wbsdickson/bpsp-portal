@@ -74,8 +74,7 @@ export default function DeliveryNoteTable({
   const { column } = useDeliveryNoteTableColumn({ addTab });
 
   return (
-    <div className="space-y-3">
-      <DataTable
+    <DataTable
         columns={column}
         data={rows}
         renderToolbar={(table) => {
@@ -131,6 +130,5 @@ export default function DeliveryNoteTable({
           );
         }}
       />
-    </div>
   );
 }

@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import DeliveryNoteDetail from "./_components/delivery-note-detail";
 import DeliveryNoteTable from "./_components/delivery-note-table";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBasePath } from "@/hooks/use-base-path";
 import { useModalStore } from "@/store/modal-store";
@@ -23,12 +24,8 @@ export default function OperatorDeliveryNotesPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          type="button"
-          className="bg-indigo-600 hover:bg-indigo-700"
-          onClick={() => router.push(`${basePath}/create`)}
-        >
-          {t("buttons.create")}
+        <Button size="sm" onClick={() => router.push(`${basePath}/create`)}>
+          <Plus /> {t("buttons.create")}
         </Button>
       }
     >
@@ -44,15 +41,17 @@ export default function OperatorDeliveryNotesPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <DeliveryNoteTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<DeliveryNoteRow>)
-                }
-              />
+              <div className="p-4">
+                <DeliveryNoteTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<DeliveryNoteRow>)
+                  }
+                />
+              </div>
             );
           }
 

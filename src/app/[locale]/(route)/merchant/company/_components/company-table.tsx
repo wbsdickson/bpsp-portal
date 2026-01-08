@@ -33,34 +33,32 @@ export default function MerchantCompanyTable({
   const { column } = useMerchantCompanyTableColumn({ addTab });
 
   return (
-    <div className="space-y-3">
-      <DataTable
-        columns={column}
-        data={companies}
-        renderToolbar={(table) => {
-          const nameCol = table.getColumn("name");
+    <DataTable
+      columns={column}
+      data={companies}
+      renderToolbar={(table) => {
+        const nameCol = table.getColumn("name");
 
-          return (
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex flex-wrap items-center gap-2 text-sm">
-                <FilterChipPopover
-                  label={t("filters.name")}
-                  value={String(nameCol?.getFilterValue() ?? "")}
-                  onChange={(v) => nameCol?.setFilterValue(v)}
-                />
+        return (
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <FilterChipPopover
+                label={t("filters.name")}
+                value={String(nameCol?.getFilterValue() ?? "")}
+                onChange={(v) => nameCol?.setFilterValue(v)}
+              />
 
-                <Button
-                  variant="ghost-primary"
-                  size="sm"
-                  onClick={() => table.resetColumnFilters()}
-                >
-                  {t("buttons.clearFilters")}
-                </Button>
-              </div>
+              <Button
+                variant="ghost-primary"
+                size="sm"
+                onClick={() => table.resetColumnFilters()}
+              >
+                {t("buttons.clearFilters")}
+              </Button>
             </div>
-          );
-        }}
-      />
-    </div>
+          </div>
+        );
+      }}
+    />
   );
 }

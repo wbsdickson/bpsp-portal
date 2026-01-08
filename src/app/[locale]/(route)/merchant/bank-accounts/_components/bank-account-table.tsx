@@ -22,8 +22,7 @@ export default function BankAccountTable({
   const { column } = useBankAccountTableColumn({ addTab });
 
   return (
-    <div className="space-y-3">
-      <DataTable
+    <DataTable
         columns={column}
         data={rows}
         renderToolbar={(table) => {
@@ -62,6 +61,5 @@ export default function BankAccountTable({
           );
         }}
       />
-    </div>
   );
 }

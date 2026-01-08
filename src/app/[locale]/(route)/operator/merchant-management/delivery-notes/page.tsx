@@ -41,15 +41,17 @@ export default function OperatorDeliveryNotesPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <DeliveryNoteTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<DeliveryNoteRow>)
-                }
-              />
+              <div className="p-4">
+                <DeliveryNoteTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<DeliveryNoteRow>)
+                  }
+                />
+              </div>
             );
           }
 

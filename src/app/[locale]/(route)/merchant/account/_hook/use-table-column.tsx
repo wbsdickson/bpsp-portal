@@ -114,10 +114,10 @@ export default function useMerchantAccountTableColumn({
         return (
           <div className="capitalize">
             {raw === "active" && (
-              <Badge className="bg-green-500">{t(`statuses.${raw}`)}</Badge>
+              <Badge variant="success">{t(`statuses.${raw}`)}</Badge>
             )}
             {raw === "suspended" && (
-              <Badge className="bg-red-500">{t(`statuses.${raw}`)}</Badge>
+              <Badge variant="destructive">{t(`statuses.${raw}`)}</Badge>
             )}
           </div>
         );

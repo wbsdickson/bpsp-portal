@@ -23,7 +23,7 @@ export default function ReceiptPage() {
       title={t("title")}
       pageActions={
         <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
-          <Plus className="h-4 w-4" /> Create {t("title")}
+          <Plus /> Create {t("title")}
         </Button>
       }
     >
@@ -39,15 +39,17 @@ export default function ReceiptPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <ReceiptTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<ReceiptRow>)
-                }
-              />
+              <div className="p-4">
+                <ReceiptTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<ReceiptRow>)
+                  }
+                />
+              </div>
             );
           }
 

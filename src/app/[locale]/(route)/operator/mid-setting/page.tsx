@@ -42,15 +42,17 @@ export default function MidPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <MidTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<MidRow>)
-                }
-              />
+              <div className="p-4">
+                <MidTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<MidRow>)
+                  }
+                />
+              </div>
             );
           }
 

@@ -3,6 +3,7 @@
 import HeaderPage from "@/components/header-page";
 import RecordTabs, { type RecordTab } from "@/components/record-tabs";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
@@ -21,8 +22,8 @@ export default function MerchantQuotationsPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button onClick={() => router.push(`${basePath}/create`)}>
-          {t("buttons.create")}
+        <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
+          <Plus /> {t("buttons.create")}
         </Button>
       }
     >
@@ -38,15 +39,17 @@ export default function MerchantQuotationsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <QuotationTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<QuotationRow>)
-                }
-              />
+              <div className="p-4">
+                <QuotationTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<QuotationRow>)
+                  }
+                />
+              </div>
             );
           }
 

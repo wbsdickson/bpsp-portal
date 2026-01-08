@@ -18,7 +18,14 @@ export default function MerchantMembersPage() {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
   return (
-    <HeaderPage title={t("title")}>
+    <HeaderPage
+      title={t("title")}
+      pageActions={
+        <Button size="sm" onClick={() => setModalOpen(true)}>
+          <Plus /> {t("buttons.create")}
+        </Button>
+      }
+    >
       <RecordTabs
         initialTabs={[
           {
@@ -28,29 +35,20 @@ export default function MerchantMembersPage() {
           },
         ]}
         defaultActiveKey="table"
-        renderRight={() => (
-          <Button
-            
-            size="sm"
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          >
-            <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
-          </Button>
-        )}
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <MerchantMemberTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<object>)
-                }
-              />
+              <div className="p-4">
+                <MerchantMemberTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<object>)
+                  }
+                />
+              </div>
             );
           }
 

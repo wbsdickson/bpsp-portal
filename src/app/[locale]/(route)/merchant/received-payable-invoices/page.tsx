@@ -53,15 +53,17 @@ export default function ReceivedPayableInvoicesPage() {
           
           if (tab.key === "table") {
             return (
-              <ReceivedPayableInvoiceTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<PayableInvoiceRow>)
-                }
-              />
+              <div className="p-4">
+                <ReceivedPayableInvoiceTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<PayableInvoiceRow>)
+                  }
+                />
+              </div>
             );
           }
 

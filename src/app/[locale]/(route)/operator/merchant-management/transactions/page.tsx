@@ -26,15 +26,17 @@ export default function OperatorTransactionsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <TransactionTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<Transaction>)
-                }
-              />
+              <div className="p-4">
+                <TransactionTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<Transaction>)
+                  }
+                />
+              </div>
             );
           }
 

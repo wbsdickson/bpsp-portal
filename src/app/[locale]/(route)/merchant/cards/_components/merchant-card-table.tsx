@@ -48,8 +48,7 @@ export default function MerchantCardTable() {
   const { column } = useMerchantCardTableColumn();
 
   return (
-    <div className="space-y-3">
-      <DataTable
+    <DataTable
         columns={column}
         data={rows}
         renderToolbar={(table) => {
@@ -88,6 +87,5 @@ export default function MerchantCardTable() {
           );
         }}
       />
-    </div>
   );
 }

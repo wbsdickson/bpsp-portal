@@ -42,9 +42,7 @@ export default async function RouteLayout({
             <HeaderButtons />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 bg-[#F1F1F1] p-4">
-          {children}
-        </div>
+        <div className="h-full bg-[#F1F1F1] p-4">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

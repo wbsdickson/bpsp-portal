@@ -21,17 +21,14 @@ export default function ItemsPage() {
   const { onOpen } = useModalStore();
 
   return (
-    <HeaderPage title={t("title")}>
-      <div className="flex items-center justify-end">
-        <Button
-          
-          size="sm"
-          className="h-9"
-          onClick={() => onOpen("create-merchant-item")}
-        >
-          <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
+    <HeaderPage
+      title={t("title")}
+      pageActions={
+        <Button size="sm" onClick={() => onOpen("create-merchant-item")}>
+          <Plus /> {t("buttons.create")}
         </Button>
-      </div>
+      }
+    >
       <RecordTabs
         initialTabs={[
           {
@@ -44,15 +41,17 @@ export default function ItemsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <ItemTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<string>)
-                }
-              />
+              <div className="p-4">
+                <ItemTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<string>)
+                  }
+                />
+              </div>
             );
           }
 

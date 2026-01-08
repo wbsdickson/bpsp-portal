@@ -40,15 +40,17 @@ export default function ItemsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <ItemTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<ItemRow>)
-                }
-              />
+              <div className="p-4">
+                <ItemTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<ItemRow>)
+                  }
+                />
+              </div>
             );
           }
 

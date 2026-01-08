@@ -42,15 +42,17 @@ export default function OperatorNotificationsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <NotificationTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<NotificationRow>)
-                }
-              />
+              <div className="p-4">
+                <NotificationTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<NotificationRow>)
+                  }
+                />
+              </div>
             );
           }
 

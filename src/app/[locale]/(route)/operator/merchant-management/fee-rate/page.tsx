@@ -40,15 +40,17 @@ export default function MerchantFeePage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <MerchantFeeTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<MerchantFeeRow>)
-                }
-              />
+              <div className="p-4">
+                <MerchantFeeTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<MerchantFeeRow>)
+                  }
+                />
+              </div>
             );
           }
 

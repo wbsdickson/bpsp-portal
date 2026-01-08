@@ -46,7 +46,6 @@ export default function MerchantAccountDetail({
     <div className="space-y-4">
       <div className="flex items-center justify-end gap-2">
         <Button
-          
           variant="outline"
           className="h-9"
           onClick={() => {
@@ -95,7 +94,7 @@ export default function MerchantAccountDetail({
               </div>
               <div className="font-medium">
                 {account.status === "active" ? (
-                  <Badge className="bg-green-500">
+                  <Badge variant="success">
                     {t(`statuses.${account.status}`)}
                   </Badge>
                 ) : (

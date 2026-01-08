@@ -24,11 +24,10 @@ export default function InvoicesPage() {
             onClick={() => onOpen("create-invoice")}
             size="sm"
           >
-            <Plus className="mr-2 h-4 w-4" /> {t("create")}
+            <Plus /> {t("create")}
           </Button>
         }
       >
-        <div className="flex items-center justify-end"></div>
         <RecordTabs
           initialTabs={[
             {
@@ -41,15 +40,17 @@ export default function InvoicesPage() {
           renderTab={(tab, helpers) => {
             if (tab.key === "table") {
               return (
-                <InvoiceTable
-                  addTab={(id) =>
-                    helpers.addTab({
-                      key: id,
-                      label: id,
-                      closable: true,
-                    } satisfies RecordTab<InvoiceRow>)
-                  }
-                />
+                <div className="p-4">
+                  <InvoiceTable
+                    addTab={(id) =>
+                      helpers.addTab({
+                        key: id,
+                        label: id,
+                        closable: true,
+                      } satisfies RecordTab<InvoiceRow>)
+                    }
+                  />
+                </div>
               );
             }
 

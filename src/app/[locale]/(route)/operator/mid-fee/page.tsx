@@ -42,15 +42,17 @@ export default function MidFeePage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <MidFeeTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<MidFeeRow>)
-                }
-              />
+              <div className="p-4">
+                <MidFeeTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<MidFeeRow>)
+                  }
+                />
+              </div>
             );
           }
 

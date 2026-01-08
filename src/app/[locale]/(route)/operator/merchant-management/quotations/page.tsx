@@ -27,7 +27,6 @@ export default function OperatorQuotationsPage() {
         </Button>
       }
     >
-      <div className="flex justify-end"></div>
       <RecordTabs
         initialTabs={[
           {
@@ -40,15 +39,17 @@ export default function OperatorQuotationsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <QuotationTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<QuotationRow>)
-                }
-              />
+              <div className="p-4">
+                <QuotationTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<QuotationRow>)
+                  }
+                />
+              </div>
             );
           }
 

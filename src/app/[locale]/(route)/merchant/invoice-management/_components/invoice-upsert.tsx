@@ -436,7 +436,7 @@ function CreateInvoiceForm({
                   className="h-9"
                   onClick={onAddItem}
                 >
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus />
                   {t("upsert.addItem")}
                 </Button>
                 <div className="text-sm">

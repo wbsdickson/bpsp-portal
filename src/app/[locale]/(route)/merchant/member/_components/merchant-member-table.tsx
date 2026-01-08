@@ -33,8 +33,7 @@ export default function MerchantMemberTable({
   const { column } = useMerchantMemberTableColumn({ addTab });
 
   return (
-    <div className="space-y-3">
-      <DataTable
+    <DataTable
         columns={column}
         data={members}
         renderToolbar={(table) => {
@@ -94,6 +93,5 @@ export default function MerchantMemberTable({
           );
         }}
       />
-    </div>
   );
 }

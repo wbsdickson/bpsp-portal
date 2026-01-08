@@ -76,7 +76,6 @@ export default function useMerchantMemberTableColumn({
       header: t("columns.name"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
@@ -130,10 +129,10 @@ export default function useMerchantMemberTableColumn({
         return (
           <div className="capitalize">
             {raw === "active" && (
-              <Badge className="bg-green-500">{t(`statuses.${raw}`)}</Badge>
+              <Badge variant="success">{t(`statuses.${raw}`)}</Badge>
             )}
             {raw === "suspended" && (
-              <Badge className="bg-red-500">{t(`statuses.${raw}`)}</Badge>
+              <Badge variant="destructive">{t(`statuses.${raw}`)}</Badge>
             )}
           </div>
         );

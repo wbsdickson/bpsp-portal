@@ -33,8 +33,7 @@ export default function MerchantAccountTable({
   const { column } = useMerchantAccountTableColumn({ addTab });
 
   return (
-    <div className="space-y-3">
-      <DataTable
+    <DataTable
         columns={column}
         data={accounts}
         renderToolbar={(table) => {
@@ -61,6 +60,5 @@ export default function MerchantAccountTable({
           );
         }}
       />
-    </div>
   );
 }

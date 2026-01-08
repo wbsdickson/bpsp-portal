@@ -41,16 +41,18 @@ export default function MerchantMidsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <MerchantMidTable
-                addTab={(item) =>
-                  helpers.addTab({
-                    key: item.id,
-                    label: item.mid,
-                    closable: true,
-                    data: item,
-                  } satisfies RecordTab<MerchantMidRow>)
-                }
-              />
+              <div className="p-4">
+                <MerchantMidTable
+                  addTab={(item) =>
+                    helpers.addTab({
+                      key: item.id,
+                      label: item.mid,
+                      closable: true,
+                      data: item,
+                    } satisfies RecordTab<MerchantMidRow>)
+                  }
+                />
+              </div>
             );
           }
 

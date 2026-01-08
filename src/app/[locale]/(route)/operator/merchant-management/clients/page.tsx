@@ -25,15 +25,17 @@ export default function ClientsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <ClientTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<object>)
-                }
-              />
+              <div className="p-4">
+                <ClientTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<object>)
+                  }
+                />
+              </div>
             );
           }
 

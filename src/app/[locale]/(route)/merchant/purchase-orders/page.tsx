@@ -3,6 +3,7 @@
 import HeaderPage from "@/components/header-page";
 import RecordTabs, { type RecordTab } from "@/components/record-tabs";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
@@ -21,15 +22,11 @@ export default function MerchantPurchaseOrdersPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          
-          onClick={() => router.push(`${basePath}/create`)}
-        >
-          {t("buttons.create")}
+        <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
+          <Plus /> {t("buttons.create")}
         </Button>
       }
     >
-      <div className="flex justify-end"></div>
       <RecordTabs
         initialTabs={[
           {
@@ -42,15 +39,17 @@ export default function MerchantPurchaseOrdersPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <PurchaseOrderTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<PurchaseOrderRow>)
-                }
-              />
+              <div className="p-4">
+                <PurchaseOrderTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<PurchaseOrderRow>)
+                  }
+                />
+              </div>
             );
           }
 

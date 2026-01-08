@@ -46,7 +46,6 @@ export default function MerchantCompanyDetail({
     <div className="space-y-4">
       <div className="flex items-center justify-end gap-2">
         <Button
-          
           variant="outline"
           className="h-9"
           onClick={() => {
@@ -123,11 +122,9 @@ export default function MerchantCompanyDetail({
               </div>
               <div className="font-medium">
                 {company.enableCreditPayment ? (
-                  <Badge className="bg-green-500">{t(`statuses.active`)}</Badge>
+                  <Badge variant="success">{t(`statuses.active`)}</Badge>
                 ) : (
-                  <Badge className="bg-red-500">
-                    {t(`statuses.suspended`)}
-                  </Badge>
+                  <Badge variant="destructive">{t(`statuses.suspended`)}</Badge>
                 )}
               </div>
             </div>

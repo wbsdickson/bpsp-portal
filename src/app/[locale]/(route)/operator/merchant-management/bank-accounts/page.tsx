@@ -24,15 +24,17 @@ export default function BankAccountsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <BankAccountTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<object>)
-                }
-              />
+              <div className="p-4">
+                <BankAccountTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<object>)
+                  }
+                />
+              </div>
             );
           }
 

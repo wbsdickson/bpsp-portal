@@ -36,16 +36,18 @@ export default function AccountsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <UserTable
-                addTab={(item) =>
-                  helpers.addTab({
-                    key: item.name,
-                    label: item.name,
-                    closable: true,
-                    data: item,
-                  } satisfies RecordTab<UserRow>)
-                }
-              />
+              <div className="p-4">
+                <UserTable
+                  addTab={(item) =>
+                    helpers.addTab({
+                      key: item.name,
+                      label: item.name,
+                      closable: true,
+                      data: item,
+                    } satisfies RecordTab<UserRow>)
+                  }
+                />
+              </div>
             );
           }
           return (

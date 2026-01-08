@@ -18,12 +18,14 @@ export default function MerchantAccountsPage() {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <HeaderPage title={t("title")}>
-      <div className="mb-2 flex justify-end">
-        <Button  size="sm" onClick={() => setModalOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" /> {t("buttons.create")}
+    <HeaderPage
+      title={t("title")}
+      pageActions={
+        <Button size="sm" onClick={() => setModalOpen(true)}>
+          <Plus /> {t("buttons.create")}
         </Button>
-      </div>
+      }
+    >
       <RecordTabs
         initialTabs={[
           {
@@ -36,15 +38,17 @@ export default function MerchantAccountsPage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <MerchantAccountTable
-                addTab={(id: string) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<object>)
-                }
-              />
+              <div className="p-4">
+                <MerchantAccountTable
+                  addTab={(id: string) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<object>)
+                  }
+                />
+              </div>
             );
           }
 

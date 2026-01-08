@@ -575,7 +575,7 @@ export default function QuotationDetail({
                       })
                     }
                   >
-                    <Plus className="mr-2 h-4 w-4" />
+                    <Plus />
                     {t("form.addItem") ?? "Add Item"}
                   </Button>
                 </div>

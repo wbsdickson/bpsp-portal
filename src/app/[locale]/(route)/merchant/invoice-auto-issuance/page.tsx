@@ -26,7 +26,7 @@ export default function InvoiceAutoIssuancePage() {
           size="sm"
           
         >
-          <Plus className="mr-2 h-4 w-4" /> {t("create")}
+          <Plus /> {t("create")}
         </Button>
       }
     >
@@ -43,15 +43,17 @@ export default function InvoiceAutoIssuancePage() {
         renderTab={(tab, helpers) => {
           if (tab.key === "table") {
             return (
-              <InvoiceTable
-                addTab={(id) =>
-                  helpers.addTab({
-                    key: id,
-                    label: id,
-                    closable: true,
-                  } satisfies RecordTab<AutoIssuanceRow>)
-                }
-              />
+              <div className="p-4">
+                <InvoiceTable
+                  addTab={(id) =>
+                    helpers.addTab({
+                      key: id,
+                      label: id,
+                      closable: true,
+                    } satisfies RecordTab<AutoIssuanceRow>)
+                  }
+                />
+              </div>
             );
           }
 
