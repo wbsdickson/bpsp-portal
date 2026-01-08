@@ -8,6 +8,7 @@ import {
 import { AppUser } from "@/types/user";
 import { AppSidebar } from "./_components/merchant-sidebar";
 import { ModalProvider } from "./_providers/modal-provider";
+import { HeaderButtons } from "./_components/header-buttons";
 
 export default async function RouteLayout({
   children,
@@ -34,8 +35,11 @@ export default async function RouteLayout({
       <AppSidebar role={currentUser?.role} />
       <SidebarInset>
         <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-16 shrink-0 items-center gap-2 bg-[#F1F1F1] transition-[width,height] ease-linear">
-          <div className="flex items-center gap-2 px-4">
+          <div className="flex flex-1 items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
+          </div>
+          <div className="flex items-center gap-2 px-4">
+            <HeaderButtons />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 bg-[#F1F1F1] p-4">

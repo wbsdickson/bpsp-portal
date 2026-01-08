@@ -1,5 +1,19 @@
 {
   "Merchant": {
+    "Sidebar": {
+      "footer": {
+        "apps": "アプリ",
+        "help": "ヘルプ",
+        "notifications": "通知",
+        "settings": "設定"
+      },
+      "quickActions": {
+        "invoice": "請求書",
+        "subscription": "サブスクリプション",
+        "paymentLink": "支払いリンク",
+        "payment": "支払い"
+      }
+    },
     "AccountInformationManagement": {
       "title": "アカウント情報管理",
       "detailTitle": "アカウント詳細",

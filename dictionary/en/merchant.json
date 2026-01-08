@@ -1,5 +1,19 @@
 {
   "Merchant": {
+    "Sidebar": {
+      "footer": {
+        "apps": "Apps",
+        "help": "Help",
+        "notifications": "Notifications",
+        "settings": "Settings"
+      },
+      "quickActions": {
+        "invoice": "Invoice",
+        "subscription": "Subscription",
+        "paymentLink": "Payment link",
+        "payment": "Payment"
+      }
+    },
     "AccountInformationManagement": {
       "title": "Account Information Management",
       "detailTitle": "Account Detail",
