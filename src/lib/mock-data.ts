@@ -4863,7 +4863,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1001",
     deliveryDate: "2023-12-03",
-    status: "issued",
+    status: "expired",
     amount: 3000,
     currency: "USD",
     items: [
@@ -4910,7 +4910,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c6",
     deliveryNoteNumber: "DN-0004",
     deliveryDate: "2023-12-05",
-    status: "issued",
+    status: "accepted",
     amount: 2500,
     currency: "USD",
     items: [
@@ -4933,7 +4933,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1002",
     deliveryDate: "2023-12-06",
-    status: "issued",
+    status: "rejected",
     amount: 3500,
     currency: "USD",
     items: [
@@ -4979,7 +4979,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c1",
     deliveryNoteNumber: "DN-0006",
     deliveryDate: "2023-12-08",
-    status: "issued",
+    status: "sent",
     amount: 4000,
     currency: "USD",
     items: [
@@ -5025,7 +5025,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c2",
     deliveryNoteNumber: "DN-0007",
     deliveryDate: "2023-12-10",
-    status: "issued",
+    status: "accepted",
     amount: 5500,
     currency: "USD",
     items: [
@@ -5071,7 +5071,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1004",
     deliveryDate: "2023-12-12",
-    status: "issued",
+    status: "sent",
     amount: 3200,
     currency: "USD",
     items: [
@@ -5117,7 +5117,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c7",
     deliveryNoteNumber: "DN-0010",
     deliveryDate: "2023-12-14",
-    status: "issued",
+    status: "accepted",
     amount: 4800,
     currency: "USD",
     items: [
@@ -5163,7 +5163,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c1",
     deliveryNoteNumber: "DN-0011",
     deliveryDate: "2023-12-16",
-    status: "issued",
+    status: "accepted",
     amount: 5200,
     currency: "USD",
     items: [
@@ -5209,7 +5209,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1006",
     deliveryDate: "2023-12-18",
-    status: "issued",
+    status: "sent",
     amount: 3800,
     currency: "USD",
     items: [
@@ -5255,7 +5255,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c6",
     deliveryNoteNumber: "DN-0014",
     deliveryDate: "2023-12-20",
-    status: "issued",
+    status: "accepted",
     amount: 4500,
     currency: "USD",
     items: [
@@ -5301,7 +5301,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c7",
     deliveryNoteNumber: "DN-0015",
     deliveryDate: "2023-12-22",
-    status: "issued",
+    status: "accepted",
     amount: 5800,
     currency: "USD",
     items: [
@@ -5348,7 +5348,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1100",
     deliveryDate: "2023-12-24",
-    status: "issued",
+    status: "sent",
     amount: 4500,
     currency: "USD",
     items: [
@@ -5394,7 +5394,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1102",
     deliveryDate: "2023-12-26",
-    status: "issued",
+    status: "expired",
     amount: 8900,
     currency: "USD",
     items: [
@@ -5440,7 +5440,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1104",
     deliveryDate: "2023-12-28",
-    status: "issued",
+    status: "rejected",
     amount: 5400,
     currency: "USD",
     items: [
@@ -5486,7 +5486,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1106",
     deliveryDate: "2023-12-30",
-    status: "issued",
+    status: "accepted",
     amount: 7100,
     currency: "USD",
     items: [
@@ -5532,7 +5532,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1108",
     deliveryDate: "2024-01-01",
-    status: "issued",
+    status: "accepted",
     amount: 9500,
     currency: "USD",
     items: [
@@ -5578,7 +5578,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1110",
     deliveryDate: "2024-01-03",
-    status: "issued",
+    status: "sent",
     amount: 6200,
     currency: "USD",
     items: [
@@ -5624,7 +5624,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1112",
     deliveryDate: "2024-01-05",
-    status: "issued",
+    status: "sent",
     amount: 8400,
     currency: "USD",
     items: [
@@ -5670,7 +5670,7 @@ export const MOCK_DELIVERY_NOTES: DeliveryNote[] = [
     clientId: "c8",
     deliveryNoteNumber: "DN-1114",
     deliveryDate: "2024-01-07",
-    status: "issued",
+    status: "sent",
     amount: 2300,
     currency: "USD",
     items: [

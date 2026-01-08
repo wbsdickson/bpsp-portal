@@ -7,7 +7,7 @@ import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multisele
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { Button } from "@/components/ui/button";
 import { useClientStore, type ClientStoreState } from "@/store/client-store";
-import { useDeliveryNoteStore } from "@/store/delivery-note-store";
+import { useDeliveryNoteStore } from "@/store/merchant/delivery-note-store";
 import type { DeliveryNoteStatus } from "@/lib/types";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -16,6 +16,8 @@ import { useLocale, useTranslations } from "next-intl";
 import useDeliveryNoteTableColumn, {
   type DeliveryNoteRow,
 } from "../_hook/use-table-column";
+import DateRangePicker from "@/components/date-range-picker";
+import { asDateValue, toYmd } from "@/lib/date-utils";
 
 const STATUS_OPTIONS: DeliveryNoteStatus[] = [
   "draft",
@@ -34,10 +36,15 @@ export default function DeliveryNoteTable({
 }) {
   const router = useRouter();
   const locale = useLocale();
-  const t = useTranslations("Operator.DeliveryNotes");
+  const t = useTranslations("Merchant.DeliveryNotes");
 
   const deliveryNotes = useDeliveryNoteStore((s) => s.deliveryNotes);
   const clients = useClientStore(selectClients);
+
+  const [deliveryDateFrom, setDeliveryDateFrom] = React.useState<string>("");
+  const [deliveryDateTo, setDeliveryDateTo] = React.useState<string>("");
+  const deliveryDateFromValue = asDateValue(deliveryDateFrom);
+  const deliveryDateToValue = asDateValue(deliveryDateTo);
 
   const rows: DeliveryNoteRow[] = React.useMemo(() => {
     const clientNameById = new Map(
@@ -67,7 +74,7 @@ export default function DeliveryNoteTable({
   const { column } = useDeliveryNoteTableColumn({ addTab });
 
   return (
-    <div className="space-y-3 p-4">
+    <div className="space-y-3">
       <DataTable
         columns={column}
         data={rows}
@@ -93,36 +100,27 @@ export default function DeliveryNoteTable({
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex flex-wrap items-center gap-2 text-sm">
                 <FilterChipPopover
-                  label={t("filters.number")}
-                  value={String(numberCol?.getFilterValue() ?? "")}
-                  onChange={(v) => numberCol?.setFilterValue(v)}
-                />
-                <FilterChipPopover
                   label={t("filters.client")}
                   value={String(clientCol?.getFilterValue() ?? "")}
                   onChange={(v) => clientCol?.setFilterValue(v)}
                 />
-                <FilterChipPopover
-                  label={t("filters.issueDate")}
-                  value={String(issueDateCol?.getFilterValue() ?? "")}
-                  onChange={(v) => issueDateCol?.setFilterValue(v)}
-                />
-
-                <FilterChipMultiSelectPopover
-                  label={t("filters.status")}
-                  values={statusValues}
-                  options={statusOptions}
-                  onChange={(vals) =>
-                    statusCol?.setFilterValue(vals.length ? vals : undefined)
-                  }
-                  searchPlaceholder={t("filters.search")}
-                  resetLabel={t("filters.reset")}
-                  doneLabel={t("filters.done")}
-                  placeholder={t("filters.all")}
+                <DateRangePicker
+                  label={t("filters.deliveryDate")}
+                  initialDateFrom={asDateValue(
+                    deliveryDateFromValue ? toYmd(deliveryDateFromValue) : "",
+                  )}
+                  initialDateTo={asDateValue(
+                    deliveryDateToValue ? toYmd(deliveryDateToValue) : "",
+                  )}
+                  onUpdate={({ range }) => {
+                    setDeliveryDateFrom(range?.from ? toYmd(range.from) : "");
+                    setDeliveryDateTo(range?.to ? toYmd(range.to) : "");
+                  }}
+                  align="start"
                 />
 
                 <Button
-                  
+                  type="button"
                   variant="ghost"
                   size="sm"
                   className="h-9 text-indigo-600 hover:text-indigo-700"

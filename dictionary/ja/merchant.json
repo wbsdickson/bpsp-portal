@@ -320,6 +320,7 @@
         "delete": "削除"
       },
       "buttons": {
+        "create": "振込先口座を作成",
         "clearFilters": "フィルターをクリア",
         "cancel": "キャンセル",
         "save": "保存"
@@ -946,6 +947,88 @@
       },
       "preview": {
         "total": "合計"
+      }
+    },
+    "DeliveryNotes": {
+      "title": "納品書発行",
+      "tabs": {
+        "all": "すべて"
+      },
+      "preview": {
+        "total": "合計"
+      },
+      "columns": {
+        "number": "番号",
+        "deliveryNoteNumber": "納品書番号",
+        "client": "取引先名",
+        "amount": "金額",
+        "issueDate": "発行日",
+        "deliveryDate": "納品日",
+        "status": "ステータス",
+        "item": "商品",
+        "quantity": "数量",
+        "unitPrice": "単価",
+        "taxCategory": "税区分",
+        "notes": "備考",
+        "uploadedPdf": "PDFアップロード（任意）",
+        "detailLink": "詳細",
+        "editLink": "編集",
+        "deleteLink": "削除"
+      },
+      "filters": {
+        "number": "納品書番号",
+        "deliveryDate": "納品日",
+        "client": "取引先名",
+        "issueDate": "発行日",
+        "status": "ステータス",
+        "all": "すべて",
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了"
+      },
+      "statuses": {
+        "draft": "下書き",
+        "sent": "送付済み",
+        "accepted": "承認済み",
+        "rejected": "却下",
+        "expired": "期限切れ"
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "buttons": {
+        "create": "納品書を作成",
+        "clearFilters": "フィルターをクリア",
+        "cancel": "キャンセル",
+        "save": "保存"
+      },
+      "form": {
+        "createTitle": "納品書を作成",
+        "editTitle": "納品書を編集",
+        "numberPlaceholder": "納品書番号",
+        "selectClient": "取引先を選択",
+        "selectItem": "商品を選択",
+        "quantityPlaceholder": "数量",
+        "unitPricePlaceholder": "単価",
+        "notesPlaceholder": "備考",
+        "addItem": "商品を追加"
+      },
+      "validation": {
+        "clientRequired": "取引先は必須です",
+        "issueDateRequired": "発行日は必須です",
+        "itemRequired": "商品は必須です",
+        "quantityRequired": "数量は必須です",
+        "quantityInvalid": "数量が正しくありません",
+        "unitPriceRequired": "単価は必須です",
+        "unitPriceInvalid": "単価が正しくありません"
+      },
+      "messages": {
+        "createSuccess": "納品書を作成しました。",
+        "updateSuccess": "納品書を更新しました。",
+        "notFound": "納品書が見つかりません。"
       }
     }
   }

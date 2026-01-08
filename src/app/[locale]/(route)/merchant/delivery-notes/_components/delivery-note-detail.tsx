@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useClientStore } from "@/store/client-store";
-import { useDeliveryNoteStore } from "@/store/delivery-note-store";
+import { useDeliveryNoteStore } from "@/store/merchant/delivery-note-store";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
@@ -24,13 +24,15 @@ import {
 } from "@/components/ui/select";
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createDeliveryNoteSchema } from "../_lib/delivery-note-schema";
+import { DeliveryNoteStatus } from "@/lib/types";
+import { Badge } from "@/components/ui/badge";
 
 export default function DeliveryNoteDetail({
   deliveryNoteId,
 }: {
   deliveryNoteId: string;
 }) {
-  const t = useTranslations("Operator.DeliveryNotes");
+  const t = useTranslations("Merchant.DeliveryNotes");
   const { basePath } = useBasePath();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -50,7 +52,7 @@ export default function DeliveryNoteDetail({
     resolver: zodResolver(schema),
     defaultValues: {
       deliveryNoteNumber: deliveryNote?.deliveryNoteNumber ?? "",
-      status: (deliveryNote?.status ?? "draft") as "draft" | "issued",
+      status: (deliveryNote?.status ?? "draft") as DeliveryNoteStatus,
       deliveryDate: deliveryNote?.deliveryDate ?? "",
       amount: deliveryNote?.amount ?? 0,
       items: deliveryNote?.items?.map((it) => ({
@@ -76,6 +78,7 @@ export default function DeliveryNoteDetail({
     if (deliveryNote) {
       form.reset({
         deliveryNoteNumber: deliveryNote.deliveryNoteNumber,
+        status: deliveryNote.status,
         deliveryDate: deliveryNote.deliveryDate,
         items: deliveryNote.items.map((it) => ({
           itemId: it.itemId ?? "",
@@ -102,7 +105,9 @@ export default function DeliveryNoteDetail({
   const onSubmit = form.handleSubmit((data) => {
     updateDeliveryNote(deliveryNoteId, {
       deliveryNoteNumber: data.deliveryNoteNumber,
+      status: data.status,
       deliveryDate: data.deliveryDate,
+      amount: data.amount,
       items: data.items.map((it) => ({
         id: uuid("dni"),
         deliveryNoteId,
@@ -176,7 +181,7 @@ export default function DeliveryNoteDetail({
             <InlineEditField
               control={form.control}
               name="deliveryNoteNumber"
-              label={t("columns.number")}
+              label={t("columns.deliveryNoteNumber")}
               isEditing={isEditing}
               value={deliveryNote.deliveryNoteNumber}
               renderInput={(field) => <Input {...field} />}
@@ -193,23 +198,8 @@ export default function DeliveryNoteDetail({
 
             <InlineEditField
               control={form.control}
-              name="amount"
-              label={t("columns.amount")}
-              isEditing={isEditing}
-              value={deliveryNote.amount.toLocaleString()}
-              renderInput={(field) => (
-                <Input
-                  {...field}
-                  type="number"
-                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                />
-              )}
-            />
-
-            <InlineEditField
-              control={form.control}
               name="deliveryDate"
-              label={t("columns.issueDate")}
+              label={t("columns.deliveryDate")}
               isEditing={isEditing}
               value={issueDateLabel}
               renderInput={(field) => <Input {...field} type="date" />}
@@ -220,7 +210,50 @@ export default function DeliveryNoteDetail({
               name="status"
               label={t("columns.status")}
               isEditing={isEditing}
-              value={<span className="capitalize">{deliveryNote.status}</span>}
+              value={
+                <div className="flex items-center gap-3">
+                  {deliveryNote.status === "draft" && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-indigo-50 capitalize text-indigo-700"
+                    >
+                      {t("statuses.draft")}
+                    </Badge>
+                  )}
+                  {deliveryNote.status === "sent" && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-amber-50 capitalize text-amber-700"
+                    >
+                      {t("statuses.sent")}
+                    </Badge>
+                  )}
+                  {deliveryNote.status === "accepted" && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-amber-50 capitalize text-amber-700"
+                    >
+                      {t("statuses.accepted")}
+                    </Badge>
+                  )}
+                  {deliveryNote.status === "rejected" && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-red-50 capitalize text-red-700"
+                    >
+                      {t("statuses.rejected")}
+                    </Badge>
+                  )}
+                  {deliveryNote.status === "expired" && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-amber-50 capitalize text-amber-700"
+                    >
+                      {t("statuses.expired")}
+                    </Badge>
+                  )}
+                </div>
+              }
               renderInput={(field) => (
                 <Select
                   onValueChange={field.onChange}
@@ -231,7 +264,10 @@ export default function DeliveryNoteDetail({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="issued">Issued</SelectItem>
+                    <SelectItem value="sent">Sent</SelectItem>
+                    <SelectItem value="accepted">Accepted</SelectItem>
+                    <SelectItem value="rejected">Rejected</SelectItem>
+                    <SelectItem value="expired">Expired</SelectItem>
                   </SelectContent>
                 </Select>
               )}
