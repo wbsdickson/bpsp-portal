@@ -114,9 +114,9 @@ function KpiCard({
 }) {
   const tone = kpiDeltaTone(delta);
   return (
-    <div className="rounded-2xl border bg-white p-4 shadow-sm">
-      <div className="flex items-start justify-between gap-3">
-        <div className="space-y-1">
+    <div className="flex h-full flex-col rounded-2xl border bg-white p-4 shadow-sm">
+      <div className="flex flex-1 items-start justify-between gap-3">
+        <div className="flex flex-1 flex-col justify-between space-y-1">
           <div className="text-muted-foreground text-xs font-medium">
             {title}
           </div>
@@ -146,7 +146,7 @@ function KpiCard({
         </div>
 
         <div
-          className={`flex h-10 w-10 items-center justify-center rounded-xl ${iconBgClass}`}
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${iconBgClass}`}
         >
           {icon}
         </div>
@@ -420,7 +420,7 @@ export default function MerchantManagementDashboardPage() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="w-full max-w-sm">
             <Select value={merchantId} onValueChange={setMerchantId}>
-              <SelectTrigger className="h-9 w-full">
+              <SelectTrigger className="h-9 w-full bg-white">
                 <SelectValue placeholder={t("placeholders.selectMerchant")} />
               </SelectTrigger>
               <SelectContent>
@@ -434,54 +434,61 @@ export default function MerchantManagementDashboardPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-          <div className="space-y-3 lg:col-span-3">
-            <KpiCard
-              title={t("metrics.totalSales")}
-              value={formatMoney(
-                summary?.totalSales ?? 0,
-                summary?.currency ?? "JPY",
-              )}
-              delta={5.1}
-              icon={<ShoppingCart className="h-5 w-5 text-indigo-600" />}
-              iconBgClass="bg-indigo-50"
-            />
-            <KpiCard
-              title={t("metrics.transactionCount")}
-              value={String(summary?.transactionCount ?? 0)}
-              delta={0.6}
-              icon={<Package className="h-5 w-5 text-fuchsia-600" />}
-              iconBgClass="bg-fuchsia-50"
-            />
-            <KpiCard
-              title={t("metrics.totalFees")}
-              value={formatMoney(
-                summary?.totalFees ?? 0,
-                summary?.currency ?? "JPY",
-              )}
-              delta={-1.08}
-              icon={<DollarSign className="h-5 w-5 text-rose-600" />}
-              iconBgClass="bg-rose-50"
-            />
-            <KpiCard
-              title={t("metrics.pendingPayoutAmount")}
-              value={formatMoney(
-                summary?.pendingPayoutAmount ?? 0,
-                summary?.currency ?? "JPY",
-              )}
-              delta={2.3}
-              icon={<BarChart3 className="h-5 w-5 text-orange-600" />}
-              iconBgClass="bg-orange-50"
-            />
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:items-stretch">
+          <div className="flex flex-col gap-3 lg:col-span-3">
+            <div className="flex-1">
+              <KpiCard
+                title={t("metrics.totalSales")}
+                value={formatMoney(
+                  summary?.totalSales ?? 0,
+                  summary?.currency ?? "JPY",
+                )}
+                delta={5.1}
+                icon={<ShoppingCart className="h-5 w-5 text-indigo-600" />}
+                iconBgClass="bg-indigo-50"
+              />
+            </div>
+            <div className="flex-1">
+              <KpiCard
+                title={t("metrics.transactionCount")}
+                value={String(summary?.transactionCount ?? 0)}
+                delta={0.6}
+                icon={<Package className="h-5 w-5 text-fuchsia-600" />}
+                iconBgClass="bg-fuchsia-50"
+              />
+            </div>
+            <div className="flex-1">
+              <KpiCard
+                title={t("metrics.totalFees")}
+                value={formatMoney(
+                  summary?.totalFees ?? 0,
+                  summary?.currency ?? "JPY",
+                )}
+                delta={-1.08}
+                icon={<DollarSign className="h-5 w-5 text-rose-600" />}
+                iconBgClass="bg-rose-50"
+              />
+            </div>
+            <div className="flex-1">
+              <KpiCard
+                title={t("metrics.pendingPayoutAmount")}
+                value={formatMoney(
+                  summary?.pendingPayoutAmount ?? 0,
+                  summary?.currency ?? "JPY",
+                )}
+                delta={2.3}
+                icon={<BarChart3 className="h-5 w-5 text-orange-600" />}
+                iconBgClass="bg-orange-50"
+              />
+            </div>
           </div>
 
-          <div className="lg:col-span-6">
-            <div className="rounded-2xl border bg-white p-4 shadow-sm">
+          <div className="flex flex-col lg:col-span-6">
+            <div className="flex h-full flex-col rounded-2xl border bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between gap-3">
                 <div className="text-sm font-semibold">Sales Report</div>
                 <div className="flex items-center gap-2">
                   <Button
-                    
                     size="sm"
                     variant={salesRange === "today" ? "default" : "outline"}
                     className="h-8"
@@ -490,7 +497,6 @@ export default function MerchantManagementDashboardPage() {
                     Today
                   </Button>
                   <Button
-                    
                     size="sm"
                     variant={salesRange === "weekly" ? "default" : "outline"}
                     className="h-8"
@@ -499,7 +505,6 @@ export default function MerchantManagementDashboardPage() {
                     Weekly
                   </Button>
                   <Button
-                    
                     size="sm"
                     variant={salesRange === "yearly" ? "default" : "outline"}
                     className="h-8"
@@ -510,13 +515,15 @@ export default function MerchantManagementDashboardPage() {
                 </div>
               </div>
 
-              <div className="mt-3 h-[320px]">
+              <div className="mt-3 flex-1">
                 {chartData.salesByMonth.length === 0 ? (
                   <div className="text-muted-foreground flex h-full items-center justify-center text-sm">
                     {t("charts.noData")}
                   </div>
                 ) : (
-                  <Line data={salesLineData} options={salesLineOptions} />
+                  <div className="h-full min-h-[320px]">
+                    <Line data={salesLineData} options={salesLineOptions} />
+                  </div>
                 )}
               </div>
             </div>
@@ -534,9 +541,8 @@ export default function MerchantManagementDashboardPage() {
                 </div>
               </div>
               <Button
-                
                 size="sm"
-                className="mt-3 h-8 bg-white/15 text-white hover:bg-white/20"
+                className="bg-white/15 mt-3 h-8 text-white hover:bg-white/20"
               >
                 Add to Cart
               </Button>
@@ -547,12 +553,7 @@ export default function MerchantManagementDashboardPage() {
                 <div className="text-sm font-semibold">
                   Top-Selling Products
                 </div>
-                <Button
-                  
-                  size="sm"
-                  variant="outline"
-                  className="h-8"
-                >
+                <Button size="sm" variant="outline" className="h-8">
                   View All
                 </Button>
               </div>
@@ -588,7 +589,7 @@ export default function MerchantManagementDashboardPage() {
           <div className="rounded-2xl border bg-white p-4 shadow-sm lg:col-span-8">
             <div className="mb-3 flex items-center justify-between">
               <div className="text-sm font-semibold">Recent Orders</div>
-              <Button  size="sm" variant="outline" className="h-8">
+              <Button size="sm" variant="outline" className="h-8">
                 View All
               </Button>
             </div>
@@ -636,7 +637,7 @@ export default function MerchantManagementDashboardPage() {
           <div className="rounded-2xl border bg-white p-4 shadow-sm lg:col-span-4">
             <div className="mb-3 flex items-center justify-between">
               <div className="text-sm font-semibold">Total Orders</div>
-              <Button  size="sm" variant="outline" className="h-8">
+              <Button size="sm" variant="outline" className="h-8">
                 View All
               </Button>
             </div>
