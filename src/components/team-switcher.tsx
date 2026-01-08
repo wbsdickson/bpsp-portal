@@ -1,7 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { AudioWaveform, ChevronsUpDown, LogOut, Plus } from "lucide-react";
+import { AudioWaveform, ChevronsUpDown } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -72,7 +71,7 @@ export function TeamSwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground size-8 flex aspect-square items-center justify-center rounded-lg">
                 <AudioWaveform className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -98,7 +97,7 @@ export function TeamSwitcher({
                 onClick={action.onClick}
                 className="gap-2 p-2"
               >
-                {/* <div className="flex size-6 items-center justify-center rounded-md border">
+                {/* <div className="size-6 flex items-center justify-center rounded-md border">
                   <team.logo className="size-3.5 shrink-0" />
                 </div> */}
                 {action.label}

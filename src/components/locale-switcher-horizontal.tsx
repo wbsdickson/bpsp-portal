@@ -14,8 +14,6 @@ export default function LocaleSwitcherHorizontal() {
   const router = useRouter();
   const locale = useLocale();
 
-  const currentLabel = locale === "ja" ? "日本語" : "English";
-
   const handleLocaleChange = (newLocale: "en" | "ja") => {
     if (newLocale === locale) return;
     startTransition(async () => {
