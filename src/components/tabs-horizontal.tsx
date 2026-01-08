@@ -125,7 +125,7 @@ const TabsHorizontal = ({
                     "inline-flex items-center whitespace-nowrap rounded-none rounded-t-md border-0 px-4 py-2 text-center text-sm transition-all",
                     item.closable && "pr-[40px]",
                     isActive
-                      ? "bg-card text-card-foreground"
+                      ? "dark:bg-card! text-card-foreground bg-white!"
                       : "cursor-base bg-muted text-muted-foreground",
                   )}
                 >
