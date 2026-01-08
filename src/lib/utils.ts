@@ -47,3 +47,10 @@ export function generateId(prefix: string = ""): string {
   const suffix = digits.join("");
   return prefix ? `${prefix}_${suffix}` : suffix;
 }
+
+export const toCapitalized = (str: string) =>
+  str
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");

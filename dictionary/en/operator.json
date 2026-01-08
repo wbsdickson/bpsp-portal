@@ -9,17 +9,17 @@
         "member": "Member",
         "midSettings": "MID Settings",
         "feeRate": "Fee Rate",
-        "transaction": "Transaction",
-        "client": "Client",
+        "transaction": "Transactions",
+        "client": "Clients",
         "bankAccount": "Bank Account",
         "cards": "Cards",
         "taxSettings": "Tax Settings",
         "items": "Items",
-        "invoicesIssuance": "Invoices Issuance",
-        "quotationsIssuance": "Quotations Issuance",
-        "deliveryNoteIssuance": "Delivery Note Issuance",
-        "receiptIssuance": "Receipt Issuance",
-        "receivedPayableInvoices": "Received and Payable Invoices"
+        "invoicesIssuance": "Invoices",
+        "quotationsIssuance": "Quotations",
+        "deliveryNoteIssuance": "Delivery Notes",
+        "receiptIssuance": "Receipts",
+        "receivedPayableInvoices": "RP Invoices"
       },
       "merchants": "Merchants",
       "payoutTransactions": "Payout Transactions",
@@ -126,7 +126,7 @@
       }
     },
     "MerchantManagementDashboard": {
-      "title": "Merchant Management Dashboard",
+      "title": "Dashboard",
       "sections": {
         "selection": "Merchant selection",
         "summary": "Merchant summary",
@@ -323,7 +323,7 @@
       }
     },
     "Receipt": {
-      "title": "Receipt",
+      "title": "Receipts",
       "tabs": {
         "all": "All"
       },
@@ -552,7 +552,7 @@
       }
     },
     "MerchantMembers": {
-      "title": "Merchant members",
+      "title": "Members",
       "tabs": {
         "all": "All"
       },
@@ -628,7 +628,7 @@
       }
     },
     "MerchantMIDs": {
-      "title": "Merchant MIDs",
+      "title": "MID settings",
       "tabs": {
         "all": "All"
       },
@@ -698,7 +698,7 @@
       }
     },
     "MerchantFees": {
-      "title": "Merchant Fee Management",
+      "title": "Fee Rate",
       "tabs": {
         "all": "All"
       },
@@ -814,7 +814,7 @@
       }
     },
     "BankAccounts": {
-      "title": "Bank accounts",
+      "title": "Bank Accounts",
       "tabs": {
         "all": "All"
       },
@@ -868,7 +868,7 @@
       }
     },
     "MerchantCards": {
-      "title": "Merchant cards",
+      "title": "Cards",
       "columns": {
         "merchant": "Merchant",
         "brand": "Brand",
@@ -1167,7 +1167,7 @@
       }
     },
     "MID": {
-      "title": "MID",
+      "title": "MID Settings",
       "tabs": {
         "all": "All"
       },

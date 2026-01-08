@@ -43,7 +43,7 @@ function getSidebarRoutes(
     { key: "notifications", route: "operator/notifications" },
     { key: "sales", route: "operator/sales" },
     { key: "systemSettings", route: "operator/system-settings" },
-    { key: "midSettings", route: "operator/mid" },
+    { key: "midSettings", route: "operator/mid-setting" },
     { key: "midFee", route: "operator/mid-fee" },
   ];
 
@@ -67,7 +67,7 @@ function getSidebarRoutes(
       key: "deliveryNoteIssuance",
       route: "operator/merchant-management/delivery-notes",
     },
-    { key: "receiptIssuance", route: "operator/merchant-management/receipt" },
+    { key: "receiptIssuance", route: "operator/merchant-management/receipts" },
     {
       key: "receivedPayableInvoices",
       route: "operator/merchant-management/received-payable-invoices",

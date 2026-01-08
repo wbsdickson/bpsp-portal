@@ -36,12 +36,12 @@ type NavRoute = {
 const MERCHANT_MANAGEMENT_ROUTES = [
   { key: "dashboard", route: "operator/merchant-management/dashboard" },
   { key: "member", route: "operator/merchant-management/members" },
-  { key: "midSettings", route: "operator/merchant-management/mid-settings" },
-  { key: "feeRate", route: "operator/merchant-management/fee-rate" },
-  { key: "transaction", route: "operator/merchant-management/transactions" },
   { key: "client", route: "operator/merchant-management/clients" },
+  { key: "transaction", route: "operator/merchant-management/transactions" },
   { key: "bankAccount", route: "operator/merchant-management/bank-accounts" },
   { key: "cards", route: "operator/merchant-management/cards" },
+  { key: "midSettings", route: "operator/merchant-management/mid-settings" },
+  { key: "feeRate", route: "operator/merchant-management/fee-rate" },
   { key: "taxSettings", route: "operator/merchant-management/tax-settings" },
   { key: "items", route: "operator/merchant-management/items" },
   { key: "invoicesIssuance", route: "operator/merchant-management/invoices" },
@@ -53,7 +53,7 @@ const MERCHANT_MANAGEMENT_ROUTES = [
     key: "deliveryNoteIssuance",
     route: "operator/merchant-management/delivery-notes",
   },
-  { key: "receiptIssuance", route: "operator/merchant-management/receipt" },
+  { key: "receiptIssuance", route: "operator/merchant-management/receipts" },
   {
     key: "receivedPayableInvoices",
     route: "operator/merchant-management/received-payable-invoices",
@@ -62,15 +62,15 @@ const MERCHANT_MANAGEMENT_ROUTES = [
 
 const MAIN_ROUTES = [
   { key: "dashboard", route: "operator/dashboard", icon: LayoutDashboard },
-  { key: "accounts", route: "operator/accounts", icon: Users },
   { key: "merchantsManagement", route: "operator/merchant-management", icon: Building2 },
   { key: "merchants", route: "operator/merchants", icon: Store },
+  { key: "accounts", route: "operator/accounts", icon: Users },
+  { key: "sales", route: "operator/sales", icon: TrendingUp },
   { key: "payoutTransactions", route: "operator/payout-transactions", icon: CreditCard },
   { key: "notifications", route: "operator/notifications", icon: Bell },
-  { key: "sales", route: "operator/sales", icon: TrendingUp },
-  { key: "systemSettings", route: "operator/system-settings", icon: Settings },
-  { key: "midSettings", route: "operator/mid", icon: Wallet },
+  { key: "midSettings", route: "operator/mid-setting", icon: Wallet },
   { key: "midFee", route: "operator/mid-fee", icon: Receipt },
+  { key: "systemSettings", route: "operator/system-settings", icon: Settings },
 ] as const;
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {

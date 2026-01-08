@@ -97,7 +97,7 @@ export default function MidUpsertForm({ midId }: { midId?: string }) {
         status: data.status,
       });
       toast.success(t("messages.updateSuccess"));
-      router.push(`/${locale}/operator/mid`);
+      router.push(`/${locale}/operator/mid-setting`);
       return;
     }
 
@@ -109,7 +109,7 @@ export default function MidUpsertForm({ midId }: { midId?: string }) {
       linkedMerchantIds: [],
     });
     toast.success(t("messages.createSuccess"));
-    router.push(`/${locale}/operator/mid`);
+    router.push(`/${locale}/operator/mid-setting`);
   });
 
   const title = midId ? t("form.editTitle") : t("form.createTitle");
@@ -194,7 +194,7 @@ export default function MidUpsertForm({ midId }: { midId?: string }) {
                 
                 variant="outline"
                 className="h-9"
-                onClick={() => router.push(`/${locale}/operator/mid`)}
+                onClick={() => router.push(`/${locale}/operator/mid-setting`)}
               >
                 {t("buttons.cancel")}
               </Button>

@@ -63,7 +63,7 @@ const QUICK_ACTIONS: QuickActionItem[] = [
     icon: Receipt,
     labelKey: "quickActions.receipt",
     shortcut: "C S",
-    url: "/operator/merchant-management/receipt/create",
+    url: "/operator/merchant-management/receipts/create",
   },
   {
     icon: ScrollText,
