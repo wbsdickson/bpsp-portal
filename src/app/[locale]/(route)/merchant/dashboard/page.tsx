@@ -14,6 +14,7 @@ import {
   CreditCard,
   Bell,
   AlertCircle,
+  ArrowUpRight,
 } from "lucide-react";
 import { format, isSameMonth, parseISO } from "date-fns";
 import {
@@ -118,69 +119,94 @@ export default function MerchantDashboard() {
 
         {/* Summary Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Invoices (This Month)
-              </CardTitle>
-              <FileText className="text-muted-foreground h-4 w-4" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{invoicesThisMonth}</div>
-              <p className="text-muted-foreground text-xs">Issued this month</p>
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between">
+                <div className="space-y-2">
+                  <p className="text-muted-foreground text-xs font-medium">
+                    Invoices (This Month)
+                  </p>
+                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                    {invoicesThisMonth}
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-emerald-600">
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                    <span>Issued this month</span>
+                  </div>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 dark:bg-blue-900/30">
+                  <FileText className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                </div>
+              </div>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Sales (This Month)
-              </CardTitle>
-              <DollarSign className="text-muted-foreground h-4 w-4" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                ${salesThisMonth.toLocaleString()}
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between">
+                <div className="space-y-2">
+                  <p className="text-muted-foreground text-xs font-medium">
+                    Sales (This Month)
+                  </p>
+                  <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
+                    ${salesThisMonth.toLocaleString()}
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-emerald-600">
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                    <span>Total transaction volume</span>
+                  </div>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/30">
+                  <DollarSign className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                </div>
               </div>
-              <p className="text-muted-foreground text-xs">
-                Total transaction volume
-              </p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Outstanding Amount
-              </CardTitle>
-              <AlertCircle className="text-muted-foreground h-4 w-4" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                ${outstandingAmount.toLocaleString()}
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between">
+                <div className="space-y-2">
+                  <p className="text-muted-foreground text-xs font-medium">
+                    Outstanding Amount
+                  </p>
+                  <div className="text-3xl font-bold text-amber-600 dark:text-amber-400">
+                    ${outstandingAmount.toLocaleString()}
+                  </div>
+                  <p className="text-muted-foreground text-xs">
+                    Pending & Approved invoices
+                  </p>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-900/30">
+                  <AlertCircle className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                </div>
               </div>
-              <p className="text-muted-foreground text-xs">
-                Pending & Approved invoices
-              </p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Amount Paid</CardTitle>
-              <CreditCard className="text-muted-foreground h-4 w-4" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                ${amountPaid.toLocaleString()}
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between">
+                <div className="space-y-2">
+                  <p className="text-muted-foreground text-xs font-medium">
+                    Amount Paid
+                  </p>
+                  <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                    ${amountPaid.toLocaleString()}
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-emerald-600">
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                    <span>Total settled amount</span>
+                  </div>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 dark:bg-purple-900/30">
+                  <CreditCard className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                </div>
               </div>
-              <p className="text-muted-foreground text-xs">
-                Total settled amount
-              </p>
             </CardContent>
           </Card>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
           {/* Recent Transactions */}
-          <Card className="col-span-4">
+          <Card className="col-span-4 border-0 shadow-sm">
             <CardHeader>
               <CardTitle>Recent Transactions</CardTitle>
               <CardDescription>
@@ -213,8 +239,10 @@ export default function MerchantDashboard() {
                         <Badge
                           variant={
                             payment.status === "settled"
-                              ? "default"
-                              : "secondary"
+                              ? "success"
+                              : payment.status === "pending_approval"
+                                ? "warning"
+                                : "secondary"
                           }
                         >
                           {payment.status}
@@ -238,7 +266,7 @@ export default function MerchantDashboard() {
           </Card>
 
           {/* Notifications */}
-          <Card className="col-span-3">
+          <Card className="col-span-3 border-0 shadow-sm">
             <CardHeader>
               <CardTitle>Notifications</CardTitle>
               <CardDescription>Latest 5 updates</CardDescription>
@@ -249,20 +277,40 @@ export default function MerchantDashboard() {
                   {recentNotifications.map((notification) => (
                     <div
                       key={notification.id}
-                      className="flex items-start space-x-4 rounded-md border p-3"
+                      className={`flex items-start gap-3 rounded-lg p-3 ${
+                        notification.type === "error"
+                          ? "bg-red-50/50 dark:bg-red-900/10"
+                          : notification.type === "warning"
+                            ? "bg-amber-50/50 dark:bg-amber-900/10"
+                            : notification.type === "success"
+                              ? "bg-emerald-50/50 dark:bg-emerald-900/10"
+                              : "bg-blue-50/50 dark:bg-blue-900/10"
+                      }`}
                     >
-                      <Bell
-                        className={`mt-1 h-5 w-5 ${
+                      <div
+                        className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
                           notification.type === "error"
-                            ? "text-red-500"
+                            ? "bg-red-100 dark:bg-red-900/30"
                             : notification.type === "warning"
-                              ? "text-yellow-500"
+                              ? "bg-amber-100 dark:bg-amber-900/30"
                               : notification.type === "success"
-                                ? "text-green-500"
-                                : "text-blue-500"
+                                ? "bg-emerald-100 dark:bg-emerald-900/30"
+                                : "bg-blue-100 dark:bg-blue-900/30"
                         }`}
-                      />
-                      <div className="space-y-1">
+                      >
+                        <Bell
+                          className={`h-4 w-4 ${
+                            notification.type === "error"
+                              ? "text-red-600 dark:text-red-400"
+                              : notification.type === "warning"
+                                ? "text-amber-600 dark:text-amber-400"
+                                : notification.type === "success"
+                                  ? "text-emerald-600 dark:text-emerald-400"
+                                  : "text-blue-600 dark:text-blue-400"
+                          }`}
+                        />
+                      </div>
+                      <div className="flex-1 space-y-1">
                         <p className="text-sm font-medium leading-none">
                           {notification.title}
                         </p>
