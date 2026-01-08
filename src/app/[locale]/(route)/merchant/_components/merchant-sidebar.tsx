@@ -133,6 +133,11 @@ const merchantRoutes: Array<{
     label: "Receipt Issuance",
     route: "merchant/receipt",
   },
+  {
+    label: "Received Payable Invoices",
+    route: "merchant/received-payable-invoices",
+    icon: FileCheck,
+  },
 ];
 
 export function AppSidebar({

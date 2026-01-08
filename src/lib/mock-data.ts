@@ -198,6 +198,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Cloud Services Inc.",
     recipientBank: "Silicon Valley Bank",
     accountNumber: "1234567890",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_002",
@@ -226,6 +227,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Office Supplies Co.",
     recipientBank: "Chase Bank",
     accountNumber: "0987654321",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_003",
@@ -254,6 +256,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Marketing Agency",
     recipientBank: "Wells Fargo",
     accountNumber: "1122334455",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_004",
@@ -282,6 +285,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Logistics Partner",
     recipientBank: "Bank of America",
     accountNumber: "5566778899",
+    paymentMethod: "Bank Transfer",
   },
   // Eve's Invoices
   {
@@ -311,6 +315,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Global Innovations",
     recipientBank: "Chase Bank",
     accountNumber: "9876543210",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_006",
@@ -339,6 +344,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Future Tech",
     recipientBank: "Wells Fargo",
     accountNumber: "1231231234",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_007",
@@ -367,6 +373,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Global Innovations",
     recipientBank: "Chase Bank",
     accountNumber: "9876543210",
+    paymentMethod: "Bank Transfer",
   },
   // Additional 20 mock invoices
   {
@@ -396,6 +403,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Acme Corp",
     recipientBank: "Silicon Valley Bank",
     accountNumber: "1234567890",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_009",
@@ -424,6 +432,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Wayne Enterprises",
     recipientBank: "Chase Bank",
     accountNumber: "0987654321",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_010",
@@ -452,6 +461,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Stark Industries",
     recipientBank: "Wells Fargo",
     accountNumber: "1122334455",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_011",
@@ -480,6 +490,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Global Tech Partners",
     recipientBank: "Bank of America",
     accountNumber: "5566778899",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_012",
@@ -508,6 +519,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Local Coffee Shop",
     recipientBank: "Chase Bank",
     accountNumber: "9876543210",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_013",
@@ -536,6 +548,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Global Innovations",
     recipientBank: "Wells Fargo",
     accountNumber: "1231231234",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_014",
@@ -564,6 +577,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Future Tech",
     recipientBank: "Chase Bank",
     accountNumber: "9876543210",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_015",
@@ -592,6 +606,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Acme Corp",
     recipientBank: "Silicon Valley Bank",
     accountNumber: "1234567890",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_016",
@@ -620,6 +635,7 @@ export const MOCK_INVOICES: Invoice[] = [
     recipientName: "Wayne Enterprises",
     recipientBank: "Chase Bank",
     accountNumber: "0987654321",
+    paymentMethod: "Bank Transfer",
   },
   {
     id: "inv_017",

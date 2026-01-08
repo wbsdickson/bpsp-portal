@@ -31,6 +31,7 @@
         "clearFilters": "フィルターをクリア"
       },
       "filters": {
+        "direction": "方向",
         "accountName": "アカウント名",
         "emailAddress": "メールアドレス",
         "role": "ロール",
@@ -38,7 +39,8 @@
         "all": "すべて",
         "search": "検索...",
         "reset": "リセット",
-        "done": "完了"
+        "done": "完了",
+        "invoiceDate": "請求日"
       },
       "statuses": {
         "active": "active",
@@ -1091,6 +1093,67 @@
         "missingId": "領収書IDがありません。",
         "notFound": "領収書が見つかりません。",
         "empty": "—"
+      }
+    },
+    "ReceivedPayableInvoices": {
+      "title": "受領した買掛請求書",
+      "tabs": {
+        "summary": "サマリー",
+        "all": "すべて"
+      },
+      "buttons": {
+        "create": "作成",
+        "clearFilters": "フィルターをクリア",
+        "back": "戻る",
+        "edit": "編集",
+        "saveChanges": "変更を保存"
+      },
+      "columns": {
+        "invoiceNumber": "請求書番号",
+        "clientName": "取引先名",
+        "amount": "金額",
+        "issueDate": "発行日",
+        "paymentDueDate": "支払期日",
+        "paymentMethod": "支払方法",
+        "status": "ステータス",
+        "invoiceDate": "請求日"
+      },
+      "filters": {
+        "invoiceNumber": "請求書番号",
+        "period": "期間",
+        "client": "取引先",
+        "status": "ステータス",
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了",
+        "all": "すべて",
+        "direction": "方向",
+        "invoiceDate": "請求日"
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "form": {
+        "createTitle": "受領した買掛請求書を作成",
+        "editTitle": "受領した買掛請求書を編集",
+        "invoiceNumber": "請求書番号",
+        "client": "取引先",
+        "invoiceDate": "請求日",
+        "paymentDueDate": "支払期日",
+        "amount": "金額",
+        "pdf": "PDF",
+        "notes": "備考",
+        "direction": "方向",
+        "paymentMethod": "支払方法"
+      },
+      "messages": {
+        "createSuccess": "請求書を作成しました。",
+        "updateSuccess": "請求書を更新しました。",
+        "missingId": "請求書IDがありません。",
+        "notFound": "請求書が見つかりません。"
       }
     }
   }
