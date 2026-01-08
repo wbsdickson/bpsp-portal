@@ -850,6 +850,99 @@
       "preview": {
         "total": "Total"
       }
+    },
+    "PurchaseOrders": {
+      "title": "Purchase Orders",
+      "tabs": {
+        "all": "All"
+      },
+      "upsert": {
+        "createTitle": "Create purchase order",
+        "editTitle": "Update purchase order",
+        "createButton": "Create purchase order",
+        "saveChanges": "Save changes"
+      },
+      "columns": {
+        "purchaseOrderNumber": "Purchase order number",
+        "clientName": "Client name",
+        "totalAmount": "Total amount",
+        "issueDate": "Issue date",
+        "purchaseOrderDate": "Purchase order date",
+        "status": "Status",
+        "item": "Item",
+        "quantity": "Quantity",
+        "unitPrice": "Unit price",
+        "taxCategory": "Tax category",
+        "remarks": "Remarks",
+        "uploadedPdf": "Uploaded PDF (Optional)",
+        "detailLink": "Detail link",
+        "editLink": "Edit link",
+        "deleteLink": "Delete link"
+      },
+      "filters": {
+        "purchaseOrderDate": "Purchase order date",
+        "number": "Purchase order number",
+        "client": "Client",
+        "issueDate": "Issue date",
+        "status": "Status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "statuses": {
+        "draft": "Draft",
+        "sent": "Sent",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "expired": "Expired"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "clearFilters": "Clear filters",
+        "back": "Back",
+        "create": "Create purchase order",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "createTitle": "Create purchase order",
+        "editTitle": "Edit purchase order",
+        "numberPlaceholder": "Purchase order number",
+        "selectClient": "Select client",
+        "selectStatus": "Select status",
+        "selectItem": "Select item",
+        "quantityPlaceholder": "Quantity",
+        "unitPricePlaceholder": "Unit price",
+        "remarksPlaceholder": "Remarks",
+        "amountPlaceholder": "Amount",
+        "addItem": "Add item"
+      },
+      "validation": {
+        "numberRequired": "Purchase order number is required",
+        "clientRequired": "Client is required",
+        "issueDateRequired": "Issue date is required",
+        "amountRequired": "Amount is required",
+        "amountInvalid": "Amount is invalid",
+        "itemRequired": "Item is required",
+        "quantityRequired": "Quantity is required",
+        "quantityInvalid": "Quantity is invalid",
+        "unitPriceRequired": "Unit price is required",
+        "unitPriceInvalid": "Unit price is invalid"
+      },
+      "messages": {
+        "createSuccess": "Purchase order created successfully.",
+        "updateSuccess": "Purchase order updated successfully.",
+        "notFound": "Purchase order not found."
+      },
+      "preview": {
+        "total": "Total"
+      }
     }
   }
 }

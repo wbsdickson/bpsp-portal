@@ -89,6 +89,10 @@ const merchantRoutes = [
     label: "Quotation Issuance",
     route: "merchant/quotations",
   },
+  {
+    label: "Purchase Orders",
+    route: "merchant/purchase-orders",
+  },
 ];
 
 export function AppSidebar({
