@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getTranslations } from "next-intl/server";
 import { SignInForm } from "./signin-form";
+import { DemoAccounts } from "./demo-accounts";
 
 type SignInPageProps = {
   params: Promise<{ locale: string }>;
@@ -32,15 +33,7 @@ export default async function SignInPage({
         <div className="space-y-6">
           <SignInForm locale={locale} />
 
-          <div className="bg-muted/40 rounded-md border p-3 text-sm">
-            <div className="text-foreground/80 font-medium">
-              {t("demoAccounts")}
-            </div>
-            <div className="text-foreground/70 mt-2 space-y-1">
-              <div>{t("demoAccountAdmin")}</div>
-              <div>{t("demoAccountMerchant")}</div>
-            </div>
-          </div>
+          <DemoAccounts locale={locale} />
 
           <p className="text-muted-foreground text-center text-sm">
             {t("noAccount")}{" "}

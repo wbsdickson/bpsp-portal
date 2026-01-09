@@ -21,6 +21,7 @@ import {
 import { useAppStore } from "@/lib/store";
 import { UserRole } from "@/lib/types";
 import { Link } from "next-view-transitions";
+import { Loader2 } from "lucide-react";
 
 const createSchema = (t: (key: string) => string) =>
   z.object({
@@ -150,7 +151,14 @@ export function SignInForm({ locale }: { locale: string }) {
           className="w-full bg-neutral-900 text-white hover:bg-neutral-900/90 dark:bg-white dark:text-neutral-900 dark:hover:bg-white/90"
           disabled={form.formState.isSubmitting || !form.formState.isValid}
         >
-          {form.formState.isSubmitting ? t("loading") : t("loginButton")}
+          {form.formState.isSubmitting ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              {t("loginButton")}
+            </>
+          ) : (
+            t("loginButton")
+          )}
         </Button>
         <p className="text-muted-foreground text-center text-xs">
           {t("termsAgreement")}{" "}
