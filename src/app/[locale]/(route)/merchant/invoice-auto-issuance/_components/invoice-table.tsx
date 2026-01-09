@@ -64,28 +64,6 @@ function ActionsCell({ id }: { id: string }) {
   );
 }
 
-function ScheduleNameCell({
-  id,
-  scheduleName,
-  addTab,
-}: {
-  id: string;
-  scheduleName: string;
-  addTab: () => void;
-}) {
-  const router = useRouter();
-
-  return (
-    <Button
-      variant="ghost"
-      onClick={addTab}
-      className="hover:bg-primary/10 block h-full text-left"
-    >
-      {scheduleName}
-    </Button>
-  );
-}
-
 type AutoIssuanceRow = {
   id: string;
   scheduleName: string;
@@ -97,26 +75,11 @@ type AutoIssuanceRow = {
   createdAt: string;
 };
 
-function asDateValue(input: string | undefined) {
-  if (!input) return undefined;
-  const dt = new Date(input);
-  if (Number.isNaN(dt.getTime())) return undefined;
-  return dt;
-}
-
-function toYmd(date: Date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
-
 export default function InvoiceAutoIssuanceTable({
   addTab,
 }: {
   addTab: (id: string) => void;
 }) {
-  const router = useRouter();
   const t = useTranslations("Merchant.InvoiceAutoIssuance");
 
   const clients = useAppStore((s) => s.clients);
@@ -143,66 +106,66 @@ export default function InvoiceAutoIssuanceTable({
   return (
     <>
       <DataTable
-          columns={column}
-          data={rows}
-          renderToolbar={(table) => {
-            const scheduleNameCol = table.getColumn("scheduleName");
-            const targetClientCol = table.getColumn("targetClient");
-            const enabledStatusCol = table.getColumn("enabledStatus");
+        columns={column}
+        data={rows}
+        renderToolbar={(table) => {
+          const scheduleNameCol = table.getColumn("scheduleName");
+          const targetClientCol = table.getColumn("targetClient");
+          const enabledStatusCol = table.getColumn("enabledStatus");
 
-            const enabledStatusOptions = [
-              { value: "enabled", label: t("enabled") },
-              { value: "disabled", label: t("disabled") },
-            ];
+          const enabledStatusOptions = [
+            { value: "enabled", label: t("enabled") },
+            { value: "disabled", label: t("disabled") },
+          ];
 
-            const rawEnabledStatusValue = enabledStatusCol?.getFilterValue();
-            const enabledStatusValues = Array.isArray(rawEnabledStatusValue)
-              ? (rawEnabledStatusValue as string[])
-              : rawEnabledStatusValue
-                ? [String(rawEnabledStatusValue)]
-                : [];
+          const rawEnabledStatusValue = enabledStatusCol?.getFilterValue();
+          const enabledStatusValues = Array.isArray(rawEnabledStatusValue)
+            ? (rawEnabledStatusValue as string[])
+            : rawEnabledStatusValue
+              ? [String(rawEnabledStatusValue)]
+              : [];
 
-            return (
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex flex-wrap items-center gap-2 text-sm">
-                  <FilterChipPopover
-                    label={t("scheduleName")}
-                    value={String(scheduleNameCol?.getFilterValue() ?? "")}
-                    onChange={(v) => scheduleNameCol?.setFilterValue(v)}
-                  />
-                  <FilterChipPopover
-                    label={t("targetClient")}
-                    value={String(targetClientCol?.getFilterValue() ?? "")}
-                    onChange={(v) => targetClientCol?.setFilterValue(v)}
-                  />
+          return (
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center gap-2 text-sm">
+                <FilterChipPopover
+                  label={t("scheduleName")}
+                  value={String(scheduleNameCol?.getFilterValue() ?? "")}
+                  onChange={(v) => scheduleNameCol?.setFilterValue(v)}
+                />
+                <FilterChipPopover
+                  label={t("targetClient")}
+                  value={String(targetClientCol?.getFilterValue() ?? "")}
+                  onChange={(v) => targetClientCol?.setFilterValue(v)}
+                />
 
-                  <FilterChipMultiSelectPopover
-                    label={t("enabledStatus")}
-                    values={enabledStatusValues}
-                    options={enabledStatusOptions}
-                    onChange={(vals) =>
-                      enabledStatusCol?.setFilterValue(
-                        vals.length ? vals : undefined,
-                      )
-                    }
-                    searchPlaceholder="Search..."
-                    resetLabel="Reset"
-                    doneLabel="Done"
-                    placeholder="All"
-                  />
+                <FilterChipMultiSelectPopover
+                  label={t("enabledStatus")}
+                  values={enabledStatusValues}
+                  options={enabledStatusOptions}
+                  onChange={(vals) =>
+                    enabledStatusCol?.setFilterValue(
+                      vals.length ? vals : undefined,
+                    )
+                  }
+                  searchPlaceholder="Search..."
+                  resetLabel="Reset"
+                  doneLabel="Done"
+                  placeholder="All"
+                />
 
-                  <Button
-                    variant="ghost-primary"
-                    size="sm"
-                    onClick={() => table.resetColumnFilters()}
-                  >
-                    {t("clearFilters")}
-                  </Button>
-                </div>
+                <Button
+                  variant="ghost-primary"
+                  size="sm"
+                  onClick={() => table.resetColumnFilters()}
+                >
+                  {t("clearFilters")}
+                </Button>
               </div>
-            );
-          }}
-        />
+            </div>
+          );
+        }}
+      />
     </>
   );
 }

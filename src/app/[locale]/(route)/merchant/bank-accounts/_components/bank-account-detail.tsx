@@ -1,13 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { useMerchantStore } from "@/store/merchant-store";
 import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
 import { useMerchantBankAccountStore } from "@/store/merchant/merchant-bank-account-store";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 
 export default function BankAccountDetail({
   bankAccountId,
@@ -16,106 +16,105 @@ export default function BankAccountDetail({
 }) {
   const t = useTranslations("Merchant.BankAccounts");
   const router = useRouter();
-  const locale = useLocale();
+  const { basePath } = useBasePath();
 
   const bankAccount = useMerchantBankAccountStore((s) =>
     s.getBankAccountById(bankAccountId),
   );
 
-  const merchant = useMerchantStore((s) =>
-    bankAccount?.merchantId
-      ? s.getMerchantById(bankAccount.merchantId)
-      : undefined,
-  );
-
   if (!bankAccount || bankAccount.deletedAt) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-muted-foreground text-sm">
-            {t("messages.notFound")}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="space-y-4">
+        <div className="text-muted-foreground text-sm">
+          {t("messages.notFound")}
+        </div>
+        <Button asChild variant="outline" className="h-9">
+          <Link href={`${basePath}?tab=table`}>{t("buttons.back")}</Link>
+        </Button>
+      </div>
     );
   }
 
-  const registrationLabel = bankAccount.createdAt
-    ? (() => {
-        const dt = new Date(bankAccount.createdAt);
-        return Number.isNaN(dt.getTime())
-          ? bankAccount.createdAt
-          : dt.toLocaleString();
-      })()
-    : "—";
-
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-end gap-2">
-        <Button
-          
-          variant="outline"
-          className="h-9"
-          onClick={() => {
-            router.push(`/${locale}/merchant/bank-accounts`);
-          }}
-        >
-          {t("buttons.cancel")}
-        </Button>
-        <Button asChild className="h-9">
-          <Link
-            href={`/${locale}/merchant/bank-accounts/${bankAccount.id}/edit`}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">
+            {bankAccount.bankName}
+          </h2>
+          <Badge
+            variant="outline"
+            className="bg-emerald-50 text-emerald-700"
           >
-            {t("actions.edit")}
-          </Link>
-        </Button>
+            {t(`accountTypes.${bankAccount.accountType}`)}
+          </Badge>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant="secondary"
+            size="xs"
+            onClick={() => {
+              router.push(`${basePath}/edit/${bankAccount.id}`);
+            }}
+            title={t("actions.edit")}
+          >
+            Edit
+          </Button>
+        </div>
       </div>
 
-      <Card>
-        <CardContent>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.bankName")}
-              </div>
-              <div className="font-medium">{bankAccount.bankName}</div>
+      <div className="bg-card rounded-md p-4">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.bankName")}
             </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.branchName")}
-              </div>
-              <div className="font-medium">{bankAccount.branchName}</div>
+            <div className="font-medium">{bankAccount.bankName}</div>
+          </div>
+          
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.branchName")}
             </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.accountType")}
-              </div>
-              <div className="font-medium">{bankAccount.accountType}</div>
+            <div className="font-medium">{bankAccount.branchName ?? "—"}</div>
+          </div>
+
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.accountType")}
             </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.accountNumber")}
-              </div>
-              <div className="font-medium">{bankAccount.accountNumber}</div>
+            <Badge
+              variant="outline"
+              className="bg-emerald-50 text-emerald-700"
+            >
+              {t(`accountTypes.${bankAccount.accountType}`)}
+            </Badge>
+          </div>
+
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.accountNumber")}
             </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.accountHolder")}
-              </div>
-              <div className="font-medium">{bankAccount.accountHolder}</div>
+            <div className="font-medium">{bankAccount.accountNumber}</div>
+          </div>
+
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.accountHolder")}
             </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.registrationDate")}
-              </div>
-              <div className="font-medium">{bankAccount.createdAt}</div>
+            <div className="font-medium">{bankAccount.accountHolder}</div>
+          </div>
+
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.registrationDate")}
+            </div>
+            <div className="font-medium">
+              {bankAccount.createdAt ? new Date(bankAccount.createdAt).toLocaleDateString() : "—"}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

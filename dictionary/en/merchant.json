@@ -14,16 +14,16 @@
         "payment": "Payment"
       },
       "dashboard": "Dashboard",
-      "accountInformationManagement": "Account Information Management",
-      "companyInformationManagement": "Company Information Management",
-      "memberManagement": "Member Management",
-      "clientManagement": "Client Management",
-      "merchantBankAccount": "Merchant Bank Account",
-      "merchantCards": "Merchant Cards",
+      "accountInformationManagement": "Accounts",
+      "companyInformationManagement": "Companies",
+      "memberManagement": "Members",
+      "clientManagement": "Clients",
+      "merchantBankAccount": "Bank Accounts",
+      "merchantCards": "Cards",
       "taxSettings": "Tax Settings",
       "items": "Items",
       "documentOutputSettings": "Document Output Settings",
-      "invoiceManagement": "Invoice Management",
+      "invoiceManagement": "Invoices",
       "invoiceAutoIssuance": "Invoice Auto-Issuance",
       "quotationIssuance": "Quotation Issuance",
       "purchaseOrders": "Purchase Orders",
@@ -39,7 +39,8 @@
       "theme": "Theme"
     },
     "AccountInformationManagement": {
-      "title": "Account Information Management",
+      "title": "Account Information",
+      "description": "Manage your account information including name, email address, and password.",
       "detailTitle": "Account Detail",
       "tabs": {
         "all": "All"
@@ -66,6 +67,7 @@
         "create": "Create account",
         "cancel": "Cancel",
         "save": "Save",
+        "updateAccount": "Update Account Information",
         "clearFilters": "Clear filters"
       },
       "filters": {
@@ -86,16 +88,15 @@
         "accountNotFound": "Account not found."
       },
       "form": {
-        "createTitle": "Create account",
-        "editTitle": "Edit account",
-        "selectMerchant": "Select merchant",
-        "namePlaceholder": "Full name",
-        "emailPlaceholder": "name@company.com",
-        "selectRole": "Select role",
-        "selectMemberRole": "Select member role",
-        "selectStatus": "Select status",
-        "passwordPlaceholder": "Password",
-        "confirmPasswordPlaceholder": "Confirm password"
+        "personalInformation": "Personal Information",
+        "name": "Name",
+        "email": "Email",
+        "changePassword": "Change Password",
+        "passwordNote": "Leave blank to keep current password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
+        "passwordPlaceholder": "Current Password",
+        "confirmPasswordPlaceholder": "Confirm Password"
       },
       "roles": {
         "merchant": "merchant",
@@ -138,7 +139,7 @@
       }
     },
     "CompanyInformationManagement": {
-      "title": "Company Information Management",
+      "title": "Company Information",
       "detailTitle": "Company Detail",
       "tabs": {
         "all": "All"
@@ -217,7 +218,7 @@
       }
     },
     "MerchantMembers": {
-      "title": "Members Management",
+      "title": "Members",
       "detailTitle": "Member Detail",
       "tabs": {
         "all": "All"
@@ -291,7 +292,7 @@
       }
     },
     "Clients": {
-      "title": "Client Management",
+      "title": "Clients",
       "tabs": {
         "all": "All"
       },
@@ -375,6 +376,7 @@
       },
       "form": {
         "editTitle": "Edit bank account",
+        "createTitle": "Create bank account",
         "bankNamePlaceholder": "Bank name",
         "branchNamePlaceholder": "Branch name",
         "selectAccountType": "Select account type",
@@ -393,7 +395,7 @@
       }
     },
     "MerchantCards": {
-      "title": "Merchant cards",
+      "title": "Cards",
       "columns": {
         "merchant": "Merchant",
         "brand": "Card brand",
@@ -491,14 +493,16 @@
         "create": "Create item",
         "clearFilters": "Clear filters",
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "saveChanges": "Save changes"
       },
       "form": {
         "createTitle": "Create item",
         "editTitle": "Edit item",
         "namePlaceholder": "Item name",
         "unitPricePlaceholder": "Unit price",
-        "selectTax": "Select tax"
+        "selectTax": "Select tax",
+        "descriptionPlaceholder": "Description"
       },
       "validation": {
         "nameRequired": "Item name is required",
@@ -1184,6 +1188,77 @@
         "paymentMethod": "Payment Method",
         "pdf": "PDF",
         "notes": "Notes"
+      },
+      "messages": {
+        "createSuccess": "Invoice created successfully.",
+        "updateSuccess": "Invoice updated successfully.",
+        "missingId": "Missing invoice id.",
+        "notFound": "Invoice not found."
+      }
+    },
+    "ReceivedPayableInvoiceAutoIssuance": {
+      "title": "RP Invoices Auto Issuance",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "tabs": {
+        "summary": "Summary",
+        "all": "All"
+      },
+      "buttons": {
+        "create": "Create",
+        "clearFilters": "Clear filters",
+        "back": "Back",
+        "edit": "Edit",
+        "saveChanges": "Save changes"
+      },
+      "columns": {
+        "settingName": "Setting Name",
+        "clientName": "Client Name",
+        "targetClient": "Target Client",
+        "issuanceCycle": "Issuance Cycle",
+        "nextIssuanceDate": "Next Issuance Date",
+        "status": "Status",
+        "direction": "Direction",
+        "template": "Template",
+        "enabled": "Enabled",
+        "notes": "Notes"
+      },
+      "filters": {
+        "settingName": "Setting Name",
+        "clientName": "Client Name",
+        "targetClient": "Target Client",
+        "issuanceCycle": "Issuance Cycle",
+        "nextIssuanceDate": "Next Issuance Date",
+        "status": "Status",
+        "direction": "Direction",
+        "enabled": "Enabled",
+        "template": "Template",
+        "all": "All",
+        "settingType": "Setting Type",
+        "reset": "Reset",
+        "done": "Done",
+        "search": "Search..."
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "form": {
+        "createTitle": "Create received payable invoice auto issuance",
+        "clientName": "Client Name",
+        "editTitle": "Edit received payable invoice auto issuance",
+        "settingName": "Setting Name",
+        "targetClient": "Target Client",
+        "issuanceCycle": "Issuance Cycle",
+        "nextIssuanceDate": "Next Issuance Date",
+        "status": "Status",
+        "direction": "Direction",
+        "template": "Template",
+        "enabled": "Enabled",
+        "notes": "Notes",
+        "paymentMethod": "Payment Method"
       },
       "messages": {
         "createSuccess": "Invoice created successfully.",

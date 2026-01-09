@@ -4,13 +4,6 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -48,9 +41,13 @@ type BankAccountUpsertValues = {
 const ACCOUNT_TYPES: BankAccount["accountType"][] = ["checking", "savings"];
 
 export default function BankAccountUpsertForm({
+  onSuccess,
+  onCancel,
   bankAccountId,
 }: {
   bankAccountId?: string;
+  onSuccess?: () => void;
+  onCancel?: () => void;
 }) {
   const router = useRouter();
   const t = useTranslations("Merchant.BankAccounts");
@@ -108,6 +105,7 @@ export default function BankAccountUpsertForm({
         accountNumber: data.accountNumber.trim(),
         accountHolder: data.accountHolder.trim(),
       });
+      toast.success(t("messages.updateSuccess"));
     } else {
       addBankAccount({
         bankName: data.bankName.trim(),
@@ -116,136 +114,133 @@ export default function BankAccountUpsertForm({
         accountNumber: data.accountNumber.trim(),
         accountHolder: data.accountHolder.trim(),
       } as any);
+      toast.success(t("messages.createSuccess"));
     }
-    toast.success(t("messages.updateSuccess"));
-    router.push(`${basePath}`);
+
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      router.push(basePath);
+    }
   });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t("form.editTitle")}</CardTitle>
-      </CardHeader>
-      <Form {...form}>
-        <form onSubmit={onSubmit}>
-          <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="bankName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.bankName")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.bankNamePlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <Form {...form}>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="bankName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.bankName")}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t("form.bankNamePlaceholder")}
+                    className="h-9"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="branchName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.branchName")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.branchNamePlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="branchName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.branchName")}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t("form.branchNamePlaceholder")}
+                    className="h-9"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="accountType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.accountType")}</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="h-9 w-full">
-                          <SelectValue
-                            placeholder={t("form.selectAccountType")}
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {ACCOUNT_TYPES.map((v) => (
-                          <SelectItem key={v} value={v}>
-                            {t(`accountTypes.${v}`)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="accountType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.accountType")}</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger className="h-9 w-full">
+                      <SelectValue placeholder={t("form.selectAccountType")} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {ACCOUNT_TYPES.map((v) => (
+                      <SelectItem key={v} value={v}>
+                        {t(`accountTypes.${v}`)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="accountNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.accountNumber")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.accountNumberPlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="accountNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.accountNumber")}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t("form.accountNumberPlaceholder")}
+                    className="h-9"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-              <FormField
-                control={form.control}
-                name="accountHolder"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.accountHolder")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.accountHolderPlaceholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </CardContent>
+        <FormField
+          control={form.control}
+          name="accountHolder"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("columns.accountHolder")}</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={t("form.accountHolderPlaceholder")}
+                  className="h-9"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <CardFooter className="justify-end gap-2">
-            <Button
-              
-              variant="outline"
-              className="h-9"
-              onClick={() => router.push(basePath)}
-            >
+        <div className="flex justify-end gap-2">
+          {onCancel && (
+            <Button variant="outline" className="h-9" onClick={onCancel}>
               {t("buttons.cancel")}
             </Button>
-            <Button
-              type="submit"
-              className="h-9"
-              disabled={form.formState.isSubmitting}
-            >
-              {t("buttons.save")}
-            </Button>
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+          )}
+          <Button
+            type="submit"
+            className="h-9"
+            disabled={form.formState.isSubmitting}
+          >
+            {t("buttons.save")}
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

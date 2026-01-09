@@ -15,9 +15,9 @@
       },
       "dashboard": "ダッシュボード",
       "accountInformationManagement": "アカウント情報管理",
-      "companyInformationManagement": "会社情報管理",
+      "companyInformationManagement": "会社",
       "memberManagement": "メンバー管理",
-      "clientManagement": "取引先管理",
+      "clientManagement": "取引先",
       "merchantBankAccount": "振込先口座",
       "merchantCards": "カード",
       "taxSettings": "税設定",
@@ -39,7 +39,7 @@
       "theme": "テーマ"
     },
     "AccountInformationManagement": {
-      "title": "アカウント情報管理",
+      "title": "アカウント",
       "detailTitle": "アカウント詳細",
       "tabs": {
         "all": "すべて"
@@ -88,6 +88,7 @@
         "accountNotFound": "アカウントが見つかりません。"
       },
       "form": {
+        "personalInformation": "個人情報",
         "createTitle": "アカウントを作成",
         "editTitle": "アカウントを編集",
         "selectMerchant": "加盟店を選択",
@@ -141,7 +142,7 @@
       }
     },
     "CompanyInformationManagement": {
-      "title": "会社情報管理",
+      "title": "会社情報",
       "detailTitle": "会社詳細",
       "tabs": {
         "all": "すべて"
@@ -215,7 +216,7 @@
       }
     },
     "MerchantMembers": {
-      "title": "加盟店メンバー",
+      "title": "メンバー",
       "tabs": {
         "all": "すべて"
       },
@@ -367,6 +368,7 @@
       },
       "form": {
         "editTitle": "振込先口座を編集",
+        "createTitle": "振込先口座を作成",
         "bankNamePlaceholder": "銀行名",
         "branchNamePlaceholder": "支店名",
         "selectAccountType": "口座種別を選択",
@@ -483,7 +485,9 @@
         "create": "商品を作成",
         "clearFilters": "フィルターをクリア",
         "cancel": "キャンセル",
-        "save": "保存"
+        "save": "保存",
+        "saveChanges": "変更を保存",
+        "descriptionPlaceholder": "説明"
       },
       "form": {
         "createTitle": "商品を作成",
@@ -1188,6 +1192,77 @@
         "pdf": "PDF",
         "notes": "備考",
         "direction": "方向",
+        "paymentMethod": "支払方法"
+      },
+      "messages": {
+        "createSuccess": "請求書を作成しました。",
+        "updateSuccess": "請求書を更新しました。",
+        "missingId": "請求書IDがありません。",
+        "notFound": "請求書が見つかりません。"
+      }
+    },
+    "ReceivedPayableInvoiceAutoIssuance": {
+      "title": "RP 請求書自動発行",
+      "enabled": "有効",
+      "disabled": "無効",
+      "tabs": {
+        "summary": "サマリー",
+        "all": "すべて"
+      },
+      "buttons": {
+        "create": "作成",
+        "clearFilters": "フィルターをクリア",
+        "back": "戻る",
+        "edit": "編集",
+        "saveChanges": "変更を保存"
+      },
+      "columns": {
+        "settingName": "設定名",
+        "clientName": "取引先名",
+        "targetClient": "対象取引先",
+        "issuanceCycle": "発行周期",
+        "nextIssuanceDate": "次回発行日",
+        "status": "ステータス",
+        "direction": "方向",
+        "template": "テンプレート",
+        "enabled": "有効",
+        "notes": "備考"
+      },
+      "filters": {
+        "settingName": "設定名",
+        "clientName": "取引先名",
+        "targetClient": "対象取引先",
+        "issuanceCycle": "発行周期",
+        "nextIssuanceDate": "次回発行日",
+        "status": "ステータス",
+        "direction": "方向",
+        "template": "テンプレート",
+        "enabled": "有効",
+        "all": "すべて",
+        "settingType": "設定タイプ",
+        "reset": "リセット",
+        "done": "完了",
+        "search": "検索..."
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "form": {
+        "createTitle": "受領した買掛請求書を作成",
+        "clientName": "取引先名",
+        "editTitle": "受領した買掛請求書を編集",
+        "settingName": "設定名",
+        "targetClient": "対象取引先",
+        "issuanceCycle": "発行周期",
+        "nextIssuanceDate": "次回発行日",
+        "status": "ステータス",
+        "direction": "方向",
+        "template": "テンプレート",
+        "enabled": "有効",
+        "notes": "備考",
         "paymentMethod": "支払方法"
       },
       "messages": {
