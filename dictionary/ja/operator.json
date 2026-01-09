@@ -221,6 +221,10 @@
         "pendingPayoutAmount": "未振込金額",
         "status": "ステータス",
         "lastUpdated": "最終更新"
+      },
+      "statuses": {
+        "active": "有効",
+        "suspended": "停止中"
       }
     },
     "Invoice": {
@@ -248,6 +252,17 @@
       "statusDraft": "下書き",
       "statusPastDue": "支払期限超過",
       "statusPaid": "支払済み",
+      "statuses": {
+        "draft": "下書き",
+        "pending": "保留中",
+        "approved": "承認済み",
+        "paid": "支払済み",
+        "rejected": "却下",
+        "void": "無効",
+        "past_due": "支払期限超過",
+        "open": "未払い"
+      },
+
       "moreFilters": "詳細フィルター",
       "clearFilters": "フィルターをクリア",
       "publicInvoiceNotFoundTitle": "請求書が見つかりません",
@@ -427,6 +442,10 @@
         "edit": "編集",
         "delete": "削除"
       },
+      "statuses": {
+        "draft": "下書き",
+        "issued": "発行済み"
+      },
       "form": {
         "createTitle": "受領を作成",
         "editTitle": "受領を編集",
@@ -468,6 +487,16 @@
         "issueDate": "発行日",
         "paymentDueDate": "支払期日",
         "status": "ステータス"
+      },
+      "statuses": {
+        "draft": "下書き",
+        "pending": "保留中",
+        "approved": "承認済み",
+        "paid": "支払済み",
+        "rejected": "却下",
+        "void": "無効",
+        "past_due": "支払期限超過",
+        "open": "未払い"
       },
       "filters": {
         "invoiceNumber": "請求書番号",
@@ -515,6 +544,10 @@
         "lastLoginAt": "最終ログイン日時",
         "status": "ステータス",
         "company": "会社名"
+      },
+      "statuses": {
+        "active": "有効",
+        "suspended": "停止中"
       },
       "actions": {
         "label": "操作",
@@ -601,8 +634,8 @@
         "selectStatus": "ステータスを選択"
       },
       "statuses": {
-        "active": "active",
-        "suspended": "suspended"
+        "active": "有効",
+        "suspended": "停止中"
       },
       "labels": {
         "yes": "はい",
@@ -680,8 +713,8 @@
         "viewer": "viewer"
       },
       "statuses": {
-        "active": "active",
-        "suspended": "suspended"
+        "active": "有効",
+        "suspended": "停止中"
       },
       "messages": {
         "createSuccess": "メンバーを作成しました。",
@@ -795,8 +828,8 @@
         "bank": "銀行振込"
       },
       "statuses": {
-        "active": "active",
-        "suspended": "suspended"
+        "active": "有効",
+        "suspended": "停止中"
       },
       "actions": {
         "label": "操作",
@@ -1058,6 +1091,10 @@
       },
       "statuses": {
         "draft": "下書き",
+        "sent": "送付済み",
+        "accepted": "承認済み",
+        "rejected": "却下",
+        "expired": "期限切れ",
         "issued": "発行済み"
       },
       "actions": {
@@ -1372,9 +1409,15 @@
         "floor": "切り捨て",
         "ceil": "切り上げ"
       },
+      "statuses": {
+        "enabled": "有効",
+        "disabled": "無効"
+      },
       "buttons": {
         "save": "保存",
-        "reset": "リセット"
+        "reset": "リセット",
+        "edit": "編集",
+        "cancel": "キャンセル"
       },
       "validation": {
         "merchantRequired": "加盟店は必須です",

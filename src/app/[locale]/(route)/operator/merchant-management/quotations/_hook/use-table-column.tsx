@@ -1,11 +1,14 @@
 import ActionsCell from "@/components/action-cell";
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { Quotation } from "@/lib/types";
+import type { Quotation, QuotationStatus } from "@/lib/types";
 import { useQuotationStore } from "@/store/quotation-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
+import { getQuotationStatusBadgeVariant } from "./status";
 
 export type QuotationRow = Quotation & {
   clientName: string;
@@ -65,7 +68,6 @@ export default function useQuotationTableColumn({
       header: t("columns.number"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
@@ -98,9 +100,17 @@ export default function useQuotationTableColumn({
     {
       accessorKey: "status",
       header: t("columns.status"),
-      cell: ({ row }) => (
-        <div className="capitalize">{String(row.getValue("status") ?? "")}</div>
-      ),
+      cell: ({ row }) => {
+        const status = row.original.status || "draft";
+
+        return (
+          <StatusBadge
+            variant={getQuotationStatusBadgeVariant(status as QuotationStatus)}
+          >
+            {t(`statuses.${status}`)}
+          </StatusBadge>
+        );
+      },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");
         if (Array.isArray(value)) return value.includes(cellValue);

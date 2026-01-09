@@ -1,4 +1,6 @@
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/status-badge";
+import { getMidSettingStatusBadgeVariant } from "./status";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { AppMid, MidStatus } from "@/types/mid";
 import { ColumnDef } from "@tanstack/react-table";
@@ -48,7 +50,6 @@ export default function useMidTableColumn({
       header: t("columns.mid"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
@@ -73,9 +74,12 @@ export default function useMidTableColumn({
       cell: ({ row }) => {
         const v = String(row.getValue("status") ?? "") as MidStatus;
         const label = t(`statuses.${v}`);
-        const variant: "default" | "secondary" =
-          v === "active" ? "default" : "secondary";
-        return <Badge variant={variant}>{label}</Badge>;
+
+        return (
+          <StatusBadge variant={getMidSettingStatusBadgeVariant(v)}>
+            {label}
+          </StatusBadge>
+        );
       },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");

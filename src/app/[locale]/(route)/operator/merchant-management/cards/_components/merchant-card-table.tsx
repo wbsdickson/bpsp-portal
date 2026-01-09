@@ -27,7 +27,6 @@ export default function MerchantCardTable() {
       .filter((c) => !c.deletedAt)
       .map((c) => {
         const status = getCardStatus(c);
-        const statusLabel = t(`statuses.${status}`);
 
         const mm = String(c.expiryMonth ?? "").padStart(2, "0");
         const yy = String(c.expiryYear ?? "");
@@ -38,7 +37,7 @@ export default function MerchantCardTable() {
 
         return {
           ...c,
-          statusLabel,
+          status,
           expirationLabel,
           merchantName: merchantNameById.get(c.merchantId) ?? "—",
         };

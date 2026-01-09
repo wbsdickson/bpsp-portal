@@ -7,7 +7,8 @@ import Link from "next/link";
 import { DataTable } from "@/components/data-table";
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -168,29 +169,21 @@ const columns = (
     },
     cell: ({ row }) => {
       const inv = row.original;
+      const variantMap: Record<string, BadgeVariant> = {
+        open: "info",
+        draft: "secondary",
+        pending: "warning",
+        approved: "warning",
+        paid: "success",
+        rejected: "destructive",
+        past_due: "warning",
+        void: "secondary",
+      };
       return (
         <div className="flex items-center gap-3">
-          {inv.status === "open" && (
-            <Badge variant="secondary" className="bg-indigo-50 text-indigo-700">
-              {t("statusOpen")}
-            </Badge>
-          )}
-          {inv.status === "draft" && (
-            <Badge variant="secondary">{t("statusDraft")}</Badge>
-          )}
-          {inv.status === "past_due" && (
-            <Badge variant="secondary" className="bg-amber-50 text-amber-700">
-              {t("statusPastDue")}
-            </Badge>
-          )}
-          {inv.status === "paid" && (
-            <Badge
-              variant="secondary"
-              className="bg-emerald-50 text-emerald-700"
-            >
-              {t("statusPaid")}
-            </Badge>
-          )}
+          <StatusBadge variant={variantMap[inv.status] || "secondary"}>
+            {t(`statuses.${inv.status}`)}
+          </StatusBadge>
         </div>
       );
     },

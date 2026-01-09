@@ -3,7 +3,8 @@
 import * as React from "react";
 
 import HeaderPage from "@/components/header-page";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -68,10 +69,12 @@ function formatDateTime(value?: string) {
   return dt.toLocaleString();
 }
 
-function statusBadgeVariant(status?: MerchantStatus) {
-  if (status === "active") return "default";
-  if (status === "suspended") return "destructive";
-  return "secondary";
+function statusBadgeVariant(status?: MerchantStatus): BadgeVariant {
+  const variantMap: Record<MerchantStatus, BadgeVariant> = {
+    active: "success",
+    suspended: "destructive",
+  };
+  return (status && variantMap[status]) || "secondary";
 }
 
 function getLatestTimestamp(values: Array<string | undefined | null>) {
@@ -668,9 +671,13 @@ export default function MerchantManagementDashboardPage() {
                   {t("metrics.status")}
                 </div>
                 <div className="mt-1">
-                  <Badge variant={statusBadgeVariant(selectedMerchant?.status)}>
-                    {selectedMerchant?.status ?? "—"}
-                  </Badge>
+                  <StatusBadge
+                    variant={statusBadgeVariant(selectedMerchant?.status)}
+                  >
+                    {selectedMerchant?.status
+                      ? t(`statuses.${selectedMerchant.status}`)
+                      : "—"}
+                  </StatusBadge>
                 </div>
               </div>
               <div className="rounded-xl border p-3">

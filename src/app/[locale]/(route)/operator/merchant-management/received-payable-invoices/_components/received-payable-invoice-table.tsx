@@ -7,7 +7,8 @@ import { DataTable } from "@/components/data-table";
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
 import ActionsCell from "@/components/action-cell";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useLocale } from "next-intl";
@@ -19,6 +20,7 @@ import { useAppStore } from "@/lib/store";
 import { useInvoiceStore } from "@/store/invoice-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { useReceivedInvoiceStore } from "@/store/received-invoice-store";
+import { InvoiceStatus } from "@/lib/types";
 
 export type PayableInvoiceRow = {
   id: string;
@@ -30,40 +32,6 @@ export type PayableInvoiceRow = {
   paymentDueDate: string;
   status: string;
 };
-
-function StatusBadge({ value }: { value: string }) {
-  if (value === "paid") {
-    return (
-      <Badge variant="secondary" className="bg-emerald-50 text-emerald-700">
-        paid
-      </Badge>
-    );
-  }
-  if (value === "pending") {
-    return (
-      <Badge variant="secondary" className="bg-amber-50 text-amber-700">
-        pending
-      </Badge>
-    );
-  }
-  if (value === "draft") {
-    return <Badge variant="secondary">draft</Badge>;
-  }
-  if (value === "approved") {
-    return (
-      <Badge variant="secondary" className="bg-indigo-50 text-indigo-700">
-        approved
-      </Badge>
-    );
-  }
-  if (value === "rejected") {
-    return <Badge variant="destructive">rejected</Badge>;
-  }
-  if (value === "void") {
-    return <Badge variant="outline">void</Badge>;
-  }
-  return <Badge variant="outline">{value || "—"}</Badge>;
-}
 
 export default function ReceivedPayableInvoiceTable({
   addTab,
@@ -208,9 +176,27 @@ export default function ReceivedPayableInvoiceTable({
 
           return String(rowValue) === String(filterValue);
         },
-        cell: ({ row }) => (
-          <StatusBadge value={String(row.getValue("status") ?? "")} />
-        ),
+        cell: ({ row }) => {
+          const status = String(row.getValue("status") ?? "") as InvoiceStatus;
+          const label = t(`statuses.${status}`);
+
+          const variantMap: Record<InvoiceStatus, BadgeVariant> = {
+            paid: "success",
+            pending: "warning",
+            approved: "success",
+            rejected: "destructive",
+            draft: "info",
+            open: "info",
+            past_due: "warning",
+            void: "secondary",
+          };
+
+          return (
+            <StatusBadge variant={variantMap[status] || "secondary"}>
+              {label}
+            </StatusBadge>
+          );
+        },
       },
     ],
     [addTab, deleteInvoice, locale, router, t],

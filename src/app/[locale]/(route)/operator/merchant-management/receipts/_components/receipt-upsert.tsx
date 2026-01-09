@@ -237,7 +237,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
           </Button>
 
           <div className="flex-1">
-            <div className="text-sm font-medium">
+            <div className="text-xl font-bold">
               {receiptId ? t("form.editTitle") : t("form.createTitle")}
             </div>
           </div>

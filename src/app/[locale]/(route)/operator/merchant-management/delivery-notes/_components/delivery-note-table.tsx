@@ -23,6 +23,7 @@ const STATUS_OPTIONS: DeliveryNoteStatus[] = [
   "accepted",
   "rejected",
   "expired",
+  "issued",
 ];
 
 const selectClients = (s: ClientStoreState) => s.clients;

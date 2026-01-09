@@ -40,6 +40,9 @@ import { createMerchantQuotationSchema } from "../_lib/merchant-quotation-schema
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { StatusBadge } from "@/components/status-badge";
+import { getQuotationStatusBadgeVariant } from "../_hook/status";
+import { QuotationStatus } from "@/lib/types";
 
 export default function QuotationDetail({
   quotationId,
@@ -93,17 +96,9 @@ export default function QuotationDetail({
     name: "items",
   });
 
-  // Quotations don't explicitly store merchantId on the object in some stores,
-  // but if it does, we can use it. The upsert form used DEFAULT_MERCHANT_ID "u1".
-  // We'll try to rely on client's merchantId or fallback.
-  // Actually, `useQuotationStore` might store it. Let's check type if possible, or assume it's there.
-  // If not, we might default to "u1" or first merchant.
-  // For now, let's assume quotation has merchantId or we infer it.
-  // Inspecting `quotation-store.ts` would be ideal, but assuming it exists or using a fallback.
-  // `quotation-upsert-form.tsx` line 219 used `DEFAULT_MERCHANT_ID`.
   const merchantId = (quotation as any)?.merchantId ?? "u1";
 
-  const selectedMerchantId = merchantId; // If we made merchant editable, we'd watch it.
+  const selectedMerchantId = merchantId;
 
   const availableItems = React.useMemo(
     () => getMerchantItems(selectedMerchantId),
@@ -180,7 +175,13 @@ export default function QuotationDetail({
           <h2 className="text-2xl font-bold tracking-tight">
             {quotation.quotationNumber}
           </h2>
-          <p className="text-muted-foreground text-sm">{quotation.status}</p>
+          <StatusBadge
+            variant={getQuotationStatusBadgeVariant(
+              (quotation.status as QuotationStatus) || "draft",
+            )}
+          >
+            {t(`statuses.${quotation.status}`)}
+          </StatusBadge>
         </div>
         <div className="flex gap-2">
           {isEditing ? (
@@ -207,94 +208,100 @@ export default function QuotationDetail({
       </div>
 
       <Form {...form}>
-        <form onSubmit={onSubmit}>
-          <div className="bg-card rounded-md">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <InlineEditField
-                control={form.control}
-                name="quotationNumber"
-                label={t("columns.number")}
-                isEditing={isEditing}
-                value={quotation.quotationNumber}
-                renderInput={(field) => <Input {...field} className="h-9" />}
-              />
+        <form onSubmit={onSubmit} className="bg-background rounded-md p-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <InlineEditField
+              control={form.control}
+              name="quotationNumber"
+              label={t("columns.number")}
+              isEditing={isEditing}
+              value={quotation.quotationNumber}
+              renderInput={(field) => <Input {...field} className="h-9" />}
+            />
 
-              <InlineEditField
-                control={form.control}
-                name="status"
-                label={t("columns.status")}
-                isEditing={isEditing}
-                value={quotation.status}
-                renderInput={(field) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="h-9 w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {["draft", "sent", "accepted", "rejected", "expired"].map(
-                        (s) => (
-                          <SelectItem key={s} value={s}>
-                            {s}
-                          </SelectItem>
-                        ),
-                      )}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
+            <InlineEditField
+              control={form.control}
+              name="status"
+              label={t("columns.status")}
+              isEditing={isEditing}
+              value={
+                <StatusBadge
+                  variant={getQuotationStatusBadgeVariant(
+                    (quotation.status as QuotationStatus) || "draft",
+                  )}
+                >
+                  {t(`statuses.${quotation.status}`)}
+                </StatusBadge>
+              }
+              renderInput={(field) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="h-9 w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {["draft", "sent", "accepted", "rejected", "expired"].map(
+                      (s) => (
+                        <SelectItem key={s} value={s}>
+                          {s}
+                        </SelectItem>
+                      ),
+                    )}
+                  </SelectContent>
+                </Select>
+              )}
+            />
 
-              <InlineEditField
-                control={form.control}
-                name="clientId"
-                label={t("columns.client")}
-                isEditing={isEditing}
-                value={client?.name ?? quotation.clientId ?? "—"}
-                renderInput={(field) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="h-9 w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {clients
-                        .filter((c) => c.merchantId === merchantId)
-                        .map((c) => (
-                          <SelectItem key={c.id} value={c.id}>
-                            {c.name}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
+            <InlineEditField
+              control={form.control}
+              name="clientId"
+              label={t("columns.client")}
+              isEditing={isEditing}
+              value={client?.name ?? quotation.clientId ?? "—"}
+              renderInput={(field) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="h-9 w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {clients
+                      .filter((c) => c.merchantId === merchantId)
+                      .map((c) => (
+                        <SelectItem key={c.id} value={c.id}>
+                          {c.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
 
-              <InlineEditField
-                control={form.control}
-                name="quotationDate"
-                label={t("columns.quotationDate")}
-                isEditing={isEditing}
-                value={quotation.quotationDate}
-                renderInput={(field) => (
-                  <Input type="date" {...field} className="h-9" />
-                )}
-              />
+            <InlineEditField
+              control={form.control}
+              name="quotationDate"
+              label={t("columns.quotationDate")}
+              isEditing={isEditing}
+              value={quotation.quotationDate}
+              renderInput={(field) => (
+                <Input type="date" {...field} className="h-9" />
+              )}
+            />
 
-              <InlineEditField
-                control={form.control}
-                name="amount"
-                label={t("columns.amount")}
-                isEditing={false}
-                value={`${getCurrencySymbol(currency)} ${formattedAmount(quotation.amount, currency)}`}
-                renderInput={(field) => (
-                  <Input {...field} className="h-9" disabled />
-                )}
-              />
-            </div>
+            <InlineEditField
+              control={form.control}
+              name="amount"
+              label={t("columns.amount")}
+              isEditing={false}
+              value={`${getCurrencySymbol(currency)} ${formattedAmount(quotation.amount, currency)}`}
+              renderInput={(field) => (
+                <Input {...field} className="h-9" disabled />
+              )}
+            />
           </div>
 
           <div className="mt-6">

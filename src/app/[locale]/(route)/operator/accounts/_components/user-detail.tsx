@@ -4,6 +4,8 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useLocale, useTranslations } from "next-intl";
 import { useAccountStore } from "@/store/account-store";
@@ -192,7 +194,19 @@ export default function UserDetail({ userId }: { userId: string }) {
                 {t("columns.status")}
               </div>
               <div className="flex items-center text-sm font-medium capitalize">
-                {user.status ?? "—"}
+                {(() => {
+                  const status = user.status;
+                  if (!status) return "—";
+                  const variantMap: Record<string, BadgeVariant> = {
+                    active: "success",
+                    suspended: "destructive",
+                  };
+                  return (
+                    <StatusBadge variant={variantMap[status] || "secondary"}>
+                      {t(`statuses.${status}`)}
+                    </StatusBadge>
+                  );
+                })()}
               </div>
             </div>
 

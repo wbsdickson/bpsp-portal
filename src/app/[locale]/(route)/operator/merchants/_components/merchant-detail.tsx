@@ -18,6 +18,7 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createMerchantSchema } from "../_lib/merchant-schema";
+import { TitleField } from "@/components/title-field";
 
 export default function MerchantDetail({ merchantId }: { merchantId: string }) {
   const locale = useLocale();
@@ -164,12 +165,10 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
                 renderInput={(field) => <Input {...field} />}
               />
 
-              <div>
-                <div className="text-muted-foreground text-xs">
-                  {t("columns.merchantId")}
-                </div>
-                <div className="font-medium">{merchant.id}</div>
-              </div>
+              <TitleField
+                label={t("columns.merchantId")}
+                value={<div className="font-medium">{merchant.id}</div>}
+              />
 
               <InlineEditField
                 control={form.control}
@@ -180,12 +179,10 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
                 renderInput={(field) => <Input {...field} />}
               />
 
-              <div>
-                <div className="text-muted-foreground text-xs">
-                  {t("columns.registrationDate")}
-                </div>
-                <div className="font-medium">{registrationLabel}</div>
-              </div>
+              <TitleField
+                label={t("columns.registrationDate")}
+                value={<div className="font-medium">{registrationLabel}</div>}
+              />
             </div>
           </form>
         </Form>
@@ -193,41 +190,49 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
         <Separator className="my-4" />
 
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div>
-            <div className="text-muted-foreground text-xs">Representative</div>
-            <div className="font-medium">{representative?.name ?? "—"}</div>
-          </div>
+          <TitleField
+            label="Representative"
+            value={
+              <div className="font-medium">{representative?.name ?? "—"}</div>
+            }
+          />
 
-          <div>
-            <div className="text-muted-foreground text-xs">Fee rate</div>
-            <div className="font-medium">{feeRateLabel}</div>
-          </div>
+          <TitleField
+            label="Fee rate"
+            value={<div className="font-medium">{feeRateLabel}</div>}
+          />
 
-          <div>
-            <div className="text-muted-foreground text-xs">
-              {t("columns.transactionCount")}
-            </div>
-            <div className="font-medium">{merchant.transactionCount ?? 0}</div>
-          </div>
+          <TitleField
+            label={t("columns.transactionCount")}
+            value={
+              <div className="font-medium">
+                {merchant.transactionCount ?? 0}
+              </div>
+            }
+          />
 
-          <div>
-            <div className="text-muted-foreground text-xs">
-              Transaction amount
-            </div>
-            <div className="font-medium">
-              {transactionAmount.toLocaleString()}
-            </div>
-          </div>
+          <TitleField
+            label="Transaction amount"
+            value={
+              <div className="font-medium">
+                {transactionAmount.toLocaleString()}
+              </div>
+            }
+          />
 
-          <div>
-            <div className="text-muted-foreground text-xs">Contact person</div>
-            <div className="font-medium">{representative?.name ?? "—"}</div>
-          </div>
+          <TitleField
+            label="Contact person"
+            value={
+              <div className="font-medium">{representative?.name ?? "—"}</div>
+            }
+          />
 
-          <div>
-            <div className="text-muted-foreground text-xs">Contact email</div>
-            <div className="font-medium">{representative?.email ?? "—"}</div>
-          </div>
+          <TitleField
+            label="Contact email"
+            value={
+              <div className="font-medium">{representative?.email ?? "—"}</div>
+            }
+          />
         </div>
       </div>
     </div>

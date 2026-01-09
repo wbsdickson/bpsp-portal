@@ -14,14 +14,14 @@ const badgeVariants = cva(
         secondary:
           "border-transparent bg-secondary/20 text-secondary-foreground [a&]:hover:bg-secondary/30",
         destructive:
-          "border-transparent bg-destructive/20 text-destructive [a&]:hover:bg-destructive/30 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
+          "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        success:
+          "border-transparent bg-success text-success-foreground [a&]:hover:bg-success/90",
+        info: "border-transparent bg-info text-info-foreground [a&]:hover:bg-info/90",
+        warning:
+          "border-transparent bg-warning text-warning-foreground [a&]:hover:bg-warning/90",
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
-        success:
-          "border-transparent bg-green-200 text-green-700 [a&]:hover:bg-green-300 focus-visible:ring-green-500/20 dark:focus-visible:ring-green-500/40",
-        warning:
-          "border-transparent bg-amber-200 text-amber-700 [a&]:hover:bg-amber-300 focus-visible:ring-amber-500/20 dark:focus-visible:ring-amber-500/40",
-        info: "border-transparent bg-blue-200 text-blue-700 [a&]:hover:bg-blue-300 focus-visible:ring-blue-500/20 dark:focus-visible:ring-blue-500/40",
       },
     },
     defaultVariants: {
@@ -47,5 +47,7 @@ function Badge({
     />
   );
 }
+
+export type BadgeVariant = VariantProps<typeof badgeVariants>["variant"];
 
 export { Badge, badgeVariants };

@@ -8,6 +8,9 @@ import { useBankAccountStore } from "@/store/bank-account-store";
 import { useInvoiceStore } from "@/store/invoice-store";
 import { useClientStore } from "@/store/client-store";
 import { useMerchantStore } from "@/store/merchant-store";
+import { StatusBadge } from "@/components/status-badge";
+import { getPayoutTransactionStatusBadgeVariant } from "../_hook/status";
+import { PaymentStatus } from "@/lib/types";
 
 export default function PayoutTransactionDetail({ id }: { id?: string }) {
   const t = useTranslations("Operator.PayoutTransactions");
@@ -91,7 +94,15 @@ export default function PayoutTransactionDetail({ id }: { id?: string }) {
           <div className="text-muted-foreground">
             {t("columns.payoutStatus")}
           </div>
-          <div className="capitalize">{transaction.status}</div>
+          <div className="capitalize">
+            <StatusBadge
+              variant={getPayoutTransactionStatusBadgeVariant(
+                (transaction.status as PaymentStatus) || "pending_approval",
+              )}
+            >
+              {t(`statuses.${transaction.status}`)}
+            </StatusBadge>
+          </div>
         </div>
         <div>
           <div className="text-muted-foreground">

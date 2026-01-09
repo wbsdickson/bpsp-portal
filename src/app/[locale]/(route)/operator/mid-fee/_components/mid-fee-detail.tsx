@@ -24,6 +24,8 @@ import {
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createMidFeeSchema } from "../_lib/mid-fee-schema";
 import { MidFeeStatus } from "@/types/mid-fee";
+import { StatusBadge } from "@/components/status-badge";
+import { getMidFeeStatusBadgeVariant } from "../_hook/status";
 
 const STATUS_OPTIONS: MidFeeStatus[] = ["active", "inactive"];
 
@@ -139,7 +141,17 @@ export default function MidFeeDetail({ feeId }: { feeId: string }) {
               label={t("columns.status")}
               isEditing={isEditing}
               value={
-                fee.status ? t(`statuses.${fee.status}`) : t("statuses.active")
+                fee.status ? (
+                  <StatusBadge
+                    variant={getMidFeeStatusBadgeVariant(
+                      (fee.status as MidFeeStatus) || "active",
+                    )}
+                  >
+                    {t(`statuses.${fee.status}`)}
+                  </StatusBadge>
+                ) : (
+                  t("statuses.active")
+                )
               }
               renderInput={(field) => (
                 <Select

@@ -142,16 +142,12 @@ export function ReceivedPayableInvoiceUpsertPage({
           </Button>
 
           <div className="flex-1">
-            <div className="text-sm font-medium">
+            <div className="text-xl font-bold">
               {invoiceId ? t("form.editTitle") : t("form.createTitle")}
             </div>
           </div>
 
-          <Button
-            size="sm"
-            className="h-9"
-            onClick={onSubmit}
-          >
+          <Button size="sm" className="h-9" onClick={onSubmit}>
             {invoiceId ? t("buttons.saveChanges") : t("buttons.create")}
           </Button>
         </div>

@@ -6,7 +6,8 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/data-table";
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useLocale } from "next-intl";
@@ -18,6 +19,7 @@ import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceiptStore } from "@/store/receipt-store";
 import ActionsCell from "@/components/action-cell";
 import { useBasePath } from "@/hooks/use-base-path";
+import { getReceiptStatusBadgeVariant } from "./status";
 
 export type ReceiptRow = {
   id: string;
@@ -152,21 +154,13 @@ export default function ReceiptTable({
           return String(rowValue) === String(filterValue);
         },
         cell: ({ row }) => {
-          const value = String(row.getValue("status") ?? "");
-          if (value === "issued") {
-            return (
-              <Badge
-                variant="secondary"
-                className="bg-emerald-50 text-emerald-700"
-              >
-                issued
-              </Badge>
-            );
-          }
-          if (value === "draft") {
-            return <Badge variant="secondary">draft</Badge>;
-          }
-          return <Badge variant="outline">{value || "—"}</Badge>;
+          const status = row.original.status;
+
+          return (
+            <StatusBadge variant={getReceiptStatusBadgeVariant(status)}>
+              {t(`statuses.${status}`)}
+            </StatusBadge>
+          );
         },
       },
     ],
@@ -185,8 +179,8 @@ export default function ReceiptTable({
           const statusCol = table.getColumn("status");
 
           const statusOptions = [
-            { value: "draft", label: "draft" },
-            { value: "issued", label: "issued" },
+            { value: "draft", label: t("statuses.draft") },
+            { value: "issued", label: t("statuses.issued") },
           ];
 
           const rawStatusValue = statusCol?.getFilterValue();

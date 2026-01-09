@@ -1,3 +1,5 @@
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -139,8 +141,19 @@ export default function useMerchantMemberTableColumn({
         return String(rowValue) === String(filterValue);
       },
       cell: ({ row }) => {
-        const raw = row.getValue("status");
-        return <div className="capitalize">{String(raw ?? "—")}</div>;
+        const status = row.original.status;
+        if (!status) return <div className="text-muted-foreground">—</div>;
+
+        const variantMap: Record<NonNullable<User["status"]>, BadgeVariant> = {
+          active: "success",
+          suspended: "destructive",
+        };
+
+        return (
+          <StatusBadge variant={variantMap[status] || "secondary"}>
+            {t(`statuses.${status}`)}
+          </StatusBadge>
+        );
       },
     },
   ];
