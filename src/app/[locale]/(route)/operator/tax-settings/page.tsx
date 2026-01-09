@@ -245,7 +245,6 @@ export default function TaxSettingsPage() {
 
               <CardFooter className="justify-end gap-2">
                 <Button
-                  
                   variant="outline"
                   className="h-9"
                   onClick={() => {

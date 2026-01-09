@@ -32,6 +32,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { InlineEditField } from "@/components/inline-edit-field";
+import { Card, CardContent } from "@/components/ui/card";
 
 type TaxSettingsFormValues = {
   merchantId: string;
@@ -137,145 +138,152 @@ export default function TaxSettingsPage() {
       <div className="max-w-4xl space-y-4">
         <Form {...form}>
           <form onSubmit={onSubmit} className="space-y-8">
-            <div className="bg-background rounded-md border p-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="merchantId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("form.merchant")}</FormLabel>
+            <Card>
+              <CardContent>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="merchantId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("form.merchant")}</FormLabel>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          disabled={isEditing}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="h-9 w-full">
+                              <SelectValue
+                                placeholder={t("form.selectMerchant")}
+                              />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {merchants.map((m) => (
+                              <SelectItem key={m.id} value={m.id}>
+                                {m.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent>
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="text-lg font-medium">{t("title")}</h3>
+                  <div className="flex items-center gap-2">
+                    {isEditing ? (
+                      <>
+                        <Button
+                          variant="secondary"
+                          size="xs"
+                          onClick={onCancel}
+                          type="button"
+                        >
+                          {t("buttons.cancel")}
+                        </Button>
+                        <Button variant="secondary" size="xs" type="submit">
+                          {t("buttons.save")}
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        variant="secondary"
+                        size="xs"
+                        onClick={() => setIsEditing(true)}
+                        type="button"
+                      >
+                        {t("buttons.edit")}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <InlineEditField
+                    control={form.control}
+                    name="taxable"
+                    label={t("form.taxable")}
+                    isEditing={isEditing}
+                    value={
+                      form.watch("taxable")
+                        ? t("statuses.enabled")
+                        : t("statuses.disabled")
+                    }
+                    renderInput={(field) => (
+                      <div className="flex h-9 items-center">
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </div>
+                    )}
+                  />
+
+                  <div className="md:col-span-2" />
+
+                  <InlineEditField
+                    control={form.control}
+                    name="taxRatePercent"
+                    label={t("form.taxRate")}
+                    isEditing={isEditing}
+                    value={`${form.watch("taxRatePercent")}%`}
+                    renderInput={(field) => (
+                      <Input
+                        type="number"
+                        step="0.01"
+                        inputMode="decimal"
+                        className="h-9"
+                        {...field}
+                      />
+                    )}
+                  />
+
+                  <InlineEditField
+                    control={form.control}
+                    name="roundingMethod"
+                    label={t("form.roundingMethod")}
+                    isEditing={isEditing}
+                    value={t(`roundingMethods.${form.watch("roundingMethod")}`)}
+                    renderInput={(field) => (
                       <Select
                         value={field.value}
                         onValueChange={field.onChange}
-                        disabled={isEditing}
                       >
                         <FormControl>
                           <SelectTrigger className="h-9 w-full">
                             <SelectValue
-                              placeholder={t("form.selectMerchant")}
+                              placeholder={t("form.selectRoundingMethod")}
                             />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {merchants.map((m) => (
-                            <SelectItem key={m.id} value={m.id}>
-                              {m.name}
+                          {ROUNDING_METHODS.map((m) => (
+                            <SelectItem key={m} value={m}>
+                              {t(`roundingMethods.${m}`)}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
+                    )}
+                  />
 
-            <div className="bg-background rounded-md border p-4">
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-lg font-medium">{t("title")}</h3>
-                <div className="flex items-center gap-2">
-                  {isEditing ? (
-                    <>
-                      <Button
-                        variant="secondary"
-                        size="xs"
-                        onClick={onCancel}
-                        type="button"
-                      >
-                        {t("buttons.cancel")}
-                      </Button>
-                      <Button variant="secondary" size="xs" type="submit">
-                        {t("buttons.save")}
-                      </Button>
-                    </>
-                  ) : (
-                    <Button
-                      variant="secondary"
-                      size="xs"
-                      onClick={() => setIsEditing(true)}
-                      type="button"
-                    >
-                      {t("buttons.edit")}
-                    </Button>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <InlineEditField
-                  control={form.control}
-                  name="taxable"
-                  label={t("form.taxable")}
-                  isEditing={isEditing}
-                  value={
-                    form.watch("taxable")
-                      ? t("statuses.enabled")
-                      : t("statuses.disabled")
-                  }
-                  renderInput={(field) => (
-                    <div className="flex h-9 items-center">
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                  <div className="md:col-span-2">
+                    <div className="text-muted-foreground text-xs">
+                      {t("form.updatedAt")}: {updatedAtLabel}
                     </div>
-                  )}
-                />
-
-                <div className="md:col-span-2" />
-
-                <InlineEditField
-                  control={form.control}
-                  name="taxRatePercent"
-                  label={t("form.taxRate")}
-                  isEditing={isEditing}
-                  value={`${form.watch("taxRatePercent")}%`}
-                  renderInput={(field) => (
-                    <Input
-                      type="number"
-                      step="0.01"
-                      inputMode="decimal"
-                      className="h-9"
-                      {...field}
-                    />
-                  )}
-                />
-
-                <InlineEditField
-                  control={form.control}
-                  name="roundingMethod"
-                  label={t("form.roundingMethod")}
-                  isEditing={isEditing}
-                  value={t(`roundingMethods.${form.watch("roundingMethod")}`)}
-                  renderInput={(field) => (
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="h-9 w-full">
-                          <SelectValue
-                            placeholder={t("form.selectRoundingMethod")}
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {ROUNDING_METHODS.map((m) => (
-                          <SelectItem key={m} value={m}>
-                            {t(`roundingMethods.${m}`)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-
-                <div className="md:col-span-2">
-                  <div className="text-muted-foreground text-xs">
-                    {t("form.updatedAt")}: {updatedAtLabel}
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </form>
         </Form>
       </div>
