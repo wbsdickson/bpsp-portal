@@ -43,32 +43,32 @@ const merchantRoutes: Array<{
     icon: LayoutDashboard,
   },
   {
-    label: "Account Information Management",
-    route: "merchant/account",
+    label: "Account Information",
+    route: "merchant/account-information",
     icon: User,
   },
   {
-    label: "Company Information Management",
-    route: "merchant/company",
+    label: "Company Information",
+    route: "merchant/company-information",
     icon: Building2,
   },
   {
-    label: "Member Management",
-    route: "merchant/member",
+    label: "Members",
+    route: "merchant/members",
     icon: Users,
   },
   {
-    label: "Client Management",
-    route: "merchant/client",
+    label: "Clients",
+    route: "merchant/clients",
     icon: UserCircle,
   },
   {
-    label: "Merchant Bank Account",
+    label: "Bank Accounts",
     route: "merchant/bank-accounts",
     icon: Wallet,
   },
   {
-    label: "Merchant Cards",
+    label: "Cards",
     route: "merchant/cards",
     icon: CreditCard,
   },
@@ -121,6 +121,11 @@ const merchantRoutes: Array<{
     label: "Received Payable Invoices",
     route: "merchant/received-payable-invoices",
     icon: FileCheck,
+  },
+  {
+    label: "RP Invoices Auto-Issuance",
+    route: "merchant/rp-invoice-auto-issuance",
+    icon: Zap,
   },
 ];
 

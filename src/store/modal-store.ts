@@ -6,6 +6,7 @@ export type ModalType =
   | "create-merchant-mid"
   | "create-merchant-fee"
   | "create-merchant-item"
+  | "create-bank-account"
   | "create-invoice"
   | "edit-invoice";
 

@@ -65,3 +65,18 @@ export type InvoiceAutoIssuance = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type ReceivedPayableInvoiceAutoIssuance = {
+  id: string;
+  settingName: string;
+  targetClient: string;
+  issuanceCycle: "daily" | "weekly" | "monthly";
+  nextIssuanceDate: string;
+  status: "enabled" | "disabled";
+  direction: "receivable" | "payable";
+  template: string;
+  enabled: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  notes?: string;
+};

@@ -2,32 +2,32 @@
 
 import HeaderPage from "@/components/header-page";
 import RecordTabs, { type RecordTab } from "@/components/record-tabs";
-import { useTranslations } from "next-intl";
-import { useBasePath } from "@/hooks/use-base-path";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
-import BankAccountDetail from "./_components/bank-account-detail";
-import BankAccountTable from "./_components/bank-account-table";
-import { CreateBankAccountModal } from "./_modal/create-merchant-bank-modal";
-import { useModalStore } from "@/store/modal-store";
+import ReceivedPayableInvoiceDetail from "./_components/received-payable-invoice-detail";
+import ReceivedPayableInvoiceTable from "./_components/received-payable-invoice-table";
+import { useBasePath } from "@/hooks/use-base-path";
 
-export default function BankAccountsPage() {
-  const t = useTranslations("Merchant.BankAccounts");
+import { PayableInvoiceRow } from "./_components/received-payable-invoice-table";
+
+export default function ReceivedPayableInvoicesAutoIssuancePage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations("Merchant.ReceivedPayableInvoiceAutoIssuance");
   const { basePath } = useBasePath();
-  const { onOpen } = useModalStore();
 
-  // Get the active tab from URL parameters, default to "table"
   const activeTab = searchParams.get("tab") || "table";
 
   return (
     <HeaderPage
       title={t("title")}
+      capitalizeTitle={false}
       pageActions={
-        <Button size="sm" onClick={() => onOpen("create-bank-account")}>
-          <Plus /> {t("buttons.create")}
+        <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
+          <Plus /> Create {t("title")}
         </Button>
       }
     >
@@ -44,13 +44,13 @@ export default function BankAccountsPage() {
           if (tab.key === "table") {
             return (
               <div className="p-4">
-                <BankAccountTable
+                <ReceivedPayableInvoiceTable
                   addTab={(id: string) =>
                     helpers.addTab({
                       key: id,
                       label: id,
                       closable: true,
-                    } satisfies RecordTab<object>)
+                    } satisfies RecordTab<PayableInvoiceRow>)
                   }
                 />
               </div>
@@ -59,12 +59,11 @@ export default function BankAccountsPage() {
 
           return (
             <div className="p-4">
-              <BankAccountDetail bankAccountId={tab.key} />
+              <ReceivedPayableInvoiceDetail id={tab.key} />
             </div>
           );
         }}
       />
-      <CreateBankAccountModal />
     </HeaderPage>
   );
 }

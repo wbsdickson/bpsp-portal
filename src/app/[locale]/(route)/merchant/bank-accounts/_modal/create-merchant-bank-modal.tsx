@@ -1,12 +1,12 @@
 import { useModalStore } from "@/store/modal-store";
 import { BaseModal } from "@/components/modals/base-modal";
-import ItemUpsertForm from "../_components/item-upsert-form";
+import BankAccountUpsertForm from "../_components/bank-account-upsert-form";
 import { useTranslations } from "next-intl";
 
-export const CreateMerchantItemModal = () => {
+export const CreateBankAccountModal = () => {
   const { isOpen, onClose, type } = useModalStore();
-  const isModalOpen = isOpen && type === "create-merchant-item";
-  const t = useTranslations("Merchant.Items");
+  const isModalOpen = isOpen && type === "create-bank-account";
+  const t = useTranslations("Merchant.BankAccounts");
 
   const handleClose = () => {
     onClose();
@@ -17,10 +17,10 @@ export const CreateMerchantItemModal = () => {
       open={isModalOpen}
       onOpenChange={handleClose}
       title={t("form.createTitle")}
-      className="max-h-[90vh] overflow-y-auto p-6"
+      className="max-h-[80vh] overflow-y-auto p-6"
     >
       <div className="py-2 pb-4">
-        <ItemUpsertForm onSuccess={onClose} onCancel={handleClose} />
+        <BankAccountUpsertForm onSuccess={onClose} onCancel={handleClose} />
       </div>
     </BaseModal>
   );

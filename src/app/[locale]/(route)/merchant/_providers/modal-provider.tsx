@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { CreateMerchantItemModal } from "../items/_modal/create-merchant-item-modal";
+import { CreateBankAccountModal } from "../bank-accounts/_modal/create-merchant-bank-modal";
 // Import other modals as needed
 
 export const ModalProvider = () => {
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
     <>
       {/* Add all merchant route modals here */}
       <CreateMerchantItemModal />
+      <CreateBankAccountModal />
     </>
   );
 };
