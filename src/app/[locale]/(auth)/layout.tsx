@@ -1,6 +1,7 @@
 import LocaleSwitcher from "@/components/locale-switcher";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
+import { VideoBackground } from "./video-background";
 
 type AuthLayoutProps = {
   children: ReactNode;
@@ -16,10 +17,7 @@ export default async function AuthLayout({
 
   return (
     <div className="relative min-h-screen">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url(/login-bg.jpg)" }}
-      />
+      <VideoBackground />
       <div className="absolute inset-0 bg-black/55" />
 
       <div className="relative mx-auto grid min-h-screen max-w-6xl items-center gap-10 px-6 py-10 lg:grid-cols-2">

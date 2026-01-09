@@ -37,7 +37,6 @@ export default function MerchantMemberDetail({ userId }: { userId: string }) {
   );
   const updateMember = useMerchantMemberStore((s) => s.updateMember);
   const [isEditing, setIsEditing] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const schema = React.useMemo(() => createMerchantMemberSchema(t), [t]);
 
