@@ -41,6 +41,8 @@ import { createMerchantInvoiceSchema } from "../_lib/merchant-invoice-schema";
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { StatusBadge } from "@/components/status-badge";
+import { getInvoiceStatusBadgeVariant, InvoiceStatus } from "../_hooks/status";
 
 export default function InvoiceDetail({ id }: { id: string }) {
   const t = useTranslations("Operator.Invoice");
@@ -171,7 +173,13 @@ export default function InvoiceDetail({ id }: { id: string }) {
           <h2 className="text-2xl font-bold tracking-tight">
             {invoice.invoiceNumber}
           </h2>
-          <p className="text-muted-foreground text-sm">{invoice.status}</p>
+          <StatusBadge
+            variant={getInvoiceStatusBadgeVariant(
+              (invoice.status as InvoiceStatus) || "draft",
+            )}
+          >
+            {t(`statuses.${invoice.status}`)}
+          </StatusBadge>
         </div>
         <div className="flex gap-2">
           {isEditing ? (
@@ -222,7 +230,15 @@ export default function InvoiceDetail({ id }: { id: string }) {
                 name="status"
                 label={t("status")}
                 isEditing={isEditing}
-                value={invoice.status}
+                value={
+                  <StatusBadge
+                    variant={getInvoiceStatusBadgeVariant(
+                      (invoice.status as InvoiceStatus) || "draft",
+                    )}
+                  >
+                    {t(`statuses.${invoice.status}`)}
+                  </StatusBadge>
+                }
                 renderInput={(field) => (
                   <Select
                     onValueChange={field.onChange}

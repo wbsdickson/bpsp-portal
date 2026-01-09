@@ -1,3 +1,5 @@
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Item } from "@/lib/types";
 import { useItemStore } from "@/store/item-store";
@@ -9,8 +11,9 @@ import { useBasePath } from "@/hooks/use-base-path";
 
 export type ItemRow = Item & {
   taxCategoryLabel: string;
-  statusLabel: string;
 };
+
+import { getStatusBadgeVariant } from "./status";
 
 export default function useItemTableColumn({
   addTab,
@@ -66,7 +69,6 @@ export default function useItemTableColumn({
       header: t("columns.id"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
@@ -112,9 +114,17 @@ export default function useItemTableColumn({
       },
     },
     {
-      accessorKey: "statusLabel",
+      accessorKey: "status",
       header: t("columns.status"),
-      cell: ({ row }) => <div>{String(row.getValue("statusLabel") ?? "")}</div>,
+      cell: ({ row }) => {
+        const status = row.original.status || "active";
+
+        return (
+          <StatusBadge variant={getStatusBadgeVariant(status)}>
+            {t(`statuses.${status}`)}
+          </StatusBadge>
+        );
+      },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");
         if (Array.isArray(value)) return value.includes(cellValue);

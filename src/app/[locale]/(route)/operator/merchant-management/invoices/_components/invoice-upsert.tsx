@@ -326,7 +326,7 @@ export function InvoiceUpsertPage({
           )}
 
           <div className="flex-1">
-            <div className="text-sm font-medium">
+            <div className="text-xl font-bold">
               {invoiceId ? t("upsert.editTitle") : t("upsert.createTitle")}
             </div>
           </div>

@@ -221,6 +221,10 @@
         "pendingPayoutAmount": "Pending payout amount",
         "status": "Status",
         "lastUpdated": "Last updated"
+      },
+      "statuses": {
+        "active": "Active",
+        "suspended": "Suspended"
       }
     },
     "Invoice": {
@@ -248,6 +252,17 @@
       "statusDraft": "Draft",
       "statusPastDue": "Past due",
       "statusPaid": "Paid",
+      "statuses": {
+        "draft": "Draft",
+        "pending": "Pending",
+        "approved": "Approved",
+        "paid": "Paid",
+        "rejected": "Rejected",
+        "void": "Void",
+        "past_due": "Past Due",
+        "open": "Open"
+      },
+
       "moreFilters": "More filters",
       "clearFilters": "Clear filters",
       "publicInvoiceNotFoundTitle": "Invoice not found",
@@ -426,6 +441,10 @@
         "edit": "Edit",
         "delete": "Delete"
       },
+      "statuses": {
+        "draft": "Draft",
+        "issued": "Issued"
+      },
       "form": {
         "createTitle": "Create receipt",
         "editTitle": "Edit receipt",
@@ -467,6 +486,16 @@
         "issueDate": "Issue date",
         "paymentDueDate": "Payment due date",
         "status": "Status"
+      },
+      "statuses": {
+        "draft": "Draft",
+        "pending": "Pending",
+        "approved": "Approved",
+        "paid": "Paid",
+        "rejected": "Rejected",
+        "void": "Void",
+        "past_due": "Past Due",
+        "open": "Open"
       },
       "filters": {
         "invoiceNumber": "Invoice number",
@@ -514,6 +543,10 @@
         "lastLoginAt": "Last login timestamp",
         "status": "Status",
         "company": "Company"
+      },
+      "statuses": {
+        "active": "Active",
+        "suspended": "Suspended"
       },
       "actions": {
         "label": "Actions",
@@ -600,8 +633,8 @@
         "selectStatus": "Select status"
       },
       "statuses": {
-        "active": "active",
-        "suspended": "suspended"
+        "active": "Active",
+        "suspended": "Suspended"
       },
       "labels": {
         "yes": "Yes",
@@ -680,8 +713,8 @@
         "viewer": "viewer"
       },
       "statuses": {
-        "active": "active",
-        "suspended": "suspended"
+        "active": "Active",
+        "suspended": "Suspended"
       },
       "messages": {
         "createSuccess": "Member created successfully.",
@@ -720,8 +753,8 @@
         "done": "Done"
       },
       "statuses": {
-        "active": "active",
-        "inactive": "inactive"
+        "active": "Active",
+        "inactive": "Inactive"
       },
       "active": {
         "active": "Active",
@@ -795,8 +828,8 @@
         "bank": "Bank transfer"
       },
       "statuses": {
-        "active": "active",
-        "suspended": "suspended"
+        "active": "Active",
+        "suspended": "Suspended"
       },
       "actions": {
         "label": "Actions",
@@ -1058,6 +1091,10 @@
       },
       "statuses": {
         "draft": "Draft",
+        "sent": "Sent",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "expired": "Expired",
         "issued": "Issued"
       },
       "actions": {
@@ -1372,9 +1409,15 @@
         "floor": "Floor",
         "ceil": "Ceil"
       },
+      "statuses": {
+        "enabled": "Enabled",
+        "disabled": "Disabled"
+      },
       "buttons": {
         "save": "Save",
-        "reset": "Reset"
+        "reset": "Reset",
+        "edit": "Edit",
+        "cancel": "Cancel"
       },
       "validation": {
         "merchantRequired": "Merchant is required",

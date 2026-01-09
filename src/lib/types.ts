@@ -24,7 +24,9 @@ export type InvoiceStatus =
   | "approved"
   | "paid"
   | "rejected"
-  | "void";
+  | "void"
+  | "past_due"
+  | "open";
 
 export interface InvoiceItem {
   id: string;

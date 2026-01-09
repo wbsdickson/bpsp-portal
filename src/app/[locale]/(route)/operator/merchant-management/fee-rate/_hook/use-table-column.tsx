@@ -1,12 +1,15 @@
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 
-import type { AppMerchantFee } from "@/types/merchant-fee";
+import type { AppMerchantFee, MerchantFeeStatus } from "@/types/merchant-fee";
 import { usePathname, useRouter } from "next/navigation";
 import { useMerchantFeeStore } from "@/store/merchant-fee-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import ActionsCell from "@/components/action-cell";
+import { getStatusBadgeVariant } from "./status";
 
 export type MerchantFeeRow = AppMerchantFee & { merchantName: string };
 
@@ -60,7 +63,6 @@ export default function useMerchantFeeTableColumn({
       header: t("columns.merchantName"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
@@ -127,9 +129,15 @@ export default function useMerchantFeeTableColumn({
     {
       accessorKey: "status",
       header: t("columns.status"),
-      cell: ({ row }) => (
-        <div className="capitalize">{String(row.getValue("status") ?? "")}</div>
-      ),
+      cell: ({ row }) => {
+        const status = row.original.status;
+
+        const variant = getStatusBadgeVariant(status);
+
+        return (
+          <StatusBadge variant={variant}>{t(`statuses.${status}`)}</StatusBadge>
+        );
+      },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");
         if (Array.isArray(value)) return value.includes(cellValue);

@@ -19,6 +19,8 @@ import { useAppStore } from "@/lib/store";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceiptStore } from "@/store/receipt-store";
 import { useBasePath } from "@/hooks/use-base-path";
+import { StatusBadge } from "@/components/status-badge";
+import { getReceiptStatusBadgeVariant, ReceiptStatus } from "./status";
 
 export default function ReceiptDetail({ id }: { id: string }) {
   const locale = useLocale();
@@ -77,112 +79,123 @@ export default function ReceiptDetail({ id }: { id: string }) {
           </Link>
         </Button>
       </div>
+      <div className="bg-background rounded-xl border p-4">
+        <div className="">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div>
+              <div className="text-muted-foreground text-xs">
+                {t("columns.receiptNumber")}
+              </div>
+              <div className="font-medium">{receipt.receiptNumber}</div>
+            </div>
+            <div>
+              <div className="text-muted-foreground text-xs">
+                {t("columns.status")}
+              </div>
+              <div className="font-medium">
+                <StatusBadge
+                  variant={getReceiptStatusBadgeVariant(
+                    (receipt.status as ReceiptStatus) || "draft",
+                  )}
+                >
+                  {t(`statuses.${receipt.status}`)}
+                </StatusBadge>
+              </div>
+            </div>
 
-      <div className="bg-card rounded-xl border p-4">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div>
-            <div className="text-muted-foreground text-xs">
-              {t("columns.receiptNumber")}
+            <div>
+              <div className="text-muted-foreground text-xs">
+                {t("columns.client")}
+              </div>
+              <div className="font-medium">
+                {client?.name ?? t("messages.empty")}
+              </div>
             </div>
-            <div className="font-medium">{receipt.receiptNumber}</div>
-          </div>
-          <div>
-            <div className="text-muted-foreground text-xs">
-              {t("columns.status")}
+            <div>
+              <div className="text-muted-foreground text-xs">
+                {t("columns.issueDate")}
+              </div>
+              <div className="font-medium">{receipt.issueDate}</div>
             </div>
-            <div className="font-medium">{receipt.status}</div>
-          </div>
 
-          <div>
-            <div className="text-muted-foreground text-xs">
-              {t("columns.client")}
+            <div>
+              <div className="text-muted-foreground text-xs">
+                {t("columns.amount")}
+              </div>
+              <div className="font-medium">{`${getCurrencySymbol(receipt.currency)} ${formattedAmount(
+                receipt.amount,
+                receipt.currency,
+              )}`}</div>
             </div>
-            <div className="font-medium">
-              {client?.name ?? t("messages.empty")}
-            </div>
-          </div>
-          <div>
-            <div className="text-muted-foreground text-xs">
-              {t("columns.issueDate")}
-            </div>
-            <div className="font-medium">{receipt.issueDate}</div>
-          </div>
 
-          <div>
-            <div className="text-muted-foreground text-xs">
-              {t("columns.amount")}
+            <div>
+              <div className="text-muted-foreground text-xs">
+                {t("form.pdf")}
+              </div>
+              <div className="font-medium">
+                {receipt.uploadedPdfName ?? t("messages.empty")}
+              </div>
             </div>
-            <div className="font-medium">{`${getCurrencySymbol(receipt.currency)} ${formattedAmount(
-              receipt.amount,
-              receipt.currency,
-            )}`}</div>
-          </div>
 
-          <div>
-            <div className="text-muted-foreground text-xs">{t("form.pdf")}</div>
-            <div className="font-medium">
-              {receipt.uploadedPdfName ?? t("messages.empty")}
-            </div>
-          </div>
-
-          <div className="md:col-span-2">
-            <div className="text-muted-foreground text-xs">
-              {t("form.notes")}
-            </div>
-            <div className="whitespace-pre-wrap font-medium">
-              {receipt.notes ?? t("messages.empty")}
+            <div className="md:col-span-2">
+              <div className="text-muted-foreground text-xs">
+                {t("form.notes")}
+              </div>
+              <div className="whitespace-pre-wrap font-medium">
+                {receipt.notes ?? t("messages.empty")}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="bg-card rounded-xl border">
-        <div className="px-4 py-3">
-          <div className="text-sm font-semibold">{t("form.items")}</div>
-        </div>
-        <Separator />
-        <div className="p-4">
-          <div className="rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("form.item")}</TableHead>
-                  <TableHead className="w-[90px] text-right">
-                    {t("form.quantity")}
-                  </TableHead>
-                  <TableHead className="w-[160px] text-right">
-                    {t("form.unitPrice")}
-                  </TableHead>
-                  <TableHead className="w-[160px] text-right">
-                    {t("form.taxCategory")}
-                  </TableHead>
-                  <TableHead className="w-[160px] text-right">
-                    {t("columns.amount")}
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {(receipt.items ?? []).map((it) => (
-                  <TableRow key={it.id}>
-                    <TableCell className="text-sm">
-                      {it.name || t("messages.empty")}
-                    </TableCell>
-                    <TableCell className="text-right text-sm">
-                      {it.quantity}
-                    </TableCell>
-                    <TableCell className="text-right text-sm">{`${getCurrencySymbol(
-                      receipt.currency,
-                    )} ${formattedAmount(it.unitPrice, receipt.currency)}`}</TableCell>
-                    <TableCell className="text-right text-sm font-medium">
-                      {taxById.get(it.taxId) ?? t("messages.empty")}
-                    </TableCell>
-                    <TableCell className="text-right text-sm font-medium">{`${getCurrencySymbol(
-                      receipt.currency,
-                    )} ${formattedAmount(it.amount, receipt.currency)}`}</TableCell>
+        <div className="">
+          <div className="px-4 py-3">
+            <div className="text-sm font-semibold">{t("form.items")}</div>
+          </div>
+          <Separator />
+          <div className="p-4">
+            <div className="rounded-lg border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{t("form.item")}</TableHead>
+                    <TableHead className="w-[90px] text-right">
+                      {t("form.quantity")}
+                    </TableHead>
+                    <TableHead className="w-[160px] text-right">
+                      {t("form.unitPrice")}
+                    </TableHead>
+                    <TableHead className="w-[160px] text-right">
+                      {t("form.taxCategory")}
+                    </TableHead>
+                    <TableHead className="w-[160px] text-right">
+                      {t("columns.amount")}
+                    </TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {(receipt.items ?? []).map((it) => (
+                    <TableRow key={it.id}>
+                      <TableCell className="text-sm">
+                        {it.name || t("messages.empty")}
+                      </TableCell>
+                      <TableCell className="text-right text-sm">
+                        {it.quantity}
+                      </TableCell>
+                      <TableCell className="text-right text-sm">{`${getCurrencySymbol(
+                        receipt.currency,
+                      )} ${formattedAmount(it.unitPrice, receipt.currency)}`}</TableCell>
+                      <TableCell className="text-right text-sm font-medium">
+                        {taxById.get(it.taxId) ?? t("messages.empty")}
+                      </TableCell>
+                      <TableCell className="text-right text-sm font-medium">{`${getCurrencySymbol(
+                        receipt.currency,
+                      )} ${formattedAmount(it.amount, receipt.currency)}`}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </div>

@@ -1,12 +1,15 @@
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 
-import type { AppMerchantMid } from "@/types/merchant-mid";
+import type { AppMerchantMid, MerchantMidStatus } from "@/types/merchant-mid";
 import { usePathname, useRouter } from "next/navigation";
 import { useMerchantMidStore } from "@/store/merchant-mid-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import ActionsCell from "@/components/action-cell";
+import { getStatusBadgeVariant } from "./status";
 
 type MerchantMidRow = AppMerchantMid & { merchantName: string };
 
@@ -65,7 +68,6 @@ export default function useMerchantMidTableColumn({
       header: t("columns.mid"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original)}
@@ -94,9 +96,14 @@ export default function useMerchantMidTableColumn({
     {
       accessorKey: "status",
       header: t("columns.status"),
-      cell: ({ row }) => (
-        <div className="capitalize">{String(row.getValue("status") ?? "")}</div>
-      ),
+      cell: ({ row }) => {
+        const status = row.original.status;
+
+        const variant = getStatusBadgeVariant(status);
+        return (
+          <StatusBadge variant={variant}>{t(`statuses.${status}`)}</StatusBadge>
+        );
+      },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");
         if (Array.isArray(value)) return value.includes(cellValue);

@@ -7,9 +7,11 @@ import { useRouter } from "next/navigation";
 import { useMerchantFeeStore } from "@/store/merchant-fee-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
-import { Badge } from "@/components/ui/badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import ActionsCell from "@/components/action-cell";
 import { useModalStore } from "@/store/modal-store";
+import { StatusBadge } from "@/components/status-badge";
+import { getInvoiceStatusBadgeVariant } from "./status";
 
 function InvoiceNumberCell({
   id,
@@ -157,32 +159,12 @@ export default function useMerchantInvoiceTableColumn({
       },
       cell: ({ row }) => {
         const inv = row.original;
+
         return (
           <div className="flex items-center gap-3">
-            {inv.status === "open" && (
-              <Badge
-                variant="secondary"
-                className="bg-indigo-50 text-indigo-700"
-              >
-                {t("statusOpen")}
-              </Badge>
-            )}
-            {inv.status === "draft" && (
-              <Badge variant="secondary">{t("statusDraft")}</Badge>
-            )}
-            {inv.status === "past_due" && (
-              <Badge variant="secondary" className="bg-amber-50 text-amber-700">
-                {t("statusPastDue")}
-              </Badge>
-            )}
-            {inv.status === "paid" && (
-              <Badge
-                variant="secondary"
-                className="bg-emerald-50 text-emerald-700"
-              >
-                {t("statusPaid")}
-              </Badge>
-            )}
+            <StatusBadge variant={getInvoiceStatusBadgeVariant(inv.status)}>
+              {t(`statuses.${inv.status}`)}
+            </StatusBadge>
           </div>
         );
       },

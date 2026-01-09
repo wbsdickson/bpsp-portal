@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
 import { useModalStore } from "@/store/modal-store";
 import { BaseModal } from "@/components/modals/base-modal";
-import UserUpsertForm, { type UserUpsertFormHandle } from "../_components/user-upsert-form";
+import UserUpsertForm, {
+  type UserUpsertFormHandle,
+} from "../_components/user-upsert-form";
 
 export const CreateAccountModal = () => {
   const { isOpen, onClose, type } = useModalStore();
@@ -32,9 +34,11 @@ export const CreateAccountModal = () => {
         title="Create Account"
         description="Add a new account to manage operations."
       >
-        <div className="py-2 pb-4">
-           <UserUpsertForm ref={formRef} onSuccess={onClose} onCancel={handleClose} />
-        </div>
+        <UserUpsertForm
+          ref={formRef}
+          onSuccess={onClose}
+          onCancel={handleClose}
+        />
       </BaseModal>
     </>
   );

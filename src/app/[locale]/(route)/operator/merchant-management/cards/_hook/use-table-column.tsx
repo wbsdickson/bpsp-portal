@@ -1,11 +1,16 @@
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import ActionsCell from "@/components/action-cell";
-import { useMerchantCardStore } from "@/store/merchant-card-store";
+import {
+  useMerchantCardStore,
+  type MerchantCardStatus,
+} from "@/store/merchant-card-store";
 import type { AppMerchantCard } from "@/store/merchant-card-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 
 export type MerchantCardRow = AppMerchantCard & {
-  statusLabel: string;
+  status: MerchantCardStatus;
   expirationLabel: string;
 };
 
@@ -72,9 +77,22 @@ export default function useMerchantCardTableColumn() {
       },
     },
     {
-      accessorKey: "statusLabel",
+      accessorKey: "status",
       header: t("columns.status"),
-      cell: ({ row }) => <div>{String(row.getValue("statusLabel") ?? "")}</div>,
+      cell: ({ row }) => {
+        const status = row.original.status;
+
+        const variantMap: Record<MerchantCardStatus, BadgeVariant> = {
+          used: "success",
+          unused: "secondary",
+        };
+
+        return (
+          <StatusBadge variant={variantMap[status]}>
+            {t(`statuses.${status}`)}
+          </StatusBadge>
+        );
+      },
     },
   ];
 

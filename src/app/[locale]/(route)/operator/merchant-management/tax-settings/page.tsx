@@ -27,11 +27,11 @@ import { useTaxSettingsStore } from "@/store/tax-settings-store";
 import type { TaxRoundingMethod } from "@/types/tax-settings";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Card, CardContent } from "@/components/ui/card";
+import { InlineEditField } from "@/components/inline-edit-field";
 
 type TaxSettingsFormValues = {
   merchantId: string;
@@ -48,6 +48,8 @@ export default function TaxSettingsPage() {
   const merchants = useMerchantStore((s) => s.merchants);
   const getByMerchantId = useTaxSettingsStore((s) => s.getByMerchantId);
   const upsert = useTaxSettingsStore((s) => s.upsert);
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const schema = React.useMemo(
     () =>
@@ -102,7 +104,20 @@ export default function TaxSettingsPage() {
       roundingMethod: data.roundingMethod,
     });
     toast.success(t("messages.updateSuccess"));
+    setIsEditing(false);
   });
+
+  const onCancel = () => {
+    if (!selectedMerchantId) return;
+    const current = getByMerchantId(selectedMerchantId);
+    form.reset({
+      merchantId: selectedMerchantId,
+      taxable: current?.taxable ?? true,
+      taxRatePercent: String(((current?.taxRate ?? 0.1) * 100).toFixed(2)),
+      roundingMethod: (current?.roundingMethod ?? "round") as TaxRoundingMethod,
+    });
+    setIsEditing(false);
+  };
 
   const currentSettings = selectedMerchantId
     ? getByMerchantId(selectedMerchantId)
@@ -121,153 +136,147 @@ export default function TaxSettingsPage() {
     <HeaderPage title={t("title")}>
       <div className="max-w-4xl space-y-4">
         <Form {...form}>
-          <Card>
-            <CardContent>
-              <form onSubmit={onSubmit} className="space-y-8">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <FormField
-                    control={form.control}
-                    name="merchantId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("form.merchant")}</FormLabel>
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="h-9 w-full">
-                              <SelectValue
-                                placeholder={t("form.selectMerchant")}
-                              />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {merchants.map((m) => (
-                              <SelectItem key={m.id} value={m.id}>
-                                {m.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="md:col-span-2" />
-
-                  <FormField
-                    control={form.control}
-                    name="taxable"
-                    render={({ field }) => (
-                      <FormItem className="flex items-center justify-between rounded-md border p-3 md:col-span-2">
-                        <div>
-                          <FormLabel>{t("form.taxable")}</FormLabel>
-                          <div className="text-muted-foreground text-xs">
-                            {t("form.taxableHelp")}
-                          </div>
-                        </div>
+          <form onSubmit={onSubmit} className="space-y-8">
+            <div className="bg-background rounded-md border p-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="merchantId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("form.merchant")}</FormLabel>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        disabled={isEditing}
+                      >
                         <FormControl>
-                          <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <SelectTrigger className="h-9 w-full">
+                            <SelectValue
+                              placeholder={t("form.selectMerchant")}
+                            />
+                          </SelectTrigger>
                         </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                        <SelectContent>
+                          {merchants.map((m) => (
+                            <SelectItem key={m.id} value={m.id}>
+                              {m.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
 
-                  <FormField
-                    control={form.control}
-                    name="taxRatePercent"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("form.taxRate")}</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            inputMode="decimal"
-                            className="h-9"
-                            disabled={!form.watch("taxable")}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+            <div className="bg-background rounded-md border p-4">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-lg font-medium">{t("title")}</h3>
+                <div className="flex items-center gap-2">
+                  {isEditing ? (
+                    <>
+                      <Button
+                        variant="secondary"
+                        size="xs"
+                        onClick={onCancel}
+                        type="button"
+                      >
+                        {t("buttons.cancel")}
+                      </Button>
+                      <Button variant="secondary" size="xs" type="submit">
+                        {t("buttons.save")}
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      variant="secondary"
+                      size="xs"
+                      onClick={() => setIsEditing(true)}
+                      type="button"
+                    >
+                      {t("buttons.edit")}
+                    </Button>
+                  )}
+                </div>
+              </div>
 
-                  <FormField
-                    control={form.control}
-                    name="roundingMethod"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("form.roundingMethod")}</FormLabel>
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="h-9 w-full">
-                              <SelectValue
-                                placeholder={t("form.selectRoundingMethod")}
-                              />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {ROUNDING_METHODS.map((m) => (
-                              <SelectItem key={m} value={m}>
-                                {t(`roundingMethods.${m}`)}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="md:col-span-2">
-                    <div className="text-muted-foreground text-xs">
-                      {t("form.updatedAt")}: {updatedAtLabel}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <InlineEditField
+                  control={form.control}
+                  name="taxable"
+                  label={t("form.taxable")}
+                  isEditing={isEditing}
+                  value={
+                    form.watch("taxable")
+                      ? t("statuses.enabled")
+                      : t("statuses.disabled")
+                  }
+                  renderInput={(field) => (
+                    <div className="flex h-9 items-center">
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
                     </div>
+                  )}
+                />
+
+                <div className="md:col-span-2" />
+
+                <InlineEditField
+                  control={form.control}
+                  name="taxRatePercent"
+                  label={t("form.taxRate")}
+                  isEditing={isEditing}
+                  value={`${form.watch("taxRatePercent")}%`}
+                  renderInput={(field) => (
+                    <Input
+                      type="number"
+                      step="0.01"
+                      inputMode="decimal"
+                      className="h-9"
+                      {...field}
+                    />
+                  )}
+                />
+
+                <InlineEditField
+                  control={form.control}
+                  name="roundingMethod"
+                  label={t("form.roundingMethod")}
+                  isEditing={isEditing}
+                  value={t(`roundingMethods.${form.watch("roundingMethod")}`)}
+                  renderInput={(field) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger className="h-9 w-full">
+                          <SelectValue
+                            placeholder={t("form.selectRoundingMethod")}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {ROUNDING_METHODS.map((m) => (
+                          <SelectItem key={m} value={m}>
+                            {t(`roundingMethods.${m}`)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+
+                <div className="md:col-span-2">
+                  <div className="text-muted-foreground text-xs">
+                    {t("form.updatedAt")}: {updatedAtLabel}
                   </div>
                 </div>
-
-                <div className="flex items-center justify-end gap-2">
-                  <Button
-                    variant="outline"
-                    className="h-9"
-                    onClick={() => {
-                      const current = selectedMerchantId
-                        ? getByMerchantId(selectedMerchantId)
-                        : undefined;
-                      form.reset({
-                        merchantId: selectedMerchantId,
-                        taxable: current?.taxable ?? true,
-                        taxRatePercent: String(
-                          ((current?.taxRate ?? 0.1) * 100).toFixed(2),
-                        ),
-                        roundingMethod: (current?.roundingMethod ??
-                          "round") as TaxRoundingMethod,
-                      });
-                    }}
-                  >
-                    {t("buttons.reset")}
-                  </Button>
-                  <Button
-                    type="submit"
-                    className="h-9"
-                    disabled={form.formState.isSubmitting}
-                  >
-                    {t("buttons.save")}
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
+              </div>
+            </div>
+          </form>
         </Form>
       </div>
     </HeaderPage>

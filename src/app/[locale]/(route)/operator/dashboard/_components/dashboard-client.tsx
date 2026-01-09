@@ -41,6 +41,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { StatusBadge } from "@/components/status-badge";
 
 type KpiCardProps = {
   title: string;
@@ -156,11 +157,11 @@ const getCategories = (t: (key: string) => string) => [
 ];
 
 const getTransactions = (t: (key: string) => string) => [
-  { product: "SwiftBuds", price: "$39.99", status: t("status.success") },
-  { product: "CozyCloud Pillow", price: "$19.95", status: t("status.pending") },
-  { product: "AquaGrip Bottle", price: "$9.99", status: t("status.failed") },
-  { product: "GlowLite Lamp", price: "$24.99", status: t("status.success") },
-  { product: "FitTrack", price: "$49.95", status: t("status.success") },
+  { product: "SwiftBuds", price: "$39.99", status: "success" },
+  { product: "CozyCloud Pillow", price: "$19.95", status: "pending" },
+  { product: "AquaGrip Bottle", price: "$9.99", status: "failed" },
+  { product: "GlowLite Lamp", price: "$24.99", status: "success" },
+  { product: "FitTrack", price: "$49.95", status: "success" },
 ];
 
 const activity = [
@@ -317,7 +318,7 @@ export default function DashboardClient() {
       </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
-        <Card className="border-0 shadow-sm lg:col-span-2">
+        <Card className="flex h-full flex-col border-0 shadow-sm lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-base">
@@ -329,7 +330,7 @@ export default function DashboardClient() {
               {t("buttons.sortBy")}
             </Button>
           </CardHeader>
-          <CardContent className="h-[280px]">
+          <CardContent className="min-h-[280px] flex-1">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={salesOverview} margin={{ left: 8, right: 8 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -472,12 +473,7 @@ export default function DashboardClient() {
                       <div className="text-muted-foreground text-xs">
                         {c.gross}
                       </div>
-                      <Badge
-                        variant="secondary"
-                        className="bg-emerald-50 text-emerald-700"
-                      >
-                        {c.delta}
-                      </Badge>
+                      <StatusBadge variant="success">{c.delta}</StatusBadge>
                     </div>
                   </div>
                 ))}
@@ -499,8 +495,8 @@ export default function DashboardClient() {
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="text-muted-foreground grid grid-cols-3 text-xs">
-              <div>{t("tableHeaders.product")}</div>
-              <div className="text-right">{t("tableHeaders.price")}</div>
+              <div className="text-left">{t("tableHeaders.product")}</div>
+              <div className="text-center">{t("tableHeaders.price")}</div>
               <div className="text-right">{t("tableHeaders.status")}</div>
             </div>
             <div className="space-y-2">
@@ -509,21 +505,22 @@ export default function DashboardClient() {
                   key={tx.product}
                   className="flex items-center justify-between gap-3 rounded-xl border bg-card p-3"
                 >
-                  <div className="text-sm font-medium">{tx.product}</div>
-                  <div className="text-sm tabular-nums">{tx.price}</div>
-                  <div className="flex justify-end">
-                    <Badge
-                      variant="secondary"
-                      className={
-                        tx.status === t("status.success")
-                          ? "bg-emerald-50 text-emerald-700"
-                          : tx.status === t("status.pending")
-                            ? "bg-fuchsia-50 text-fuchsia-700"
-                            : "bg-rose-50 text-rose-700"
+                  <div className="flex-1 text-sm font-medium">{tx.product}</div>
+                  <div className="flex-1 text-center text-sm tabular-nums">
+                    {tx.price}
+                  </div>
+                  <div className="flex flex-1 justify-end">
+                    <StatusBadge
+                      variant={
+                        tx.status === "success"
+                          ? "success"
+                          : tx.status === "pending"
+                            ? "warning"
+                            : "destructive"
                       }
                     >
-                      {tx.status}
-                    </Badge>
+                      {t(`status.${tx.status}`)}
+                    </StatusBadge>
                   </div>
                 </div>
               ))}

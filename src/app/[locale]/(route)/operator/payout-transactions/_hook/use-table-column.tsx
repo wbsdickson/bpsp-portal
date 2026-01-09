@@ -1,4 +1,6 @@
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/status-badge";
+import { getPayoutTransactionStatusBadgeVariant } from "./status";
+import { type BadgeVariant } from "@/components/ui/badge";
 import type { Payment, PaymentStatus } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
@@ -90,14 +92,16 @@ export default function usePayoutTransactionTableColumn({
         const status = String(row.getValue("status") ?? "") as PaymentStatus;
 
         const label = t(`statuses.${status}`);
-        const variant: "default" | "secondary" | "destructive" | "outline" =
-          status === "settled"
-            ? "default"
-            : status === "failed"
-              ? "destructive"
-              : "secondary";
 
-        return <Badge variant={variant}>{label}</Badge>;
+        return (
+          <StatusBadge
+            variant={getPayoutTransactionStatusBadgeVariant(
+              status as PaymentStatus,
+            )}
+          >
+            {label}
+          </StatusBadge>
+        );
       },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");

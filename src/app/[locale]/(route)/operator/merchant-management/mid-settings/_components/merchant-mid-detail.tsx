@@ -24,6 +24,8 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { type MerchantMidStatus } from "@/types/merchant-mid";
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createMerchantMidSchema } from "../_lib/merchant-mid-schema";
+import { StatusBadge } from "@/components/status-badge";
+import { getStatusBadgeVariant } from "../_hook/status";
 
 const STATUS_OPTIONS: MerchantMidStatus[] = ["active", "inactive"];
 
@@ -162,7 +164,13 @@ export default function MerchantMidDetail({ midId }: { midId: string }) {
               name="status"
               label={t("columns.status")}
               isEditing={isEditing}
-              value={t(`statuses.${mid.status ?? "active"}`)}
+              value={
+                <StatusBadge
+                  variant={getStatusBadgeVariant(form.getValues("status"))}
+                >
+                  {t(`statuses.${form.getValues("status")}`)}
+                </StatusBadge>
+              }
               renderInput={(field) => (
                 <Select
                   onValueChange={field.onChange}

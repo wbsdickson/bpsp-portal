@@ -24,6 +24,8 @@ import {
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createMidSchema } from "../_lib/mid-schema";
 import { MidStatus } from "@/types/mid";
+import { StatusBadge } from "@/components/status-badge";
+import { getMidSettingStatusBadgeVariant } from "../_hook/status";
 
 const STATUS_OPTIONS: MidStatus[] = ["active", "inactive"];
 
@@ -168,7 +170,17 @@ export default function MidDetail({ id }: { id: string }) {
               label={t("columns.status")}
               isEditing={isEditing}
               value={
-                mid.status ? t(`statuses.${mid.status}`) : t("statuses.active")
+                mid.status ? (
+                  <StatusBadge
+                    variant={getMidSettingStatusBadgeVariant(
+                      (mid.status as MidStatus) || "active",
+                    )}
+                  >
+                    {t(`statuses.${mid.status}`)}
+                  </StatusBadge>
+                ) : (
+                  t("statuses.active")
+                )
               }
               renderInput={(field) => (
                 <Select

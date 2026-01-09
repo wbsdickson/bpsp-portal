@@ -230,7 +230,7 @@ export default function QuotationUpsertForm({
           </Button>
 
           <div className="flex-1">
-            <div className="text-sm font-medium">
+            <div className="text-xl font-bold">
               {quotationId ? t("upsert.editTitle") : t("upsert.createTitle")}
             </div>
           </div>

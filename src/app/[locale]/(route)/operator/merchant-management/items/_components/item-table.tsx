@@ -31,14 +31,9 @@ export default function ItemTable({
       .filter((it) => !it.deletedAt)
       .map((it) => {
         const taxCategoryLabel = taxNameById.get(it.taxId) ?? it.taxId;
-        const statusLabel =
-          it.status === "inactive"
-            ? t("statuses.inactive")
-            : t("statuses.active");
         return {
           ...it,
           taxCategoryLabel,
-          statusLabel,
         };
       });
   }, [items, t, taxes]);
@@ -51,8 +46,8 @@ export default function ItemTable({
   );
 
   const statusOptions = [
-    { value: t("statuses.active"), label: t("statuses.active") },
-    { value: t("statuses.inactive"), label: t("statuses.inactive") },
+    { value: "active", label: t("statuses.active") },
+    { value: "inactive", label: t("statuses.inactive") },
   ];
 
   return (
@@ -63,7 +58,7 @@ export default function ItemTable({
         renderToolbar={(table) => {
           const nameCol = table.getColumn("name");
           const taxCategoryCol = table.getColumn("taxCategoryLabel");
-          const statusCol = table.getColumn("statusLabel");
+          const statusCol = table.getColumn("status");
 
           const rawTax = taxCategoryCol?.getFilterValue();
           const taxValues = Array.isArray(rawTax)

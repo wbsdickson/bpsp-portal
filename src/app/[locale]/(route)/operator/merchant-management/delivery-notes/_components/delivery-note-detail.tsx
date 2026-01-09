@@ -24,6 +24,9 @@ import {
 } from "@/components/ui/select";
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createDeliveryNoteSchema } from "../_lib/delivery-note-schema";
+import { StatusBadge } from "@/components/status-badge";
+import { getDeliveryNoteStatusBadgeVariant } from "../_hook/status";
+import { DeliveryNoteStatus } from "@/lib/types";
 
 export default function DeliveryNoteDetail({
   deliveryNoteId,
@@ -220,7 +223,15 @@ export default function DeliveryNoteDetail({
               name="status"
               label={t("columns.status")}
               isEditing={isEditing}
-              value={<span className="capitalize">{deliveryNote.status}</span>}
+              value={
+                <StatusBadge
+                  variant={getDeliveryNoteStatusBadgeVariant(
+                    (deliveryNote.status as DeliveryNoteStatus) || "draft",
+                  )}
+                >
+                  {t(`statuses.${deliveryNote.status}`)}
+                </StatusBadge>
+              }
               renderInput={(field) => (
                 <Select
                   onValueChange={field.onChange}

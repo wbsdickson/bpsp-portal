@@ -26,6 +26,8 @@ import {
 } from "@/types/merchant-fee";
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createMerchantFeeSchema } from "../_lib/merchant-fee-schema";
+import { StatusBadge } from "@/components/status-badge";
+import { getStatusBadgeVariant } from "../_hook/status";
 
 const STATUS_OPTIONS: MerchantFeeStatus[] = ["active", "suspended"];
 const PAYMENT_METHOD_OPTIONS: PaymentMethodType[] = ["card", "bank"];
@@ -204,7 +206,13 @@ export default function MerchantFeeDetail({ feeId }: { feeId: string }) {
               name="status"
               label={t("columns.status")}
               isEditing={isEditing}
-              value={t(`statuses.${fee.status ?? "active"}`)}
+              value={
+                <StatusBadge
+                  variant={getStatusBadgeVariant(form.getValues("status"))}
+                >
+                  {t(`statuses.${form.getValues("status")}`)}
+                </StatusBadge>
+              }
               renderInput={(field) => (
                 <Select
                   onValueChange={field.onChange}

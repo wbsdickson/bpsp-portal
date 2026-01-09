@@ -1,11 +1,14 @@
 import ActionsCell from "@/components/action-cell";
+import { StatusBadge } from "@/components/status-badge";
+import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { DeliveryNote } from "@/lib/types";
+import type { DeliveryNote, DeliveryNoteStatus } from "@/lib/types";
 import { useDeliveryNoteStore } from "@/store/delivery-note-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
+import { getDeliveryNoteStatusBadgeVariant } from "./status";
 
 export type DeliveryNoteRow = DeliveryNote & {
   clientName: string;
@@ -65,7 +68,6 @@ export default function useDeliveryNoteTableColumn({
       header: t("columns.number"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
@@ -98,9 +100,19 @@ export default function useDeliveryNoteTableColumn({
     {
       accessorKey: "status",
       header: t("columns.status"),
-      cell: ({ row }) => (
-        <div className="capitalize">{String(row.getValue("status") ?? "")}</div>
-      ),
+      cell: ({ row }) => {
+        const status = row.original.status || "draft";
+
+        return (
+          <StatusBadge
+            variant={getDeliveryNoteStatusBadgeVariant(
+              status as DeliveryNoteStatus,
+            )}
+          >
+            {t(`statuses.${status}`)}
+          </StatusBadge>
+        );
+      },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");
         if (Array.isArray(value)) return value.includes(cellValue);
