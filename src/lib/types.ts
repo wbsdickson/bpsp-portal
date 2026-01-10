@@ -460,3 +460,17 @@ export interface InvoiceManagement {
   totalAmount: number;
   status: PaymentStatus;
 }
+
+export interface MerchantNotification {
+  id: string;
+  merchantId: string;
+  title: string;
+  message: string;
+  publicationDate: string;
+  readStatus: boolean;
+  target: string;
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string | null;
+  createdBy?: string;
+}

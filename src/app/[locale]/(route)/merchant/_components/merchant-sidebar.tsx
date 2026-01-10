@@ -20,6 +20,7 @@ import {
   Truck,
   StickyNote,
   type LucideIcon,
+  Bell,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -126,6 +127,11 @@ const merchantRoutes: Array<{
     label: "RP Invoices Auto-Issuance",
     route: "merchant/rp-invoice-auto-issuance",
     icon: Zap,
+  },
+  {
+    label: "Notifications",
+    route: "merchant/notifications",
+    icon: Bell,
   },
 ];
 
