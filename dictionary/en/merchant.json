@@ -1266,6 +1266,80 @@
         "missingId": "Missing invoice id.",
         "notFound": "Invoice not found."
       }
+    },
+    "Notifications": {
+      "title": "Notifications",
+      "tabs": {
+        "all": "All"
+      },
+      "columns": {
+        "id": "ID",
+        "title": "Title",
+        "publicationStatus": "Publication status",
+        "publicationDate": "Publication Date",
+        "target": "Target",
+        "readStatus": "Read status",
+        "createdBy": "Created by",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at",
+        "deletedAt": "Deleted at",
+        "editLink": "Edit link",
+        "deleteLink": "Delete link",
+        "senderInformation": "Sender Information",
+        "updatedDate": "Updated Date",
+        "body": "Body",
+        "read": "Read",
+        "unread": "Unread"
+      },
+      "filters": {
+        "title": "Title",
+        "publicationStatus": "Publication status",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done",
+        "readStatus": "Read status",
+        "publicationPeriod": "Publication Period"
+      },
+      "statuses": {
+        "scheduled": "Scheduled",
+        "published": "Published",
+        "expired": "Expired",
+        "read": "Read",
+        "unread": "Unread"
+      },
+      "actions": {
+        "label": "Actions",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "buttons": {
+        "create": "Create notification",
+        "clearFilters": "Clear filters",
+        "back": "Back",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "form": {
+        "createTitle": "Create notification",
+        "editTitle": "Edit notification",
+        "titlePlaceholder": "Title",
+        "message": "Message",
+        "messagePlaceholder": "Message",
+        "targetMerchant": "Target merchant",
+        "allMerchants": "All merchants"
+      },
+      "validation": {
+        "titleRequired": "Title is required",
+        "messageRequired": "Message is required",
+        "publicationPeriodInvalid": "Publication end date must be after start date"
+      },
+      "messages": {
+        "createSuccess": "Notification created successfully.",
+        "updateSuccess": "Notification updated successfully.",
+        "notFound": "Notification not found."
+      }
     }
   }
 }

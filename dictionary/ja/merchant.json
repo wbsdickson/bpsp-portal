@@ -1271,6 +1271,80 @@
         "missingId": "請求書IDがありません。",
         "notFound": "請求書が見つかりません。"
       }
+    },
+    "Notifications": {
+      "title": "お知らせ",
+      "tabs": {
+        "all": "すべて"
+      },
+      "columns": {
+        "id": "ID",
+        "title": "タイトル",
+        "publicationStatus": "公開ステータス",
+        "publicationDate": "公開日",
+        "target": "対象",
+        "readStatus": "読了状態",
+        "createdBy": "作成者",
+        "createdAt": "作成日",
+        "updatedAt": "更新日",
+        "deletedAt": "削除日",
+        "editLink": "編集",
+        "deleteLink": "削除",
+        "senderInformation": "送信者情報",
+        "updatedDate": "更新日",
+        "body": "本文",
+        "read": "読了",
+        "unread": "未読"
+      },
+      "filters": {
+        "title": "タイトル",
+        "publicationStatus": "公開ステータス",
+        "all": "すべて",
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了",
+        "readStatus": "読了状態",
+        "publicationPeriod": "公開期間"
+      },
+      "statuses": {
+        "scheduled": "予約",
+        "published": "公開中",
+        "expired": "終了",
+        "read": "読了",
+        "unread": "未読"
+      },
+      "actions": {
+        "label": "操作",
+        "view": "表示",
+        "edit": "編集",
+        "delete": "削除"
+      },
+      "buttons": {
+        "create": "お知らせを作成",
+        "clearFilters": "フィルターをクリア",
+        "back": "戻る",
+        "cancel": "キャンセル",
+        "save": "保存"
+      },
+      "form": {
+        "createTitle": "お知らせを作成",
+        "editTitle": "お知らせを編集",
+        "titlePlaceholder": "タイトル",
+        "message": "本文",
+        "messagePlaceholder": "本文",
+        "targetMerchant": "対象加盟店",
+        "allMerchants": "すべての加盟店"
+      },
+      "validation": {
+        "titleRequired": "タイトルは必須です",
+        "messageRequired": "本文は必須です",
+        "publicationPeriodInvalid": "公開終了日は公開開始日以降にしてください"
+      },
+      "messages": {
+        "createSuccess": "お知らせを作成しました。",
+        "updateSuccess": "お知らせを更新しました。",
+        "notFound": "お知らせが見つかりません。"
+      }
     }
   }
 }
