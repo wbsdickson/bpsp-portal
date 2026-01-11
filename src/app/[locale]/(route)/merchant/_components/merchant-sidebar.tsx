@@ -133,6 +133,11 @@ const merchantRoutes: Array<{
     route: "merchant/notifications",
     icon: Bell,
   },
+  {
+    label: "Registration",
+    route: "merchant/registration",
+    icon: User,
+  },
 ];
 
 export function AppSidebar({

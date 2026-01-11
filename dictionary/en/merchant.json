@@ -339,7 +339,6 @@
     },
     "BankAccounts": {
       "title": "Bank accounts",
-
       "tabs": {
         "all": "All"
       },
@@ -1339,6 +1338,65 @@
         "createSuccess": "Notification created successfully.",
         "updateSuccess": "Notification updated successfully.",
         "notFound": "Notification not found."
+      }
+    },
+    "Registration": {
+      "title": "Registration",
+      "description": "Register your company and start using the platform.",
+      "sendConfirmationLink": "Send confirmation link",
+      "sending": "Sending...",
+      "registrationComplete": "Registration Complete",
+      "registrationCompleteDescription": "Registration is complete. Please proceed to the login screen.",
+      "goToLogin": "Go to Login",
+      "emailPlaceholder": "Email",
+      "checkYourEmail": "Check your email for a confirmation link.",
+      "merchantName": "Merchant Name",
+      "merchantNamePlaceholder": "Merchant name",
+      "ownerName": "Owner Name",
+      "ownerNamePlaceholder": "Owner name",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Phone number",
+      "address": "Address",
+      "addressPlaceholder": "Address",
+      "password": "Password",
+      "passwordPlaceholder": "Password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm Password",
+      "completeRegistration": "Complete Registration",
+      "fillMerchantDetails": "Fill merchant details",
+      "email": "Email",
+      "form": {
+        "createTitle": "Create company",
+        "editTitle": "Edit company",
+        "idPlaceholder": "ID",
+        "namePlaceholder": "Company name",
+        "emailPlaceholder": "name@company.com",
+        "rolePlaceholder": "Role",
+        "memberRolePlaceholder": "Member role",
+        "registrationDatePlaceholder": "Registration date",
+        "statusPlaceholder": "Status"
+      },
+      "buttons": {
+        "create": "Create company",
+        "clearFilters": "Clear filters",
+        "back": "Back",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "filters": {
+        "name": "Name",
+        "email": "Email",
+        "status": "Status",
+        "role": "Role",
+        "all": "All",
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "messages": {
+        "createSuccess": "Company created successfully.",
+        "updateSuccess": "Company updated successfully.",
+        "notFound": "Company not found."
       }
     }
   }
