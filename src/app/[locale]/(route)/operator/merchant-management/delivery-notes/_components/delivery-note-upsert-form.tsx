@@ -22,7 +22,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createDeliveryNoteSchema } from "../_lib/delivery-note-schema";
-import { formattedAmount } from "@/lib/finance-utils";
+import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -48,7 +48,7 @@ import { Separator } from "@/components/ui/separator";
 import { useDeliveryNoteStore } from "@/store/delivery-note-store";
 
 const DEFAULT_MERCHANT_ID = "u1";
-const DEFAULT_CURRENCY = "USD";
+const DEFAULT_CURRENCY = "JPY";
 
 function asDateValue(value: string | undefined) {
   if (!value) return undefined;
@@ -232,8 +232,8 @@ export default function DeliveryNoteUpsertForm({
   });
 
   return (
-    <ScrollArea className="bg-background h-[calc(100vh-120px)] rounded-lg p-4 pr-2">
-      <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
+    <ScrollArea className="bg-card h-[calc(100vh-120px)] rounded-lg p-4 pr-2">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link href={basePath}>
@@ -348,13 +348,13 @@ export default function DeliveryNoteUpsertForm({
             </div>
 
             <div className="mt-6 space-y-3">
-              <div className="text-sm font-semibold">{t("columns.item")}</div>
+              <div className="text-sm font-semibold">{t("columns.items")}</div>
 
-              <div className="bg-background rounded-xl border">
+              <div className="bg-card">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("form.selectItem")}</TableHead>
+                      <TableHead>{t("form.item")}</TableHead>
                       <TableHead className="w-[120px] text-right">
                         {t("columns.quantity")}
                       </TableHead>
@@ -492,15 +492,19 @@ export default function DeliveryNoteUpsertForm({
                             render={({ field }) => (
                               <FormItem>
                                 <FormControl>
-                                  <Input
-                                    type="number"
-                                    inputMode="decimal"
-                                    className="h-9 text-right"
-                                    {...field}
-                                    onChange={(e) =>
-                                      field.onChange(Number(e.target.value))
-                                    }
-                                  />
+                                  <div className="flex items-center gap-1">
+                                    <Input
+                                      value={String(field.value ?? 0)}
+                                      onChange={(e) =>
+                                        field.onChange(
+                                          Number(e.target.value || 0),
+                                        )
+                                      }
+                                      className="h-9 w-full text-right"
+                                      inputMode="decimal"
+                                    />
+                                    {getCurrencySymbol("JPY")}
+                                  </div>
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -538,17 +542,19 @@ export default function DeliveryNoteUpsertForm({
                           />
                         </TableCell>
                         <TableCell className="text-right font-medium">
-                          {formattedAmount(
-                            (form.getValues(`items.${index}.quantity`) ?? 0) *
-                              (form.getValues(`items.${index}.unitPrice`) ??
-                                0) *
-                              (1 +
-                                (taxById.get(
-                                  form.getValues(`items.${index}.taxId`) ?? "",
-                                ) ?? 0) /
-                                  100),
-                            DEFAULT_CURRENCY,
-                          )}
+                          {(() => {
+                            const qty =
+                              form.getValues(`items.${index}.quantity`) ?? 0;
+                            const price =
+                              form.getValues(`items.${index}.unitPrice`) ?? 0;
+                            const tax = taxById.get(
+                              form.getValues(`items.${index}.taxId`) ?? "",
+                            );
+                            const amount = qty * price;
+                            const taxAmount = amount * (tax ?? 0);
+                            const total = amount + taxAmount;
+                            return `${getCurrencySymbol("JPY")} ${formattedAmount(total, "JPY")}`;
+                          })()}
                         </TableCell>
                         <TableCell>
                           <Button

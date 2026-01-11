@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-
+import { useState, useEffect } from "react";
 import HeaderPage from "@/components/header-page";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,10 +24,11 @@ import { Switch } from "@/components/ui/switch";
 import { useSystemSettingsStore } from "@/store/system-settings-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { InlineEditField } from "@/components/inline-edit-field";
+import { Badge } from "@/components/ui/badge";
 
 type SystemSettingsFormValues = {
   smtpHost: string;
@@ -50,6 +51,7 @@ export default function SystemSettingsPage() {
   const settings = useSystemSettingsStore((s) => s.settings);
   const update = useSystemSettingsStore((s) => s.update);
   const resetStore = useSystemSettingsStore((s) => s.reset);
+  const [isEditing, setIsEditing] = useState(false);
 
   const schema = React.useMemo(
     () =>
@@ -116,21 +118,23 @@ export default function SystemSettingsPage() {
   });
 
   useEffect(() => {
-    form.reset({
-      smtpHost: settings.smtpHost,
-      smtpPort: String(settings.smtpPort),
-      smtpUser: settings.smtpUser,
-      smtpPassword: settings.smtpPassword,
-      senderEmailAddress: settings.senderEmailAddress,
+    if (!isEditing) {
+      form.reset({
+        smtpHost: settings.smtpHost,
+        smtpPort: String(settings.smtpPort),
+        smtpUser: settings.smtpUser,
+        smtpPassword: settings.smtpPassword,
+        senderEmailAddress: settings.senderEmailAddress,
 
-      enableEmailNotifications: settings.enableEmailNotifications,
-      enableInAppNotifications: settings.enableInAppNotifications,
+        enableEmailNotifications: settings.enableEmailNotifications,
+        enableInAppNotifications: settings.enableInAppNotifications,
 
-      defaultInvoiceDueDays: String(settings.defaultInvoiceDueDays),
-      maxLoginAttempts: String(settings.maxLoginAttempts),
-      sessionTimeoutMinutes: String(settings.sessionTimeoutMinutes),
-    });
-  }, [form, settings]);
+        defaultInvoiceDueDays: String(settings.defaultInvoiceDueDays),
+        maxLoginAttempts: String(settings.maxLoginAttempts),
+        sessionTimeoutMinutes: String(settings.sessionTimeoutMinutes),
+      });
+    }
+  }, [form, settings, isEditing]);
 
   const onSubmit = form.handleSubmit((data) => {
     update({
@@ -149,7 +153,13 @@ export default function SystemSettingsPage() {
     });
 
     toast.success(t("messages.updateSuccess"));
+    setIsEditing(false);
   });
+
+  const onCancel = () => {
+    form.reset();
+    setIsEditing(false);
+  };
 
   const updatedAtLabel = settings.updatedAt
     ? (() => {
@@ -161,8 +171,43 @@ export default function SystemSettingsPage() {
     : "—";
 
   return (
-    <HeaderPage title={t("title")}>
-      <div className="max-w-4xl space-y-4">
+    <HeaderPage
+      title={t("title")}
+      pageActions={
+        <div className="flex gap-2">
+          {isEditing ? (
+            <>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={onCancel}
+                title={t("buttons.cancel")}
+              >
+                {t("buttons.discard")}
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={onSubmit}
+                title={t("buttons.save")}
+              >
+                {t("buttons.save")}
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setIsEditing(true)}
+              title={t("actions.edit")}
+            >
+              {t("actions.edit")}
+            </Button>
+          )}
+        </div>
+      }
+    >
+      <div className="space-y-4">
         <Form {...form}>
           <form onSubmit={onSubmit} className="space-y-4">
             <Card>
@@ -170,90 +215,77 @@ export default function SystemSettingsPage() {
                 <CardTitle>{t("sections.emailServer")}</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <FormField
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <InlineEditField
                     control={form.control}
                     name="smtpHost"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("fields.smtpHost")}</FormLabel>
-                        <FormControl>
-                          <Input className="h-9" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    label={t("fields.smtpHost")}
+                    isEditing={isEditing}
+                    value={settings.smtpHost}
+                    renderInput={(field) => (
+                      <Input className="h-9" {...field} />
                     )}
                   />
 
-                  <FormField
+                  <InlineEditField
                     control={form.control}
                     name="smtpPort"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("fields.smtpPort")}</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            inputMode="numeric"
-                            className="h-9"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    label={t("fields.smtpPort")}
+                    isEditing={isEditing}
+                    value={settings.smtpPort}
+                    renderInput={(field) => (
+                      <Input
+                        type="number"
+                        inputMode="numeric"
+                        className="h-9"
+                        {...field}
+                      />
                     )}
                   />
 
-                  <FormField
+                  <InlineEditField
                     control={form.control}
                     name="smtpUser"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("fields.smtpUser")}</FormLabel>
-                        <FormControl>
-                          <Input
-                            className="h-9"
-                            autoComplete="username"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    label={t("fields.smtpUser")}
+                    isEditing={isEditing}
+                    value={settings.smtpUser}
+                    renderInput={(field) => (
+                      <Input
+                        className="h-9"
+                        autoComplete="username"
+                        {...field}
+                      />
                     )}
                   />
 
-                  <FormField
+                  <InlineEditField
                     control={form.control}
                     name="smtpPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("fields.smtpPassword")}</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            className="h-9"
-                            autoComplete="current-password"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    label={t("fields.smtpPassword")}
+                    isEditing={isEditing}
+                    value={settings.smtpPassword ? "••••••••" : ""}
+                    renderInput={(field) => (
+                      <Input
+                        type="password"
+                        className="h-9"
+                        autoComplete="current-password"
+                        {...field}
+                      />
                     )}
                   />
 
-                  <FormField
-                    control={form.control}
-                    name="senderEmailAddress"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>{t("fields.senderEmailAddress")}</FormLabel>
-                        <FormControl>
-                          <Input type="email" className="h-9" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className="md:col-span-2">
+                    <InlineEditField
+                      control={form.control}
+                      name="senderEmailAddress"
+                      label={t("fields.senderEmailAddress")}
+                      isEditing={isEditing}
+                      value={settings.senderEmailAddress}
+                      renderInput={(field) => (
+                        <Input type="email" className="h-9" {...field} />
+                      )}
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -262,50 +294,74 @@ export default function SystemSettingsPage() {
               <CardHeader>
                 <CardTitle>{t("sections.notifications")}</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <FormField
+              <CardContent className="space-y-6">
+                <InlineEditField
                   control={form.control}
                   name="enableEmailNotifications"
-                  render={({ field }) => (
-                    <FormItem className="flex items-center justify-between rounded-md border p-3">
-                      <div>
-                        <FormLabel>
-                          {t("fields.enableEmailNotifications")}
-                        </FormLabel>
-                        <div className="text-muted-foreground text-xs">
-                          {t("help.enableEmailNotifications")}
-                        </div>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
+                  label={t("fields.enableEmailNotifications")}
+                  isEditing={isEditing}
+                  value={
+                    settings.enableEmailNotifications ? (
+                      <Badge
+                        variant="outline"
+                        className="border-green-200 bg-green-50 text-green-700"
+                      >
+                        {t("status.enabled")}
+                      </Badge>
+                    ) : (
+                      <Badge
+                        variant="outline"
+                        className="border-gray-200 bg-gray-50 text-gray-500"
+                      >
+                        {t("status.disabled")}
+                      </Badge>
+                    )
+                  }
+                  renderInput={(field) => (
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <span className="text-muted-foreground text-sm">
+                        {t("help.enableEmailNotifications")}
+                      </span>
+                    </div>
                   )}
                 />
 
-                <FormField
+                <InlineEditField
                   control={form.control}
                   name="enableInAppNotifications"
-                  render={({ field }) => (
-                    <FormItem className="flex items-center justify-between rounded-md border p-3">
-                      <div>
-                        <FormLabel>
-                          {t("fields.enableInAppNotifications")}
-                        </FormLabel>
-                        <div className="text-muted-foreground text-xs">
-                          {t("help.enableInAppNotifications")}
-                        </div>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
+                  label={t("fields.enableInAppNotifications")}
+                  isEditing={isEditing}
+                  value={
+                    settings.enableInAppNotifications ? (
+                      <Badge
+                        variant="outline"
+                        className="border-green-200 bg-green-50 text-green-700"
+                      >
+                        {t("status.enabled")}
+                      </Badge>
+                    ) : (
+                      <Badge
+                        variant="outline"
+                        className="border-gray-200 bg-gray-50 text-gray-500"
+                      >
+                        {t("status.disabled")}
+                      </Badge>
+                    )
+                  }
+                  renderInput={(field) => (
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <span className="text-muted-foreground text-sm">
+                        {t("help.enableInAppNotifications")}
+                      </span>
+                    </div>
                   )}
                 />
               </CardContent>
@@ -316,65 +372,52 @@ export default function SystemSettingsPage() {
                 <CardTitle>{t("sections.fixedParameters")}</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <FormField
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                  <InlineEditField
                     control={form.control}
                     name="defaultInvoiceDueDays"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t("fields.defaultInvoiceDueDays")}
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            inputMode="numeric"
-                            className="h-9"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    label={t("fields.defaultInvoiceDueDays")}
+                    isEditing={isEditing}
+                    value={settings.defaultInvoiceDueDays}
+                    renderInput={(field) => (
+                      <Input
+                        type="number"
+                        inputMode="numeric"
+                        className="h-9"
+                        {...field}
+                      />
                     )}
                   />
 
-                  <FormField
+                  <InlineEditField
                     control={form.control}
                     name="maxLoginAttempts"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("fields.maxLoginAttempts")}</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            inputMode="numeric"
-                            className="h-9"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    label={t("fields.maxLoginAttempts")}
+                    isEditing={isEditing}
+                    value={settings.maxLoginAttempts}
+                    renderInput={(field) => (
+                      <Input
+                        type="number"
+                        inputMode="numeric"
+                        className="h-9"
+                        {...field}
+                      />
                     )}
                   />
 
-                  <FormField
+                  <InlineEditField
                     control={form.control}
                     name="sessionTimeoutMinutes"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t("fields.sessionTimeoutMinutes")}
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            inputMode="numeric"
-                            className="h-9"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    label={t("fields.sessionTimeoutMinutes")}
+                    isEditing={isEditing}
+                    value={settings.sessionTimeoutMinutes}
+                    renderInput={(field) => (
+                      <Input
+                        type="number"
+                        inputMode="numeric"
+                        className="h-9"
+                        {...field}
+                      />
                     )}
                   />
 
@@ -386,26 +429,21 @@ export default function SystemSettingsPage() {
                 </div>
               </CardContent>
 
-              <CardFooter className="justify-end gap-2">
-                <Button
-                  
-                  variant="outline"
-                  className="h-9"
-                  onClick={() => {
-                    resetStore();
-                    toast.success(t("messages.resetSuccess"));
-                  }}
-                >
-                  {t("buttons.reset")}
-                </Button>
-                <Button
-                  type="submit"
-                  className="h-9"
-                  disabled={form.formState.isSubmitting}
-                >
-                  {t("buttons.save")}
-                </Button>
-              </CardFooter>
+              {isEditing && (
+                <CardFooter className="justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    className="h-9"
+                    type="button"
+                    onClick={() => {
+                      resetStore();
+                      toast.success(t("messages.resetSuccess"));
+                    }}
+                  >
+                    {t("buttons.reset")}
+                  </Button>
+                </CardFooter>
+              )}
             </Card>
           </form>
         </Form>

@@ -2,6 +2,7 @@ import ActionsCell from "@/components/action-cell";
 import { StatusBadge } from "@/components/status-badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import type { Quotation, QuotationStatus } from "@/lib/types";
 import { useQuotationStore } from "@/store/quotation-store";
 import { ColumnDef } from "@tanstack/react-table";
@@ -9,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
 import { getQuotationStatusBadgeVariant } from "./status";
+import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 
 export type QuotationRow = Quotation & {
   clientName: string;
@@ -35,6 +37,7 @@ export default function useQuotationTableColumn({
 
   const onDelete = (item: QuotationRow) => {
     deleteQuotation(item.id);
+    toast.success(t("messages.deleteSuccess"));
   };
 
   const column: ColumnDef<QuotationRow>[] = [
@@ -57,6 +60,10 @@ export default function useQuotationTableColumn({
               title: t("actions.delete"),
               variant: "destructive",
               onPress: (item) => onDelete(item),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
           t={t}
@@ -85,9 +92,17 @@ export default function useQuotationTableColumn({
       accessorKey: "amount",
       header: t("columns.amount"),
       cell: ({ row }) => {
-        const v = row.getValue("amount");
-        const num = typeof v === "number" ? v : Number(v ?? 0);
-        return <div>{num.toLocaleString()}</div>;
+        const value = row.original;
+        return (
+          <div className="flex items-center gap-3">
+            <div className="font-medium">
+              {`${getCurrencySymbol(value.currency)} ${formattedAmount(
+                value.amount,
+                value.currency,
+              )}`}
+            </div>
+          </div>
+        );
       },
     },
     {

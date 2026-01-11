@@ -1,6 +1,7 @@
 import { StatusBadge } from "@/components/status-badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import ActionsCell from "@/components/action-cell";
+import { toast } from "sonner";
 import {
   useMerchantCardStore,
   type MerchantCardStatus,
@@ -20,6 +21,7 @@ export default function useMerchantCardTableColumn() {
 
   const onDelete = (item: MerchantCardRow) => {
     deleteCard(item.id);
+    toast.success(t("messages.deleteSuccess"));
   };
 
   const column: ColumnDef<MerchantCardRow>[] = [
@@ -34,6 +36,10 @@ export default function useMerchantCardTableColumn() {
               title: t("actions.delete"),
               variant: "destructive",
               onPress: () => onDelete(row.original),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
           t={t}

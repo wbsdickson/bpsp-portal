@@ -35,6 +35,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 type MidUpsertValues = {
   mid: string;
@@ -45,7 +46,19 @@ type MidUpsertValues = {
 
 const STATUS_OPTIONS: MidStatus[] = ["active", "inactive"];
 
-export default function MidUpsertForm({ midId }: { midId?: string }) {
+interface MidUpsertFormProps {
+  midId?: string;
+  onSuccess?: () => void;
+  onCancel?: () => void;
+  isModal?: boolean;
+}
+
+export default function MidUpsertForm({
+  midId,
+  onSuccess,
+  onCancel,
+  isModal = false,
+}: MidUpsertFormProps) {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Operator.MID");
@@ -97,29 +110,42 @@ export default function MidUpsertForm({ midId }: { midId?: string }) {
         status: data.status,
       });
       toast.success(t("messages.updateSuccess"));
-      router.push(`/${locale}/operator/mid-setting`);
-      return;
+    } else {
+      addMid({
+        mid: data.mid.trim(),
+        brand: data.brand.trim(),
+        connectionEndpoint: data.connectionEndpoint.trim(),
+        status: data.status,
+        linkedMerchantIds: [],
+      });
+      toast.success(t("messages.createSuccess"));
     }
 
-    addMid({
-      mid: data.mid.trim(),
-      brand: data.brand.trim(),
-      connectionEndpoint: data.connectionEndpoint.trim(),
-      status: data.status,
-      linkedMerchantIds: [],
-    });
-    toast.success(t("messages.createSuccess"));
-    router.push(`/${locale}/operator/mid-setting`);
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      router.push(`/${locale}/operator/mid-setting`);
+    }
   });
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      router.push(`/${locale}/operator/mid-setting`);
+    }
+  };
 
   const title = midId ? t("form.editTitle") : t("form.createTitle");
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
+    <Card className={cn(isModal && "border-none shadow-none")}>
+      {!isModal && (
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+      )}
+      <CardContent className={cn(isModal && "p-0")}>
         <Form {...form}>
           <form className="space-y-4" onSubmit={onSubmit}>
             <FormField
@@ -189,19 +215,18 @@ export default function MidUpsertForm({ midId }: { midId?: string }) {
               )}
             />
 
-            <CardFooter className="justify-end gap-2 px-0">
+            <CardFooter
+              className={cn("justify-end gap-2 px-0", isModal && "pb-0")}
+            >
               <Button
-                
+                type="button"
                 variant="outline"
                 className="h-9"
-                onClick={() => router.push(`/${locale}/operator/mid-setting`)}
+                onClick={handleCancel}
               >
                 {t("buttons.cancel")}
               </Button>
-              <Button
-                type="submit"
-                className="h-9"
-              >
+              <Button type="submit" className="h-9">
                 {t("buttons.save")}
               </Button>
             </CardFooter>

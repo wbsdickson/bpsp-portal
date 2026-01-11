@@ -2,7 +2,9 @@ import { StatusBadge } from "@/components/status-badge";
 import { getMidSettingStatusBadgeVariant } from "./status";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import type { AppMid, MidStatus } from "@/types/mid";
+import { useMidStore } from "@/store/mid-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
@@ -22,7 +24,13 @@ export default function useMidTableColumn({
 }) {
   const t = useTranslations("Operator.MID");
   const router = useRouter();
+  const { deleteMid } = useMidStore();
   const { basePath } = useBasePath();
+
+  const onDelete = (item: MidRow) => {
+    deleteMid(item.id);
+    toast.success(t("messages.deleteSuccess"));
+  };
 
   const column: ColumnDef<MidRow>[] = [
     {
@@ -38,8 +46,13 @@ export default function useMidTableColumn({
               onPress: (item) => router.push(`${basePath}/${item.id}`),
             },
             {
-              title: t("actions.edit"),
-              onPress: (item) => router.push(`${basePath}/edit/${item.id}`),
+              title: t("actions.delete"),
+              variant: "destructive",
+              onPress: (item) => onDelete(item),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
         />

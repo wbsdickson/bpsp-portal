@@ -38,6 +38,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 type UpsertMode = "create" | "edit";
 
@@ -63,13 +64,21 @@ function asDateValue(input: string | undefined) {
   return dt;
 }
 
+interface NotificationUpsertFormProps {
+  mode: UpsertMode;
+  notificationId?: string;
+  onSuccess?: () => void;
+  onCancel?: () => void;
+  isModal?: boolean;
+}
+
 export default function NotificationUpsertForm({
   mode,
   notificationId,
-}: {
-  mode: UpsertMode;
-  notificationId?: string;
-}) {
+  onSuccess,
+  onCancel,
+  isModal = false,
+}: NotificationUpsertFormProps) {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Operator.Notifications");
@@ -154,19 +163,33 @@ export default function NotificationUpsertForm({
       toast.success(t("messages.updateSuccess"));
     }
 
-    router.push(`/${locale}/operator/notifications`);
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      router.push(`/${locale}/operator/notifications`);
+    }
   });
 
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      router.push(`/${locale}/operator/notifications`);
+    }
+  };
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          {mode === "create" ? t("form.createTitle") : t("form.editTitle")}
-        </CardTitle>
-      </CardHeader>
+    <Card className={cn(isModal && "border-none shadow-none")}>
+      {!isModal && (
+        <CardHeader>
+          <CardTitle>
+            {mode === "create" ? t("form.createTitle") : t("form.editTitle")}
+          </CardTitle>
+        </CardHeader>
+      )}
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <CardContent>
+          <CardContent className={cn(isModal && "p-0")}>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -270,19 +293,21 @@ export default function NotificationUpsertForm({
             </div>
           </CardContent>
 
-          <CardFooter className="mt-4 flex items-center justify-end gap-2">
+          <CardFooter
+            className={cn(
+              "mt-4 flex items-center justify-end gap-2",
+              isModal && "px-0 pb-0",
+            )}
+          >
             <Button
-              
+              type="button"
               variant="outline"
               className="h-9"
-              onClick={() => router.push(`/${locale}/operator/notifications`)}
+              onClick={handleCancel}
             >
               {t("buttons.cancel")}
             </Button>
-            <Button
-              type="submit"
-              className="h-9"
-            >
+            <Button type="submit" className="h-9">
               {t("buttons.save")}
             </Button>
           </CardFooter>

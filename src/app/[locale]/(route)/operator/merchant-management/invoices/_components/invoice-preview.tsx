@@ -17,6 +17,7 @@ import type { BankAccount, Client, Item, Merchant, Tax } from "@/lib/types";
 import { formatDate } from "@/lib/date-utils";
 import type { FieldArrayWithId, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 
 type LineItem = {
   id: string;
@@ -209,7 +210,7 @@ export default function InvoicePreview({
                     {it.unit || "—"}
                   </TableCell>
                   <TableCell className="px-2 text-right text-sm">
-                    {formatMoney(it.unitPrice, currency)}
+                    {`${getCurrencySymbol(currency)} ${formattedAmount(it.unitPrice, currency)}`}
                   </TableCell>
                   <TableCell className="px-2 text-right text-sm font-medium">
                     {taxById.get(it.taxId ?? "")?.name ?? "—"}
@@ -218,7 +219,7 @@ export default function InvoicePreview({
                     {it.withholdingTax ? "○" : "—"}
                   </TableCell>
                   <TableCell className="px-2 text-right text-sm font-medium">
-                    {formatMoney(
+                    {`${getCurrencySymbol(currency)} ${formattedAmount(
                       it.quantity * it.unitPrice +
                         Math.round(
                           it.quantity *
@@ -226,7 +227,7 @@ export default function InvoicePreview({
                             (taxById.get(it.taxId ?? "")?.rate ?? 0),
                         ),
                       currency,
-                    )}
+                    )}`}
                   </TableCell>
                 </TableRow>
               ))}

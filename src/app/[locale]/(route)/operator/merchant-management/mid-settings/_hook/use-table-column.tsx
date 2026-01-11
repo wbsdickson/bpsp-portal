@@ -1,6 +1,7 @@
 import { StatusBadge } from "@/components/status-badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 
@@ -32,6 +33,7 @@ export default function useMerchantMidTableColumn({
   };
   const onDelete = (item: MerchantMidRow) => {
     deleteMid(item.id);
+    toast.success(t("messages.deleteSuccess"));
   };
 
   const column: ColumnDef<MerchantMidRow>[] = [
@@ -50,6 +52,10 @@ export default function useMerchantMidTableColumn({
               title: t("actions.delete"),
               variant: "destructive",
               onPress: () => onDelete(row.original),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
           t={t}

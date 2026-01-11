@@ -305,8 +305,8 @@ export function InvoiceUpsertPage({
   });
 
   return (
-    <div className="bg-background min-h-[calc(100vh-0px)] overflow-hidden rounded-lg">
-      <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
+    <div className="bg-card min-h-[calc(100vh-0px)] overflow-hidden rounded-lg">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           {onClose ? (
             <Button

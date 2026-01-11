@@ -8,14 +8,12 @@ import RecordTabs, { RecordTab } from "@/components/record-tabs";
 import NotificationDetail from "./_components/notification-detail";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import type { NotificationRow } from "./_hook/use-table-column";
-import { useBasePath } from "@/hooks/use-base-path";
+import { useModalStore } from "@/store/modal-store";
 
 export default function OperatorNotificationsPage() {
   const t = useTranslations("Operator.Notifications");
-  const router = useRouter();
-  const basePath = useBasePath();
+  const { onOpen } = useModalStore();
 
   return (
     <HeaderPage
@@ -24,9 +22,9 @@ export default function OperatorNotificationsPage() {
         <Button
           size="sm"
           className="h-9"
-          onClick={() => router.push(`${basePath}/create`)}
+          onClick={() => onOpen("create-notification")}
         >
-          <Plus /> Create {t("title")}
+          <Plus /> {t("form.createTitle")}
         </Button>
       }
     >

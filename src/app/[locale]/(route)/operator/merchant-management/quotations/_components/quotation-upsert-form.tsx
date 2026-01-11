@@ -50,7 +50,7 @@ type QuotationUpsertFormValues = z.infer<
 >;
 
 const DEFAULT_MERCHANT_ID = "u1";
-const DEFAULT_CURRENCY = "USD";
+const DEFAULT_CURRENCY = "JPY";
 
 export default function QuotationUpsertForm({
   quotationId,
@@ -86,10 +86,7 @@ export default function QuotationUpsertForm({
       clientId: quotation?.clientId ?? "",
       quotationDate:
         quotation?.quotationDate ?? new Date().toISOString().split("T")[0],
-      quotationNumber: quotation?.quotationNumber ?? "", // Generated on submit if empty? Or pre-filled?
-      // InvoiceUpsert pre-fills invoiceNumber. QuotationUpsert generated it on submit.
-      // We should probably generate it here or let user edit it.
-      // Quotation schema requires it.
+      quotationNumber: quotation?.quotationNumber ?? "",
       status: (quotation?.status ?? "draft") as any,
       items: quotation?.items.map((it) => ({
         itemId: it.itemId,
@@ -135,10 +132,6 @@ export default function QuotationUpsertForm({
     const price = item.unitPrice || 0;
     const taxId = item.taxId;
     const taxRate = taxes.find((t) => t.id === taxId)?.rate ?? 0;
-    // Calculation with tax? InvoiceUpsert showed amount with tax.
-    // QuotationDetail table showed amount including tax?
-    // Let's check calculation logic in InvoiceDetail/Upsert.
-    // InvoiceUpsert: qty * price * (1 + taxRate/100).
     return sum + qty * price * (1 + taxRate / 100);
   }, 0);
 
@@ -183,11 +176,7 @@ export default function QuotationUpsertForm({
       addQuotation({
         merchantId,
         clientId: data.clientId,
-        quotationNumber: generatedNumber, // Override form number if we want auto-gen, or use form.
-        // Use generated if form is empty, or form value?
-        // User might want to set custom number.
-        // Let's use generated if not provided, or better yet, verify field usage.
-        // Schema requires quotationNumber. I should put generated in defaultValues.
+        quotationNumber: generatedNumber,
         quotationDate: data.quotationDate,
         amount: totalAmount,
         currency,
@@ -220,8 +209,8 @@ export default function QuotationUpsertForm({
   }, [taxes]);
 
   return (
-    <ScrollArea className="bg-background h-[calc(100vh-120px)] rounded-lg p-4 pr-2">
-      <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
+    <ScrollArea className="bg-card h-[calc(100vh-120px)] rounded-lg p-4 pr-2">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link href={basePath}>
@@ -355,7 +344,7 @@ export default function QuotationUpsertForm({
             <section className="space-y-3">
               <div className="text-sm font-semibold">{t("columns.item")}</div>
               <div className="flex flex-col gap-3">
-                <div className="bg-background rounded-xl border">
+                <div className="bg-card">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -410,7 +399,7 @@ export default function QuotationUpsertForm({
                                     }}
                                   >
                                     <FormControl>
-                                      <SelectTrigger className="h-9">
+                                      <SelectTrigger className="h-9 w-full">
                                         <SelectValue placeholder="Select item">
                                           {
                                             availableItems.find(
@@ -501,16 +490,19 @@ export default function QuotationUpsertForm({
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input
-                                      value={String(field.value ?? 0)}
-                                      onChange={(e) =>
-                                        field.onChange(
-                                          Number(e.target.value || 0),
-                                        )
-                                      }
-                                      className="h-9 text-right"
-                                      inputMode="decimal"
-                                    />
+                                    <div className="flex items-center gap-1">
+                                      <Input
+                                        value={String(field.value ?? 0)}
+                                        onChange={(e) =>
+                                          field.onChange(
+                                            Number(e.target.value || 0),
+                                          )
+                                        }
+                                        className="h-9 w-full text-right"
+                                        inputMode="decimal"
+                                      />
+                                      {getCurrencySymbol("JPY")}
+                                    </div>
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -546,18 +538,19 @@ export default function QuotationUpsertForm({
                             />
                           </TableCell>
                           <TableCell className="text-right font-medium">
-                            {formattedAmount(
-                              (form.getValues(`items.${index}.quantity`) ?? 0) *
-                                (form.getValues(`items.${index}.unitPrice`) ??
-                                  0) *
-                                (1 +
-                                  (taxById.get(
-                                    form.getValues(`items.${index}.taxId`) ??
-                                      "",
-                                  ) ?? 0) /
-                                    100),
-                              currency,
-                            )}
+                            {(() => {
+                              const qty =
+                                form.getValues(`items.${index}.quantity`) ?? 0;
+                              const price =
+                                form.getValues(`items.${index}.unitPrice`) ?? 0;
+                              const tax = taxById.get(
+                                form.getValues(`items.${index}.taxId`) ?? "",
+                              );
+                              const amount = qty * price;
+                              const taxAmount = amount * (tax ?? 0);
+                              const total = amount + taxAmount;
+                              return `${getCurrencySymbol("JPY")} ${formattedAmount(total, "JPY")}`;
+                            })()}
                           </TableCell>
                           <TableCell className="text-right">
                             <Button
