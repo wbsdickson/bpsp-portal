@@ -1345,6 +1345,62 @@
         "updateSuccess": "お知らせを更新しました。",
         "notFound": "お知らせが見つかりません。"
       }
+    },
+    "Registration": {
+      "title": "会社登録",
+      "description": "会社を登録して、プラットフォームを開始してください。",
+      "sendConfirmationLink": "確認リンクを送信する",
+      "sending": "送信中...",
+      "registrationComplete": "登録完了",
+      "registrationCompleteDescription": "登録が完了しました。ログイン画面に進んでください。",
+      "goToLogin": "ログイン画面に進む",
+      "emailPlaceholder": "メール",
+      "checkYourEmail": "確認リンクを送信する",
+      "merchantName": "加盟店名",
+      "merchantNamePlaceholder": "加盟店名",
+      "ownerName": "所有者名",
+      "ownerNamePlaceholder": "所有者名",
+      "phoneNumber": "電話番号",
+      "phoneNumberPlaceholder": "電話番号",
+      "address": "住所",
+      "addressPlaceholder": "住所",
+      "confirmPasswordPlaceholder": "確認パスワード",
+      "completeRegistration": "完了",
+      "fillMerchantDetails": "加盟店詳細を入力してください",
+      "email": "メール",
+      "form": {
+        "createTitle": "会社を作成",
+        "editTitle": "会社を編集",
+        "idPlaceholder": "ID",
+        "namePlaceholder": "会社名",
+        "emailPlaceholder": "name@company.com",
+        "rolePlaceholder": "ロール",
+        "memberRolePlaceholder": "メンバーロール",
+        "registrationDatePlaceholder": "登録日",
+        "statusPlaceholder": "ステータス"
+      },
+      "buttons": {
+        "create": "会社を作成",
+        "clearFilters": "フィルターをクリア",
+        "back": "戻る",
+        "cancel": "キャンセル",
+        "save": "保存"
+      },
+      "filters": {
+        "name": "名前",
+        "email": "メール",
+        "status": "ステータス",
+        "role": "ロール",
+        "all": "すべて",
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了"
+      },
+      "messages": {
+        "createSuccess": "会社を作成しました。",
+        "updateSuccess": "会社を更新しました。",
+        "notFound": "会社が見つかりません。"
+      }
     }
   }
 }
