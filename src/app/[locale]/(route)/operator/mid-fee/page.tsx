@@ -19,12 +19,8 @@ export default function MidFeePage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button
-          size="sm"
-          className="h-9"
-          onClick={() => onOpen("create-mid-fee")}
-        >
-          <Plus /> {t("form.createTitle")}
+        <Button size="sm" onClick={() => onOpen("create-mid-fee")}>
+          <Plus /> Create {t("title")}
         </Button>
       }
     >

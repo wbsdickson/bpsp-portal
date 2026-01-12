@@ -1661,6 +1661,12 @@
         "updateSuccess": "お知らせを更新しました。",
         "notFound": "お知らせが見つかりません。"
       }
+    },
+    "UserPreferences": {
+      "title": "ユーザー設定",
+      "description": "サイドバーのスタイルとプライマリカラーをカスタマイズ",
+      "sidebarVariant": "サイドバースタイル",
+      "primaryColor": "プライマリカラー"
     }
   }
 }

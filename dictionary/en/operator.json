@@ -1660,6 +1660,12 @@
         "updateSuccess": "Notification updated successfully.",
         "notFound": "Notification not found."
       }
+    },
+    "UserPreferences": {
+      "title": "User Preferences",
+      "description": "Customize your sidebar style and primary color",
+      "sidebarVariant": "Sidebar Style",
+      "primaryColor": "Primary Color"
     }
   }
 }

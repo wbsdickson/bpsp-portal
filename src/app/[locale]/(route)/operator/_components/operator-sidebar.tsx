@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useUserPreferencesStore } from "@/store/user-preferences-store";
 
 type NavRoute = {
   label: string;
@@ -76,6 +77,7 @@ const MAIN_ROUTES = [
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const t = useTranslations("Operator.Sidebar");
   const session = useSession();
+  const { preferences } = useUserPreferencesStore();
 
   const user = React.useMemo(
     () => ({
@@ -112,7 +114,11 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   );
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar
+      collapsible="icon"
+      variant={preferences.sidebarVariant}
+      {...props}
+    >
       <SidebarHeader>
         <TeamSwitcher name={user.name} company={user.email} />
       </SidebarHeader>
