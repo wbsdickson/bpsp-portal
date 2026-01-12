@@ -9,7 +9,7 @@ type UserPreferences = {
 };
 
 const DEFAULT_PREFERENCES: UserPreferences = {
-  sidebarVariant: "sidebar",
+  sidebarVariant: "floating",
   primaryColor: "", // Empty means use default
 };
 
