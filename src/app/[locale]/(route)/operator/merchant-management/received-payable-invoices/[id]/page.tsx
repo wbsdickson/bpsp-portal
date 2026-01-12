@@ -15,7 +15,7 @@ export default function ReceivedPayableInvoiceDetailPage() {
     { label: id, active: true },
   ];
   return (
-    <div className="mx-auto w-[1280px]">
+    <div className="max-w-5xl">
       <PageBreadcrumb items={breadcrumbItems} />
       <ReceivedPayableInvoiceDetail id={id} />
     </div>

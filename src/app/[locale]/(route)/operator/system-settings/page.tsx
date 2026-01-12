@@ -172,6 +172,7 @@ export default function SystemSettingsPage() {
 
   return (
     <HeaderPage
+      containerClassName="max-w-5xl"
       title={t("title")}
       pageActions={
         <div className="flex gap-2">
