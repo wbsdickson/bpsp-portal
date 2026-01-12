@@ -12,7 +12,7 @@ const numberString = (message: string) =>
 export const createMerchantFeeSchema = (t: any) => {
   return z.object({
     merchantId: z.string().min(1, t("validation.merchantRequired")),
-    brand: z.string().min(1, t("validation.brandRequired")),
+    cardBrand: z.string().min(1, t("validation.brandRequired")),
     paymentMethodType: z.enum(["card", "bank"]),
     mdrPercent: numberString(t("validation.mdrPercentMin"))
       .refine((v) => Number(v) >= 0, t("validation.mdrPercentMin"))

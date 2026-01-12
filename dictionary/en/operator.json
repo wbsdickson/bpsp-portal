@@ -787,7 +787,7 @@
       "columns": {
         "merchantName": "Merchant name",
         "mid": "MID",
-        "brand": "Brand",
+        "brand": "Card Brand",
         "registrationDate": "Registration date",
         "status": "Status",
         "active": "Active",
@@ -863,7 +863,7 @@
       },
       "columns": {
         "merchantName": "Merchant name",
-        "brand": "Brand",
+        "brand": "Card Brand",
         "paymentMethodType": "Payment method type",
         "mdrPercent": "MDR%",
         "fixedFee": "Fixed fee",
@@ -1051,7 +1051,7 @@
       "title": "Cards",
       "columns": {
         "merchant": "Merchant",
-        "brand": "Brand",
+        "brand": "Card Brand",
         "last4": "Last 4 digits",
         "expirationDate": "Expiration date",
         "registrationDate": "Registration date",
@@ -1389,7 +1389,7 @@
       },
       "columns": {
         "mid": "MID",
-        "brand": "Brand",
+        "brand": "Card Brand",
         "status": "Status",
         "linkedMerchantsCount": "Number of linked merchants",
         "createdAt": "Created at",
@@ -1456,7 +1456,7 @@
       },
       "columns": {
         "mid": "MID",
-        "brand": "Brand",
+        "brand": "Card Brand",
         "mdr": "MDR",
         "fixedFeeAmount": "Fixed fee amount",
         "status": "Status",

@@ -11,8 +11,12 @@ import { useMerchantFeeStore } from "@/store/merchant-fee-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import ActionsCell from "@/components/action-cell";
 import { getStatusBadgeVariant } from "./status";
+import { getCardBrandIcon } from "@/lib/utils";
 
-export type MerchantFeeRow = AppMerchantFee & { merchantName: string };
+export type MerchantFeeRow = AppMerchantFee & {
+  merchantName: string;
+  cardBrand: string;
+};
 
 export default function useMerchantFeeTableColumn({
   addTab,
@@ -28,9 +32,6 @@ export default function useMerchantFeeTableColumn({
 
   const onOpenDetail = (item: MerchantFeeRow) => {
     router.push(`${basePath}/${item.id}`);
-  };
-  const onOpenEdit = (item: MerchantFeeRow) => {
-    router.push(`${basePath}/edit/${item.id}`);
   };
 
   const onDelete = (item: MerchantFeeRow) => {
@@ -78,9 +79,12 @@ export default function useMerchantFeeTableColumn({
       ),
     },
     {
-      accessorKey: "brand",
+      accessorKey: "cardBrand",
       header: t("columns.brand"),
-      cell: ({ row }) => <div>{String(row.getValue("brand") ?? "")}</div>,
+      cell: ({ row }) => {
+        const brand = String(row.getValue("cardBrand") ?? "");
+        return <div>{getCardBrandIcon(brand)}</div>;
+      },
     },
     {
       accessorKey: "paymentMethodType",

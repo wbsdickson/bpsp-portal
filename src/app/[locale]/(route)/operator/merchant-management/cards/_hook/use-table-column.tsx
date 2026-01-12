@@ -9,6 +9,7 @@ import {
 import type { AppMerchantCard } from "@/store/merchant-card-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
+import { getCardBrandIcon } from "@/lib/utils";
 
 export type MerchantCardRow = AppMerchantCard & {
   status: MerchantCardStatus;
@@ -49,7 +50,10 @@ export default function useMerchantCardTableColumn() {
     {
       accessorKey: "cardBrand",
       header: t("columns.brand"),
-      cell: ({ row }) => <div>{String(row.getValue("cardBrand") ?? "")}</div>,
+      cell: ({ row }) => {
+        const brand = String(row.getValue("cardBrand") ?? "");
+        return <div>{getCardBrandIcon(brand)}</div>;
+      },
     },
     {
       accessorKey: "merchantName",

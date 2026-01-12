@@ -787,7 +787,7 @@
       "columns": {
         "merchantName": "加盟店名",
         "mid": "MID",
-        "brand": "ブランド",
+        "brand": "カードブランド",
         "registrationDate": "登録日",
         "status": "ステータス",
         "active": "稼働",
@@ -864,7 +864,7 @@
       },
       "columns": {
         "merchantName": "加盟店名",
-        "brand": "ブランド",
+        "brand": "カードブランド",
         "paymentMethodType": "支払い方法",
         "mdrPercent": "MDR%",
         "fixedFee": "固定手数料",
@@ -1052,7 +1052,7 @@
       "title": "カード",
       "columns": {
         "merchant": "加盟店名",
-        "brand": "ブランド",
+        "brand": "カードブランド",
         "last4": "下4桁",
         "expirationDate": "有効期限",
         "registrationDate": "登録日",
@@ -1390,7 +1390,7 @@
       },
       "columns": {
         "mid": "MID",
-        "brand": "ブランド",
+        "brand": "カードブランド",
         "status": "ステータス",
         "linkedMerchantsCount": "紐付け加盟店数",
         "createdAt": "作成日",
@@ -1458,7 +1458,7 @@
       },
       "columns": {
         "mid": "MID",
-        "brand": "ブランド",
+        "brand": "カードブランド",
         "mdr": "MDR",
         "fixedFeeAmount": "固定手数料",
         "status": "ステータス",

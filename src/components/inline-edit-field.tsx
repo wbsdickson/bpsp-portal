@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Control, FieldValues, Path } from "react-hook-form";
+import { getCardBrandIcon } from "@/lib/utils";
 
 interface InlineEditFieldProps<T extends FieldValues> {
   control: Control<T>;
@@ -26,6 +27,11 @@ export const InlineEditField = <T extends FieldValues>({
   value,
   renderInput,
 }: InlineEditFieldProps<T>) => {
+  const displayValue =
+    name === "cardBrand" && typeof value === "string"
+      ? getCardBrandIcon(value)
+      : value;
+
   return (
     <div className="space-y-1">
       <div className="text-muted-foreground text-sm font-medium">{label}</div>
@@ -41,7 +47,9 @@ export const InlineEditField = <T extends FieldValues>({
           )}
         />
       ) : (
-        <div className="flex items-center text-sm font-medium">{value}</div>
+        <div className="flex items-center text-sm font-medium">
+          {displayValue}
+        </div>
       )}
     </div>
   );

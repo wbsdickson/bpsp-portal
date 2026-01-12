@@ -28,6 +28,7 @@ import { InlineEditField } from "@/components/inline-edit-field";
 import { createMerchantFeeSchema } from "../_lib/merchant-fee-schema";
 import { StatusBadge } from "@/components/status-badge";
 import { getStatusBadgeVariant } from "../_hook/status";
+import { getCardBrandIcon } from "@/lib/utils";
 
 const STATUS_OPTIONS: MerchantFeeStatus[] = ["active", "suspended"];
 const PAYMENT_METHOD_OPTIONS: PaymentMethodType[] = ["card", "bank"];
@@ -50,7 +51,7 @@ export default function MerchantFeeDetail({ feeId }: { feeId: string }) {
     resolver: zodResolver(schema),
     defaultValues: {
       merchantId: fee?.merchantId ?? "",
-      brand: fee?.brand ?? "",
+      cardBrand: fee?.brand ?? "",
       paymentMethodType: (fee?.paymentMethodType ??
         "card") as PaymentMethodType,
       mdrPercent: String(fee?.mdrPercent ?? ""),
@@ -63,7 +64,7 @@ export default function MerchantFeeDetail({ feeId }: { feeId: string }) {
     if (fee) {
       form.reset({
         merchantId: fee.merchantId,
-        brand: fee.brand,
+        cardBrand: fee.brand,
         paymentMethodType: fee.paymentMethodType,
         mdrPercent: String(fee.mdrPercent),
         fixedFee: String(fee.fixedFee),
@@ -83,7 +84,7 @@ export default function MerchantFeeDetail({ feeId }: { feeId: string }) {
   const onSubmit = form.handleSubmit((data) => {
     updateFee(feeId, {
       merchantId: data.merchantId,
-      brand: data.brand,
+      brand: data.cardBrand,
       paymentMethodType: data.paymentMethodType,
       mdrPercent: Number(data.mdrPercent),
       fixedFee: Number(data.fixedFee),
@@ -118,7 +119,6 @@ export default function MerchantFeeDetail({ feeId }: { feeId: string }) {
           <h2 className="text-2xl font-bold tracking-tight">
             {merchant?.name ?? fee.merchantId}
           </h2>
-          <p className="text-muted-foreground text-sm">{fee.brand}</p>
         </div>
         <div className="flex gap-2">
           {isEditing ? (
@@ -169,7 +169,7 @@ export default function MerchantFeeDetail({ feeId }: { feeId: string }) {
 
             <InlineEditField
               control={form.control}
-              name="brand"
+              name="cardBrand"
               label={t("columns.brand")}
               isEditing={isEditing}
               value={fee.brand}

@@ -14,8 +14,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 import useMerchantFeeTableColumn from "../_hook/use-table-column";
-
-type MerchantFeeRow = AppMerchantFee & { merchantName: string };
+import type { MerchantFeeRow } from "../_hook/use-table-column";
 
 const PAYMENT_METHOD_TYPES: PaymentMethodType[] = ["card", "bank"];
 
@@ -37,6 +36,7 @@ export default function MerchantFeeTable({
     return fees.map((f) => ({
       ...f,
       merchantName: merchantNameById.get(f.merchantId) ?? "—",
+      cardBrand: f.brand,
     }));
   }, [fees, merchants]);
 
@@ -49,7 +49,7 @@ export default function MerchantFeeTable({
         data={rows}
         renderToolbar={(table) => {
           const merchantNameCol = table.getColumn("merchantName");
-          const brandCol = table.getColumn("brand");
+          const brandCol = table.getColumn("cardBrand");
           const paymentMethodTypeCol = table.getColumn("paymentMethodType");
 
           const paymentMethodOptions = PAYMENT_METHOD_TYPES.map((v) => ({

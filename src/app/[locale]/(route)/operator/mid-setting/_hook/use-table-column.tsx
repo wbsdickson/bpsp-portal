@@ -11,6 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import ActionsCell from "@/components/action-cell";
 import { useBasePath } from "@/hooks/use-base-path";
+import { getCardBrandIcon } from "@/lib/utils";
 
 export type MidRow = AppMid & {
   linkedMerchantsCount: number;
@@ -74,7 +75,10 @@ export default function useMidTableColumn({
     {
       accessorKey: "brand",
       header: t("columns.brand"),
-      cell: ({ row }) => <div>{String(row.getValue("brand") ?? "")}</div>,
+      cell: ({ row }) => {
+        const brand = String(row.getValue("brand") ?? "");
+        return <div>{getCardBrandIcon(brand)}</div>;
+      },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");
         if (!value) return true;

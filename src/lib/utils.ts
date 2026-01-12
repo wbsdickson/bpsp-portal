@@ -1,5 +1,10 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import React from "react";
+import { Diners, Jcb, Mastercard, Visa } from "@/components/icons";
+import Amex from "@/components/icons/credit-card/amex";
+import Discover from "@/components/icons/credit-card/discover";
+import { CreditCard } from "lucide-react";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -54,3 +59,23 @@ export const toCapitalized = (str: string) =>
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+
+export const getCardBrandIcon = (brand: string): React.ReactElement => {
+  const iconProps = { width: 28, height: 18 };
+  switch (brand.toUpperCase()) {
+    case "VISA":
+      return React.createElement(Visa, iconProps);
+    case "MASTERCARD":
+      return React.createElement(Mastercard, iconProps);
+    case "AMEX":
+      return React.createElement(Amex, iconProps);
+    case "JCB":
+      return React.createElement(Jcb, iconProps);
+    case "DISCOVER":
+      return React.createElement(Discover, iconProps);
+    case "DINERS":
+      return React.createElement(Diners, iconProps);
+    default:
+      return React.createElement(CreditCard, iconProps);
+  }
+};

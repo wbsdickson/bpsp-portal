@@ -6,8 +6,8 @@ export default function Jcb(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       aria-label="Unknown card"
-      width="1.5em"
-      height="1em"
+      width={props.width ?? 28}
+      height={props.height ?? 18}
       viewBox="0 0 24 16"
       type="jcb"
       className={cn(props.className)}

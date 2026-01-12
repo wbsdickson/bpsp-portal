@@ -13,9 +13,9 @@ import { Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-import useMerchantMidTableColumn from "../_hook/use-table-column";
-
-export type MerchantMidRow = AppMerchantMid & { merchantName: string };
+import useMerchantMidTableColumn, {
+  type MerchantMidRow,
+} from "../_hook/use-table-column";
 
 export default function MerchantMidTable({
   addTab,
@@ -35,6 +35,7 @@ export default function MerchantMidTable({
     return mids.map((m) => ({
       ...m,
       merchantName: merchantNameById.get(m.merchantId) ?? "—",
+      cardBrand: m.brand,
     }));
   }, [mids, merchants]);
 
@@ -48,7 +49,7 @@ export default function MerchantMidTable({
         renderToolbar={(table) => {
           const merchantNameCol = table.getColumn("merchantName");
           const midCol = table.getColumn("mid");
-          const brandCol = table.getColumn("brand");
+          const brandCol = table.getColumn("cardBrand");
           const statusCol = table.getColumn("status");
 
           const statusOptions: { value: MerchantMidStatus; label: string }[] = [

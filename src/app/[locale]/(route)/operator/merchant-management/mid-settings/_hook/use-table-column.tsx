@@ -11,8 +11,12 @@ import { useMerchantMidStore } from "@/store/merchant-mid-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import ActionsCell from "@/components/action-cell";
 import { getStatusBadgeVariant } from "./status";
+import { getCardBrandIcon } from "@/lib/utils";
 
-type MerchantMidRow = AppMerchantMid & { merchantName: string };
+export type MerchantMidRow = AppMerchantMid & {
+  merchantName: string;
+  cardBrand: string;
+};
 
 export default function useMerchantMidTableColumn({
   addTab,
@@ -83,9 +87,12 @@ export default function useMerchantMidTableColumn({
       ),
     },
     {
-      accessorKey: "brand",
+      accessorKey: "cardBrand",
       header: t("columns.brand"),
-      cell: ({ row }) => <div>{String(row.getValue("brand") ?? "")}</div>,
+      cell: ({ row }) => {
+        const brand = String(row.getValue("cardBrand") ?? "");
+        return <div>{getCardBrandIcon(brand)}</div>;
+      },
     },
     {
       accessorKey: "createdAt",
