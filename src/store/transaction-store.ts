@@ -7,6 +7,7 @@ export type TransactionStatus = Payment["status"];
 
 type TransactionStoreState = {
   transactions: Payment[];
+  addTransaction: (transaction: Payment) => void;
   updateTransactionStatus: (id: string, status: Payment["status"]) => void;
   getById: (id: string) => Payment | undefined;
   
@@ -21,6 +22,9 @@ function buildInitialTransactions(): Payment[] {
 export const useTransactionStore = create<TransactionStoreState>(
   (set, get) => ({
     transactions: buildInitialTransactions(),
+    addTransaction: (transaction) => {
+      set((state) => ({ transactions: [transaction, ...state.transactions] }));
+    },
     updateTransactionStatus: (id, status) => {
       set((state) => ({
         transactions: state.transactions.map((t) =>
