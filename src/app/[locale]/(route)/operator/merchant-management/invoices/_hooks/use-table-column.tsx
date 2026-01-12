@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 
@@ -12,6 +13,7 @@ import ActionsCell from "@/components/action-cell";
 import { useModalStore } from "@/store/modal-store";
 import { StatusBadge } from "@/components/status-badge";
 import { getInvoiceStatusBadgeVariant } from "./status";
+import { useInvoiceStore } from "@/store/invoice-store";
 
 function InvoiceNumberCell({
   id,
@@ -55,7 +57,7 @@ export default function useMerchantInvoiceTableColumn({
   addTab: (id: string) => void;
 }) {
   const t = useTranslations("Operator.Invoice");
-  const { deleteFee } = useMerchantFeeStore();
+  const { deleteInvoice } = useInvoiceStore();
   const { onOpen } = useModalStore();
 
   const router = useRouter();
@@ -70,7 +72,8 @@ export default function useMerchantInvoiceTableColumn({
   };
 
   const onDelete = (item: InvoiceRow) => {
-    deleteFee(item.id);
+    deleteInvoice(item.id);
+    toast.success(t("messages.deleteSuccess"));
   };
 
   const column: ColumnDef<InvoiceRow>[] = [
@@ -93,6 +96,10 @@ export default function useMerchantInvoiceTableColumn({
               title: t("actions.delete"),
               variant: "destructive",
               onPress: (item) => onDelete(item),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
           t={t}

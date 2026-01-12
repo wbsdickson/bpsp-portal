@@ -9,6 +9,7 @@ import type { User } from "@/lib/types";
 import { useMerchantMemberStore } from "@/store/merchant-member-store";
 import { useMerchantStore } from "@/store/merchant-store";
 import ActionsCell from "@/components/action-cell";
+import { toast } from "sonner";
 
 export type MerchantMemberRow = User;
 
@@ -37,6 +38,7 @@ export default function useMerchantMemberTableColumn({
   };
 
   const onDelete = (item: MerchantMemberRow) => {
+    toast.success(t("messages.deleteSuccess"));
     deleteMember(item.id);
   };
 
@@ -56,6 +58,10 @@ export default function useMerchantMemberTableColumn({
               title: t("actions.delete"),
               variant: "destructive",
               onPress: onDelete,
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
           t={t}

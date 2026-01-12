@@ -8,7 +8,10 @@ export type ModalType =
   | "create-merchant-item"
   | "create-bank-account"
   | "create-invoice"
-  | "edit-invoice";
+  | "edit-invoice"
+  | "create-notification"
+  | "create-mid-setting"
+  | "create-mid-fee";
 
 interface ModalStore {
   type: ModalType | null;

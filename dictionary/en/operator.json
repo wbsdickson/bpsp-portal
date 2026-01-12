@@ -75,7 +75,12 @@
       },
       "buttons": {
         "reset": "Reset",
-        "save": "Save"
+        "save": "Save",
+        "discard": "Discard",
+        "cancel": "Cancel"
+      },
+      "actions": {
+        "edit": "Edit"
       },
       "messages": {
         "updateSuccess": "System settings updated successfully.",
@@ -95,6 +100,10 @@
         "maxLoginAttemptsInvalid": "Max login attempts is invalid",
         "sessionTimeoutMinutesRequired": "Session timeout is required",
         "sessionTimeoutMinutesInvalid": "Session timeout is invalid"
+      },
+      "status": {
+        "enabled": "Enabled",
+        "disabled": "Disabled"
       }
     },
     "Dashboard": {
@@ -402,7 +411,14 @@
       },
       "messages": {
         "createSuccess": "Invoice created successfully.",
-        "updateSuccess": "Invoice updated successfully."
+        "updateSuccess": "Invoice updated successfully.",
+        "deleteSuccess": "Invoice deleted successfully."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "Receipt": {
@@ -457,14 +473,22 @@
         "quantity": "Quantity",
         "unitPrice": "Unit price",
         "taxCategory": "Tax category",
-        "total": "Total"
+        "total": "Total",
+        "amount": "Amount"
       },
       "messages": {
         "createSuccess": "Receipt created successfully.",
         "updateSuccess": "Receipt updated successfully.",
         "missingId": "Missing receipt id.",
         "notFound": "Receipt not found.",
-        "empty": "—"
+        "empty": "—",
+        "deleteSuccess": "Receipt deleted successfully."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "ReceivedPayableInvoices": {
@@ -528,7 +552,14 @@
         "createSuccess": "Invoice created successfully.",
         "updateSuccess": "Invoice updated successfully.",
         "missingId": "Missing invoice id.",
-        "notFound": "Invoice not found."
+        "notFound": "Invoice not found.",
+        "deleteSuccess": "Invoice deleted successfully."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "Accounts": {
@@ -592,6 +623,12 @@
         "nameRequired": "Name is required",
         "emailRequired": "Email is required",
         "emailInvalid": "Invalid email"
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "Merchants": {
@@ -644,7 +681,14 @@
       "messages": {
         "createSuccess": "Merchant created successfully.",
         "updateSuccess": "Merchant updated successfully.",
-        "merchantNotFound": "Merchant not found."
+        "merchantNotFound": "Merchant not found.",
+        "deleteSuccess": "Merchant deleted successfully."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       },
       "validation": {
         "nameRequired": "Name is required",
@@ -719,13 +763,20 @@
       "messages": {
         "createSuccess": "Member created successfully.",
         "updateSuccess": "Member updated successfully.",
-        "userNotFound": "User not found."
+        "userNotFound": "User not found.",
+        "deleteSuccess": "Member deleted successfully."
       },
       "validation": {
         "merchantRequired": "Merchant is required",
         "nameRequired": "Name is required",
         "emailRequired": "Email is required",
         "emailInvalid": "Invalid email"
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "MerchantMIDs": {
@@ -790,12 +841,19 @@
         "midRequired": "MID is required",
         "brandRequired": "Brand is required",
         "effectiveStartDateRequired": "Effective start date is required",
-        "effectiveEndDateRequired": "Effective end date is required"
+        "effectiveEndDateRequired": "Effective end date is required",
+        "deleteSuccess": "MID deleted successfully."
       },
       "messages": {
         "createSuccess": "MID created successfully.",
         "updateSuccess": "MID updated successfully.",
         "notFound": "MID not found."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "MerchantFees": {
@@ -863,7 +921,14 @@
       "messages": {
         "createSuccess": "Fee setting created successfully.",
         "updateSuccess": "Fee setting updated successfully.",
-        "notFound": "Fee setting not found."
+        "notFound": "Fee setting not found.",
+        "deleteSuccess": "Fee setting deleted successfully."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "Clients": {
@@ -906,12 +971,19 @@
         "nameRequired": "Name is required",
         "phoneRequired": "Phone number is required",
         "emailRequired": "Email is required",
-        "emailInvalid": "Invalid email"
+        "emailInvalid": "Invalid email",
+        "deleteSuccess": "Client deleted successfully."
       },
       "messages": {
         "createSuccess": "Client created successfully.",
         "updateSuccess": "Client updated successfully.",
         "notFound": "Client not found."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "BankAccounts": {
@@ -965,7 +1037,14 @@
       "messages": {
         "createSuccess": "Bank account created successfully.",
         "updateSuccess": "Bank account updated successfully.",
-        "notFound": "Bank account not found."
+        "notFound": "Bank account not found.",
+        "deleteSuccess": "Bank account deleted successfully."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "MerchantCards": {
@@ -994,6 +1073,15 @@
       },
       "buttons": {
         "clearFilters": "Clear filters"
+      },
+      "messages": {
+        "deleteSuccess": "Card deleted successfully."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "Items": {
@@ -1051,7 +1139,14 @@
       "messages": {
         "createSuccess": "Item created successfully.",
         "updateSuccess": "Item updated successfully.",
-        "notFound": "Item not found."
+        "notFound": "Item not found.",
+        "deleteSuccess": "Item deleted successfully."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "DeliveryNotes": {
@@ -1070,6 +1165,7 @@
         "deliveryDate": "Delivery date",
         "status": "Status",
         "item": "Item",
+        "items": "Items",
         "quantity": "Quantity",
         "unitPrice": "Unit price",
         "taxCategory": "Tax category",
@@ -1118,7 +1214,8 @@
         "quantityPlaceholder": "Quantity",
         "unitPricePlaceholder": "Unit price",
         "notesPlaceholder": "Notes",
-        "addItem": "Add item"
+        "addItem": "Add item",
+        "item": "Item"
       },
       "validation": {
         "clientRequired": "Client is required",
@@ -1132,7 +1229,14 @@
       "messages": {
         "createSuccess": "Delivery note created successfully.",
         "updateSuccess": "Delivery note updated successfully.",
+        "deleteSuccess": "Delivery note deleted successfully.",
         "notFound": "Delivery note not found."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "Quotations": {
@@ -1221,7 +1325,14 @@
       "messages": {
         "createSuccess": "Quotation created successfully.",
         "updateSuccess": "Quotation updated successfully.",
+        "deleteSuccess": "Quotation deleted successfully.",
         "notFound": "Quotation not found."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       },
       "preview": {
         "total": "Total"
@@ -1328,7 +1439,14 @@
       "messages": {
         "createSuccess": "MID created successfully.",
         "updateSuccess": "MID updated successfully.",
+        "deleteSuccess": "MID deleted successfully.",
         "notFound": "MID not found."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "MIDFee": {
@@ -1388,7 +1506,16 @@
         "fixedFeeMin": "Fixed fee amount must be a valid number"
       },
       "messages": {
+        "createSuccess": "MID Fee created successfully.",
+        "updateSuccess": "MID Fee updated successfully.",
+        "deleteSuccess": "MID Fee deleted successfully.",
         "notFound": "MID Fee not found."
+      },
+      "dialog": {
+        "deleteTitle": "Are you sure?",
+        "deleteDescription": "This action cannot be undone.",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "TaxSettings": {

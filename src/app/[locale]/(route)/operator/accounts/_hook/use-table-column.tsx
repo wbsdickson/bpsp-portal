@@ -56,6 +56,10 @@ export default function useAccounTableColumn({
               title: t("actions.delete"),
               variant: "destructive",
               onPress: onDelete,
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
           t={t}

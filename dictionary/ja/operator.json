@@ -75,7 +75,12 @@
       },
       "buttons": {
         "reset": "リセット",
-        "save": "保存"
+        "save": "保存",
+        "discard": "破棄",
+        "cancel": "キャンセル"
+      },
+      "actions": {
+        "edit": "編集"
       },
       "messages": {
         "updateSuccess": "システム設定を更新しました。",
@@ -95,6 +100,10 @@
         "maxLoginAttemptsInvalid": "ログイン試行回数の上限が正しくありません",
         "sessionTimeoutMinutesRequired": "セッションタイムアウト（分）は必須です",
         "sessionTimeoutMinutesInvalid": "セッションタイムアウト（分）が正しくありません"
+      },
+      "status": {
+        "enabled": "有効",
+        "disabled": "無効"
       }
     },
     "Dashboard": {
@@ -403,7 +412,14 @@
       },
       "messages": {
         "createSuccess": "請求書を作成しました。",
-        "updateSuccess": "請求書を更新しました。"
+        "updateSuccess": "請求書を更新しました。",
+        "deleteSuccess": "請求書を削除しました。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "Receipt": {
@@ -458,14 +474,22 @@
         "quantity": "数量",
         "unitPrice": "単価",
         "taxCategory": "税区分",
-        "total": "合計"
+        "total": "合計",
+        "amount": "金額"
       },
       "messages": {
         "createSuccess": "領収書を作成しました。",
         "updateSuccess": "領収書を更新しました。",
         "missingId": "領収書IDがありません。",
         "notFound": "領収書が見つかりません。",
-        "empty": "—"
+        "empty": "—",
+        "deleteSuccess": "領収書を削除しました。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "ReceivedPayableInvoices": {
@@ -529,7 +553,14 @@
         "createSuccess": "請求書を作成しました。",
         "updateSuccess": "請求書を更新しました。",
         "missingId": "請求書IDがありません。",
-        "notFound": "請求書が見つかりません。"
+        "notFound": "請求書が見つかりません。",
+        "deleteSuccess": "請求書を削除しました。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "Accounts": {
@@ -593,6 +624,12 @@
         "nameRequired": "氏名は必須です",
         "emailRequired": "メールアドレスは必須です",
         "emailInvalid": "メールアドレスの形式が正しくありません"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "Merchants": {
@@ -644,7 +681,14 @@
       "messages": {
         "createSuccess": "加盟店を作成しました。",
         "updateSuccess": "加盟店を更新しました。",
-        "merchantNotFound": "加盟店が見つかりません。"
+        "merchantNotFound": "加盟店が見つかりません。",
+        "deleteSuccess": "加盟店を削除しました。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       },
       "validation": {
         "nameRequired": "加盟店名は必須です",
@@ -719,13 +763,20 @@
       "messages": {
         "createSuccess": "メンバーを作成しました。",
         "updateSuccess": "メンバーを更新しました。",
-        "userNotFound": "ユーザーが見つかりません。"
+        "userNotFound": "ユーザーが見つかりません。",
+        "deleteSuccess": "メンバーを削除しました。"
       },
       "validation": {
         "merchantRequired": "加盟店は必須です",
         "nameRequired": "氏名は必須です",
         "emailRequired": "メールアドレスは必須です",
         "emailInvalid": "メールアドレスの形式が正しくありません"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "MerchantMIDs": {
@@ -795,7 +846,15 @@
       "messages": {
         "createSuccess": "MIDを作成しました。",
         "updateSuccess": "MIDを更新しました。",
-        "notFound": "MIDが見つかりません。"
+        "notFound": "MIDが見つかりません。",
+        "deleteSuccess": "MIDを削除しました。"
+      },
+
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "MerchantFees": {
@@ -863,7 +922,14 @@
       "messages": {
         "createSuccess": "手数料設定を作成しました。",
         "updateSuccess": "手数料設定を更新しました。",
-        "notFound": "手数料設定が見つかりません。"
+        "notFound": "手数料設定が見つかりません。",
+        "deleteSuccess": "手数料設定を削除しました。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "Clients": {
@@ -906,12 +972,19 @@
         "nameRequired": "取引先名は必須です",
         "phoneRequired": "電話番号は必須です",
         "emailRequired": "メールアドレスは必須です",
-        "emailInvalid": "メールアドレスの形式が正しくありません"
+        "emailInvalid": "メールアドレスの形式が正しくありません",
+        "deleteSuccess": "取引先を削除しました。"
       },
       "messages": {
         "createSuccess": "取引先を作成しました。",
         "updateSuccess": "取引先を更新しました。",
         "notFound": "取引先が見つかりません。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "BankAccounts": {
@@ -965,7 +1038,14 @@
       "messages": {
         "createSuccess": "振込先口座を作成しました。",
         "updateSuccess": "振込先口座を更新しました。",
-        "notFound": "振込先口座が見つかりません。"
+        "notFound": "振込先口座が見つかりません。",
+        "deleteSuccess": "振込先口座を削除しました。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "MerchantCards": {
@@ -994,6 +1074,15 @@
       },
       "buttons": {
         "clearFilters": "フィルターをクリア"
+      },
+      "messages": {
+        "deleteSuccess": "カードを削除しました。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "Items": {
@@ -1051,7 +1140,14 @@
       "messages": {
         "createSuccess": "商品を作成しました。",
         "updateSuccess": "商品を更新しました。",
-        "notFound": "商品が見つかりません。"
+        "notFound": "商品が見つかりません。",
+        "deleteSuccess": "商品を削除しました。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "DeliveryNotes": {
@@ -1070,6 +1166,7 @@
         "deliveryDate": "納品日",
         "status": "ステータス",
         "item": "商品",
+        "items": "商品",
         "quantity": "数量",
         "unitPrice": "単価",
         "taxCategory": "税区分",
@@ -1118,7 +1215,8 @@
         "quantityPlaceholder": "数量",
         "unitPricePlaceholder": "単価",
         "notesPlaceholder": "備考",
-        "addItem": "商品を追加"
+        "addItem": "商品を追加",
+        "item": "商品"
       },
       "validation": {
         "clientRequired": "取引先は必須です",
@@ -1132,7 +1230,14 @@
       "messages": {
         "createSuccess": "納品書を作成しました。",
         "updateSuccess": "納品書を更新しました。",
+        "deleteSuccess": "納品書を削除しました。",
         "notFound": "納品書が見つかりません。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "Quotations": {
@@ -1221,7 +1326,14 @@
       "messages": {
         "createSuccess": "見積書を作成しました。",
         "updateSuccess": "見積書を更新しました。",
+        "deleteSuccess": "見積書を削除しました。",
         "notFound": "見積書が見つかりません。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       },
       "preview": {
         "total": "合計"
@@ -1314,6 +1426,7 @@
       },
       "form": {
         "createTitle": "MIDを作成",
+        "createDescription": "新しいMIDを作成します。",
         "editTitle": "MIDを編集",
         "mid": "MID",
         "brand": "ブランド",
@@ -1328,7 +1441,14 @@
       "messages": {
         "createSuccess": "MIDを作成しました。",
         "updateSuccess": "MIDを更新しました。",
+        "deleteSuccess": "MIDを削除しました。",
         "notFound": "MIDが見つかりません。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "MIDFee": {
@@ -1373,6 +1493,7 @@
       },
       "form": {
         "createTitle": "MID手数料を作成",
+        "createDescription": "新しいMID手数料を作成します。",
         "editTitle": "MID手数料を編集",
         "mid": "MID",
         "selectMid": "MIDを選択",
@@ -1388,7 +1509,16 @@
         "fixedFeeMin": "固定手数料は有効な数値である必要があります"
       },
       "messages": {
+        "createSuccess": "MID手数料を作成しました。",
+        "updateSuccess": "MID手数料を更新しました。",
+        "deleteSuccess": "MID手数料を削除しました。",
         "notFound": "MID手数料が見つかりません。"
+      },
+      "dialog": {
+        "deleteTitle": "本当に削除しますか？",
+        "deleteDescription": "この操作は取り消せません。",
+        "confirm": "確認",
+        "cancel": "キャンセル"
       }
     },
     "TaxSettings": {
@@ -1513,6 +1643,7 @@
       },
       "form": {
         "createTitle": "お知らせを作成",
+        "createDescription": "新しいお知らせを作成します。",
         "editTitle": "お知らせを編集",
         "titlePlaceholder": "タイトル",
         "message": "本文",

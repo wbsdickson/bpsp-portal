@@ -35,6 +35,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { cn } from "@/lib/utils";
 
 type MidFeeUpsertValues = {
   midId: string;
@@ -45,7 +46,19 @@ type MidFeeUpsertValues = {
 
 const STATUS_OPTIONS: MidFeeStatus[] = ["active", "inactive"];
 
-export default function MidFeeUpsertForm({ feeId }: { feeId?: string }) {
+interface MidFeeUpsertFormProps {
+  feeId?: string;
+  onSuccess?: () => void;
+  onCancel?: () => void;
+  isModal?: boolean;
+}
+
+export default function MidFeeUpsertForm({
+  feeId,
+  onSuccess,
+  onCancel,
+  isModal = false,
+}: MidFeeUpsertFormProps) {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Operator.MIDFee");
@@ -111,30 +124,42 @@ export default function MidFeeUpsertForm({ feeId }: { feeId?: string }) {
         fixedFeeAmount,
         status: data.status,
       });
-      router.push(`/${locale}/operator/mid-fee`);
-      return;
+    } else {
+      addFee({
+        midId: data.midId,
+        mdrPercent,
+        fixedFeeAmount,
+        status: data.status,
+      });
     }
 
-    addFee({
-      midId: data.midId,
-      mdrPercent,
-      fixedFeeAmount,
-      status: data.status,
-    });
-
-    router.push(`/${locale}/operator/mid-fee`);
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      router.push(`/${locale}/operator/mid-fee`);
+    }
   });
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      router.push(`/${locale}/operator/mid-fee`);
+    }
+  };
 
   const title = feeId ? t("form.editTitle") : t("form.createTitle");
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
+    <Card className={cn(isModal && "border-none shadow-none")}>
+      {!isModal && (
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+      )}
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <CardContent>
+          <CardContent className={cn(isModal && "p-0")}>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -226,12 +251,14 @@ export default function MidFeeUpsertForm({ feeId }: { feeId?: string }) {
             </div>
           </CardContent>
 
-          <CardFooter className="mt-4 justify-end gap-2">
+          <CardFooter
+            className={cn("mt-4 justify-end gap-2", isModal && "px-0 pb-0")}
+          >
             <Button
-              
+              type="button"
               variant="outline"
               className="h-9"
-              onClick={() => router.push(`/${locale}/operator/mid-fee`)}
+              onClick={handleCancel}
             >
               {t("buttons.cancel")}
             </Button>

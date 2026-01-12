@@ -9,6 +9,7 @@ import { useInvoiceStore } from "@/store/invoice-store";
 import { useClientStore } from "@/store/client-store";
 import { useMerchantStore } from "@/store/merchant-store";
 import { StatusBadge } from "@/components/status-badge";
+import { TitleField } from "@/components/title-field";
 import { getPayoutTransactionStatusBadgeVariant } from "../_hook/status";
 import { PaymentStatus } from "@/lib/types";
 
@@ -83,56 +84,46 @@ export default function PayoutTransactionDetail({ id }: { id?: string }) {
 
   return (
     <div className="bg-card space-y-4 rounded-lg p-4">
-      <div className="grid grid-cols-1 gap-2 text-sm md:grid-cols-2">
-        <div>
-          <div className="text-muted-foreground">
-            {t("columns.transactionId")}
-          </div>
-          <div className="font-mono">{transaction.id}</div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">
-            {t("columns.payoutStatus")}
-          </div>
-          <div className="capitalize">
-            <StatusBadge
-              variant={getPayoutTransactionStatusBadgeVariant(
-                (transaction.status as PaymentStatus) || "pending_approval",
-              )}
-            >
-              {t(`statuses.${transaction.status}`)}
-            </StatusBadge>
-          </div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">
-            {t("columns.merchantName")}
-          </div>
-          <div>{merchantName}</div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">{t("columns.clientName")}</div>
-          <div>{clientName}</div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">{t("columns.amount")}</div>
-          <div>{Number(transaction.totalAmount ?? 0).toLocaleString()}</div>
-        </div>
-        <div>
-          <div className="text-muted-foreground">
-            {t("columns.transactionDateTime")}
-          </div>
-          <div>
-            {transaction.createdAt
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <TitleField
+          label={t("columns.transactionId")}
+          value={<span className="font-mono">{transaction.id}</span>}
+        />
+        <TitleField
+          label={t("columns.payoutStatus")}
+          value={
+            <span className="capitalize">
+              <StatusBadge
+                variant={getPayoutTransactionStatusBadgeVariant(
+                  (transaction.status as PaymentStatus) || "pending_approval",
+                )}
+              >
+                {t(`statuses.${transaction.status}`)}
+              </StatusBadge>
+            </span>
+          }
+        />
+        <TitleField label={t("columns.merchantName")} value={merchantName} />
+        <TitleField label={t("columns.clientName")} value={clientName} />
+        <TitleField
+          label={t("columns.amount")}
+          value={Number(transaction.totalAmount ?? 0).toLocaleString()}
+        />
+        <TitleField
+          label={t("columns.transactionDateTime")}
+          value={
+            transaction.createdAt
               ? new Date(transaction.createdAt).toLocaleString()
-              : "—"}
-          </div>
-        </div>
+              : "—"
+          }
+        />
         <div className="md:col-span-2">
-          <div className="text-muted-foreground">
-            {t("columns.bankTransferAccount")}
-          </div>
-          <div className="break-all">{bankTransferAccountLabel}</div>
+          <TitleField
+            label={t("columns.bankTransferAccount")}
+            value={
+              <span className="break-all">{bankTransferAccountLabel}</span>
+            }
+          />
         </div>
       </div>
     </div>

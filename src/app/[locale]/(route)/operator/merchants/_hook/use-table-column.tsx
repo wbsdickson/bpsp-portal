@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import ActionsCell from "@/components/action-cell";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
+import { toast } from "sonner";
 import { usePathname, useRouter } from "next/navigation";
 import { useMerchantStore } from "@/store/merchant-store";
 import type { AppMerchant } from "@/types/merchant";
@@ -19,6 +20,11 @@ export default function useMerchantTableColumn({
   const { deleteMerchant } = useMerchantStore();
   const { basePath } = useBasePath();
 
+  const onDelete = (item: MerchantRow) => {
+    deleteMerchant(item.id);
+    toast.success(t("messages.deleteSuccess"));
+  };
+
   const column: ColumnDef<MerchantRow>[] = [
     {
       id: "actions",
@@ -33,12 +39,13 @@ export default function useMerchantTableColumn({
               onPress: (item) => router.push(`${basePath}/${item.id}`),
             },
             {
-              title: t("actions.edit"),
-              onPress: (item) => router.push(`${basePath}/edit/${item.id}`),
-            },
-            {
               title: t("actions.delete"),
-              onPress: (item) => deleteMerchant(item.id),
+              variant: "destructive",
+              onPress: (item) => onDelete(item),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
         />

@@ -14,41 +14,41 @@ export type ItemRow = Item & {
   taxCategoryLabel: string;
 };
 
-import { PayableInvoiceRow } from "../_components/received-payable-invoice-table";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
-import { getStatusBadgeVariant } from "./status";
 import { useReceivedInvoiceStore } from "@/store/received-invoice-store";
+import { ReceiptRow } from "../_components/receipt-table";
+import { getReceiptStatusBadgeVariant } from "./status";
 
-export default function useReceivedPayableInvoiceTableColumn({
+export default function useReceiptTableColumn({
   addTab,
 }: {
   addTab: (id: string) => void;
 }) {
-  const t = useTranslations("Operator.ReceivedPayableInvoices");
+  const t = useTranslations("Operator.Receipt");
   const router = useRouter();
   const deleteInvoice = useReceivedInvoiceStore((s) => s.deleteInvoice);
 
   const { basePath } = useBasePath();
 
-  const onOpenDetail = (item: PayableInvoiceRow) => {
+  const onOpenDetail = (item: ReceiptRow) => {
     router.push(`${basePath}/${item.id}`);
   };
 
-  const onOpenEdit = (item: PayableInvoiceRow) => {
+  const onOpenEdit = (item: ReceiptRow) => {
     router.push(`${basePath}/edit/${item.id}`);
   };
 
-  const onDelete = (item: PayableInvoiceRow) => {
+  const onDelete = (item: ReceiptRow) => {
     deleteInvoice(item.id);
     toast.success(t("messages.deleteSuccess"));
   };
 
-  const column: ColumnDef<PayableInvoiceRow>[] = [
+  const column: ColumnDef<ReceiptRow>[] = [
     {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => (
-        <ActionsCell<PayableInvoiceRow>
+        <ActionsCell<ReceiptRow>
           item={row.original}
           actions={[
             {
@@ -74,32 +74,32 @@ export default function useReceivedPayableInvoiceTableColumn({
       ),
     },
     {
-      accessorKey: "invoiceNumber",
-      header: t("columns.invoiceNumber"),
+      accessorKey: "receiptNumber",
+      header: t("columns.receiptNumber"),
       cell: ({ row }) => (
         <Button
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
         >
-          {String(row.getValue("invoiceNumber") ?? "")}
+          {String(row.getValue("receiptNumber") ?? "")}
         </Button>
       ),
     },
     {
       accessorKey: "clientName",
-      header: t("columns.clientName"),
+      header: t("columns.client"),
       cell: ({ row }) => <div>{String(row.getValue("clientName") ?? "")}</div>,
     },
     {
       id: "amount",
       header: t("columns.amount"),
       cell: ({ row }) => {
-        const inv = row.original;
+        const rc = row.original;
         return (
-          <div className="font-medium">{`${getCurrencySymbol(inv.currency)} ${formattedAmount(
-            inv.amount,
-            inv.currency,
+          <div className="font-medium">{`${getCurrencySymbol(rc.currency)} ${formattedAmount(
+            rc.amount,
+            rc.currency,
           )}`}</div>
         );
       },
@@ -107,26 +107,7 @@ export default function useReceivedPayableInvoiceTableColumn({
     {
       accessorKey: "issueDate",
       header: t("columns.issueDate"),
-      filterFn: (row, columnId, filterValue) => {
-        if (!filterValue) return true;
-        const rowValue = row.getValue(columnId);
-
-        if (Array.isArray(filterValue)) {
-          if (filterValue.length === 0) return true;
-          return filterValue.includes(String(rowValue).slice(0, 7));
-        }
-
-        return String(rowValue).slice(0, 7) === String(filterValue);
-      },
       cell: ({ row }) => <div>{String(row.getValue("issueDate") ?? "")}</div>,
-    },
-    {
-      accessorKey: "paymentDueDate",
-      header: t("columns.paymentDueDate"),
-      cell: ({ row }) => {
-        const value = String(row.getValue("paymentDueDate") ?? "");
-        return <div>{value || "—"}</div>;
-      },
     },
     {
       accessorKey: "status",
@@ -143,12 +124,13 @@ export default function useReceivedPayableInvoiceTableColumn({
         return String(rowValue) === String(filterValue);
       },
       cell: ({ row }) => {
-        const status = String(row.getValue("status") ?? "") as InvoiceStatus;
-        const label = t(`statuses.${status}`);
+        const status = row.original.status;
 
-        const variant = getStatusBadgeVariant(status);
-
-        return <StatusBadge variant={variant}>{label}</StatusBadge>;
+        return (
+          <StatusBadge variant={getReceiptStatusBadgeVariant(status)}>
+            {t(`statuses.${status}`)}
+          </StatusBadge>
+        );
       },
     },
   ];

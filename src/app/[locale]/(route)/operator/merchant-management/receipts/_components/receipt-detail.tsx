@@ -20,7 +20,7 @@ import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceiptStore } from "@/store/receipt-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { StatusBadge } from "@/components/status-badge";
-import { getReceiptStatusBadgeVariant, ReceiptStatus } from "./status";
+import { getReceiptStatusBadgeVariant, ReceiptStatus } from "../_hook/status";
 
 export default function ReceiptDetail({ id }: { id: string }) {
   const locale = useLocale();
@@ -79,7 +79,7 @@ export default function ReceiptDetail({ id }: { id: string }) {
           </Link>
         </Button>
       </div>
-      <div className="bg-background rounded-xl border p-4">
+      <div className="bg-card rounded-xl border p-4">
         <div className="">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <div>
@@ -149,11 +149,10 @@ export default function ReceiptDetail({ id }: { id: string }) {
         </div>
 
         <div className="">
-          <div className="px-4 py-3">
+          <div className="py-3">
             <div className="text-sm font-semibold">{t("form.items")}</div>
           </div>
-          <Separator />
-          <div className="p-4">
+          <div className="">
             <div className="rounded-lg border">
               <Table>
                 <TableHeader>

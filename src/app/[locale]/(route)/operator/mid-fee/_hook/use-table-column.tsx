@@ -2,7 +2,9 @@ import { StatusBadge } from "@/components/status-badge";
 import { getMidFeeStatusBadgeVariant } from "./status";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import type { AppMidFee, MidFeeStatus } from "@/types/mid-fee";
+import { useMidFeeStore } from "@/store/mid-fee-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
@@ -22,7 +24,13 @@ export default function useMidFeeTableColumn({
 }) {
   const t = useTranslations("Operator.MIDFee");
   const router = useRouter();
+  const { deleteFee } = useMidFeeStore();
   const { basePath } = useBasePath();
+
+  const onDelete = (item: MidFeeRow) => {
+    deleteFee(item.id);
+    toast.success(t("messages.deleteSuccess"));
+  };
 
   const column: ColumnDef<MidFeeRow>[] = [
     {
@@ -34,12 +42,17 @@ export default function useMidFeeTableColumn({
           t={t}
           actions={[
             {
-              title: t("actions.detail"),
+              title: t("actions.view"),
               onPress: (item) => router.push(`${basePath}/${item.id}`),
             },
             {
-              title: t("actions.edit"),
-              onPress: (item) => router.push(`${basePath}/edit/${item.id}`),
+              title: t("actions.delete"),
+              variant: "destructive",
+              onPress: (item) => onDelete(item),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
         />

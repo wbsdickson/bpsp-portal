@@ -4,18 +4,16 @@ import HeaderPage from "@/components/header-page";
 import RecordTabs, { type RecordTab } from "@/components/record-tabs";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 import MidFeeDetail from "./_components/mid-fee-detail";
 import MidFeeTable from "./_components/mid-fee-table";
 import type { MidFeeRow } from "./_hook/use-table-column";
-import { useBasePath } from "@/hooks/use-base-path";
+import { useModalStore } from "@/store/modal-store";
 
 export default function MidFeePage() {
   const t = useTranslations("Operator.MIDFee");
-  const router = useRouter();
-  const basePath = useBasePath();
+  const { onOpen } = useModalStore();
 
   return (
     <HeaderPage
@@ -24,9 +22,9 @@ export default function MidFeePage() {
         <Button
           size="sm"
           className="h-9"
-          onClick={() => router.push(`${basePath}/create`)}
+          onClick={() => onOpen("create-mid-fee")}
         >
-          <Plus /> Create {t("title")}
+          <Plus /> {t("form.createTitle")}
         </Button>
       }
     >

@@ -46,6 +46,7 @@ import { z } from "zod";
 import { useReceiptStore } from "@/store/receipt-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { toast } from "sonner";
+import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 
 const lineItemSchema = z.object({
   id: z.string().min(1),
@@ -227,8 +228,8 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
   };
 
   return (
-    <div className="bg-background min-h-[calc(100vh-0px)] rounded-lg p-4">
-      <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
+    <div className="bg-card min-h-[calc(100vh-0px)] rounded-lg p-4">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link href={basePath}>
@@ -337,7 +338,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
               />
             </div>
 
-            <div className="bg-background">
+            <div className="bg-card">
               <div className="flex items-center justify-between py-3">
                 <div className="text-sm font-semibold">{t("form.items")}</div>
                 <Button
@@ -359,7 +360,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                 </Button>
               </div>
               <div>
-                <div className="rounded-lg border">
+                <div className="">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -372,6 +373,9 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                         </TableHead>
                         <TableHead className="w-[200px] text-right">
                           {t("form.taxCategory")}
+                        </TableHead>
+                        <TableHead className="w-[200px] text-right">
+                          {t("form.amount")}
                         </TableHead>
                         <TableHead className="w-[44px]"></TableHead>
                       </TableRow>
@@ -394,7 +398,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                                       }}
                                     >
                                       <FormControl>
-                                        <SelectTrigger className="h-9">
+                                        <SelectTrigger className="h-9 w-full">
                                           <SelectValue
                                             placeholder={t("form.item")}
                                           />
@@ -488,15 +492,19 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input
-                                      className="h-9 text-right"
-                                      value={String(field.value ?? 0)}
-                                      onChange={(e) =>
-                                        field.onChange(
-                                          Number(e.target.value || 0),
-                                        )
-                                      }
-                                    />
+                                    <div className="flex items-center gap-1">
+                                      <Input
+                                        value={String(field.value ?? 0)}
+                                        onChange={(e) =>
+                                          field.onChange(
+                                            Number(e.target.value || 0),
+                                          )
+                                        }
+                                        className="h-9 w-full text-right"
+                                        inputMode="decimal"
+                                      />
+                                      {getCurrencySymbol("JPY")}
+                                    </div>
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -533,6 +541,21 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
                                 </FormItem>
                               )}
                             />
+                          </TableCell>
+                          <TableCell className="text-right font-medium">
+                            {(() => {
+                              const qty =
+                                form.getValues(`items.${index}.quantity`) ?? 0;
+                              const price =
+                                form.getValues(`items.${index}.unitPrice`) ?? 0;
+                              const tax = taxRateById.get(
+                                form.getValues(`items.${index}.taxId`) ?? "",
+                              );
+                              const amount = qty * price;
+                              const taxAmount = amount * (tax ?? 0);
+                              const total = amount + taxAmount;
+                              return `${getCurrencySymbol("JPY")} ${formattedAmount(total, "JPY")}`;
+                            })()}
                           </TableCell>
 
                           <TableCell className="text-right">

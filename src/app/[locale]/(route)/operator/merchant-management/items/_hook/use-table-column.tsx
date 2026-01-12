@@ -1,6 +1,7 @@
 import { StatusBadge } from "@/components/status-badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import type { Item } from "@/lib/types";
 import { useItemStore } from "@/store/item-store";
 import { ColumnDef } from "@tanstack/react-table";
@@ -36,6 +37,7 @@ export default function useItemTableColumn({
 
   const onDelete = (item: ItemRow) => {
     deleteItem(item.id);
+    toast.success(t("messages.deleteSuccess"));
   };
 
   const column: ColumnDef<ItemRow>[] = [
@@ -58,6 +60,10 @@ export default function useItemTableColumn({
               title: t("actions.delete"),
               variant: "destructive",
               onPress: (item) => onDelete(item),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
           t={t}

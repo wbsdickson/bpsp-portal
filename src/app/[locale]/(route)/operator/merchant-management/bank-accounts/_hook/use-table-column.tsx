@@ -6,6 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
+import { toast } from "sonner";
 
 export type BankAccountRow = BankAccount;
 
@@ -30,6 +31,7 @@ export default function useBankAccountTableColumn({
 
   const onDelete = (item: BankAccountRow) => {
     deleteBankAccount(item.id);
+    toast.success(t("messages.deleteSuccess"));
   };
 
   const column: ColumnDef<BankAccountRow>[] = [
@@ -52,6 +54,10 @@ export default function useBankAccountTableColumn({
               title: t("actions.delete"),
               variant: "destructive",
               onPress: (item) => onDelete(item),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
           t={t}
@@ -63,7 +69,6 @@ export default function useBankAccountTableColumn({
       header: t("columns.bankName"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}

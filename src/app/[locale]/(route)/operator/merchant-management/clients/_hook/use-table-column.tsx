@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import ActionsCell from "@/components/action-cell";
+import { toast } from "sonner";
 
 export type ClientRow = Client;
 
@@ -31,6 +32,7 @@ export default function useClientTableColumn({
 
   const onDelete = (item: ClientRow) => {
     deleteClient(item.id);
+    toast.success(t("messages.deleteSuccess"));
   };
 
   const column: ColumnDef<ClientRow>[] = [
@@ -53,6 +55,10 @@ export default function useClientTableColumn({
               title: t("actions.delete"),
               variant: "destructive",
               onPress: (item) => onDelete(item),
+              confirmation: {
+                title: t("dialog.deleteTitle"),
+                description: t("dialog.deleteDescription"),
+              },
             },
           ]}
           t={t}
@@ -64,7 +70,6 @@ export default function useClientTableColumn({
       header: t("columns.name"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}

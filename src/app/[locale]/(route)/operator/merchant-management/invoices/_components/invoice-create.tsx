@@ -39,6 +39,7 @@ import type { BankAccount, Client, Item, Merchant, Tax } from "@/lib/types";
 import type { FieldArrayWithId, UseFormReturn } from "react-hook-form";
 import { useWatch } from "react-hook-form";
 import { z } from "zod";
+import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 
 type LineItem = {
   id: string;
@@ -120,7 +121,8 @@ export default function CreateInvoiceForm({
   const t = useTranslations("Operator.Invoice");
 
   const currency = useWatch({ control: form.control, name: "currency" });
-  const taxRateById = React.useMemo(() => {
+
+  const taxById = React.useMemo(() => {
     const map = new Map<string, number>();
     taxes.forEach((t) => map.set(t.id, t.rate ?? 0));
     return map;
@@ -317,7 +319,7 @@ export default function CreateInvoiceForm({
           </div>
 
           <div className="flex flex-col gap-3">
-            <div className="bg-background overflow-x-auto">
+            <div className="bg-card overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -522,9 +524,7 @@ export default function CreateInvoiceForm({
                                     className="h-9 w-full text-right"
                                     inputMode="decimal"
                                   />
-                                  <span className="text-muted-foreground text-md shrink-0">
-                                    {t("upsert.currency.yen")}
-                                  </span>
+                                  {getCurrencySymbol("JPY")}
                                 </div>
                               </FormControl>
                               <FormMessage />
@@ -590,14 +590,19 @@ export default function CreateInvoiceForm({
                             form.getValues(`items.${index}.quantity`) ?? 0;
                           const price =
                             form.getValues(`items.${index}.unitPrice`) ?? 0;
-                          return `${(qty * price).toLocaleString()}${t("upsert.currency.yen")}`;
+                          const tax = taxById.get(
+                            form.getValues(`items.${index}.taxId`) ?? "",
+                          );
+                          const amount = qty * price;
+                          const taxAmount = amount * (tax ?? 0);
+                          const total = amount + taxAmount;
+                          return `${getCurrencySymbol("JPY")} ${formattedAmount(total, "JPY")}`;
                         })()}
                       </TableCell>
 
                       {/* Delete button */}
                       <TableCell className="px-2 text-right">
                         <Button
-                          
                           variant="ghost"
                           size="icon"
                           className="text-muted-foreground hover:text-destructive h-8 w-8"
@@ -615,7 +620,6 @@ export default function CreateInvoiceForm({
               <Separator />
               <div className="flex items-center justify-between gap-4 p-2">
                 <Button
-                  
                   variant="outline"
                   size="sm"
                   className="h-9"
@@ -714,7 +718,7 @@ export default function CreateInvoiceForm({
           <div className="text-sm font-semibold">
             {t("upsert.sections.remarks")}
           </div>
-          <div >
+          <div>
             <FormField
               control={form.control}
               name="remark"

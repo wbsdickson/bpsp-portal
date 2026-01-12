@@ -69,7 +69,7 @@ export function DatePicker({
           id={id}
           value={inputValue}
           placeholder={placeholder}
-          className="bg-background pr-10"
+          className="bg-card pr-10"
           onChange={(e) => {
             const next = new Date(e.target.value);
             setInputValue(e.target.value);
