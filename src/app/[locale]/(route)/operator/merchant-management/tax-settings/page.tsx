@@ -134,8 +134,8 @@ export default function TaxSettingsPage() {
     : "—";
 
   return (
-    <HeaderPage title={t("title")}>
-      <div className="max-w-4xl space-y-4">
+    <HeaderPage title={t("title")} containerClassName="max-w-5xl">
+      <div className="space-y-4">
         <Form {...form}>
           <form onSubmit={onSubmit} className="space-y-8">
             <Card>
