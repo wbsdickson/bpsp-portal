@@ -1,6 +1,4 @@
 import ActionsCell from "@/components/action-cell";
-import { Badge } from "@/components/ui/badge";
-import { getNotificationBadgeVariant } from "./status";
 import { Button } from "@/components/ui/button";
 import type { MerchantNotification, Notification } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
