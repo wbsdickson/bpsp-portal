@@ -129,7 +129,6 @@ export default function CompanyInformationForm() {
           <Form {...form}>
             <form onSubmit={onSubmit} className="space-y-6">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                {/* Merchant Name */}
                 <FormField
                   control={form.control}
                   name="name"
@@ -141,7 +140,7 @@ export default function CompanyInformationForm() {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter the business name"
+                          placeholder={t("form.businessNamePlaceholder")}
                           {...field}
                         />
                       </FormControl>
@@ -150,7 +149,6 @@ export default function CompanyInformationForm() {
                   )}
                 />
 
-                {/* Invoice Email */}
                 <FormField
                   control={form.control}
                   name="invoiceEmail"
@@ -163,7 +161,7 @@ export default function CompanyInformationForm() {
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="Email address used for receiving invoices"
+                          placeholder={t("form.invoiceEmailPlaceholder")}
                           {...field}
                         />
                       </FormControl>
@@ -172,7 +170,6 @@ export default function CompanyInformationForm() {
                   )}
                 />
 
-                {/* Address */}
                 <FormField
                   control={form.control}
                   name="address"
@@ -181,7 +178,7 @@ export default function CompanyInformationForm() {
                       <FormLabel>{t("columns.address")}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter the postal code, prefecture, city/ward, and street address"
+                          placeholder={t("form.addressPlaceholder")}
                           {...field}
                         />
                       </FormControl>
@@ -190,7 +187,6 @@ export default function CompanyInformationForm() {
                   )}
                 />
 
-                {/* Phone Number */}
                 <FormField
                   control={form.control}
                   name="phoneNumber"
@@ -199,7 +195,7 @@ export default function CompanyInformationForm() {
                       <FormLabel>{t("columns.phoneNumber")}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Numbers and hyphens allowed"
+                          placeholder={t("form.phoneNumberPlaceholder")}
                           {...field}
                         />
                       </FormControl>
@@ -208,7 +204,6 @@ export default function CompanyInformationForm() {
                   )}
                 />
 
-                {/* Website URL */}
                 <FormField
                   control={form.control}
                   name="websiteUrl"
@@ -216,14 +211,16 @@ export default function CompanyInformationForm() {
                     <FormItem>
                       <FormLabel>{t("columns.websiteUrl")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="HTTP format" {...field} />
+                        <Input
+                          placeholder={t("form.websiteUrlPlaceholder")}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
 
-                {/* Invoice Number Prefix */}
                 <FormField
                   control={form.control}
                   name="invoicePrefix"
@@ -232,7 +229,7 @@ export default function CompanyInformationForm() {
                       <FormLabel>{t("columns.invoicePrefix")}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Saved to merchant settings invoice prefix"
+                          placeholder={t("form.invoicePrefixPlaceholder")}
                           {...field}
                         />
                       </FormControl>
@@ -244,7 +241,6 @@ export default function CompanyInformationForm() {
 
               <Separator />
 
-              {/* Credit Payment Enabled */}
               <FormField
                 control={form.control}
                 name="enableCreditPayment"
@@ -255,7 +251,7 @@ export default function CompanyInformationForm() {
                         {t("columns.enableCreditPayment")}
                       </FormLabel>
                       <div className="text-muted-foreground text-sm">
-                        Enable credit card payment processing for this merchant
+                        {t("form.enableCreditPaymentPlaceholder")}
                       </div>
                     </div>
                     <FormControl>

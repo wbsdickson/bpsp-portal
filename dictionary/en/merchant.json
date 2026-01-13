@@ -38,6 +38,36 @@
       "locale": "Locale",
       "theme": "Theme"
     },
+    "Dashboard": {
+      "title": "Dashboard",
+      "no_data_available": "No data available",
+      "welcome_back": "Welcome back",
+      "invoices_this_month": "Invoices (This Month)",
+      "subscriptions": "Subscriptions",
+      "payment_links": "Payment links",
+      "payments": "Payments",
+      "issued_this_month": "Issued this month",
+      "sales_this_month": "Sales (This Month)",
+      "total_transaction_volume": "Total transaction volume",
+      "outstanding_amount": "Outstanding amount",
+      "pending_approved_invoices": "Pending & Approved Invoices",
+      "amount_paid": "Amount Paid",
+      "total_settled_amount": "Total Settled Amount",
+      "recent_transactions": "Recent Transactions",
+      "latest_10_successful_transactions": "Latest 10 successful transactions",
+      "date": "Date",
+      "invoice_id": "Invoice ID",
+      "amount": "Amount",
+      "status": "Status",
+      "action": "Action",
+      "method": "Method",
+      "no_recent_transactions_found": "No recent transactions found.",
+      "notifications": "Notifications",
+      "latest_5_updates": "Latest 5 updates",
+      "no_notifications": "No notifications.",
+      "settled": "Settled",
+      "pending_approval": "Pending Approval"
+    },
     "AccountInformationManagement": {
       "title": "Account Information",
       "description": "Manage your account information including name, email address, and password.",
@@ -191,7 +221,9 @@
         "invoicePrefixPlaceholder": "Invoice prefix",
         "addressPlaceholder": "Address",
         "phoneNumberPlaceholder": "Phone number",
-        "invoiceEmailPlaceholder": "Invoice email"
+        "invoiceEmailPlaceholder": "Invoice email",
+        "businessNamePlaceholder": "Enter the business name",
+        "enableCreditPaymentPlaceholder": "Enable credit card payment processing for this merchant"
       },
       "statuses": {
         "active": "active",
@@ -682,6 +714,9 @@
         "edit": "Edit",
         "delete": "Delete"
       },
+      "missingInvoiceId": "Missing invoice id.",
+      "search": "Search...",
+      "openMenu": "Open menu",
       "template": "Template",
       "startDate": "Start date",
       "intervalValue": "Interval value",
@@ -1044,7 +1079,8 @@
         "create": "Create delivery note",
         "clearFilters": "Clear filters",
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "discard": "Discard"
       },
       "form": {
         "createTitle": "Create delivery note",
@@ -1199,6 +1235,36 @@
       "title": "RP Invoices Auto Issuance",
       "enabled": "Enabled",
       "disabled": "Disabled",
+      "openMenu": "Open menu",
+      "receivableInvoicesFor": "Receivable invoices for",
+      "payableInvoicesFor": "Payable invoices for",
+      "invoicesMarkedAsPaid": "Invoices marked as paid",
+      "invoicesPendingPayment": "Invoices pending payment",
+      "transactionsSettled": "Transactions settled",
+      "transactionsPendingSettlement": "Transactions pending settlement",
+      "monthlyOverview": "Monthly Overview",
+      "incomeStatus": "Income Status",
+      "totalBilled": "Total Billed",
+      "paidInvoices": "Paid Invoices",
+      "paymentStatus": "Payment Status",
+      "totalPayable": "Total Payable",
+      "unpaidInvoices": "Unpaid Invoices",
+      "invoices": "Invoices",
+      "unpaidCount": "Unpaid Count",
+      "settledCount": "Settled Count",
+      "unsettledCount": "Unsettled Count",
+      "paid": "Paid",
+      "pending": "Pending",
+      "approved": "Approved",
+      "draft": "Draft",
+      "rejected": "Rejected",
+      "void": "Void",
+      "receivable": "Receivable",
+      "payable": "Payable",
+      "bankTransfer": "Bank Transfer",
+      "cash": "Cash",
+      "creditCard": "Credit Card",
+      "other": "Other",
       "tabs": {
         "summary": "Summary",
         "all": "All"
@@ -1257,7 +1323,14 @@
         "template": "Template",
         "enabled": "Enabled",
         "notes": "Notes",
-        "paymentMethod": "Payment Method"
+        "paymentMethod": "Payment Method",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "yearly": "Yearly",
+        "receivable": "Receivable",
+        "payable": "Payable"
       },
       "messages": {
         "createSuccess": "Invoice created successfully.",
@@ -1435,7 +1508,10 @@
       "amountPaid": "Amount Paid",
       "transactionId": "Transaction ID",
       "payAnotherInvoice": "Pay Another Invoice",
-      "cardholderNamePlaceholder": "Name on card"
+      "cardholderNamePlaceholder": "Name on card",
+      "try": "Try",
+      "for_a_demo": "for a demo",
+      "pay": "Pay"
     }
   }
 }

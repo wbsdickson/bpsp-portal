@@ -23,28 +23,28 @@ type MonthlySummaryData = {
 export default function MonthlySummary() {
   const t = useTranslations("Merchant.ReceivedPayableInvoices");
   const invoices = useReceivedInvoiceStore((s) => s.invoices);
-  
+
   // Get current month as default
   const currentDate = new Date();
   const currentMonth = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-  
+
   const [selectedMonth, setSelectedMonth] = React.useState<string>(currentMonth);
 
   // Generate month options for the last 12 months
   const monthOptions = React.useMemo(() => {
     const options = [];
     const now = new Date();
-    
+
     for (let i = 0; i < 12; i++) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-      const monthLabel = date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long' 
+      const monthLabel = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long'
       });
       options.push({ value: monthKey, label: monthLabel });
     }
-    
+
     return options;
   }, []);
 
@@ -63,22 +63,22 @@ export default function MonthlySummary() {
     const totalPayableAmount = payableInvoices.reduce((sum, inv) => sum + inv.amount, 0);
 
     const paidInvoices = filteredInvoices.filter(inv => inv.status === 'paid');
-    const unpaidInvoices = filteredInvoices.filter(inv => 
+    const unpaidInvoices = filteredInvoices.filter(inv =>
       inv.status !== 'paid' && inv.status !== 'void' && inv.status !== 'rejected'
     );
 
     // For this example, settled means paid invoices, unsettled means pending/approved invoices
     const settledInvoices = paidInvoices;
-    const unsettledInvoices = filteredInvoices.filter(inv => 
+    const unsettledInvoices = filteredInvoices.filter(inv =>
       inv.status === 'pending' || inv.status === 'approved'
     );
 
     // Use the most common currency or default to JPY
     const currencies = filteredInvoices.map(inv => inv.currency);
-    const mostCommonCurrency = currencies.length > 0 
-      ? currencies.sort((a, b) => 
-          currencies.filter(c => c === b).length - currencies.filter(c => c === a).length
-        )[0]
+    const mostCommonCurrency = currencies.length > 0
+      ? currencies.sort((a, b) =>
+        currencies.filter(c => c === b).length - currencies.filter(c => c === a).length
+      )[0]
       : 'JPY';
 
     return {
@@ -132,7 +132,7 @@ export default function MonthlySummary() {
               {formatCurrency(summaryData.totalBilledAmount)}
             </div>
             <p className="text-xs text-muted-foreground">
-              Receivable invoices for {monthOptions.find(m => m.value === selectedMonth)?.label}
+              {t("receivableInvoicesFor")} {monthOptions.find(m => m.value === selectedMonth)?.label}
             </p>
           </CardContent>
         </Card>
@@ -148,7 +148,7 @@ export default function MonthlySummary() {
               {formatCurrency(summaryData.totalPayableAmount)}
             </div>
             <p className="text-xs text-muted-foreground">
-              Payable invoices for {monthOptions.find(m => m.value === selectedMonth)?.label}
+              {t("payableInvoicesFor")} {monthOptions.find(m => m.value === selectedMonth)?.label}
             </p>
           </CardContent>
         </Card>
@@ -162,7 +162,7 @@ export default function MonthlySummary() {
           <CardContent>
             <div className="text-2xl font-bold">{summaryData.paidCount}</div>
             <p className="text-xs text-muted-foreground">
-              Invoices marked as paid
+              {t("invoicesMarkedAsPaid")}
             </p>
           </CardContent>
         </Card>
@@ -170,13 +170,13 @@ export default function MonthlySummary() {
         {/* Unpaid Count */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unpaid Count</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("unpaidCount")}</CardTitle>
             <XCircle className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summaryData.unpaidCount}</div>
             <p className="text-xs text-muted-foreground">
-              Invoices pending payment
+              {t("invoicesPendingPayment")}
             </p>
           </CardContent>
         </Card>
@@ -184,13 +184,13 @@ export default function MonthlySummary() {
         {/* Settled Count */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Settled Count</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("settledCount")}</CardTitle>
             <CheckCircle className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summaryData.settledCount}</div>
             <p className="text-xs text-muted-foreground">
-              Transactions settled
+              {t("transactionsSettled")}
             </p>
           </CardContent>
         </Card>
@@ -198,13 +198,13 @@ export default function MonthlySummary() {
         {/* Unsettled Count */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unsettled Count</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("unsettledCount")}</CardTitle>
             <Clock className="h-4 w-4 text-amber-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summaryData.unsettledCount}</div>
             <p className="text-xs text-muted-foreground">
-              Transactions pending settlement
+              {t("transactionsPendingSettlement")}
             </p>
           </CardContent>
         </Card>
@@ -215,39 +215,39 @@ export default function MonthlySummary() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText className="h-5 w-5" />
-            Monthly Overview - {monthOptions.find(m => m.value === selectedMonth)?.label}
+            {t("monthlyOverview")} - {monthOptions.find(m => m.value === selectedMonth)?.label}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <h4 className="font-medium text-sm text-muted-foreground">Income Status</h4>
+              <h4 className="font-medium text-sm text-muted-foreground">{t("incomeStatus")}</h4>
               <div className="flex items-center justify-between">
-                <span>Total Billed</span>
+                <span>{t("totalBilled")}</span>
                 <Badge variant="secondary" className="bg-green-50 text-green-700">
                   {formatCurrency(summaryData.totalBilledAmount)}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span>Paid Invoices</span>
+                <span>{t("paidInvoices")}</span>
                 <Badge variant="secondary" className="bg-emerald-50 text-emerald-700">
-                  {summaryData.paidCount} invoices
+                  {summaryData.paidCount} {t("invoices")}
                 </Badge>
               </div>
             </div>
-            
+
             <div className="space-y-3">
-              <h4 className="font-medium text-sm text-muted-foreground">Payment Status</h4>
+              <h4 className="font-medium text-sm text-muted-foreground">{t("paymentStatus")}</h4>
               <div className="flex items-center justify-between">
-                <span>Total Payable</span>
+                <span>{t("totalPayable")}</span>
                 <Badge variant="secondary" className="bg-red-50 text-red-700">
                   {formatCurrency(summaryData.totalPayableAmount)}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span>Unpaid Invoices</span>
+                <span>{t("unpaidInvoices")}</span>
                 <Badge variant="secondary" className="bg-amber-50 text-amber-700">
-                  {summaryData.unpaidCount} invoices
+                  {summaryData.unpaidCount} {t("invoices")}
                 </Badge>
               </div>
             </div>

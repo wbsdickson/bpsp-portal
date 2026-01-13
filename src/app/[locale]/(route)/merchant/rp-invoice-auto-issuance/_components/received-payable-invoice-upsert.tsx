@@ -228,9 +228,9 @@ export function ReceivedPayableInvoiceUpsertPage({
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="daily">Daily</SelectItem>
-                            <SelectItem value="weekly">Weekly</SelectItem>
-                            <SelectItem value="monthly">Monthly</SelectItem>
+                            <SelectItem value="daily">{t("form.daily")}</SelectItem>
+                            <SelectItem value="weekly">{t("form.weekly")}</SelectItem>
+                            <SelectItem value="monthly">{t("form.monthly")}</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -276,9 +276,11 @@ export function ReceivedPayableInvoiceUpsertPage({
                           </FormControl>
                           <SelectContent>
                             <SelectItem value="receivable">
-                              Receivable
+                              {t("form.receivable")}
                             </SelectItem>
-                            <SelectItem value="payable">Payable</SelectItem>
+                            <SelectItem value="payable">
+                              {t("form.payable")}
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>

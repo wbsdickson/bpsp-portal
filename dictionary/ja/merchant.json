@@ -38,6 +38,36 @@
       "locale": "言語",
       "theme": "テーマ"
     },
+    "Dashboard": {
+      "title": "ダッシュボード",
+      "no_data_available": "データがありません",
+      "welcome_back": "おかえりなさい",
+      "invoices_this_month": "この月の請求書",
+      "subscriptions": "サブスクリプション",
+      "payment_links": "支払いリンク",
+      "payments": "支払い",
+      "issued_this_month": "この月発行",
+      "sales_this_month": "この月の売上",
+      "total_transaction_volume": "総取引量",
+      "outstanding_amount": "未払い金額",
+      "pending_approved_invoices": "保留中および承認済みの請求書",
+      "amount_paid": "支払った金額",
+      "total_settled_amount": "合計決済金額",
+      "recent_transactions": "最近の取引",
+      "latest_10_successful_transactions": "最近の成功した取引",
+      "date": "日付",
+      "invoice_id": "請求書ID",
+      "amount": "金額",
+      "status": "ステータス",
+      "action": "操作",
+      "method": "方法",
+      "no_recent_transactions_found": "最近の取引が見つかりません。",
+      "notifications": "通知",
+      "latest_5_updates": "最近の更新",
+      "no_notifications": "通知がありません。",
+      "settled": "決済済",
+      "pending_approval": "保留中および承認済みの請求書"
+    },
     "AccountInformationManagement": {
       "title": "アカウント",
       "detailTitle": "アカウント詳細",
@@ -194,7 +224,9 @@
         "invoicePrefixPlaceholder": "請求書プレフィックス",
         "addressPlaceholder": "住所",
         "phoneNumberPlaceholder": "電話番号",
-        "invoiceEmailPlaceholder": "請求書メールアドレス"
+        "invoiceEmailPlaceholder": "請求書メールアドレス",
+        "enableCreditPaymentPlaceholder": "クレジット決済を有効にする",
+        "businessNamePlaceholder": "ビジネス名"
       },
       "statuses": {
         "active": "active",
@@ -684,6 +716,9 @@
         "edit": "編集",
         "delete": "削除"
       },
+      "missingInvoiceId": "請求書IDがありません。",
+      "search": "検索...",
+      "openMenu": "メニューを開く",
       "startDate": "開始日",
       "template": "テンプレート",
       "intervalValue": "間隔値",
@@ -1050,7 +1085,9 @@
         "create": "納品書を作成",
         "clearFilters": "フィルターをクリア",
         "cancel": "キャンセル",
-        "save": "保存"
+        "save": "保存",
+        "edit": "編集",
+        "discard": "破棄"
       },
       "form": {
         "createTitle": "納品書を作成",
@@ -1205,6 +1242,35 @@
       "title": "RP 請求書自動発行",
       "enabled": "有効",
       "disabled": "無効",
+      "receivableInvoicesFor": "受領した買掛請求書",
+      "payableInvoicesFor": "支払う買掛請求書",
+      "invoicesMarkedAsPaid": "支払済みの請求書",
+      "invoicesPendingPayment": "支払待ちの請求書",
+      "transactionsSettled": "決済済みの取引",
+      "transactionsPendingSettlement": "決済待ちの取引",
+      "monthlyOverview": "月間概要",
+      "incomeStatus": "収入状況",
+      "totalBilled": "請求額",
+      "paidInvoices": "支払済みの請求書",
+      "paymentStatus": "支払状況",
+      "totalPayable": "支払額",
+      "unpaidInvoices": "未支払の請求書",
+      "invoices": "請求書",
+      "unpaidCount": "未支払数",
+      "settledCount": "決済済み数",
+      "unsettledCount": "決済待ち数",
+      "paid": "支払済み",
+      "pending": "未決済",
+      "approved": "承認済み",
+      "draft": "下書き",
+      "rejected": "承認拒否",
+      "void": "無効",
+      "receivable": "受領",
+      "payable": "支払",
+      "bankTransfer": "銀行振込",
+      "cash": "現金",
+      "creditCard": "クレジットカード",
+      "other": "その他",
       "tabs": {
         "summary": "サマリー",
         "all": "すべて"
@@ -1263,7 +1329,14 @@
         "template": "テンプレート",
         "enabled": "有効",
         "notes": "備考",
-        "paymentMethod": "支払方法"
+        "paymentMethod": "支払方法",
+        "daily": "日次",
+        "weekly": "週次",
+        "monthly": "月次",
+        "quarterly": "季次",
+        "yearly": "年次",
+        "receivable": "受領",
+        "payable": "支払"
       },
       "messages": {
         "createSuccess": "請求書を作成しました。",
@@ -1438,7 +1511,10 @@
       "amountPaid": "支払い金額",
       "transactionId": "トランザクションID",
       "payAnotherInvoice": "別の請求書を支払う",
-      "cardholderNamePlaceholder": "カード名義人"
+      "cardholderNamePlaceholder": "カード名義人",
+      "try": "試す",
+      "for_a_demo": "デモ",
+      "pay": "支払う"
     }
   }
 }

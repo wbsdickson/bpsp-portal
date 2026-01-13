@@ -9,7 +9,6 @@ import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Plus, X } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 
 import {
@@ -24,7 +23,6 @@ import { useAppStore } from "@/lib/store";
 import { useTranslations } from "next-intl";
 import useInvoiceAutoIssuanceTableColumn from "../_hooks/use-table-column";
 import { useInvoiceAutoIssuanceStore } from "@/store/merchant/invoice-auto-issuance-store";
-import { DateRangePicker } from "@/components/date-range-picker";
 
 function ActionsCell({ id }: { id: string }) {
   const locale = useLocale();
@@ -37,7 +35,7 @@ function ActionsCell({ id }: { id: string }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
+          <span className="sr-only"> {t("openMenu")}</span>
           <MoreHorizontal />
         </Button>
       </DropdownMenuTrigger>
@@ -148,7 +146,7 @@ export default function InvoiceAutoIssuanceTable({
                       vals.length ? vals : undefined,
                     )
                   }
-                  searchPlaceholder="Search..."
+                  searchPlaceholder={t("search")}
                   resetLabel="Reset"
                   doneLabel="Done"
                   placeholder="All"
