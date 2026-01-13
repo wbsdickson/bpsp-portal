@@ -21,13 +21,7 @@ export function PayInfo({
   );
 
   return (
-    <div className="bg-background rounded-md border">
-      <div className="bg-blue-100 px-6 py-5 dark:bg-blue-950/40">
-        <div className="text-center text-base font-semibold text-slate-900 dark:text-slate-100">
-          {t("payInfoHeader")}
-        </div>
-      </div>
-
+    <div className="bg-background relative -top-[30px] rounded-b-md border">
       <div className="px-6 py-8">
         <div className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
           {t("payInfoTitle")}
@@ -44,14 +38,20 @@ export function PayInfo({
               className="flex flex-wrap gap-10"
             >
               <label className="flex items-center gap-3">
-                <RadioGroupItem value="corp" />
+                <RadioGroupItem
+                  value="corp"
+                  className="border-gray-400 bg-white"
+                />
                 <div className="text-sm text-slate-900 dark:text-slate-100">
                   {t("payInfoBusinessTypeCorp")}
                 </div>
               </label>
 
               <label className="flex items-center gap-3">
-                <RadioGroupItem value="sole" />
+                <RadioGroupItem
+                  value="sole"
+                  className="border-gray-400 bg-white"
+                />
                 <div className="text-sm text-slate-900 dark:text-slate-100">
                   {t("payInfoBusinessTypeSole")}
                 </div>
@@ -63,28 +63,28 @@ export function PayInfo({
             <Label className="text-sm font-medium text-slate-900 dark:text-slate-100">
               {t("payInfoRepresentativeName")}
             </Label>
-            <Input placeholder="Value" className="h-12" />
+            <Input className="h-12 bg-white" />
           </div>
 
           <div className="space-y-2">
             <Label className="text-sm font-medium text-slate-900 dark:text-slate-100">
               {t("payInfoCompanyName")}
             </Label>
-            <Input placeholder="Value" className="h-12" />
+            <Input className="h-12 bg-white" />
           </div>
 
           <div className="space-y-2">
             <Label className="text-sm font-medium text-slate-900 dark:text-slate-100">
               {t("payInfoEmail")}
             </Label>
-            <Input placeholder="Value" className="h-12" />
+            <Input className="h-12 bg-white" />
           </div>
 
           <div className="space-y-2">
             <Label className="text-sm font-medium text-slate-900 dark:text-slate-100">
               {t("payInfoTransferName")}
             </Label>
-            <Input placeholder="Value" className="h-12" />
+            <Input className="h-12 bg-white" />
           </div>
 
           <div className="text-sm leading-6 text-slate-900 dark:text-slate-100">
@@ -94,19 +94,17 @@ export function PayInfo({
           </div>
 
           <div className="pt-10">
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
               <Button
-                
-                variant="ghost"
-                className="h-12 px-6 text-slate-900 dark:text-slate-100"
+                variant="outline"
+                className="h-12 flex-1 px-6 text-slate-900 dark:text-slate-100"
                 onClick={onBack}
               >
                 {t("payInfoBack")}
               </Button>
 
               <Button
-                
-                className="h-12 rounded-xl bg-slate-900 px-8 text-base text-white hover:bg-slate-900/90 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-100/90"
+                className="h-12 flex-1 bg-slate-900 px-8 text-base text-white hover:bg-slate-900/90 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-100/90"
                 onClick={onConfirm}
               >
                 {t("payInfoConfirm")}

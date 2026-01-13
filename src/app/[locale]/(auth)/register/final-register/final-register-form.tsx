@@ -100,7 +100,7 @@ export function FinalRegisterForm() {
                 {t("finalRegisterRepresentativeNameLabel")}
               </label>
               <FormControl>
-                <Input placeholder="Value" className="h-10" {...field} />
+                <Input className="h-10" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,7 +116,7 @@ export function FinalRegisterForm() {
                 {t("finalRegisterCompanyNameLabel")}
               </label>
               <FormControl>
-                <Input placeholder="Value" className="h-10" {...field} />
+                <Input className="h-10" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -133,7 +133,6 @@ export function FinalRegisterForm() {
               </label>
               <FormControl>
                 <Input
-                  placeholder="Value"
                   className="h-10"
                   autoComplete="tel"
                   inputMode="tel"

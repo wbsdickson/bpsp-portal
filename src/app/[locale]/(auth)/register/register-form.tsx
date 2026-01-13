@@ -72,12 +72,7 @@ export function RegisterForm() {
                 {t("emailLabel")}
               </FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Value"
-                  autoComplete="email"
-                  className="h-10"
-                  {...field}
-                />
+                <Input autoComplete="email" className="h-10" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -94,7 +89,6 @@ export function RegisterForm() {
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Value"
                   type="password"
                   autoComplete="new-password"
                   className="h-10"

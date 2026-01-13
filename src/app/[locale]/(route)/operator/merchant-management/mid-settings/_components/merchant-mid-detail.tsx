@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { useMerchantStore } from "@/store/merchant-store";
 import { useMerchantMidStore } from "@/store/merchant-mid-store";
 import { useTranslations } from "next-intl";
-import { Pen, Check, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
