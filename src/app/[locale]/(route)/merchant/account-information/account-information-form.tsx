@@ -98,7 +98,6 @@ export default function AccountInformationForm() {
       return;
     }
 
-    // Check for email uniqueness (mock validation)
     const users = useAppStore.getState().users;
     const emailExists = users.some(
       (user) => user.email === data.email && user.id !== currentUser.id,
@@ -114,7 +113,6 @@ export default function AccountInformationForm() {
       email: data.email.trim(),
     };
 
-    // Only update password if provided (for mock purposes)
     if (data.password && data.password.length > 0) {
       (updateData as any).password = data.password;
     }
@@ -122,7 +120,6 @@ export default function AccountInformationForm() {
     updateUser(currentUser.id, updateData as Partial<User>);
     toast.success(t("messages.updateSuccess"));
 
-    // Clear password fields after successful update
     form.setValue("password", "");
     form.setValue("confirmPassword", "");
   });

@@ -35,35 +35,36 @@ export type PayableInvoiceRow = {
 };
 
 function getStatusBadge(value: string) {
+  const t = useTranslations("Merchant.ReceivedPayableInvoices");
   if (value === "paid") {
     return (
       <Badge variant="secondary" className="bg-emerald-50 text-emerald-700">
-        paid
+        {t("paid")}
       </Badge>
     );
   }
   if (value === "pending") {
     return (
       <Badge variant="secondary" className="bg-amber-50 text-amber-700">
-        pending
+        {t("pending")}
       </Badge>
     );
   }
   if (value === "draft") {
-    return <Badge variant="secondary">draft</Badge>;
+    return <Badge variant="secondary">{t("draft")}</Badge>;
   }
   if (value === "approved") {
     return (
       <Badge variant="secondary" className="bg-indigo-50 text-indigo-700">
-        approved
+        {t("approved")}
       </Badge>
     );
   }
   if (value === "rejected") {
-    return <Badge variant="destructive">rejected</Badge>;
+    return <Badge variant="destructive">{t("rejected")}</Badge>;
   }
   if (value === "void") {
-    return <Badge variant="outline">void</Badge>;
+    return <Badge variant="outline">{t("void")}</Badge>;
   }
   return <Badge variant="outline">{value || "—"}</Badge>;
 }

@@ -62,14 +62,14 @@ export default function DeliveryNoteDetail({
         unitPrice: it.unitPrice,
         taxId: it.taxId,
       })) ?? [
-        {
-          itemId: "placeholder",
-          description: "",
-          quantity: 1,
-          unitPrice: 0,
-          taxId: "",
-        },
-      ],
+          {
+            itemId: "placeholder",
+            description: "",
+            quantity: 1,
+            unitPrice: 0,
+            taxId: "",
+          },
+        ],
     },
   });
 
@@ -129,11 +129,11 @@ export default function DeliveryNoteDetail({
 
   const issueDateLabel = deliveryNote.deliveryDate
     ? (() => {
-        const dt = new Date(deliveryNote.deliveryDate);
-        return Number.isNaN(dt.getTime())
-          ? deliveryNote.deliveryDate
-          : dt.toLocaleDateString();
-      })()
+      const dt = new Date(deliveryNote.deliveryDate);
+      return Number.isNaN(dt.getTime())
+        ? deliveryNote.deliveryDate
+        : dt.toLocaleDateString();
+    })()
     : "—";
 
   return (
@@ -151,7 +151,7 @@ export default function DeliveryNoteDetail({
                 onClick={onCancel}
                 title={t("buttons.cancel")}
               >
-                Discard
+                {t("buttons.discard")}
               </Button>
               <Button
                 variant="secondary"
@@ -159,7 +159,7 @@ export default function DeliveryNoteDetail({
                 onClick={onSubmit}
                 title={t("buttons.save")}
               >
-                Save
+                {t("buttons.save")}
               </Button>
             </>
           ) : (
@@ -263,11 +263,11 @@ export default function DeliveryNoteDetail({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="sent">Sent</SelectItem>
-                    <SelectItem value="accepted">Accepted</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
-                    <SelectItem value="expired">Expired</SelectItem>
+                    <SelectItem value="draft">{t("statuses.draft")}</SelectItem>
+                    <SelectItem value="sent">{t("statuses.sent")}</SelectItem>
+                    <SelectItem value="accepted">{t("statuses.accepted")}</SelectItem>
+                    <SelectItem value="rejected">{t("statuses.rejected")}</SelectItem>
+                    <SelectItem value="expired">{t("statuses.expired")}</SelectItem>
                   </SelectContent>
                 </Select>
               )}

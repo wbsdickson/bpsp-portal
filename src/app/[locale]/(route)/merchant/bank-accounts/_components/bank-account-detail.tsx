@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useMerchantStore } from "@/store/merchant-store";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
@@ -58,7 +57,7 @@ export default function BankAccountDetail({
             }}
             title={t("actions.edit")}
           >
-            Edit
+            {t("actions.edit")}
           </Button>
         </div>
       </div>
@@ -71,7 +70,7 @@ export default function BankAccountDetail({
             </div>
             <div className="font-medium">{bankAccount.bankName}</div>
           </div>
-          
+
           <div>
             <div className="text-muted-foreground text-xs">
               {t("columns.branchName")}

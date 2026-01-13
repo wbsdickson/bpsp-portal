@@ -261,8 +261,8 @@ export function ReceivedPayableInvoiceUpsertPage({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="receivable">Receivable</SelectItem>
-                        <SelectItem value="payable">Payable</SelectItem>
+                        <SelectItem value="receivable">{t("receivable")}</SelectItem>
+                        <SelectItem value="payable">{t("payable")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -286,11 +286,13 @@ export function ReceivedPayableInvoiceUpsertPage({
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="bank transfer">
-                          Bank Transfer
+                          {t("bankTransfer")}
                         </SelectItem>
-                        <SelectItem value="cash">Cash</SelectItem>
-                        <SelectItem value="credit card">Credit Card</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        <SelectItem value="cash">{t("cash")}</SelectItem>
+                        <SelectItem value="credit card">
+                          {t("creditCard")}
+                        </SelectItem>
+                        <SelectItem value="other">{t("other")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>

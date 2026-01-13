@@ -4,7 +4,7 @@ import HeaderPage from "@/components/header-page";
 import RecordTabs, { type RecordTab } from "@/components/record-tabs";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
@@ -16,10 +16,8 @@ import { useModalStore } from "@/store/modal-store";
 export default function BankAccountsPage() {
   const t = useTranslations("Merchant.BankAccounts");
   const searchParams = useSearchParams();
-  const { basePath } = useBasePath();
   const { onOpen } = useModalStore();
 
-  // Get the active tab from URL parameters, default to "table"
   const activeTab = searchParams.get("tab") || "table";
 
   return (

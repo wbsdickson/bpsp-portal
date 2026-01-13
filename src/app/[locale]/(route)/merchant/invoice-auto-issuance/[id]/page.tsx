@@ -31,7 +31,7 @@ export default function InvoiceAutoIssuanceDetailPage() {
       <HeaderPage title={t("invoiceNumber")}>
         <div className="space-y-4">
           <div className="text-muted-foreground text-sm">
-            Missing invoice id.
+            {t("missingInvoiceId")}
           </div>
           <Button asChild variant="outline" className="h-9">
             <Link href={`/${locale}/merchant/invoice-auto-issuance`}>

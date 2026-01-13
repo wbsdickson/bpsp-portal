@@ -6,9 +6,7 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { useAppStore } from "@/lib/store";
-import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceivedPayableInvoiceAutoIssuanceStore } from "@/store/merchant/rp-invoice-auto-issuance-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { useRouter } from "next/navigation";
@@ -81,7 +79,7 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
             }}
             title={t("actions.edit")}
           >
-            Edit
+            {t("actions.edit")}
           </Button>
         </div>
       </div>

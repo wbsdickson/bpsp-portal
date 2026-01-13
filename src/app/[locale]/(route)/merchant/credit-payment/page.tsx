@@ -180,9 +180,9 @@ function CreditPaymentContent() {
                                     />
                                 </div>
                                 <p className="text-muted-foreground text-xs">
-                                    Try{" "}
+                                    {t("try")}{" "}
                                     <span className="text-primary font-mono">inv_demo_001</span>{" "}
-                                    for a demo.
+                                    {t("for_a_demo")}
                                 </p>
                             </div>
                         </CardContent>
@@ -325,7 +325,7 @@ function CreditPaymentContent() {
                                 {t("back")}
                             </Button>
                             <Button className="flex-1" onClick={handlePayment}>
-                                Pay {formatCurrency(invoice.amount, invoice.currency)}
+                                {t("pay")} {formatCurrency(invoice.amount, invoice.currency)}
                             </Button>
                         </CardFooter>
                     </Card>
@@ -395,7 +395,6 @@ function CreditPaymentContent() {
                                 className="w-full"
                                 variant="outline"
                                 onClick={() => {
-                                    // Reset to search new invoice
                                     setStep("search");
                                     setInvoiceId("");
                                     setCompletedTransactionId(null);

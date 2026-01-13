@@ -4,14 +4,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import { useAppStore } from "@/lib/store";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useInvoiceAutoIssuanceStore } from "@/store/merchant/invoice-auto-issuance-store";
@@ -22,10 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
+
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -38,10 +28,8 @@ import {
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createInvoiceAutoIssuanceSchema } from "../_lib/merchant-invoice-schema";
 import { toast } from "sonner";
-import { generateId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { InvoiceAutoIssuance, InvoiceStatus } from "@/types/invoice";
 
 export default function InvoiceDetail({ id }: { id: string }) {
   const t = useTranslations("Merchant.InvoiceAutoIssuance");
@@ -178,7 +166,6 @@ export default function InvoiceDetail({ id }: { id: string }) {
               variant="secondary"
               size="xs"
               onClick={() => {
-                // setIsEditing(true);
                 router.push(`${basePath}/edit/${invoice.id}`);
               }}
               title={t("actions.edit")}
