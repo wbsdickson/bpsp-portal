@@ -21,6 +21,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { PayInfo } from "./pay-info";
 import { useRouter } from "next/navigation";
 import LocaleSwitcher from "@/components/locale-switcher";
+import { getAppOrigin } from "@/lib/utils";
 
 function formatMoney(amount: number, currency: string) {
   return new Intl.NumberFormat("en-US", {
@@ -193,15 +194,14 @@ export default function PublicInvoicePage({
 
             <div className="flex min-h-0 flex-1 flex-col">
               <div className="bg-muted flex min-h-0 flex-1 flex-col overflow-hidden rounded-md p-5">
-                <ScrollArea className="h-full w-full">
-                  <div className="w-full pr-4 shadow-sm">
-                    <Bill
-                      invoice={invoice}
-                      merchant={merchant}
-                      client={client}
-                    />
-                  </div>
-                </ScrollArea>
+                {/* <iframe
+                    src={`https://docs.google.com/viewer?url=${encodeURIComponent(
+                      `${getAppOrigin()}/invoice-template.html`,
+                    )}&embedded=true`}
+                  className="h-full w-full border-0"
+                  title="Invoice Viewer"
+                /> */}
+                <Bill invoice={invoice} merchant={merchant} client={client} />
               </div>
             </div>
           </div>
