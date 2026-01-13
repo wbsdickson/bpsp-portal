@@ -7,7 +7,7 @@ import { DataTable } from "@/components/data-table";
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
 import ActionsCell from "@/components/action-cell";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";

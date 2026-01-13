@@ -1,4 +1,4 @@
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -148,7 +148,7 @@ export default function useReceivedPayableInvoiceTableColumn({
 
         const variant = getStatusBadgeVariant(status);
 
-        return <StatusBadge variant={variant}>{label}</StatusBadge>;
+        return <Badge variant={variant}>{label}</Badge>;
       },
     },
   ];

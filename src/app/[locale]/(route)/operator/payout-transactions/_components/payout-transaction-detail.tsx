@@ -8,9 +8,9 @@ import { useBankAccountStore } from "@/store/bank-account-store";
 import { useInvoiceStore } from "@/store/invoice-store";
 import { useClientStore } from "@/store/client-store";
 import { useMerchantStore } from "@/store/merchant-store";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { TitleField } from "@/components/title-field";
-import { getPayoutTransactionStatusBadgeVariant } from "../_hook/status";
+import { getPayoutTransactionBadgeVariant } from "../_hook/status";
 import { PaymentStatus } from "@/lib/types";
 
 export default function PayoutTransactionDetail({ id }: { id?: string }) {
@@ -93,13 +93,13 @@ export default function PayoutTransactionDetail({ id }: { id?: string }) {
           label={t("columns.payoutStatus")}
           value={
             <span className="capitalize">
-              <StatusBadge
-                variant={getPayoutTransactionStatusBadgeVariant(
+              <Badge
+                variant={getPayoutTransactionBadgeVariant(
                   (transaction.status as PaymentStatus) || "pending_approval",
                 )}
               >
                 {t(`statuses.${transaction.status}`)}
-              </StatusBadge>
+              </Badge>
             </span>
           }
         />

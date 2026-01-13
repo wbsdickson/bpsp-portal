@@ -1,4 +1,4 @@
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -17,7 +17,7 @@ export type ItemRow = Item & {
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceivedInvoiceStore } from "@/store/received-invoice-store";
 import { ReceiptRow } from "../_components/receipt-table";
-import { getReceiptStatusBadgeVariant } from "./status";
+import { getReceiptBadgeVariant } from "./status";
 
 export default function useReceiptTableColumn({
   addTab,
@@ -127,9 +127,9 @@ export default function useReceiptTableColumn({
         const status = row.original.status;
 
         return (
-          <StatusBadge variant={getReceiptStatusBadgeVariant(status)}>
+          <Badge variant={getReceiptBadgeVariant(status)}>
             {t(`statuses.${status}`)}
-          </StatusBadge>
+          </Badge>
         );
       },
     },

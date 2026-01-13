@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { type MemberRole } from "@/lib/types";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createMerchantMemberSchema } from "../_lib/merchant-member-schema";
@@ -196,7 +196,7 @@ export default function MerchantMemberDetail({ userId }: { userId: string }) {
               label={t("columns.status")}
               isEditing={isEditing}
               value={
-                <StatusBadge
+                <Badge
                   variant={
                     (
                       {
@@ -207,7 +207,7 @@ export default function MerchantMemberDetail({ userId }: { userId: string }) {
                   }
                 >
                   {t(`statuses.${user.status ?? "active"}`)}
-                </StatusBadge>
+                </Badge>
               }
               renderInput={(field) => (
                 <Select

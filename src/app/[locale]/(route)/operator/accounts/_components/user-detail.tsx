@@ -4,7 +4,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useLocale, useTranslations } from "next-intl";
@@ -202,9 +202,9 @@ export default function UserDetail({ userId }: { userId: string }) {
                     suspended: "destructive",
                   };
                   return (
-                    <StatusBadge variant={variantMap[status] || "secondary"}>
+                    <Badge variant={variantMap[status] || "secondary"}>
                       {t(`statuses.${status}`)}
-                    </StatusBadge>
+                    </Badge>
                   );
                 })()}
               </div>

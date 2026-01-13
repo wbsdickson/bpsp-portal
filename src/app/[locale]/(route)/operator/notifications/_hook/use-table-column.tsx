@@ -1,6 +1,6 @@
 import ActionsCell from "@/components/action-cell";
-import { StatusBadge } from "@/components/status-badge";
-import { getNotificationStatusBadgeVariant } from "./status";
+import { Badge } from "@/components/ui/badge";
+import { getNotificationBadgeVariant } from "./status";
 import { Button } from "@/components/ui/button";
 import type { Notification } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -72,14 +72,14 @@ export default function useNotificationTableColumn({
       accessorKey: "publicationStatus",
       header: t("columns.publicationStatus"),
       cell: ({ row }) => (
-        <StatusBadge
-          variant={getNotificationStatusBadgeVariant(
+        <Badge
+          variant={getNotificationBadgeVariant(
             (row.getValue("publicationStatus") as PublicationStatus) ||
               "expired",
           )}
         >
           {t(`statuses.${String(row.getValue("publicationStatus") ?? "")}`)}
-        </StatusBadge>
+        </Badge>
       ),
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");

@@ -7,7 +7,7 @@ import Link from "next/link";
 import { DataTable } from "@/components/data-table";
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Plus, X } from "lucide-react";
@@ -181,9 +181,9 @@ const columns = (
       };
       return (
         <div className="flex items-center gap-3">
-          <StatusBadge variant={variantMap[inv.status] || "secondary"}>
+          <Badge variant={variantMap[inv.status] || "secondary"}>
             {t(`statuses.${inv.status}`)}
-          </StatusBadge>
+          </Badge>
         </div>
       );
     },

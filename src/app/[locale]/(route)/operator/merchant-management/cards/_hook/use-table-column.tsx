@@ -1,4 +1,4 @@
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import ActionsCell from "@/components/action-cell";
 import { toast } from "sonner";
@@ -98,9 +98,9 @@ export default function useMerchantCardTableColumn() {
         };
 
         return (
-          <StatusBadge variant={variantMap[status]}>
+          <Badge variant={variantMap[status]}>
             {t(`statuses.${status}`)}
-          </StatusBadge>
+          </Badge>
         );
       },
     },

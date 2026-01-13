@@ -1,4 +1,4 @@
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
@@ -156,9 +156,9 @@ export default function useMerchantMemberTableColumn({
         };
 
         return (
-          <StatusBadge variant={variantMap[status] || "secondary"}>
+          <Badge variant={variantMap[status] || "secondary"}>
             {t(`statuses.${status}`)}
-          </StatusBadge>
+          </Badge>
         );
       },
     },

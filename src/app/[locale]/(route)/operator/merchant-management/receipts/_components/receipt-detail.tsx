@@ -19,8 +19,8 @@ import { useAppStore } from "@/lib/store";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceiptStore } from "@/store/receipt-store";
 import { useBasePath } from "@/hooks/use-base-path";
-import { StatusBadge } from "@/components/status-badge";
-import { getReceiptStatusBadgeVariant, ReceiptStatus } from "../_hook/status";
+import { Badge } from "@/components/ui/badge";
+import { getReceiptBadgeVariant, ReceiptStatus } from "../_hook/status";
 
 export default function ReceiptDetail({ id }: { id: string }) {
   const locale = useLocale();
@@ -93,13 +93,13 @@ export default function ReceiptDetail({ id }: { id: string }) {
                 {t("columns.status")}
               </div>
               <div className="font-medium">
-                <StatusBadge
-                  variant={getReceiptStatusBadgeVariant(
+                <Badge
+                  variant={getReceiptBadgeVariant(
                     (receipt.status as ReceiptStatus) || "draft",
                   )}
                 >
                   {t(`statuses.${receipt.status}`)}
-                </StatusBadge>
+                </Badge>
               </div>
             </div>
 

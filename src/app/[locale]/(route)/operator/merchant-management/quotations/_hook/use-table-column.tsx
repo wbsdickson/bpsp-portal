@@ -1,5 +1,5 @@
 import ActionsCell from "@/components/action-cell";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -9,7 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
-import { getQuotationStatusBadgeVariant } from "./status";
+import { getQuotationBadgeVariant } from "./status";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 
 export type QuotationRow = Quotation & {
@@ -119,11 +119,11 @@ export default function useQuotationTableColumn({
         const status = row.original.status || "draft";
 
         return (
-          <StatusBadge
-            variant={getQuotationStatusBadgeVariant(status as QuotationStatus)}
+          <Badge
+            variant={getQuotationBadgeVariant(status as QuotationStatus)}
           >
             {t(`statuses.${status}`)}
-          </StatusBadge>
+          </Badge>
         );
       },
       filterFn: (row, id, value) => {

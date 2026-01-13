@@ -34,7 +34,7 @@ export type PayableInvoiceRow = {
   paymentMethod: string;
 };
 
-function StatusBadge({ value }: { value: string }) {
+function getStatusBadge(value: string) {
   if (value === "paid") {
     return (
       <Badge variant="secondary" className="bg-emerald-50 text-emerald-700">
@@ -212,9 +212,8 @@ export default function ReceivedPayableInvoiceTable({
 
           return String(rowValue) === String(filterValue);
         },
-        cell: ({ row }) => (
-          <StatusBadge value={String(row.getValue("status") ?? "")} />
-        ),
+        cell: ({ row }) =>
+          getStatusBadge(String(row.getValue("status") ?? "")),
       },
       {
         accessorKey: "paymentMethod",

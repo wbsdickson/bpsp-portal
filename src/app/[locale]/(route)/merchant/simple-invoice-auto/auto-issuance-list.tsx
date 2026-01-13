@@ -1,9 +1,9 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getAutoIssuanceStatusBadgeVariant } from "./_components/status";
+import { getAutoIssuanceBadgeVariant } from "./_components/status";
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -23,8 +23,8 @@ import {
 } from "@/components/ui/select";
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createMerchantItemSchema } from "../_lib/merchant-item-schema";
-import { StatusBadge } from "@/components/status-badge";
-import { getStatusBadgeVariant } from "../_hook/status";
+import { Badge } from "@/components/ui/badge";
+import { getBadgeVariant } from "../_hook/status";
 
 export default function ItemDetail({ itemId }: { itemId: string }) {
   const t = useTranslations("Operator.Items");
@@ -184,13 +184,13 @@ export default function ItemDetail({ itemId }: { itemId: string }) {
               label={t("columns.status")}
               isEditing={isEditing}
               value={
-                <StatusBadge
-                  variant={getStatusBadgeVariant(
+                <Badge
+                  variant={getBadgeVariant(
                     form.getValues("status") as "active" | "inactive",
                   )}
                 >
                   {t(`statuses.${form.getValues("status")}`)}
-                </StatusBadge>
+                </Badge>
               }
               renderInput={(field) => (
                 <Select

@@ -40,8 +40,8 @@ import { createMerchantQuotationSchema } from "../_lib/merchant-quotation-schema
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { StatusBadge } from "@/components/status-badge";
-import { getQuotationStatusBadgeVariant } from "../_hook/status";
+import { Badge } from "@/components/ui/badge";
+import { getQuotationBadgeVariant } from "../_hook/status";
 import { QuotationStatus } from "@/lib/types";
 
 export default function QuotationDetail({
@@ -175,13 +175,13 @@ export default function QuotationDetail({
           <h2 className="text-2xl font-bold tracking-tight">
             {quotation.quotationNumber}
           </h2>
-          <StatusBadge
-            variant={getQuotationStatusBadgeVariant(
+          <Badge
+            variant={getQuotationBadgeVariant(
               (quotation.status as QuotationStatus) || "draft",
             )}
           >
             {t(`statuses.${quotation.status}`)}
-          </StatusBadge>
+          </Badge>
         </div>
         <div className="flex gap-2">
           {isEditing ? (
@@ -225,13 +225,13 @@ export default function QuotationDetail({
               label={t("columns.status")}
               isEditing={isEditing}
               value={
-                <StatusBadge
-                  variant={getQuotationStatusBadgeVariant(
+                <Badge
+                  variant={getQuotationBadgeVariant(
                     (quotation.status as QuotationStatus) || "draft",
                   )}
                 >
                   {t(`statuses.${quotation.status}`)}
-                </StatusBadge>
+                </Badge>
               }
               renderInput={(field) => (
                 <Select

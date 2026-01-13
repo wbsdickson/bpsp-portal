@@ -41,7 +41,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { StatusBadge } from "@/components/status-badge";
 
 type KpiCardProps = {
   title: string;
@@ -231,7 +230,7 @@ function StatRow({
   trendColor: string;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border bg-card p-3">
+    <div className="bg-card flex items-center justify-between gap-4 rounded-xl border p-3">
       <div className="space-y-1">
         <div className="text-muted-foreground text-xs">{title}</div>
         <div className="text-sm font-semibold">{value}</div>
@@ -326,7 +325,7 @@ export default function DashboardClient() {
               </CardTitle>
               <CardDescription>{t("cards.monthlyPerformance")}</CardDescription>
             </div>
-            <Button variant="outline" className="h-8 bg-card">
+            <Button variant="outline" className="bg-card h-8">
               {t("buttons.sortBy")}
             </Button>
           </CardHeader>
@@ -421,7 +420,7 @@ export default function DashboardClient() {
                 ))}
               </div>
 
-              <Button variant="outline" className="h-9 w-full bg-card">
+              <Button variant="outline" className="bg-card h-9 w-full">
                 {t("buttons.completeStatistics")}
               </Button>
             </CardContent>
@@ -435,7 +434,7 @@ export default function DashboardClient() {
                 </CardTitle>
                 <CardDescription>{t("cards.overallSales")}</CardDescription>
               </div>
-              <Button variant="outline" className="h-8 bg-card">
+              <Button variant="outline" className="bg-card h-8">
                 {t("buttons.sortBy")}
               </Button>
             </CardHeader>
@@ -473,7 +472,7 @@ export default function DashboardClient() {
                       <div className="text-muted-foreground text-xs">
                         {c.gross}
                       </div>
-                      <StatusBadge variant="success">{c.delta}</StatusBadge>
+                      <Badge variant="success">{c.delta}</Badge>
                     </div>
                   </div>
                 ))}
@@ -503,14 +502,14 @@ export default function DashboardClient() {
               {transactions.map((tx) => (
                 <div
                   key={tx.product}
-                  className="flex items-center justify-between gap-3 rounded-xl border bg-card p-3"
+                  className="bg-card flex items-center justify-between gap-3 rounded-xl border p-3"
                 >
                   <div className="flex-1 text-sm font-medium">{tx.product}</div>
                   <div className="flex-1 text-center text-sm tabular-nums">
                     {tx.price}
                   </div>
                   <div className="flex flex-1 justify-end">
-                    <StatusBadge
+                    <Badge
                       variant={
                         tx.status === "success"
                           ? "success"
@@ -520,7 +519,7 @@ export default function DashboardClient() {
                       }
                     >
                       {t(`status.${tx.status}`)}
-                    </StatusBadge>
+                    </Badge>
                   </div>
                 </div>
               ))}
@@ -563,29 +562,29 @@ export default function DashboardClient() {
             <CardTitle className="text-base">
               {t("cards.merchantSalesRanking")}
             </CardTitle>
-            <Button variant="outline" className="h-8 bg-card">
+            <Button variant="outline" className="bg-card h-8">
               {t("buttons.sortBy")}
             </Button>
           </CardHeader>
           <CardContent className="space-y-4">
             {/* <div className="grid grid-cols-2 gap-2">
-              <div className="rounded-xl border bg-card p-3">
+              <div className="bg-card rounded-xl border p-3">
                 <div className="text-muted-foreground text-xs">Total Sales</div>
                 <div className="text-sm font-semibold">$3.478B</div>
               </div>
-              <div className="rounded-xl border bg-card p-3">
+              <div className="bg-card rounded-xl border p-3">
                 <div className="text-muted-foreground text-xs">This Year</div>
                 <div className="text-sm font-semibold text-emerald-600">
                   4,25,349
                 </div>
               </div>
-              <div className="rounded-xl border bg-card p-3">
+              <div className="bg-card rounded-xl border p-3">
                 <div className="text-muted-foreground text-xs">Last Year</div>
                 <div className="text-sm font-semibold text-rose-600">
                   3,41,622
                 </div>
               </div>
-              <div className="rounded-xl border bg-card p-3">
+              <div className="bg-card rounded-xl border p-3">
                 <div className="text-muted-foreground text-xs">Growth</div>
                 <div className="text-sm font-semibold">+12.4%</div>
               </div>

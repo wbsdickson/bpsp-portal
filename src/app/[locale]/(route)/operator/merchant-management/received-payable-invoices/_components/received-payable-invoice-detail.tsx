@@ -12,8 +12,8 @@ import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceivedInvoiceStore } from "@/store/received-invoice-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { useRouter } from "next/navigation";
-import { StatusBadge } from "@/components/status-badge";
-import { getStatusBadgeVariant } from "../_hook/status";
+import { Badge } from "@/components/ui/badge";
+import { getBadgeVariant } from "../_hook/status";
 
 export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
   const locale = useLocale();
@@ -65,9 +65,9 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
           <h2 className="text-2xl font-bold tracking-tight">
             {invoice.invoiceNumber}
           </h2>
-          <StatusBadge variant={getStatusBadgeVariant(invoice.status)}>
+          <Badge variant={getBadgeVariant(invoice.status)}>
             {t(`statuses.${invoice.status}`)}
-          </StatusBadge>
+          </Badge>
         </div>
         <div className="flex gap-2">
           <Button
@@ -93,9 +93,9 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
             <div className="font-medium">{invoice.invoiceNumber}</div>
           </div>
           <div>
-            <StatusBadge variant={getStatusBadgeVariant(invoice.status)}>
+            <Badge variant={getBadgeVariant(invoice.status)}>
               {t(`statuses.${invoice.status}`)}
-            </StatusBadge>
+            </Badge>
             <div className="font-medium">{invoice.status}</div>
           </div>
 

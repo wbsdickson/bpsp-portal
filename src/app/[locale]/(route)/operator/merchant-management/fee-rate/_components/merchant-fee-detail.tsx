@@ -26,7 +26,7 @@ import {
 } from "@/types/merchant-fee";
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createMerchantFeeSchema } from "../_lib/merchant-fee-schema";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { getStatusBadgeVariant } from "../_hook/status";
 import { getCardBrandIcon } from "@/lib/utils";
 
@@ -207,11 +207,13 @@ export default function MerchantFeeDetail({ feeId }: { feeId: string }) {
               label={t("columns.status")}
               isEditing={isEditing}
               value={
-                <StatusBadge
-                  variant={getStatusBadgeVariant(form.getValues("status"))}
+                <Badge
+                  variant={getStatusBadgeVariant(
+                    form.getValues("status") as MerchantFeeStatus,
+                  )}
                 >
                   {t(`statuses.${form.getValues("status")}`)}
-                </StatusBadge>
+                </Badge>
               }
               renderInput={(field) => (
                 <Select

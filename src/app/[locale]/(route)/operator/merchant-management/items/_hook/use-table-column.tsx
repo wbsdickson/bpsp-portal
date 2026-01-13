@@ -1,4 +1,4 @@
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -14,7 +14,7 @@ export type ItemRow = Item & {
   taxCategoryLabel: string;
 };
 
-import { getStatusBadgeVariant } from "./status";
+import { getBadgeVariant } from "./status";
 
 export default function useItemTableColumn({
   addTab,
@@ -126,9 +126,9 @@ export default function useItemTableColumn({
         const status = row.original.status || "active";
 
         return (
-          <StatusBadge variant={getStatusBadgeVariant(status)}>
+          <Badge variant={getBadgeVariant(status)}>
             {t(`statuses.${status}`)}
-          </StatusBadge>
+          </Badge>
         );
       },
       filterFn: (row, id, value) => {

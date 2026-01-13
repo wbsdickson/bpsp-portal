@@ -1,5 +1,5 @@
 import ActionsCell from "@/components/action-cell";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -9,7 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
-import { getDeliveryNoteStatusBadgeVariant } from "./status";
+import { getDeliveryNoteBadgeVariant } from "./status";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 
 export type DeliveryNoteRow = DeliveryNote & {
@@ -119,13 +119,13 @@ export default function useDeliveryNoteTableColumn({
         const status = row.original.status || "draft";
 
         return (
-          <StatusBadge
-            variant={getDeliveryNoteStatusBadgeVariant(
+          <Badge
+            variant={getDeliveryNoteBadgeVariant(
               status as DeliveryNoteStatus,
             )}
           >
             {t(`statuses.${status}`)}
-          </StatusBadge>
+          </Badge>
         );
       },
       filterFn: (row, id, value) => {

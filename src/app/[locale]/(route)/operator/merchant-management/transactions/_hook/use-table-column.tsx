@@ -1,4 +1,4 @@
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import type { Payment, PaymentStatus } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useBasePath } from "@/hooks/use-base-path";
 import ActionsCell from "@/components/action-cell";
-import { getStatusBadgeVariant } from "./status";
+import { getBadgeVariant } from "./status";
 
 export type Transaction = Payment & {
   merchantName: string;
@@ -98,9 +98,9 @@ export default function useTransactionTableColumn({
 
         const label = t(`statuses.${status}`);
 
-        const variantMap = getStatusBadgeVariant(status);
+        const variantMap = getBadgeVariant(status);
 
-        return <StatusBadge variant={variantMap}>{label}</StatusBadge>;
+        return <Badge variant={variantMap}>{label}</Badge>;
       },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");

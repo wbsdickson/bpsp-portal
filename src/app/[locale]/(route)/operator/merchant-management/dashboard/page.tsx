@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import HeaderPage from "@/components/header-page";
-import { StatusBadge } from "@/components/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -671,13 +671,13 @@ export default function MerchantManagementDashboardPage() {
                   {t("metrics.status")}
                 </div>
                 <div className="mt-1">
-                  <StatusBadge
+                  <Badge
                     variant={statusBadgeVariant(selectedMerchant?.status)}
                   >
                     {selectedMerchant?.status
                       ? t(`statuses.${selectedMerchant.status}`)
                       : "—"}
-                  </StatusBadge>
+                  </Badge>
                 </div>
               </div>
               <div className="rounded-xl border p-3">
