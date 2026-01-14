@@ -11,11 +11,7 @@ import { useNotificationStore } from "@/store/merchant/notification-store";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
-import { InlineEditField } from "@/components/inline-edit-field";
 import { createNotificationSchema } from "../_lib/notification-schema";
 import { Badge } from "@/components/ui/badge";
 
@@ -61,7 +57,7 @@ export default function NotificationDetail({ id }: { id: string }) {
     return (
       <div className="space-y-4">
         <div className="text-muted-foreground text-sm">
-          Missing notification id.
+          {t("missingNotificationId")}
         </div>
         <Button asChild variant="outline" className="h-9">
           <Link href={`/${locale}/merchant/notifications`}>

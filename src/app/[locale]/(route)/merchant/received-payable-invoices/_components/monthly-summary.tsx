@@ -103,7 +103,7 @@ export default function MonthlySummary() {
       <div className="flex items-center gap-4">
         <Calendar className="h-5 w-5 text-muted-foreground" />
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Target Month:</span>
+          <span className="text-sm font-medium">{t("summary.targetMonth")}</span>
           <Select value={selectedMonth} onValueChange={setSelectedMonth}>
             <SelectTrigger className="w-48">
               <SelectValue />
@@ -124,7 +124,7 @@ export default function MonthlySummary() {
         {/* Total Billed Amount */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Billed Amount</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("summary.totalBilledAmount")}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -132,7 +132,7 @@ export default function MonthlySummary() {
               {formatCurrency(summaryData.totalBilledAmount)}
             </div>
             <p className="text-xs text-muted-foreground">
-              {t("receivableInvoicesFor")} {monthOptions.find(m => m.value === selectedMonth)?.label}
+              {t("summary.receivableInvoicesFor")} {monthOptions.find(m => m.value === selectedMonth)?.label}
             </p>
           </CardContent>
         </Card>
@@ -140,7 +140,7 @@ export default function MonthlySummary() {
         {/* Total Payable Amount */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Payable Amount</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("summary.totalPayableAmount")}</CardTitle>
             <TrendingDown className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -148,7 +148,7 @@ export default function MonthlySummary() {
               {formatCurrency(summaryData.totalPayableAmount)}
             </div>
             <p className="text-xs text-muted-foreground">
-              {t("payableInvoicesFor")} {monthOptions.find(m => m.value === selectedMonth)?.label}
+              {t("summary.payableInvoicesFor")} {monthOptions.find(m => m.value === selectedMonth)?.label}
             </p>
           </CardContent>
         </Card>
@@ -156,13 +156,13 @@ export default function MonthlySummary() {
         {/* Paid Count */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Paid Count</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("summary.paidCount")}</CardTitle>
             <CheckCircle className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summaryData.paidCount}</div>
             <p className="text-xs text-muted-foreground">
-              {t("invoicesMarkedAsPaid")}
+              {t("summary.invoicesMarkedAsPaid")}
             </p>
           </CardContent>
         </Card>
@@ -170,13 +170,13 @@ export default function MonthlySummary() {
         {/* Unpaid Count */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("unpaidCount")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("summary.unpaidCount")}</CardTitle>
             <XCircle className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summaryData.unpaidCount}</div>
             <p className="text-xs text-muted-foreground">
-              {t("invoicesPendingPayment")}
+              {t("summary.invoicesPendingPayment")}
             </p>
           </CardContent>
         </Card>

@@ -255,6 +255,8 @@
       "tabs": {
         "all": "All"
       },
+      "back": "Back",
+      "memberNotFound": "Member not found.",
       "columns": {
         "id": "ID",
         "merchantId": "Merchant ID",
@@ -491,6 +493,8 @@
       "tabs": {
         "all": "All"
       },
+      "taxable": "Taxable",
+      "nonTaxable": "Non-taxable",
       "columns": {
         "id": "ID",
         "name": "Item name",
@@ -591,6 +595,14 @@
       "buttons": {
         "clearFilters": "Clear filters"
       },
+      "filters": {
+        "search": "Search...",
+        "reset": "Reset",
+        "done": "Done"
+      },
+      "invoiceNotFound": "Invoice not found.",
+      "missingInvoiceId": "Missing invoice id.",
+      "open_menu": "Open menu",
       "merchant": "Merchant",
       "create": "Create invoice",
       "invoiceNumber": "Invoice number",
@@ -896,7 +908,9 @@
         "back": "Back",
         "create": "Create quotation",
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "discard": "Discard",
+        "edit": "Edit"
       },
       "form": {
         "createTitle": "Create quotation",
@@ -989,7 +1003,10 @@
         "back": "Back",
         "create": "Create purchase order",
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "discard": "Discard",
+        "edit": "Edit",
+        "delete": "Delete"
       },
       "form": {
         "createTitle": "Create purchase order",
@@ -1176,6 +1193,41 @@
         "summary": "Summary",
         "all": "All"
       },
+      "settledCount": "Settled Count",
+      "unsettledCount": "Unsettled Count",
+      "transactionsSettled": "Transactions Settled",
+      "transactionsPendingSettlement": "Transactions Pending Settlement",
+      "monthlyOverview": "Monthly Overview",
+      "incomeStatus": "Income Status",
+      "totalBilled": "Total Billed",
+      "paidInvoices": "Paid Invoices",
+      "unpaidInvoices": "Unpaid Invoices",
+      "invoices": "Invoices",
+      "paymentStatus": "Payment Status",
+      "totalPayable": "Total Payable",
+      "paid": "Paid",
+      "pending": "Pending",
+      "approved": "Approved",
+      "draft": "Draft",
+      "rejected": "Rejected",
+      "void": "Void",
+      "summary": {
+        "title": "Summary",
+        "description": "Summary of received payable invoices",
+        "targetMonth": "Target Month",
+        "targetAmount": "Target Amount",
+        "actualAmount": "Actual Amount",
+        "difference": "Difference",
+        "totalBilledAmount": "Total Billed Amount",
+        "totalPayableAmount": "Total Payable Amount",
+        "totalOutstandingAmount": "Total Outstanding Amount",
+        "paidCount": "Paid Count",
+        "unpaidCount": "Unpaid Count",
+        "payableInvoicesFor": "Payable Invoices For",
+        "invoicesMarkedAsPaid": "Invoices Marked As Paid",
+        "invoicesPendingPayment": "Invoices Pending Payment",
+        "receivableInvoicesFor": "Receivable Invoices For"
+      },
       "buttons": {
         "create": "Create",
         "clearFilters": "Clear filters",
@@ -1344,6 +1396,7 @@
       "tabs": {
         "all": "All"
       },
+      "missingNotificationId": "Missing notification id.",
       "columns": {
         "id": "ID",
         "title": "Title",
@@ -1437,6 +1490,7 @@
       "confirmPasswordPlaceholder": "Confirm Password",
       "completeRegistration": "Complete Registration",
       "fillMerchantDetails": "Fill merchant details",
+      "registering": "Registering...",
       "email": "Email",
       "form": {
         "createTitle": "Create company",

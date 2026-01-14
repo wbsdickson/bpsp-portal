@@ -252,6 +252,8 @@
       "tabs": {
         "all": "すべて"
       },
+      "memberNotFound": "メンバーが見つかりません。",
+      "back": "戻る",
       "columns": {
         "id": "ID",
         "merchantId": "加盟店ID",
@@ -484,6 +486,8 @@
       "tabs": {
         "all": "すべて"
       },
+      "taxable": "課税",
+      "nonTaxable": "非課税",
       "columns": {
         "id": "ID",
         "name": "商品名",
@@ -584,6 +588,14 @@
       "buttons": {
         "clearFilters": "フィルターをクリア"
       },
+      "filters": {
+        "search": "検索...",
+        "reset": "リセット",
+        "done": "完了"
+      },
+      "invoiceNotFound": "請求書が見つかりません。",
+      "missingInvoiceId": "請求書IDがありません。",
+      "open_menu": "メニューを開く",
       "template": "テンプレート",
       "intervalValue": "間隔値",
       "enabled": "有効",
@@ -900,7 +912,9 @@
         "back": "戻る",
         "create": "見積書を作成",
         "cancel": "キャンセル",
-        "save": "保存"
+        "save": "保存",
+        "discard": "破棄",
+        "edit": "編集"
       },
       "form": {
         "createTitle": "見積書を作成",
@@ -995,7 +1009,10 @@
         "back": "戻る",
         "create": "発注書を作成",
         "cancel": "キャンセル",
-        "save": "保存"
+        "save": "保存",
+        "discard": "破棄",
+        "edit": "編集",
+        "delete": "削除"
       },
       "form": {
         "createTitle": "発注書を作成",
@@ -1183,6 +1200,41 @@
         "summary": "サマリー",
         "all": "すべて"
       },
+      "settledCount": "支払済みの請求書",
+      "unsettledCount": "未支払の請求書",
+      "transactionsSettled": "支払済みの取引",
+      "transactionsPendingSettlement": "未支払の取引",
+      "monthlyOverview": "月別概要",
+      "incomeStatus": "収入状況",
+      "totalBilled": "請求額",
+      "paidInvoices": "支払済みの請求書",
+      "unpaidInvoices": "未支払の請求書",
+      "invoices": "請求書",
+      "paymentStatus": "支払状況",
+      "totalPayable": "支払額",
+      "paid": "支払済み",
+      "pending": "未決済",
+      "approved": "承認済み",
+      "draft": "下書き",
+      "rejected": "承認拒否",
+      "void": "無効",
+      "summary": {
+        "title": "サマリー",
+        "description": "受領した買掛請求書のサマリー",
+        "targetMonth": "目標月",
+        "targetAmount": "目標額",
+        "actualAmount": "実績額",
+        "difference": "差額",
+        "totalBilledAmount": "請求額",
+        "totalPayableAmount": "支払額",
+        "totalOutstandingAmount": "未払額",
+        "paidCount": "支払件数",
+        "unpaidCount": "未支払件数",
+        "invoicesMarkedAsPaid": "支払済みの請求書",
+        "payableInvoicesFor": "支払請求書",
+        "invoicesPendingPayment": "未支払の請求書",
+        "receivableInvoicesFor": "受領請求書"
+      },
       "buttons": {
         "create": "作成",
         "clearFilters": "フィルターをクリア",
@@ -1350,6 +1402,7 @@
       "tabs": {
         "all": "すべて"
       },
+      "missingNotificationId": "通知IDがありません。",
       "columns": {
         "id": "ID",
         "title": "タイトル",
@@ -1437,10 +1490,14 @@
       "phoneNumberPlaceholder": "電話番号",
       "address": "住所",
       "addressPlaceholder": "住所",
+      "password": "パスワード",
+      "passwordPlaceholder": "パスワード",
+      "confirmPassword": "確認パスワード",
       "confirmPasswordPlaceholder": "確認パスワード",
       "completeRegistration": "完了",
       "fillMerchantDetails": "加盟店詳細を入力してください",
       "email": "メール",
+      "registering": "登録中...",
       "form": {
         "createTitle": "会社を作成",
         "editTitle": "会社を編集",

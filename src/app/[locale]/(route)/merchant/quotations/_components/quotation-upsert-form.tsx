@@ -88,14 +88,14 @@ export default function QuotationUpsertForm({
         unitPrice: it.unitPrice,
         taxId: it.taxId,
       })) ?? [
-        {
-          itemId: "",
-          description: "",
-          quantity: 1,
-          unitPrice: 0,
-          taxId: taxes[0]?.id ?? "tax_default",
-        },
-      ],
+          {
+            itemId: "",
+            description: "",
+            quantity: 1,
+            unitPrice: 0,
+            taxId: taxes[0]?.id ?? "tax_default",
+          },
+        ],
       notes: quotation?.notes ?? "",
     },
   });
@@ -183,8 +183,8 @@ export default function QuotationUpsertForm({
   }, [taxes]);
 
   return (
-    <ScrollArea className="bg-background h-[calc(100vh-120px)] rounded-lg p-4 pr-2">
-      <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
+    <ScrollArea className="bg-card h-[calc(100vh-120px)] rounded-lg p-4 pr-2">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link href={basePath}>
@@ -264,7 +264,7 @@ export default function QuotationUpsertForm({
             <section className="space-y-3">
               <div className="text-sm font-semibold">{t("columns.item")}</div>
               <div className="flex flex-col gap-3">
-                <div className="bg-background rounded-xl border">
+                <div className="bg-card rounded-xl border">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -457,14 +457,14 @@ export default function QuotationUpsertForm({
                           <TableCell className="text-right font-medium">
                             {formattedAmount(
                               (form.getValues(`items.${index}.quantity`) ?? 0) *
-                                (form.getValues(`items.${index}.unitPrice`) ??
-                                  0) *
-                                (1 +
-                                  (taxById.get(
-                                    form.getValues(`items.${index}.taxId`) ??
-                                      "",
-                                  ) ?? 0) /
-                                    100),
+                              (form.getValues(`items.${index}.unitPrice`) ??
+                                0) *
+                              (1 +
+                                (taxById.get(
+                                  form.getValues(`items.${index}.taxId`) ??
+                                  "",
+                                ) ?? 0) /
+                                100),
                               currency,
                             )}
                           </TableCell>

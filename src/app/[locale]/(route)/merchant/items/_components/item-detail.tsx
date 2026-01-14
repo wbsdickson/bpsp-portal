@@ -170,8 +170,8 @@ export default function ItemDetail({ itemId }: { itemId: string }) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="taxable">Taxable</SelectItem>
-                    <SelectItem value="non_taxable">Non-taxable</SelectItem>
+                    <SelectItem value="taxable">{t("taxable")}</SelectItem>
+                    <SelectItem value="non_taxable">{t("nonTaxable")}</SelectItem>
                   </SelectContent>
                 </Select>
               )}

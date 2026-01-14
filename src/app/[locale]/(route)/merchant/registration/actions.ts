@@ -3,6 +3,8 @@
 import { emailSchema, registerSchema, type EmailFormValues, type RegisterFormValues } from './schemas';
 
 export async function sendConfirmationEmail(data: EmailFormValues) {
+
+  
   await new Promise((resolve) => setTimeout(resolve, 1000));
   
   const validation = emailSchema.safeParse(data);

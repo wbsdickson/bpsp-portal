@@ -6,8 +6,7 @@ import { useTranslations } from "next-intl";
 import NotificationTable from "./_components/notification-table";
 import RecordTabs, { RecordTab } from "@/components/record-tabs";
 import NotificationDetail from "./_components/notification-detail";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+
 import { useRouter } from "next/navigation";
 import type { NotificationRow } from "./_hook/use-table-column";
 import { useBasePath } from "@/hooks/use-base-path";

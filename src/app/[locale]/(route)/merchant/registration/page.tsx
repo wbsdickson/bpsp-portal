@@ -297,7 +297,7 @@ const MerchantRegistrationForm = ({ token, onSuccess }: { token: string, onSucce
             </div>
 
             <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending ? "Registering..." : "Complete Registration"}
+              {isPending ? t("registering") : t("completeRegistration")}
             </Button>
           </form>
         </Form>

@@ -265,7 +265,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
               }}
               title={t("actions.edit")}
             >
-              Edit
+              {t("actions.edit")}
             </Button>
           )}
         </div>
@@ -532,220 +532,220 @@ export default function InvoiceDetail({ id }: { id: string }) {
                   <TableBody>
                     {isEditing
                       ? itemFields.map((row, index) => (
-                          <TableRow key={row.id}>
-                            <TableCell>
-                              <FormField
-                                control={form.control}
-                                name={`items.${index}.itemId`}
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <Select
-                                      value={field.value ?? ""}
-                                      onValueChange={(v) => {
-                                        field.onChange(v);
-                                        const selected = availableItems.find(
-                                          (it) => it.id === v,
-                                        );
-                                        if (!selected) return;
+                        <TableRow key={row.id}>
+                          <TableCell>
+                            <FormField
+                              control={form.control}
+                              name={`items.${index}.itemId`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <Select
+                                    value={field.value ?? ""}
+                                    onValueChange={(v) => {
+                                      field.onChange(v);
+                                      const selected = availableItems.find(
+                                        (it) => it.id === v,
+                                      );
+                                      if (!selected) return;
 
-                                        form.setValue(
-                                          `items.${index}.description`,
-                                          selected.name,
-                                          { shouldDirty: true },
-                                        );
-                                        form.setValue(
-                                          `items.${index}.taxId`,
-                                          selected.taxId,
-                                          { shouldDirty: true },
-                                        );
-                                        form.setValue(
-                                          `items.${index}.unitPrice`,
-                                          selected.unitPrice ?? 0,
-                                          { shouldDirty: true },
-                                        );
-                                      }}
-                                    >
-                                      <FormControl>
-                                        <SelectTrigger className="h-9">
-                                          <SelectValue placeholder="Select item" />
-                                        </SelectTrigger>
-                                      </FormControl>
-                                      <SelectContent>
-                                        {availableItems.map((it) => (
-                                          <SelectItem key={it.id} value={it.id}>
-                                            {it.name}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <div className="inline-flex items-center justify-end gap-2">
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  className="h-8 w-8"
-                                  onClick={() =>
-                                    form.setValue(
-                                      `items.${index}.quantity`,
-                                      Math.max(
-                                        1,
-                                        (form.getValues(
-                                          `items.${index}.quantity`,
-                                        ) ?? 1) - 1,
-                                      ),
-                                    )
-                                  }
-                                >
-                                  <Minus className="h-4 w-4" />
-                                </Button>
-                                <FormField
-                                  control={form.control}
-                                  name={`items.${index}.quantity`}
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormControl>
-                                        <Input
-                                          value={String(field.value ?? 1)}
-                                          onChange={(e) =>
-                                            field.onChange(
-                                              Math.max(
-                                                1,
-                                                Number(e.target.value || 1),
-                                              ),
-                                            )
-                                          }
-                                          className="h-8 w-[64px] text-right"
-                                          inputMode="numeric"
-                                        />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  className="h-8 w-8"
-                                  onClick={() =>
-                                    form.setValue(
-                                      `items.${index}.quantity`,
+                                      form.setValue(
+                                        `items.${index}.description`,
+                                        selected.name,
+                                        { shouldDirty: true },
+                                      );
+                                      form.setValue(
+                                        `items.${index}.taxId`,
+                                        selected.taxId,
+                                        { shouldDirty: true },
+                                      );
+                                      form.setValue(
+                                        `items.${index}.unitPrice`,
+                                        selected.unitPrice ?? 0,
+                                        { shouldDirty: true },
+                                      );
+                                    }}
+                                  >
+                                    <FormControl>
+                                      <SelectTrigger className="h-9">
+                                        <SelectValue placeholder="Select item" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {availableItems.map((it) => (
+                                        <SelectItem key={it.id} value={it.id}>
+                                          {it.name}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="inline-flex items-center justify-end gap-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-8 w-8"
+                                onClick={() =>
+                                  form.setValue(
+                                    `items.${index}.quantity`,
+                                    Math.max(
+                                      1,
                                       (form.getValues(
                                         `items.${index}.quantity`,
-                                      ) ?? 1) + 1,
-                                    )
-                                  }
-                                >
-                                  <Plus />
-                                </Button>
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-right">
+                                      ) ?? 1) - 1,
+                                    ),
+                                  )
+                                }
+                              >
+                                <Minus className="h-4 w-4" />
+                              </Button>
                               <FormField
                                 control={form.control}
-                                name={`items.${index}.unitPrice`}
+                                name={`items.${index}.quantity`}
                                 render={({ field }) => (
                                   <FormItem>
                                     <FormControl>
                                       <Input
-                                        value={String(field.value ?? 0)}
+                                        value={String(field.value ?? 1)}
                                         onChange={(e) =>
                                           field.onChange(
-                                            Number(e.target.value || 0),
+                                            Math.max(
+                                              1,
+                                              Number(e.target.value || 1),
+                                            ),
                                           )
                                         }
-                                        className="h-9 text-right"
-                                        inputMode="decimal"
+                                        className="h-8 w-[64px] text-right"
+                                        inputMode="numeric"
                                       />
                                     </FormControl>
                                     <FormMessage />
                                   </FormItem>
                                 )}
                               />
-                            </TableCell>
-                            <TableCell className="text-right font-medium">
-                              <FormField
-                                control={form.control}
-                                name={`items.${index}.taxId`}
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <Select
-                                      value={field.value ?? ""}
-                                      onValueChange={field.onChange}
-                                    >
-                                      <FormControl>
-                                        <SelectTrigger className="h-9">
-                                          <SelectValue placeholder="Select tax" />
-                                        </SelectTrigger>
-                                      </FormControl>
-                                      <SelectContent>
-                                        {taxes.map((tax) => (
-                                          <SelectItem
-                                            key={tax.id}
-                                            value={tax.id}
-                                          >
-                                            {tax.name}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                            </TableCell>
-                            <TableCell className="text-right font-medium">
-                              {`${getCurrencySymbol(invoice.currency)} ${formattedAmount(
-                                (form.getValues(`items.${index}.quantity`) ??
-                                  0) *
-                                  (form.getValues(`items.${index}.unitPrice`) ??
-                                    0 *
-                                      Number(
-                                        taxById.get(
-                                          form.getValues(
-                                            `items.${index}.taxId`,
-                                          ) ?? "",
-                                        ) ?? 0,
-                                      )),
-                                invoice.currency,
-                              )}`}
-                            </TableCell>
-                            <TableCell className="text-right">
                               <Button
-                                variant="ghost"
+                                variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
-                                onClick={() => remove(index)}
-                                disabled={itemFields.length === 1}
+                                onClick={() =>
+                                  form.setValue(
+                                    `items.${index}.quantity`,
+                                    (form.getValues(
+                                      `items.${index}.quantity`,
+                                    ) ?? 1) + 1,
+                                  )
+                                }
                               >
-                                <X className="h-4 w-4" />
+                                <Plus />
                               </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <FormField
+                              control={form.control}
+                              name={`items.${index}.unitPrice`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input
+                                      value={String(field.value ?? 0)}
+                                      onChange={(e) =>
+                                        field.onChange(
+                                          Number(e.target.value || 0),
+                                        )
+                                      }
+                                      className="h-9 text-right"
+                                      inputMode="decimal"
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </TableCell>
+                          <TableCell className="text-right font-medium">
+                            <FormField
+                              control={form.control}
+                              name={`items.${index}.taxId`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <Select
+                                    value={field.value ?? ""}
+                                    onValueChange={field.onChange}
+                                  >
+                                    <FormControl>
+                                      <SelectTrigger className="h-9">
+                                        <SelectValue placeholder="Select tax" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {taxes.map((tax) => (
+                                        <SelectItem
+                                          key={tax.id}
+                                          value={tax.id}
+                                        >
+                                          {tax.name}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </TableCell>
+                          <TableCell className="text-right font-medium">
+                            {`${getCurrencySymbol(invoice.currency)} ${formattedAmount(
+                              (form.getValues(`items.${index}.quantity`) ??
+                                0) *
+                              (form.getValues(`items.${index}.unitPrice`) ??
+                                0 *
+                                Number(
+                                  taxById.get(
+                                    form.getValues(
+                                      `items.${index}.taxId`,
+                                    ) ?? "",
+                                  ) ?? 0,
+                                )),
+                              invoice.currency,
+                            )}`}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() => remove(index)}
+                              disabled={itemFields.length === 1}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
                       : (invoice.items ?? []).map((it) => (
-                          <TableRow key={it.id}>
-                            <TableCell className="text-sm">
-                              {it.name || "—"}
-                            </TableCell>
-                            <TableCell className="text-right text-sm">
-                              {it.quantity}
-                            </TableCell>
-                            <TableCell className="text-right text-sm">
-                              {`${getCurrencySymbol(invoice.currency)} ${formattedAmount(it.unitPrice, invoice.currency)}`}
-                            </TableCell>
-                            <TableCell className="text-right text-sm font-medium">
-                              {taxById.get(it.taxId) ?? "—"}
-                            </TableCell>
-                            <TableCell className="text-right text-sm font-medium">
-                              {`${getCurrencySymbol(invoice.currency)} ${formattedAmount(it.amount, invoice.currency)}`}
-                            </TableCell>
-                          </TableRow>
-                        ))}
+                        <TableRow key={it.id}>
+                          <TableCell className="text-sm">
+                            {it.name || "—"}
+                          </TableCell>
+                          <TableCell className="text-right text-sm">
+                            {it.quantity}
+                          </TableCell>
+                          <TableCell className="text-right text-sm">
+                            {`${getCurrencySymbol(invoice.currency)} ${formattedAmount(it.unitPrice, invoice.currency)}`}
+                          </TableCell>
+                          <TableCell className="text-right text-sm font-medium">
+                            {taxById.get(it.taxId) ?? "—"}
+                          </TableCell>
+                          <TableCell className="text-right text-sm font-medium">
+                            {`${getCurrencySymbol(invoice.currency)} ${formattedAmount(it.amount, invoice.currency)}`}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               </div>
