@@ -137,6 +137,11 @@ const merchantRoutes: Array<{
       icon: Bell,
     },
     {
+      label: "Registration",
+      route: "merchant/registration",
+      icon: User,
+    },
+    {
       label: "Credit Payment",
       route: "merchant/credit-payment",
       icon: CreditCard,

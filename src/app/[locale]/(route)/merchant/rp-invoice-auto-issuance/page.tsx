@@ -27,7 +27,7 @@ export default function ReceivedPayableInvoicesAutoIssuancePage() {
       capitalizeTitle={false}
       pageActions={
         <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
-          <Plus /> {t("create")}
+          <Plus /> {t("buttons.create")}
         </Button>
       }
     >

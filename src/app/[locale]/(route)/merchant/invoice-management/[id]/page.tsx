@@ -35,7 +35,7 @@ export default function InvoiceManagementDetailPage() {
       <HeaderPage title={t("invoiceNumber")}>
         <div className="space-y-4">
           <div className="text-muted-foreground text-sm">
-            Missing invoice id.
+            {t("missingInvoiceId")}
           </div>
           <Button asChild variant="outline" className="h-9">
             <Link href={`/${locale}/operator/invoices`}>
@@ -52,7 +52,7 @@ export default function InvoiceManagementDetailPage() {
       <HeaderPage title={t("invoiceNumber")}>
         <div className="space-y-4">
           <div className="text-muted-foreground text-sm">
-            Invoice not found.
+            {t("invoiceNotFound")}
           </div>
           <Button asChild variant="outline" className="h-9">
             <Link href={`/${locale}/operator/invoices`}>

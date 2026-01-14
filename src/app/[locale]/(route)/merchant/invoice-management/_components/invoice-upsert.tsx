@@ -200,7 +200,7 @@ function CreateInvoiceForm({
         </section>
 
         <section className="space-y-3">
-          <div className="text-sm font-semibold">Due Date</div>
+          <div className="text-sm font-semibold">{t("dueDate")}</div>
           <div className="max-w-sm">
             <FormField
               control={form.control}
@@ -221,7 +221,7 @@ function CreateInvoiceForm({
           <div className="text-sm font-semibold">{t("upsert.items")}</div>
 
           <div className="flex flex-col gap-3">
-            <div className="bg-background rounded-xl border">
+            <div className="bg-card rounded-xl border">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -405,10 +405,10 @@ function CreateInvoiceForm({
                       <TableCell className="text-right font-medium">
                         {formatMoney(
                           (form.getValues(`items.${index}.quantity`) ?? 0) *
-                            (form.getValues(`items.${index}.unitPrice`) ?? 0) *
-                            (taxRateById.get(
-                              form.getValues(`items.${index}.taxId`) ?? "",
-                            ) ?? 0),
+                          (form.getValues(`items.${index}.unitPrice`) ?? 0) *
+                          (taxRateById.get(
+                            form.getValues(`items.${index}.taxId`) ?? "",
+                          ) ?? 0),
                           currency,
                         )}
                       </TableCell>
@@ -491,7 +491,7 @@ function InvoicePreview({
         </Button> */}
       </div>
 
-      <div className="bg-background mt-4 rounded-xl border p-4 shadow-sm">
+      <div className="bg-card mt-4 rounded-xl border p-4 shadow-sm">
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="text-lg font-semibold">{t("preview.invoice")}</div>
@@ -574,11 +574,11 @@ function InvoicePreview({
                   <TableCell className="text-right text-sm font-medium">
                     {formatMoney(
                       it.quantity * it.unitPrice +
-                        Math.round(
-                          it.quantity *
-                            it.unitPrice *
-                            (taxById.get(it.taxId ?? "")?.rate ?? 0),
-                        ),
+                      Math.round(
+                        it.quantity *
+                        it.unitPrice *
+                        (taxById.get(it.taxId ?? "")?.rate ?? 0),
+                      ),
                       currency,
                     )}
                   </TableCell>
@@ -656,14 +656,14 @@ export function InvoiceUpsertPage({ invoiceId }: { invoiceId?: string }) {
         unitPrice: it.unitPrice,
         taxId: it.taxId,
       })) ?? [
-        {
-          itemId: "",
-          description: "",
-          quantity: 1,
-          unitPrice: 0,
-          taxId: taxes[0]?.id ?? "tax_default",
-        },
-      ],
+          {
+            itemId: "",
+            description: "",
+            quantity: 1,
+            unitPrice: 0,
+            taxId: taxes[0]?.id ?? "tax_default",
+          },
+        ],
     },
   });
 
@@ -824,8 +824,8 @@ export function InvoiceUpsertPage({ invoiceId }: { invoiceId?: string }) {
   });
 
   return (
-    <div className="bg-background min-h-[calc(100vh-0px)] rounded-lg p-4 pr-2">
-      <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
+    <div className="bg-card min-h-[calc(100vh-0px)] rounded-lg p-4 pr-2">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link href={basePath}>

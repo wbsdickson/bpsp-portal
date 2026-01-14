@@ -19,9 +19,9 @@ export default function MerchantMemberDetailPage() {
     return (
       <HeaderPage title={t("detailTitle")}>
         <div className="space-y-4">
-          <div className="text-muted-foreground text-sm">Member not found.</div>
+          <div className="text-muted-foreground text-sm">{t("memberNotFound")}</div>
           <Button asChild variant="outline" className="h-9">
-            <Link href={`/${locale}/merchant/members`}>Back</Link>
+            <Link href={`/${locale}/merchant/members`}>{t("back")}</Link>
           </Button>
         </div>
       </HeaderPage>

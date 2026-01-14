@@ -167,8 +167,8 @@ export default function ItemUpsertForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="taxable">Taxable</SelectItem>
-                    <SelectItem value="non_taxable">Non-taxable</SelectItem>
+                    <SelectItem value="taxable">{t("taxable")}</SelectItem>
+                    <SelectItem value="non_taxable">{t("nonTaxable")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -180,7 +180,7 @@ export default function ItemUpsertForm({
         <div className="flex justify-end gap-2">
           {onCancel && (
             <Button
-              
+
               variant="outline"
               className="h-9"
               onClick={onCancel}

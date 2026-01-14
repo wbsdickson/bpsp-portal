@@ -26,8 +26,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
 import { useAppStore } from "@/lib/store";
 import { useInvoiceStore } from "@/store/merchant/invoice-store";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -85,14 +83,14 @@ export function InvoiceUpsertForm({
         unitPrice: it.unitPrice,
         taxId: it.taxId,
       })) ?? [
-        {
-          itemId: "",
-          description: "",
-          quantity: 1,
-          unitPrice: 0,
-          taxId: taxes[0]?.id ?? "",
-        },
-      ],
+          {
+            itemId: "",
+            description: "",
+            quantity: 1,
+            unitPrice: 0,
+            taxId: taxes[0]?.id ?? "",
+          },
+        ],
     },
   });
 
@@ -482,7 +480,7 @@ export function InvoiceUpsertForm({
                             form.setValue(
                               `items.${index}.quantity`,
                               (form.getValues(`items.${index}.quantity`) ?? 1) +
-                                1,
+                              1,
                             )
                           }
                         >
@@ -542,16 +540,16 @@ export function InvoiceUpsertForm({
                     <TableCell className="text-right font-medium">
                       {`${getCurrencySymbol(currency)} ${formattedAmount(
                         (form.getValues(`items.${index}.quantity`) ?? 0) *
-                          (form.getValues(`items.${index}.unitPrice`) ?? 0) *
-                          (1 +
-                            parseFloat(
-                              taxRateById
-                                .get(
-                                  form.getValues(`items.${index}.taxId`) ?? "",
-                                )
-                                ?.toString() || "0",
-                            ) /
-                              100),
+                        (form.getValues(`items.${index}.unitPrice`) ?? 0) *
+                        (1 +
+                          parseFloat(
+                            taxRateById
+                              .get(
+                                form.getValues(`items.${index}.taxId`) ?? "",
+                              )
+                              ?.toString() || "0",
+                          ) /
+                          100),
                         currency,
                       )}`}
                     </TableCell>

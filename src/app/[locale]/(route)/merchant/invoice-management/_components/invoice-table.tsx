@@ -29,13 +29,13 @@ import { DateRangePicker } from "@/components/date-range-picker";
 function ActionsCell({ id }: { id: string }) {
   const locale = useLocale();
   const deleteInvoice = useInvoiceStore((s) => s.deleteInvoice);
-  const t = useTranslations("Operator.Invoice");
+  const t = useTranslations("Merchant.InvoiceManagement");
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
+          <span className="sr-only">{t("open_menu")}</span>
           <MoreHorizontal />
         </Button>
       </DropdownMenuTrigger>
@@ -43,7 +43,7 @@ function ActionsCell({ id }: { id: string }) {
         <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={`/${locale}/operator/invoices/edit/${id}`}>
+          <Link href={`/${locale}/merchant/invoice-management/edit/${id}`}>
             {t("editInvoice")}
           </Link>
         </DropdownMenuItem>
@@ -89,14 +89,14 @@ type InvoiceRow = {
   total: number;
   currency: string;
   status:
-    | "draft"
-    | "pending"
-    | "approved"
-    | "paid"
-    | "rejected"
-    | "void"
-    | "past_due"
-    | "open";
+  | "draft"
+  | "pending"
+  | "approved"
+  | "paid"
+  | "rejected"
+  | "void"
+  | "past_due"
+  | "open";
   frequency?: string;
   invoiceNumber: string;
   merchantName: string;
@@ -173,103 +173,103 @@ export default function InvoiceTable({
   return (
     <>
       <DataTable
-          columns={column}
-          data={rows}
-          renderToolbar={(table) => {
-            const invoiceNumberCol = table.getColumn("invoiceNumber");
-            const billingRecipientCol = table.getColumn("billingRecipient");
+        columns={column}
+        data={rows}
+        renderToolbar={(table) => {
+          const invoiceNumberCol = table.getColumn("invoiceNumber");
+          const billingRecipientCol = table.getColumn("billingRecipient");
 
-            const statusCol = table.getColumn("status");
+          const statusCol = table.getColumn("status");
 
-            const statusOptions = [
-              { value: "open", label: t("statusOpen") },
-              { value: "draft", label: t("statusDraft") },
-              { value: "pending", label: t("statusPending") },
-              { value: "approved", label: t("statusApproved") },
-              { value: "rejected", label: t("statusRejected") },
-              { value: "void", label: t("statusVoid") },
-              { value: "past_due", label: t("statusPastDue") },
-              { value: "paid", label: t("statusPaid") },
-            ];
+          const statusOptions = [
+            { value: "open", label: t("statusOpen") },
+            { value: "draft", label: t("statusDraft") },
+            { value: "pending", label: t("statusPending") },
+            { value: "approved", label: t("statusApproved") },
+            { value: "rejected", label: t("statusRejected") },
+            { value: "void", label: t("statusVoid") },
+            { value: "past_due", label: t("statusPastDue") },
+            { value: "paid", label: t("statusPaid") },
+          ];
 
-            const rawStatusValue = statusCol?.getFilterValue();
-            const statusValues = Array.isArray(rawStatusValue)
-              ? (rawStatusValue as string[])
-              : rawStatusValue
-                ? [String(rawStatusValue)]
-                : [];
+          const rawStatusValue = statusCol?.getFilterValue();
+          const statusValues = Array.isArray(rawStatusValue)
+            ? (rawStatusValue as string[])
+            : rawStatusValue
+              ? [String(rawStatusValue)]
+              : [];
 
-            return (
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex flex-wrap items-center gap-2 text-sm">
-                  <FilterChipPopover
-                    label={t("invoiceNumber")}
-                    value={String(invoiceNumberCol?.getFilterValue() ?? "")}
-                    onChange={(v) => invoiceNumberCol?.setFilterValue(v)}
-                  />
-                  <FilterChipPopover
-                    label={t("billingRecipient")}
-                    value={String(billingRecipientCol?.getFilterValue() ?? "")}
-                    onChange={(v) => billingRecipientCol?.setFilterValue(v)}
-                  />
+          return (
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center gap-2 text-sm">
+                <FilterChipPopover
+                  label={t("invoiceNumber")}
+                  value={String(invoiceNumberCol?.getFilterValue() ?? "")}
+                  onChange={(v) => invoiceNumberCol?.setFilterValue(v)}
+                />
+                <FilterChipPopover
+                  label={t("billingRecipient")}
+                  value={String(billingRecipientCol?.getFilterValue() ?? "")}
+                  onChange={(v) => billingRecipientCol?.setFilterValue(v)}
+                />
 
-                  <FilterChipMultiSelectPopover
-                    label={t("status")}
-                    values={statusValues}
-                    options={statusOptions}
-                    onChange={(vals) =>
-                      statusCol?.setFilterValue(vals.length ? vals : undefined)
-                    }
-                    searchPlaceholder="Search..."
-                    resetLabel="Reset"
-                    doneLabel="Done"
-                    placeholder="All"
-                  />
-                  <DateRangePicker
-                    label={t("invoiceDate")}
-                    initialDateFrom={asDateValue(
-                      invoiceDateFromValue ? toYmd(invoiceDateFromValue) : "",
-                    )}
-                    initialDateTo={asDateValue(
-                      invoiceDateToValue ? toYmd(invoiceDateToValue) : "",
-                    )}
-                    onUpdate={({ range }) => {
-                      setInvoiceDateFrom(range?.from ? toYmd(range.from) : "");
-                      setInvoiceDateTo(range?.to ? toYmd(range.to) : "");
-                    }}
-                    align="start"
-                  />
-                  <DateRangePicker
-                    label={t("dueDate")}
-                    initialDateFrom={asDateValue(
-                      dueDateFromValue ? toYmd(dueDateFromValue) : "",
-                    )}
-                    initialDateTo={asDateValue(
-                      dueDateToValue ? toYmd(dueDateToValue) : "",
-                    )}
-                    onUpdate={({ range }) => {
-                      setDueDateFrom(range?.from ? toYmd(range.from) : "");
-                      setDueDateTo(range?.to ? toYmd(range.to) : "");
-                    }}
-                    align="start"
-                  />
-                  {/* <Button variant="outline" size="sm" className="h-9 gap-2">
+                <FilterChipMultiSelectPopover
+                  label={t("status")}
+                  values={statusValues}
+                  options={statusOptions}
+                  onChange={(vals) =>
+                    statusCol?.setFilterValue(vals.length ? vals : undefined)
+                  }
+                  searchPlaceholder={t("filters.search")}
+                  resetLabel={t("filters.reset")}
+                  doneLabel={t("filters.done")}
+                  placeholder="All"
+                />
+                <DateRangePicker
+                  label={t("invoiceDate")}
+                  initialDateFrom={asDateValue(
+                    invoiceDateFromValue ? toYmd(invoiceDateFromValue) : "",
+                  )}
+                  initialDateTo={asDateValue(
+                    invoiceDateToValue ? toYmd(invoiceDateToValue) : "",
+                  )}
+                  onUpdate={({ range }) => {
+                    setInvoiceDateFrom(range?.from ? toYmd(range.from) : "");
+                    setInvoiceDateTo(range?.to ? toYmd(range.to) : "");
+                  }}
+                  align="start"
+                />
+                <DateRangePicker
+                  label={t("dueDate")}
+                  initialDateFrom={asDateValue(
+                    dueDateFromValue ? toYmd(dueDateFromValue) : "",
+                  )}
+                  initialDateTo={asDateValue(
+                    dueDateToValue ? toYmd(dueDateToValue) : "",
+                  )}
+                  onUpdate={({ range }) => {
+                    setDueDateFrom(range?.from ? toYmd(range.from) : "");
+                    setDueDateTo(range?.to ? toYmd(range.to) : "");
+                  }}
+                  align="start"
+                />
+                {/* <Button variant="outline" size="sm" className="h-9 gap-2">
                     <SlidersHorizontal className="h-4 w-4" />
                     {t("moreFilters")}
                   </Button> */}
 
-                  <Button
-                    variant="ghost-primary"
-                    size="sm"
-                    onClick={() => table.resetColumnFilters()}
-                  >
-                    {t("buttons.clearFilters")}
-                  </Button>
-                </div>
+                <Button
+                  variant="ghost-primary"
+                  size="sm"
+                  onClick={() => table.resetColumnFilters()}
+                >
+                  {t("buttons.clearFilters")}
+                </Button>
               </div>
-            );
-          }}
-        />
+            </div>
+          );
+        }}
+      />
     </>
   );
 }

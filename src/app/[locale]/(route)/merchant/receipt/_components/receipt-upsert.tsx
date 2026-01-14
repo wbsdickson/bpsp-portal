@@ -110,15 +110,15 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
         unitPrice: it.unitPrice,
         taxId: it.taxId,
       })) ?? [
-        {
-          id: generateId("rc_item"),
-          itemId: "",
-          name: "",
-          quantity: 1,
-          unitPrice: 0,
-          taxId: taxes[0]?.id ?? "tax_10",
-        },
-      ],
+          {
+            id: generateId("rc_item"),
+            itemId: "",
+            name: "",
+            quantity: 1,
+            unitPrice: 0,
+            taxId: taxes[0]?.id ?? "tax_10",
+          },
+        ],
     },
   });
 
@@ -227,8 +227,8 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
   };
 
   return (
-    <div className="bg-background min-h-[calc(100vh-0px)] rounded-lg p-4">
-      <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
+    <div className="bg-card min-h-[calc(100vh-0px)] rounded-lg p-4">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link href={basePath}>
@@ -315,7 +315,7 @@ export function ReceiptUpsertPage({ receiptId }: { receiptId?: string }) {
               />
             </div>
 
-            <div className="bg-background">
+            <div className="bg-card">
               <div className="flex items-center justify-between py-3">
                 <div className="text-sm font-semibold">{t("form.items")}</div>
                 <Button

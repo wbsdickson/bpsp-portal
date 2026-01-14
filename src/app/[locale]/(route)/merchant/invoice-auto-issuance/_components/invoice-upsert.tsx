@@ -284,7 +284,7 @@ function InvoicePreview({
   }, [taxes]);
 
   return (
-    <div className="bg-muted/40 rounded-xl border p-4">
+    <div className="bg-card rounded-xl border p-4">
       <div className="flex items-center justify-between">
         <div className="text-sm font-semibold">{t("preview.title")}</div>
         {/* <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -375,11 +375,11 @@ function InvoicePreview({
                   <TableCell className="text-right text-sm font-medium">
                     {formatMoney(
                       it.quantity * it.unitPrice +
-                        Math.round(
-                          it.quantity *
-                            it.unitPrice *
-                            (taxById.get(it.taxId ?? "")?.rate ?? 0),
-                        ),
+                      Math.round(
+                        it.quantity *
+                        it.unitPrice *
+                        (taxById.get(it.taxId ?? "")?.rate ?? 0),
+                      ),
                       currency,
                     )}
                   </TableCell>
@@ -593,8 +593,8 @@ export function InvoiceUpsertPage({ invoiceId }: { invoiceId?: string }) {
   );
 
   return (
-    <div className="bg-background min-h-[calc(100vh-0px)] rounded-lg p-4 pr-2">
-      <div className="bg-background/95 sticky top-0 z-10 border-b backdrop-blur">
+    <div className="bg-card min-h-[calc(100vh-0px)] rounded-lg p-4 pr-2">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
           <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link href={basePath}>
