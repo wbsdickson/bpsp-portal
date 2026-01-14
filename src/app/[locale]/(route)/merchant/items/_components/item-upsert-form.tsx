@@ -37,6 +37,8 @@ const DEFAULT_MERCHANT_ID = "u1";
 
 export default function ItemUpsertForm({
   itemId,
+  onCancel,
+  onSuccess,
 }: {
   itemId?: string;
   onCancel?: () => void;
@@ -124,9 +126,38 @@ export default function ItemUpsertForm({
               {itemId ? t("form.editTitle") : t("form.createTitle")}
             </div>
           </div>
+
+          <FormField
+            control={form.control}
+            name="taxCategory"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("columns.taxCategory")}</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger className="h-9 w-full">
+                      <SelectValue placeholder={t("form.selectTax")} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="taxable">{t("taxable")}</SelectItem>
+                    <SelectItem value="non_taxable">
+                      {t("nonTaxable")}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         <div className="flex justify-end gap-2 px-4 pb-2">
+          {onCancel && (
+            <Button variant="outline" className="h-9" onClick={onCancel}>
+              {t("buttons.cancel")}
+            </Button>
+          )}
           <Button
             size="sm"
             className="h-9"
@@ -182,23 +213,17 @@ export default function ItemUpsertForm({
 
               <FormField
                 control={form.control}
-                name="taxCategory"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("columns.taxCategory")}</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="h-9 w-full">
-                          <SelectValue placeholder={t("form.selectTax")} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="taxable">{t("taxable")}</SelectItem>
-                        <SelectItem value="non_taxable">
-                          {t("nonTaxable")}
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormLabel>{t("columns.description")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("form.descriptionPlaceholder")}
+                        className="h-9"
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -41,112 +41,111 @@ type NavRoute = {
   label: string;
   route: string;
   icon?: LucideIcon;
-  children?: NavRoute[];
 };
 
 const merchantRoutes: NavRoute[] = [
   {
-    label: "dashboard",
+    label: "Dashboard",
     route: "merchant/dashboard",
     icon: LayoutDashboard,
   },
   {
-    label: "accountInformationManagement",
+    label: "Account Information",
     route: "merchant/account-information",
     icon: User,
   },
   {
-    label: "companyInformationManagement",
+    label: "Company Information",
     route: "merchant/company-information",
     icon: Building2,
   },
   {
-    label: "memberManagement",
+    label: "Members",
     route: "merchant/members",
     icon: Users,
   },
   {
-    label: "clientManagement",
+    label: "Clients",
     route: "merchant/clients",
     icon: UserCircle,
   },
   {
-    label: "merchantBankAccount",
+    label: "Bank Accounts",
     route: "merchant/bank-accounts",
     icon: Wallet,
   },
   {
-    label: "merchantCards",
+    label: "Cards",
     route: "merchant/cards",
     icon: CreditCard,
   },
   {
-    label: "taxSettings",
+    label: "Tax Settings",
     route: "merchant/tax-settings",
     icon: Receipt,
   },
   {
-    label: "items",
+    label: "Items",
     route: "merchant/items",
     icon: ShoppingBag,
   },
   {
-    label: "documentOutputSettings",
+    label: "Document Output Settings",
     route: "merchant/document-output-settings",
     icon: File,
   },
   {
-    label: "invoiceManagement",
+    label: "Invoice Management",
     route: "merchant/invoice-management",
     icon: FileText,
   },
   {
-    label: "invoiceAutoIssuance",
+    label: "Invoice Auto-Issuance",
     route: "merchant/invoice-auto-issuance",
     icon: Zap,
   },
   {
-    label: "quotationIssuance",
+    label: "Quotation Issuance",
     route: "merchant/quotations",
     icon: Quote,
   },
   {
-    label: "purchaseOrders",
+    label: "Purchase Orders",
     route: "merchant/purchase-orders",
     icon: ShoppingCart,
   },
   {
-    label: "deliveryNotesIssuance",
+    label: "Delivery Notes Issuance",
     route: "merchant/delivery-notes",
     icon: Truck,
   },
   {
-    label: "receiptIssuance",
+    label: "Receipt Issuance",
     route: "merchant/receipt",
     icon: StickyNote,
   },
   {
-    label: "receivedPayableInvoices",
+    label: "Received Payable Invoices",
     route: "merchant/received-payable-invoices",
     icon: FileCheck,
   },
   {
-    label: "rpInvoicesAutoIssuance",
+    label: "RP Invoices Auto-Issuance",
     route: "merchant/rp-invoice-auto-issuance",
     icon: Zap,
   },
   {
-    label: "notifications",
+    label: "Notifications",
     route: "merchant/notifications",
     icon: Bell,
   },
   {
-    label: "registration",
+    label: "Registration",
     route: "merchant/registration",
     icon: User,
   },
   {
-    label: "creditPayment",
+    label: "Credit Payment",
     route: "merchant/credit-payment",
     icon: CreditCard,
   },
