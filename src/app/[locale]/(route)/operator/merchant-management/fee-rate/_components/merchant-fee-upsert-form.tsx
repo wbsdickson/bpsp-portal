@@ -262,12 +262,7 @@ export default function MerchantFeeUpsertForm({
 
         <div className="flex justify-end gap-2">
           {onCancel && (
-            <Button
-              
-              variant="outline"
-              className="h-9"
-              onClick={onCancel}
-            >
+            <Button variant="outline" className="h-9" onClick={onCancel}>
               {t("buttons.cancel")}
             </Button>
           )}
