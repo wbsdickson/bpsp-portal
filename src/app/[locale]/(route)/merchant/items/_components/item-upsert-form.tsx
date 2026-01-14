@@ -110,16 +110,12 @@ export default function ItemUpsertForm({
     <div className="bg-card min-h-[calc(100vh-0px)] rounded-lg p-4">
       <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
-<<<<<<< HEAD
           <Button
             variant="ghost"
             size="icon"
             className="h-9 w-9"
             onClick={() => router.back()}
           >
-=======
-          <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => router.back()}>
->>>>>>> b180809 (Update UI in back account and items consistent)
             <X className="h-4 w-4" />
           </Button>
 
@@ -129,40 +125,6 @@ export default function ItemUpsertForm({
             </div>
           </div>
 
-<<<<<<< HEAD
-          <FormField
-            control={form.control}
-            name="taxCategory"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("columns.taxCategory")}</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <FormControl>
-                    <SelectTrigger className="h-9 w-full">
-                      <SelectValue placeholder={t("form.selectTax")} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="taxable">{t("taxable")}</SelectItem>
-                    <SelectItem value="non_taxable">
-                      {t("nonTaxable")}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="flex justify-end gap-2 px-4 pb-2">
-          {onCancel && (
-            <Button variant="outline" className="h-9" onClick={onCancel}>
-              {t("buttons.cancel")}
-            </Button>
-          )}
-=======
->>>>>>> b180809 (Update UI in back account and items consistent)
           <Button
             size="sm"
             className="h-9"
@@ -218,19 +180,6 @@ export default function ItemUpsertForm({
 
               <FormField
                 control={form.control}
-<<<<<<< HEAD
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.description")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("form.descriptionPlaceholder")}
-                        className="h-9"
-                        {...field}
-                      />
-                    </FormControl>
-=======
                 name="taxCategory"
                 render={({ field }) => (
                   <FormItem>
@@ -243,10 +192,11 @@ export default function ItemUpsertForm({
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="taxable">{t("taxable")}</SelectItem>
-                        <SelectItem value="non_taxable">{t("nonTaxable")}</SelectItem>
+                        <SelectItem value="non_taxable">
+                          {t("nonTaxable")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
->>>>>>> b180809 (Update UI in back account and items consistent)
                     <FormMessage />
                   </FormItem>
                 )}

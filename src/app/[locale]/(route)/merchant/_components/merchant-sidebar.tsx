@@ -37,10 +37,6 @@ import { Card } from "@/components/ui/card";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { useTranslations } from "next-intl";
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 91b5ef9 (Update translation for sidebar in Merchant portal)
 type NavRoute = {
   label: string;
   route: string;
@@ -172,7 +168,6 @@ export function AppSidebar({
   );
 
   const routes = React.useMemo<NavRoute[]>(
-<<<<<<< HEAD
     () =>
       merchantRoutes.map(({ label, route, icon }) => {
         return {
@@ -181,15 +176,6 @@ export function AppSidebar({
           icon,
         };
       }),
-=======
-    () => merchantRoutes.map(({ label, route, icon }) => {
-      return {
-        label: t(label),
-        route,
-        icon,
-      };
-    }),
->>>>>>> 91b5ef9 (Update translation for sidebar in Merchant portal)
     [t],
   );
 
