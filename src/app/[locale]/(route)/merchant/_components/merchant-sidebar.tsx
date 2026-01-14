@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
+import { useUserPreferencesStore } from "@/store/user-preferences-store";
 
 const merchantRoutes: Array<{
   label: string;
@@ -148,9 +149,14 @@ export function AppSidebar({
   const routes = merchantRoutes;
   const session = useSession();
   const user = session?.data?.user;
+  const { preferences } = useUserPreferencesStore();
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar
+      collapsible="icon"
+      variant={preferences.sidebarVariant}
+      {...props}
+    >
       <SidebarHeader>
         <TeamSwitcher name={user?.name ?? ""} company={user?.email ?? ""} />
       </SidebarHeader>

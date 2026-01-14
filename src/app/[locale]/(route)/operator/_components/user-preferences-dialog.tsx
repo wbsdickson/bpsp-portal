@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 
 type SidebarVariant = "sidebar" | "floating" | "inset";
 
@@ -47,7 +48,11 @@ export function UserPreferencesDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const t = useTranslations("UserPreferences");
+  const pathname = usePathname();
+  const isMerchant = pathname?.includes("/merchant/");
+  const t = useTranslations(
+    isMerchant ? "Merchant.UserPreferences" : "Operator.UserPreferences",
+  );
   const { preferences, setSidebarVariant, setPrimaryColor } =
     useUserPreferencesStore();
   const [customColor, setCustomColor] = React.useState(

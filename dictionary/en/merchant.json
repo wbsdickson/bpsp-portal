@@ -1512,6 +1512,12 @@
       "try": "Try",
       "for_a_demo": "for a demo",
       "pay": "Pay"
+    },
+    "UserPreferences": {
+      "title": "User Preferences",
+      "description": "Customize your sidebar style and primary color",
+      "sidebarVariant": "Sidebar Style",
+      "primaryColor": "Primary Color"
     }
   }
 }

@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useBasePath } from "@/hooks/use-base-path";
 import ActionsCell from "@/components/action-cell";
-import { getBadgeVariant } from "./status";
+import { getStatusBadgeVariant } from "./status";
 
 export type Transaction = Payment & {
   merchantName: string;
@@ -98,7 +98,7 @@ export default function useTransactionTableColumn({
 
         const label = t(`statuses.${status}`);
 
-        const variantMap = getBadgeVariant(status);
+        const variantMap = getStatusBadgeVariant(status);
 
         return <Badge variant={variantMap}>{label}</Badge>;
       },

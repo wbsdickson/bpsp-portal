@@ -45,6 +45,7 @@ export interface DateRangePickerProps {
   suffixIcon?: React.ReactNode;
   buttonVariant?: VariantKey;
   label?: string;
+  labelShown?: boolean;
 }
 
 const formatDate = (date: Date, locale: string = "en-us"): string => {
@@ -80,6 +81,7 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
   suffixIcon,
   buttonVariant = "outline",
   label,
+  labelShown = false,
 }): React.JSX.Element => {
   const t = useTranslations("Calendar");
   const isMobile = useMediaQuery("(max-width: 767px)");
@@ -330,9 +332,11 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
         className,
       )}
     >
-      <span className="text-muted-foreground ml-2 whitespace-nowrap font-semibold text-gray-600">
-        {label || t("dateRange")}
-      </span>
+      {labelShown && (
+        <span className="text-muted-foreground ml-2 whitespace-nowrap font-semibold text-gray-600">
+          {label || t("dateRange")}
+        </span>
+      )}
       <Button
         variant={buttonVariant as VariantKey}
         className="min-w-[180px] rounded-full border-0 bg-transparent p-0 !shadow-none hover:bg-transparent focus:bg-transparent"

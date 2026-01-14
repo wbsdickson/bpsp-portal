@@ -1,6 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { getPayoutTransactionBadgeVariant } from "./status";
-import { type BadgeVariant } from "@/components/ui/badge";
+import { getPayoutTransactionStatusBadgeVariant } from "./status";
 import type { Payment, PaymentStatus } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
@@ -95,7 +94,7 @@ export default function usePayoutTransactionTableColumn({
 
         return (
           <Badge
-            variant={getPayoutTransactionBadgeVariant(
+            variant={getPayoutTransactionStatusBadgeVariant(
               status as PaymentStatus,
             )}
           >

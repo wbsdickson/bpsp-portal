@@ -13,6 +13,7 @@ import {
 
 import { HelpPopover } from "./help-popover";
 import { NotificationPopover } from "./notification-popover";
+import { UserPreferencesDialog } from "@/app/[locale]/(route)/operator/_components/user-preferences-dialog";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -97,44 +98,94 @@ function LinkButton({
 export function HeaderButtons() {
   const tFooter = useTranslations("Merchant.Sidebar.footer");
   const tQuickActions = useTranslations("Merchant.Sidebar.quickActions");
+  const [preferencesOpen, setPreferencesOpen] = React.useState(false);
+  const [dKeyCount, setDKeyCount] = React.useState(0);
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only track 'D' key presses (case-insensitive)
+      if (e.key.toLowerCase() === "d") {
+        // Clear any existing timeout
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+
+        setDKeyCount((prev) => {
+          const newCount = prev + 1;
+          if (newCount >= 10) {
+            setPreferencesOpen(true);
+            return 0; // Reset counter
+          }
+          return newCount;
+        });
+
+        // Reset counter after 1 second of inactivity
+        timeoutRef.current = setTimeout(() => {
+          setDKeyCount(0);
+        }, 1000);
+      } else {
+        // Reset counter if any other key is pressed
+        setDKeyCount(0);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className="flex items-center gap-2">
-      <HelpPopover />
-      <NotificationPopover />
-      <LinkButton
-        icon={Settings}
-        tooltip={tFooter("settings")}
-        url="/merchant/document-output-settings"
+    <>
+      <div className="flex items-center gap-2">
+        <HelpPopover />
+        <NotificationPopover />
+        <LinkButton
+          icon={Settings}
+          tooltip={tFooter("settings")}
+          url="/merchant/document-output-settings"
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button size="icon-2xs" className="rounded-full">
+              <Plus className="size-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            side="bottom"
+            align="end"
+            className="w-56 rounded-xl p-2"
+          >
+            {QUICK_ACTIONS.map((action) => (
+              <DropdownMenuItem
+                key={action.labelKey}
+                className="gap-3 py-2"
+                asChild
+              >
+                <Link href={action.url}>
+                  <action.icon className="size-4" />
+                  <span>{tQuickActions(action.labelKey)}</span>
+                  <DropdownMenuShortcut className="tracking-normal">
+                    {action.shortcut}
+                  </DropdownMenuShortcut>
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <UserPreferencesDialog
+        open={preferencesOpen}
+        onOpenChange={setPreferencesOpen}
       />
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button size="icon-2xs" className="rounded-full">
-            <Plus className="size-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          side="bottom"
-          align="end"
-          className="w-56 rounded-xl p-2"
-        >
-          {QUICK_ACTIONS.map((action) => (
-            <DropdownMenuItem
-              key={action.labelKey}
-              className="gap-3 py-2"
-              asChild
-            >
-              <Link href={action.url}>
-                <action.icon className="size-4" />
-                <span>{tQuickActions(action.labelKey)}</span>
-                <DropdownMenuShortcut className="tracking-normal">
-                  {action.shortcut}
-                </DropdownMenuShortcut>
-              </Link>
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    </>
   );
 }

@@ -1515,6 +1515,12 @@
       "try": "試す",
       "for_a_demo": "デモ",
       "pay": "支払う"
+    },
+    "UserPreferences": {
+      "title": "ユーザー設定",
+      "description": "サイドバーのスタイルとプライマリカラーをカスタマイズ",
+      "sidebarVariant": "サイドバースタイル",
+      "primaryColor": "プライマリカラー"
     }
   }
 }

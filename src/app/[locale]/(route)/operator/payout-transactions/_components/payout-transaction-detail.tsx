@@ -10,7 +10,7 @@ import { useClientStore } from "@/store/client-store";
 import { useMerchantStore } from "@/store/merchant-store";
 import { Badge } from "@/components/ui/badge";
 import { TitleField } from "@/components/title-field";
-import { getPayoutTransactionBadgeVariant } from "../_hook/status";
+import { getPayoutTransactionStatusBadgeVariant } from "../_hook/status";
 import { PaymentStatus } from "@/lib/types";
 
 export default function PayoutTransactionDetail({ id }: { id?: string }) {
@@ -94,7 +94,7 @@ export default function PayoutTransactionDetail({ id }: { id?: string }) {
           value={
             <span className="capitalize">
               <Badge
-                variant={getPayoutTransactionBadgeVariant(
+                variant={getPayoutTransactionStatusBadgeVariant(
                   (transaction.status as PaymentStatus) || "pending_approval",
                 )}
               >
