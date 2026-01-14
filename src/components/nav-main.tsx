@@ -139,8 +139,10 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
                   isActive={item.isActive}
                 >
                   {item.icon && <item.icon />}
-                  <span>{item.label}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  <span className="truncate whitespace-nowrap">
+                    {item.label}
+                  </span>
+                  <ChevronRight className="ml-auto shrink-0 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -190,7 +192,12 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
           >
             <Link href={href}>
               {item.icon && <item.icon />}
-              <span className={cn(item.isActive && "font-bold")}>
+              <span
+                className={cn(
+                  "truncate whitespace-nowrap",
+                  item.isActive && "font-bold",
+                )}
+              >
                 {item.label}
               </span>
             </Link>
