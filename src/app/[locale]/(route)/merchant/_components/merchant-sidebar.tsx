@@ -43,20 +43,11 @@ type NavRoute = {
 };
 
 const merchantRoutes: NavRoute[] = [
+  // Top section
   {
     label: "dashboard",
     route: "merchant/dashboard",
     icon: LayoutDashboard,
-  },
-  {
-    label: "accountInformationManagement",
-    route: "merchant/account-information",
-    icon: User,
-  },
-  {
-    label: "companyInformationManagement",
-    route: "merchant/company-information",
-    icon: Building2,
   },
   {
     label: "memberManagement",
@@ -67,6 +58,27 @@ const merchantRoutes: NavRoute[] = [
     label: "clientManagement",
     route: "merchant/clients",
     icon: UserCircle,
+  },
+  {
+    label: "registration",
+    route: "merchant/registration",
+    icon: User,
+  },
+  {
+    label: "creditPayment",
+    route: "merchant/credit-payment",
+    icon: CreditCard,
+  },
+  // Settings group
+  {
+    label: "accountInformationManagement",
+    route: "merchant/account-information",
+    icon: User,
+  },
+  {
+    label: "companyInformationManagement",
+    route: "merchant/company-information",
+    icon: Building2,
   },
   {
     label: "merchantBankAccount",
@@ -84,20 +96,31 @@ const merchantRoutes: NavRoute[] = [
     icon: Receipt,
   },
   {
-    label: "items",
-    route: "merchant/items",
-    icon: ShoppingBag,
-  },
-  {
     label: "documentOutputSettings",
     route: "merchant/document-output-settings",
     icon: File,
+  },
+  {
+    label: "notifications",
+    route: "merchant/notifications",
+    icon: Bell,
+  },
+  {
+    label: "purchaseOrders",
+    route: "merchant/purchase-orders",
+    icon: ShoppingCart,
+  },
+  {
+    label: "items",
+    route: "merchant/items",
+    icon: ShoppingBag,
   },
   {
     label: "invoiceManagement",
     route: "merchant/invoice-management",
     icon: FileText,
   },
+  // Issuance group
   {
     label: "invoiceAutoIssuance",
     route: "merchant/invoice-auto-issuance",
@@ -107,11 +130,6 @@ const merchantRoutes: NavRoute[] = [
     label: "quotationIssuance",
     route: "merchant/quotations",
     icon: Quote,
-  },
-  {
-    label: "purchaseOrders",
-    route: "merchant/purchase-orders",
-    icon: ShoppingCart,
   },
   {
     label: "deliveryNotesIssuance",
@@ -124,29 +142,15 @@ const merchantRoutes: NavRoute[] = [
     icon: StickyNote,
   },
   {
-    label: "receivedPayableInvoices",
-    route: "merchant/received-payable-invoices",
-    icon: FileCheck,
-  },
-  {
     label: "rpInvoicesAutoIssuance",
     route: "merchant/rp-invoice-auto-issuance",
     icon: Zap,
   },
+  // Other management items
   {
-    label: "notifications",
-    route: "merchant/notifications",
-    icon: Bell,
-  },
-  {
-    label: "registration",
-    route: "merchant/registration",
-    icon: User,
-  },
-  {
-    label: "creditPayment",
-    route: "merchant/credit-payment",
-    icon: CreditCard,
+    label: "receivedPayableInvoices",
+    route: "merchant/received-payable-invoices",
+    icon: FileCheck,
   },
 ];
 
