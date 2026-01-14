@@ -14,8 +14,8 @@
         "payment": "Payment"
       },
       "dashboard": "Dashboard",
-      "accountInformationManagement": "Accounts",
-      "companyInformationManagement": "Companies",
+      "accountInformationManagement": "Account Information",
+      "companyInformationManagement": "Company Information",
       "memberManagement": "Members",
       "clientManagement": "Clients",
       "merchantBankAccount": "Bank Accounts",
@@ -23,13 +23,17 @@
       "taxSettings": "Tax Settings",
       "items": "Items",
       "documentOutputSettings": "Document Output Settings",
-      "invoiceManagement": "Invoices",
+      "invoiceManagement": "Invoices Management",
       "invoiceAutoIssuance": "Invoice Auto-Issuance",
       "quotationIssuance": "Quotation Issuance",
       "purchaseOrders": "Purchase Orders",
       "deliveryNotesIssuance": "Delivery Notes Issuance",
       "receiptIssuance": "Receipt Issuance",
-      "receivedPayableInvoices": "Received Payable Invoices"
+      "receivedPayableInvoices": "Received Payable Invoices",
+      "rpInvoicesAutoIssuance": "RP Invoices Auto-Issuance",
+      "notifications": "Notifications",
+      "registration": "Registration",
+      "creditPayment": "Credit Payment"
     },
     "CommandMenu": {
       "placeholder": "Search page/ function",
