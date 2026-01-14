@@ -25,7 +25,7 @@ import { InlineEditField } from "@/components/inline-edit-field";
 import { createMidSchema } from "../_lib/mid-schema";
 import { MidStatus } from "@/types/mid";
 import { Badge } from "@/components/ui/badge";
-import { getMidSettingBadgeVariant } from "../_hook/status";
+import { getMidSettingStatusBadgeVariant } from "../_hook/status";
 
 const STATUS_OPTIONS: MidStatus[] = ["active", "inactive"];
 
@@ -172,7 +172,7 @@ export default function MidDetail({ id }: { id: string }) {
               value={
                 mid.status ? (
                   <Badge
-                    variant={getMidSettingBadgeVariant(
+                    variant={getMidSettingStatusBadgeVariant(
                       (mid.status as MidStatus) || "active",
                     )}
                   >

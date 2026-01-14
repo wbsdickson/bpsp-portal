@@ -13,7 +13,7 @@ import { useReceivedInvoiceStore } from "@/store/received-invoice-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { getBadgeVariant } from "../_hook/status";
+import { getStatusBadgeVariant } from "../_hook/status";
 
 export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
   const locale = useLocale();
@@ -65,7 +65,7 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
           <h2 className="text-2xl font-bold tracking-tight">
             {invoice.invoiceNumber}
           </h2>
-          <Badge variant={getBadgeVariant(invoice.status)}>
+          <Badge variant={getStatusBadgeVariant(invoice.status)}>
             {t(`statuses.${invoice.status}`)}
           </Badge>
         </div>
@@ -93,7 +93,7 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
             <div className="font-medium">{invoice.invoiceNumber}</div>
           </div>
           <div>
-            <Badge variant={getBadgeVariant(invoice.status)}>
+            <Badge variant={getStatusBadgeVariant(invoice.status)}>
               {t(`statuses.${invoice.status}`)}
             </Badge>
             <div className="font-medium">{invoice.status}</div>

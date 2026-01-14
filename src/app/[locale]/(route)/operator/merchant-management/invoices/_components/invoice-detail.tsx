@@ -4,7 +4,6 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,
@@ -42,7 +41,7 @@ import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { getInvoiceBadgeVariant, InvoiceStatus } from "../_hooks/status";
+import { getInvoiceStatusBadgeVariant, InvoiceStatus } from "../_hooks/status";
 
 export default function InvoiceDetail({ id }: { id: string }) {
   const t = useTranslations("Operator.Invoice");
@@ -174,7 +173,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
             {invoice.invoiceNumber}
           </h2>
           <Badge
-            variant={getInvoiceBadgeVariant(
+            variant={getInvoiceStatusBadgeVariant(
               (invoice.status as InvoiceStatus) || "draft",
             )}
           >
@@ -232,7 +231,7 @@ export default function InvoiceDetail({ id }: { id: string }) {
                 isEditing={isEditing}
                 value={
                   <Badge
-                    variant={getInvoiceBadgeVariant(
+                    variant={getInvoiceStatusBadgeVariant(
                       (invoice.status as InvoiceStatus) || "draft",
                     )}
                   >

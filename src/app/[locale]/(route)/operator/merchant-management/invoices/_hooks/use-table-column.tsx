@@ -12,7 +12,7 @@ import { type BadgeVariant } from "@/components/ui/badge";
 import ActionsCell from "@/components/action-cell";
 import { useModalStore } from "@/store/modal-store";
 import { Badge } from "@/components/ui/badge";
-import { getInvoiceBadgeVariant } from "./status";
+import { getInvoiceStatusBadgeVariant } from "./status";
 import { useInvoiceStore } from "@/store/invoice-store";
 
 function InvoiceNumberCell({
@@ -169,7 +169,7 @@ export default function useMerchantInvoiceTableColumn({
 
         return (
           <div className="flex items-center gap-3">
-            <Badge variant={getInvoiceBadgeVariant(inv.status)}>
+            <Badge variant={getInvoiceStatusBadgeVariant(inv.status)}>
               {t(`statuses.${inv.status}`)}
             </Badge>
           </div>

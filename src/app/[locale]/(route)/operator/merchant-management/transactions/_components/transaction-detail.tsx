@@ -6,10 +6,8 @@ import Link from "next/link";
 import { useTransactionStore } from "@/store/transaction-store";
 import { TitleField } from "@/components/title-field";
 import { Badge } from "@/components/ui/badge";
-import { type BadgeVariant } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { type PaymentStatus } from "@/lib/types";
-import { getBadgeVariant } from "../_hook/status";
+import { getStatusBadgeVariant } from "../_hook/status";
 
 export default function TransactionDetail({ id }: { id: string }) {
   const t = useTranslations("Operator.Transactions");
@@ -80,7 +78,7 @@ export default function TransactionDetail({ id }: { id: string }) {
           <TitleField
             label={t("columns.status")}
             value={
-              <Badge variant={getBadgeVariant(transaction.status)}>
+              <Badge variant={getStatusBadgeVariant(transaction.status)}>
                 {t(`statuses.${transaction.status}`)}
               </Badge>
             }

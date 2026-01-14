@@ -41,7 +41,7 @@ import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { getQuotationBadgeVariant } from "../_hook/status";
+import { getQuotationStatusBadgeVariant } from "../_hook/status";
 import { QuotationStatus } from "@/lib/types";
 
 export default function QuotationDetail({
@@ -176,7 +176,7 @@ export default function QuotationDetail({
             {quotation.quotationNumber}
           </h2>
           <Badge
-            variant={getQuotationBadgeVariant(
+            variant={getQuotationStatusBadgeVariant(
               (quotation.status as QuotationStatus) || "draft",
             )}
           >
@@ -226,7 +226,7 @@ export default function QuotationDetail({
               isEditing={isEditing}
               value={
                 <Badge
-                  variant={getQuotationBadgeVariant(
+                  variant={getQuotationStatusBadgeVariant(
                     (quotation.status as QuotationStatus) || "draft",
                   )}
                 >

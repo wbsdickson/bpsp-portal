@@ -25,7 +25,7 @@ import {
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createDeliveryNoteSchema } from "../_lib/delivery-note-schema";
 import { Badge } from "@/components/ui/badge";
-import { getDeliveryNoteBadgeVariant } from "../_hook/status";
+import { getDeliveryNoteStatusBadgeVariant } from "../_hook/status";
 import { DeliveryNoteStatus } from "@/lib/types";
 
 export default function DeliveryNoteDetail({
@@ -225,7 +225,7 @@ export default function DeliveryNoteDetail({
               isEditing={isEditing}
               value={
                 <Badge
-                  variant={getDeliveryNoteBadgeVariant(
+                  variant={getDeliveryNoteStatusBadgeVariant(
                     (deliveryNote.status as DeliveryNoteStatus) || "draft",
                   )}
                 >

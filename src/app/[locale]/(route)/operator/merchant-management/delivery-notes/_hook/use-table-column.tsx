@@ -9,7 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
-import { getDeliveryNoteBadgeVariant } from "./status";
+import { getDeliveryNoteStatusBadgeVariant } from "./status";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 
 export type DeliveryNoteRow = DeliveryNote & {
@@ -120,7 +120,7 @@ export default function useDeliveryNoteTableColumn({
 
         return (
           <Badge
-            variant={getDeliveryNoteBadgeVariant(
+            variant={getDeliveryNoteStatusBadgeVariant(
               status as DeliveryNoteStatus,
             )}
           >

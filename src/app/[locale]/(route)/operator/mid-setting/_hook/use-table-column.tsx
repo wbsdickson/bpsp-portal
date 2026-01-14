@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { getMidSettingBadgeVariant } from "./status";
+import { getMidSettingStatusBadgeVariant } from "./status";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -93,9 +93,7 @@ export default function useMidTableColumn({
         const label = t(`statuses.${v}`);
 
         return (
-          <Badge variant={getMidSettingBadgeVariant(v)}>
-            {label}
-          </Badge>
+          <Badge variant={getMidSettingStatusBadgeVariant(v)}>{label}</Badge>
         );
       },
       filterFn: (row, id, value) => {

@@ -20,7 +20,7 @@ import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceiptStore } from "@/store/receipt-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { Badge } from "@/components/ui/badge";
-import { getReceiptBadgeVariant, ReceiptStatus } from "../_hook/status";
+import { getReceiptStatusBadgeVariant, ReceiptStatus } from "../_hook/status";
 
 export default function ReceiptDetail({ id }: { id: string }) {
   const locale = useLocale();
@@ -94,7 +94,7 @@ export default function ReceiptDetail({ id }: { id: string }) {
               </div>
               <div className="font-medium">
                 <Badge
-                  variant={getReceiptBadgeVariant(
+                  variant={getReceiptStatusBadgeVariant(
                     (receipt.status as ReceiptStatus) || "draft",
                   )}
                 >

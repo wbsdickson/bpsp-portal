@@ -17,7 +17,7 @@ export type ItemRow = Item & {
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceivedInvoiceStore } from "@/store/received-invoice-store";
 import { ReceiptRow } from "../_components/receipt-table";
-import { getReceiptBadgeVariant } from "./status";
+import { getReceiptStatusBadgeVariant } from "./status";
 
 export default function useReceiptTableColumn({
   addTab,
@@ -127,7 +127,7 @@ export default function useReceiptTableColumn({
         const status = row.original.status;
 
         return (
-          <Badge variant={getReceiptBadgeVariant(status)}>
+          <Badge variant={getReceiptStatusBadgeVariant(status)}>
             {t(`statuses.${status}`)}
           </Badge>
         );

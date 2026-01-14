@@ -24,7 +24,7 @@ import {
 import { InlineEditField } from "@/components/inline-edit-field";
 import { createMerchantItemSchema } from "../_lib/merchant-item-schema";
 import { Badge } from "@/components/ui/badge";
-import { getBadgeVariant } from "../_hook/status";
+import { getStatusBadgeVariant } from "../_hook/status";
 
 export default function ItemDetail({ itemId }: { itemId: string }) {
   const t = useTranslations("Operator.Items");
@@ -185,7 +185,7 @@ export default function ItemDetail({ itemId }: { itemId: string }) {
               isEditing={isEditing}
               value={
                 <Badge
-                  variant={getBadgeVariant(
+                  variant={getStatusBadgeVariant(
                     form.getValues("status") as "active" | "inactive",
                   )}
                 >

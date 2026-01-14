@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { getMidFeeBadgeVariant } from "./status";
+import { getMidFeeStatusBadgeVariant } from "./status";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -115,11 +115,7 @@ export default function useMidFeeTableColumn({
         const v = String(row.getValue("status") ?? "") as MidFeeStatus;
         const label = t(`statuses.${v}`);
 
-        return (
-          <Badge variant={getMidFeeBadgeVariant(v)}>
-            {label}
-          </Badge>
-        );
+        return <Badge variant={getMidFeeStatusBadgeVariant(v)}>{label}</Badge>;
       },
       filterFn: (row, id, value) => {
         const cellValue = String(row.getValue(id) ?? "");

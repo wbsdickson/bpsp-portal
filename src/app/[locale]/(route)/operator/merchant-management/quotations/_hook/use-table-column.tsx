@@ -9,7 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
-import { getQuotationBadgeVariant } from "./status";
+import { getQuotationStatusBadgeVariant } from "./status";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 
 export type QuotationRow = Quotation & {
@@ -120,7 +120,7 @@ export default function useQuotationTableColumn({
 
         return (
           <Badge
-            variant={getQuotationBadgeVariant(status as QuotationStatus)}
+            variant={getQuotationStatusBadgeVariant(status as QuotationStatus)}
           >
             {t(`statuses.${status}`)}
           </Badge>

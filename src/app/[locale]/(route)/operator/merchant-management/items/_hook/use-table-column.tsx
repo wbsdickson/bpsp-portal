@@ -14,7 +14,7 @@ export type ItemRow = Item & {
   taxCategoryLabel: string;
 };
 
-import { getBadgeVariant } from "./status";
+import { getStatusBadgeVariant } from "./status";
 
 export default function useItemTableColumn({
   addTab,
@@ -126,7 +126,7 @@ export default function useItemTableColumn({
         const status = row.original.status || "active";
 
         return (
-          <Badge variant={getBadgeVariant(status)}>
+          <Badge variant={getStatusBadgeVariant(status)}>
             {t(`statuses.${status}`)}
           </Badge>
         );
