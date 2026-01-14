@@ -65,11 +65,9 @@ export default function useMerchantMemberTableColumn({
       accessorKey: "merchantId",
       header: t("columns.merchantId"),
       cell: ({ row }) => {
-        const value = row.getValue("merchantId");
-        if (!value) return <div className="text-muted-foreground">—</div>;
-        return <>{String(value)}</>;
+        const merchantId = row.getValue("merchantId");
+        return <div>{String(merchantId ?? "")}</div>;
       },
-      enableHiding: Boolean(merchantId),
     },
     {
       accessorKey: "name",

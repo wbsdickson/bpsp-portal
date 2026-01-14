@@ -7,6 +7,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface PaginationControlsProps {
     currentPage: number;
@@ -25,14 +26,20 @@ export function PaginationControls({
     onPageChange,
     onItemsPerPageChange,
 }: PaginationControlsProps) {
+    const t = useTranslations("CommonComponent.Pagination");
+
     return (
         <div className="flex items-center justify-between py-4">
             <div className="text-sm text-muted-foreground">
-                Showing {totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
+                {t("showing", {
+                    from: totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1,
+                    to: Math.min(currentPage * itemsPerPage, totalItems),
+                    total: totalItems
+                })}
             </div>
             <div className="flex items-center space-x-6 lg:space-x-8">
                 <div className="flex items-center space-x-2">
-                    <p className="text-sm font-medium">Rows per page</p>
+                    <p className="text-sm font-medium">{t("rowsPerPage")}</p>
                     <Select
                         value={`${itemsPerPage}`}
                         onValueChange={(value) => onItemsPerPageChange(Number(value))}
@@ -50,7 +57,7 @@ export function PaginationControls({
                     </Select>
                 </div>
                 <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                    Page {currentPage} of {totalPages}
+                    {t("page", { current: currentPage, total: totalPages })}
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
@@ -59,7 +66,7 @@ export function PaginationControls({
                         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
                         disabled={currentPage === 1}
                     >
-                        <span className="sr-only">Go to previous page</span>
+                        <span className="sr-only">{t("previousPage")}</span>
                         <ChevronLeft className="h-4 w-4" />
                     </Button>
                     <Button
@@ -68,7 +75,7 @@ export function PaginationControls({
                         onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
                         disabled={currentPage === totalPages}
                     >
-                        <span className="sr-only">Go to next page</span>
+                        <span className="sr-only">{t("nextPage")}</span>
                         <ChevronRight className="h-4 w-4" />
                     </Button>
                 </div>
