@@ -4,19 +4,18 @@ import HeaderPage from "@/components/header-page";
 import RecordTabs, { type RecordTab } from "@/components/record-tabs";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
 import BankAccountDetail from "./_components/bank-account-detail";
 import BankAccountTable from "./_components/bank-account-table";
-import { CreateBankAccountModal } from "./_modal/create-merchant-bank-modal";
-import { useModalStore } from "@/store/modal-store";
 
 export default function BankAccountsPage() {
   const t = useTranslations("Merchant.BankAccounts");
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const { onOpen } = useModalStore();
+  const { basePath } = useBasePath();
 
   const activeTab = searchParams.get("tab") || "table";
 
@@ -24,7 +23,7 @@ export default function BankAccountsPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button size="sm" onClick={() => onOpen("create-bank-account")}>
+        <Button size="sm" onClick={() => router.push(`${basePath}/create`)}>
           <Plus /> {t("buttons.create")}
         </Button>
       }
@@ -62,7 +61,6 @@ export default function BankAccountsPage() {
           );
         }}
       />
-      <CreateBankAccountModal />
     </HeaderPage>
   );
 }

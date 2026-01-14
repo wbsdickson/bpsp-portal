@@ -24,7 +24,7 @@ export default function ItemsPage() {
     <HeaderPage
       title={t("title")}
       pageActions={
-        <Button size="sm" onClick={() => onOpen("create-merchant-item")}>
+        <Button size="sm" onClick={() => router.push(`${basePath}/create`)}>
           <Plus /> {t("buttons.create")}
         </Button>
       }
@@ -62,7 +62,7 @@ export default function ItemsPage() {
           );
         }}
       />
-      <CreateMerchantItemModal />
+      {/* <CreateMerchantItemModal /> */}
     </HeaderPage>
   );
 }

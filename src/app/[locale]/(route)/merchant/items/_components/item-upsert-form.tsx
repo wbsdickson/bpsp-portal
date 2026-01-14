@@ -1,6 +1,15 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { X } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +21,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -22,25 +30,13 @@ import {
 } from "@/components/ui/select";
 import { useItemStore } from "@/store/merchant/item-store";
 import { useTaxStore } from "@/store/tax-store";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { useBasePath } from "@/hooks/use-base-path";
-import { toast } from "sonner";
 import { createMerchantItemSchema } from "../_lib/merchant-item-schema";
-
-const TAX_CATEGORY_OPTIONS = ["taxable", "non_taxable"] as const;
-const STATUS_OPTIONS = ["active", "inactive"] as const;
 
 const DEFAULT_MERCHANT_ID = "u1";
 
 export default function ItemUpsertForm({
   itemId,
-  onCancel,
-  onSuccess,
 }: {
   itemId?: string;
   onCancel?: () => void;
@@ -72,12 +68,14 @@ export default function ItemUpsertForm({
   });
 
   useEffect(() => {
+    if (!item) return;
+
     form.reset({
-      name: item?.name ?? "",
-      unitPrice: String(item?.unitPrice ?? ""),
-      taxCategory: item?.taxId === "tax_00" ? "non_taxable" : "taxable",
-      description: item?.description ?? "",
-      status: (item?.status ?? "active") as "active" | "inactive",
+      name: item.name ?? "",
+      unitPrice: String(item.unitPrice ?? ""),
+      taxCategory: item.taxId === "tax_00" ? "non_taxable" : "taxable",
+      description: item.description ?? "",
+      status: (item.status ?? "active") as "active" | "inactive",
     });
   }, [form, item, taxes]);
 
@@ -105,98 +103,101 @@ export default function ItemUpsertForm({
       toast.success(t("messages.createSuccess"));
     }
 
-    if (onSuccess) {
-      onSuccess();
-    } else {
-      router.push(basePath);
-    }
+    router.push(basePath);
   });
 
   return (
-    <Form {...form}>
-      <form onSubmit={onSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 gap-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("columns.name")}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t("form.namePlaceholder")}
-                    className="h-9"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <div className="bg-card min-h-[calc(100vh-0px)] rounded-lg p-4">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
+        <div className="flex items-center gap-3 px-4 py-2">
+          <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => router.back()}>
+            <X className="h-4 w-4" />
+          </Button>
 
-          <FormField
-            control={form.control}
-            name="unitPrice"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("columns.unitPrice")}</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    inputMode="decimal"
-                    placeholder={t("form.unitPricePlaceholder")}
-                    className="h-9"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex-1">
+            <div className="text-xl font-bold">
+              {itemId ? t("form.editTitle") : t("form.createTitle")}
+            </div>
+          </div>
 
-          <FormField
-            control={form.control}
-            name="taxCategory"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("columns.taxCategory")}</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <FormControl>
-                    <SelectTrigger className="h-9 w-full">
-                      <SelectValue placeholder={t("form.selectTax")} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="taxable">{t("taxable")}</SelectItem>
-                    <SelectItem value="non_taxable">{t("nonTaxable")}</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="flex justify-end gap-2">
-          {onCancel && (
-            <Button
-
-              variant="outline"
-              className="h-9"
-              onClick={onCancel}
-            >
-              {t("buttons.cancel")}
-            </Button>
-          )}
           <Button
-            type="submit"
+            size="sm"
             className="h-9"
+            onClick={onSubmit}
             disabled={form.formState.isSubmitting}
           >
-            {t("buttons.save")}
+            {itemId ? t("buttons.saveChanges") : t("buttons.create")}
           </Button>
         </div>
-      </form>
-    </Form>
+      </div>
+
+      <div className="p-4">
+        <Form {...form}>
+          <form className="space-y-6" onSubmit={onSubmit}>
+            <div className="grid grid-cols-1 gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("columns.name")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("form.namePlaceholder")}
+                        className="h-9"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="unitPrice"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("columns.unitPrice")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        inputMode="decimal"
+                        placeholder={t("form.unitPricePlaceholder")}
+                        className="h-9"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="taxCategory"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("columns.taxCategory")}</FormLabel>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger className="h-9 w-full">
+                          <SelectValue placeholder={t("form.selectTax")} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="taxable">{t("taxable")}</SelectItem>
+                        <SelectItem value="non_taxable">{t("nonTaxable")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </form>
+        </Form>
+      </div>
+    </div>
   );
 }
