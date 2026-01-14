@@ -66,7 +66,7 @@ export default function MerchantFeeUpsertForm({
     resolver: zodResolver(schema),
     defaultValues: {
       merchantId: fee?.merchantId ?? "",
-      brand: fee?.brand ?? "",
+      cardBrand: fee?.brand ?? "",
       paymentMethodType: (fee?.paymentMethodType ??
         "card") as PaymentMethodType,
       mdrPercent: String(fee?.mdrPercent ?? ""),
@@ -78,7 +78,7 @@ export default function MerchantFeeUpsertForm({
   useEffect(() => {
     form.reset({
       merchantId: fee?.merchantId ?? "",
-      brand: fee?.brand ?? "",
+      cardBrand: fee?.brand ?? "",
       paymentMethodType: (fee?.paymentMethodType ??
         "card") as PaymentMethodType,
       mdrPercent: String(fee?.mdrPercent ?? ""),
@@ -94,7 +94,7 @@ export default function MerchantFeeUpsertForm({
     if (feeId) {
       updateFee(feeId, {
         merchantId: data.merchantId,
-        brand: data.brand.trim(),
+        brand: data.cardBrand.trim(),
         paymentMethodType: data.paymentMethodType,
         mdrPercent,
         fixedFee,
@@ -104,7 +104,7 @@ export default function MerchantFeeUpsertForm({
     } else {
       addFee({
         merchantId: data.merchantId,
-        brand: data.brand.trim(),
+        brand: data.cardBrand.trim(),
         paymentMethodType: data.paymentMethodType,
         mdrPercent,
         fixedFee,
@@ -151,7 +151,7 @@ export default function MerchantFeeUpsertForm({
 
           <FormField
             control={form.control}
-            name="brand"
+            name="cardBrand"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("columns.brand")}</FormLabel>
@@ -263,7 +263,7 @@ export default function MerchantFeeUpsertForm({
         <div className="flex justify-end gap-2">
           {onCancel && (
             <Button
-
+              
               variant="outline"
               className="h-9"
               onClick={onCancel}
