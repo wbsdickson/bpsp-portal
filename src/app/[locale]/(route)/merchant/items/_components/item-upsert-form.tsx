@@ -110,7 +110,12 @@ export default function ItemUpsertForm({
     <div className="bg-card min-h-[calc(100vh-0px)] rounded-lg p-4">
       <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
-          <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => router.back()}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9"
+            onClick={() => router.back()}
+          >
             <X className="h-4 w-4" />
           </Button>
 
@@ -119,7 +124,9 @@ export default function ItemUpsertForm({
               {itemId ? t("form.editTitle") : t("form.createTitle")}
             </div>
           </div>
+        </div>
 
+        <div className="flex justify-end gap-2 px-4 pb-2">
           <Button
             size="sm"
             className="h-9"
@@ -187,7 +194,9 @@ export default function ItemUpsertForm({
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="taxable">{t("taxable")}</SelectItem>
-                        <SelectItem value="non_taxable">{t("nonTaxable")}</SelectItem>
+                        <SelectItem value="non_taxable">
+                          {t("nonTaxable")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

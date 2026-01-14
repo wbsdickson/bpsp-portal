@@ -37,7 +37,6 @@ import { Card } from "@/components/ui/card";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { useTranslations } from "next-intl";
 
-
 type NavRoute = {
   label: string;
   route: string;
@@ -169,22 +168,19 @@ export function AppSidebar({
   );
 
   const routes = React.useMemo<NavRoute[]>(
-    () => merchantRoutes.map(({ label, route, icon }) => {
-      return {
-        label: t(label),
-        route,
-        icon,
-      };
-    }),
+    () =>
+      merchantRoutes.map(({ label, route, icon }) => {
+        return {
+          label: t(label),
+          route,
+          icon,
+        };
+      }),
     [t],
   );
 
   return (
-    <Sidebar
-      collapsible="icon"
-      variant={preferences.sidebarVariant}
-      {...props}
-    >
+    <Sidebar collapsible="icon" variant={preferences.sidebarVariant} {...props}>
       <SidebarHeader>
         <TeamSwitcher name={user?.name ?? ""} company={user?.email ?? ""} />
       </SidebarHeader>
