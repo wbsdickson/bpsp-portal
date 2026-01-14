@@ -31,6 +31,14 @@
       "fixedColumns": "固定列",
       "activeColumns": "アクティブ列",
       "noResults": "結果がありません。"
+    },
+    "TeamSwitcher": {
+      "profile": "プロフィール",
+      "changePassword": "パスワード変更",
+      "noticeSettings": "通知設定",
+      "notification": "通知",
+      "faq": "よくある質問",
+      "logout": "ログアウト"
     }
   }
 }

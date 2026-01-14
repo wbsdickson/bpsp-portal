@@ -21,7 +21,6 @@ import {
   StickyNote,
   type LucideIcon,
   Bell,
-  Settings,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -33,7 +32,6 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
-import { Card } from "@/components/ui/card";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { useTranslations } from "next-intl";
 

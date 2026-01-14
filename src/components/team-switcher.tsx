@@ -7,8 +7,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -18,7 +16,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { signOut } from "next-auth/react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import LocaleSwitcherHorizontal from "./locale-switcher-horizontal";
 
 export function TeamSwitcher({
@@ -30,6 +28,7 @@ export function TeamSwitcher({
 }) {
   const { isMobile } = useSidebar();
   const locale = useLocale();
+  const t = useTranslations("CommonComponent.TeamSwitcher");
 
   const handleLogout = () => {
     signOut({ callbackUrl: `/${locale}/signin` });
@@ -37,27 +36,27 @@ export function TeamSwitcher({
 
   const actions = [
     {
-      label: "Profle",
+      label: t("profile"),
       onClick: () => {},
     },
     {
-      label: "Change Password",
+      label: t("changePassword"),
       onClick: () => {},
     },
     {
-      label: "Notice settings",
+      label: t("noticeSettings"),
       onClick: () => {},
     },
     {
-      label: "Notification",
+      label: t("notification"),
       onClick: () => {},
     },
     {
-      label: "FAQ",
+      label: t("faq"),
       onClick: () => {},
     },
     {
-      label: "Logout",
+      label: t("logout"),
       onClick: handleLogout,
     },
   ];
@@ -71,7 +70,7 @@ export function TeamSwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="bg-sidebar-primary text-sidebar-primary-foreground size-8 flex aspect-square items-center justify-center rounded-lg">
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                 <AudioWaveform className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">

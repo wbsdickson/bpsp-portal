@@ -31,6 +31,14 @@
       "fixedColumns": "Fixed columns",
       "activeColumns": "Active columns",
       "noResults": "No results."
+    },
+    "TeamSwitcher": {
+      "profile": "Profile",
+      "changePassword": "Change Password",
+      "noticeSettings": "Notice settings",
+      "notification": "Notification",
+      "faq": "FAQ",
+      "logout": "Logout"
     }
   }
 }
