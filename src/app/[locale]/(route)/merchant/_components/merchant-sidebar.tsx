@@ -35,126 +35,149 @@ import {
 import { useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
+import { useTranslations } from "next-intl";
 
-const merchantRoutes: Array<{
+
+type NavRoute = {
   label: string;
   route: string;
   icon?: LucideIcon;
-}> = [
-    {
-      label: "Dashboard",
-      route: "merchant/dashboard",
-      icon: LayoutDashboard,
-    },
-    {
-      label: "Account Information",
-      route: "merchant/account-information",
-      icon: User,
-    },
-    {
-      label: "Company Information",
-      route: "merchant/company-information",
-      icon: Building2,
-    },
-    {
-      label: "Members",
-      route: "merchant/members",
-      icon: Users,
-    },
-    {
-      label: "Clients",
-      route: "merchant/clients",
-      icon: UserCircle,
-    },
-    {
-      label: "Bank Accounts",
-      route: "merchant/bank-accounts",
-      icon: Wallet,
-    },
-    {
-      label: "Cards",
-      route: "merchant/cards",
-      icon: CreditCard,
-    },
-    {
-      label: "Tax Settings",
-      route: "merchant/tax-settings",
-      icon: Receipt,
-    },
-    {
-      label: "Items",
-      route: "merchant/items",
-      icon: ShoppingBag,
-    },
-    {
-      label: "Document Output Settings",
-      route: "merchant/document-output-settings",
-      icon: File,
-    },
-    {
-      label: "Invoice Management",
-      route: "merchant/invoice-management",
-      icon: FileText,
-    },
-    {
-      label: "Invoice Auto-Issuance",
-      route: "merchant/invoice-auto-issuance",
-      icon: Zap,
-    },
-    {
-      label: "Quotation Issuance",
-      route: "merchant/quotations",
-      icon: Quote,
-    },
-    {
-      label: "Purchase Orders",
-      route: "merchant/purchase-orders",
-      icon: ShoppingCart,
-    },
-    {
-      label: "Delivery Notes Issuance",
-      route: "merchant/delivery-notes",
-      icon: Truck,
-    },
-    {
-      label: "Receipt Issuance",
-      route: "merchant/receipt",
-      icon: StickyNote,
-    },
-    {
-      label: "Received Payable Invoices",
-      route: "merchant/received-payable-invoices",
-      icon: FileCheck,
-    },
-    {
-      label: "RP Invoices Auto-Issuance",
-      route: "merchant/rp-invoice-auto-issuance",
-      icon: Zap,
-    },
-    {
-      label: "Notifications",
-      route: "merchant/notifications",
-      icon: Bell,
-    },
-    {
-      label: "Registration",
-      route: "merchant/registration",
-      icon: User,
-    },
-    {
-      label: "Credit Payment",
-      route: "merchant/credit-payment",
-      icon: CreditCard,
-    },
-  ];
+  children?: NavRoute[];
+};
+
+const merchantRoutes: NavRoute[] = [
+  {
+    label: "dashboard",
+    route: "merchant/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    label: "accountInformationManagement",
+    route: "merchant/account-information",
+    icon: User,
+  },
+  {
+    label: "companyInformationManagement",
+    route: "merchant/company-information",
+    icon: Building2,
+  },
+  {
+    label: "memberManagement",
+    route: "merchant/members",
+    icon: Users,
+  },
+  {
+    label: "clientManagement",
+    route: "merchant/clients",
+    icon: UserCircle,
+  },
+  {
+    label: "merchantBankAccount",
+    route: "merchant/bank-accounts",
+    icon: Wallet,
+  },
+  {
+    label: "merchantCards",
+    route: "merchant/cards",
+    icon: CreditCard,
+  },
+  {
+    label: "taxSettings",
+    route: "merchant/tax-settings",
+    icon: Receipt,
+  },
+  {
+    label: "items",
+    route: "merchant/items",
+    icon: ShoppingBag,
+  },
+  {
+    label: "documentOutputSettings",
+    route: "merchant/document-output-settings",
+    icon: File,
+  },
+  {
+    label: "invoiceManagement",
+    route: "merchant/invoice-management",
+    icon: FileText,
+  },
+  {
+    label: "invoiceAutoIssuance",
+    route: "merchant/invoice-auto-issuance",
+    icon: Zap,
+  },
+  {
+    label: "quotationIssuance",
+    route: "merchant/quotations",
+    icon: Quote,
+  },
+  {
+    label: "purchaseOrders",
+    route: "merchant/purchase-orders",
+    icon: ShoppingCart,
+  },
+  {
+    label: "deliveryNotesIssuance",
+    route: "merchant/delivery-notes",
+    icon: Truck,
+  },
+  {
+    label: "receiptIssuance",
+    route: "merchant/receipt",
+    icon: StickyNote,
+  },
+  {
+    label: "receivedPayableInvoices",
+    route: "merchant/received-payable-invoices",
+    icon: FileCheck,
+  },
+  {
+    label: "rpInvoicesAutoIssuance",
+    route: "merchant/rp-invoice-auto-issuance",
+    icon: Zap,
+  },
+  {
+    label: "notifications",
+    route: "merchant/notifications",
+    icon: Bell,
+  },
+  {
+    label: "registration",
+    route: "merchant/registration",
+    icon: User,
+  },
+  {
+    label: "creditPayment",
+    route: "merchant/credit-payment",
+    icon: CreditCard,
+  },
+];
 
 export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar> & { role?: string }) {
-  const routes = merchantRoutes;
+  const t = useTranslations("Merchant.Sidebar");
   const session = useSession();
-  const user = session?.data?.user;
   const { preferences } = useUserPreferencesStore();
+
+  const user = React.useMemo(
+    () => ({
+      name: session?.data?.user?.name ?? "",
+      email: session?.data?.user?.email ?? "",
+    }),
+    [session?.data?.user?.name, session?.data?.user?.email],
+  );
+
+  const routes = React.useMemo<NavRoute[]>(
+    () => merchantRoutes.map(({ label, route, icon }) => {
+      return {
+        label: t(label),
+        route,
+        icon,
+      };
+    }),
+    [t],
+  );
 
   return (
     <Sidebar
