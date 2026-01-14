@@ -23,6 +23,7 @@ import {
   Download,
   GripVertical,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -89,6 +90,8 @@ export function DataTable<TData>({
   renderToolbar,
   initialColumnVisibility,
 }: DataTableProps<TData>) {
+  const t = useTranslations("CommonComponent.DataTable");
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -185,12 +188,12 @@ export function DataTable<TData>({
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" size="sm" className="ml-auto">
                         <Columns3 className="h-4 w-4" />
-                        Edit Columns <ChevronDown />
+                        {t("editColumns")} <ChevronDown />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel className="text-muted-foreground">
-                        Fixed columns
+                        {t("fixedColumns")}
                       </DropdownMenuLabel>
                       {fixedColumns.map((column) => (
                         <DropdownMenuItem
@@ -198,12 +201,12 @@ export function DataTable<TData>({
                           className="capitalize"
                           onSelect={(e) => e.preventDefault()}
                         >
-                          {column.id}
+                          {t(column.id)}
                         </DropdownMenuItem>
                       ))}
                       <DropdownMenuSeparator />
                       <DropdownMenuLabel className="text-muted-foreground">
-                        Active columns
+                        {t("activeColumns")}
                       </DropdownMenuLabel>
                       {activeColumns.map((column) => (
                         <DropdownMenuItem
@@ -234,7 +237,7 @@ export function DataTable<TData>({
                               }
                               aria-label={`Toggle ${column.id} column`}
                             />
-                            <div className="flex-1">{column.id}</div>
+                            <div className="flex-1">{column.columnDef.header as any}</div>
                             {enableColumnReorder ? (
                               <div
                                 className="text-muted-foreground cursor-grab"
@@ -271,9 +274,9 @@ export function DataTable<TData>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                   </TableHead>
                 ))}
               </TableRow>
@@ -302,7 +305,7 @@ export function DataTable<TData>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t("noResults")}
                 </TableCell>
               </TableRow>
             )}

@@ -1,20 +1,36 @@
 {
-  "Calendar": {
-    "today": "Today",
-    "yesterday": "Yesterday",
-    "last7Days": "Last 7 Days",
-    "last14Days": "Last 14 Days",
-    "last30Days": "Last 30 Days",
-    "lastWeek": "Last Week",
-    "thisMonth": "This Month",
-    "lastMonth": "Last Month",
-    "cancel": "Cancel",
-    "update": "Update",
-    "dateRange": "Date Range"
-  },
-  "DatePicker": {
-    "pick_date": "Pick a date",
-    "reset": "Reset",
-    "cancel": "Cancel"
+  "CommonComponent": {
+    "Calendar": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "last7Days": "Last 7 Days",
+      "last14Days": "Last 14 Days",
+      "last30Days": "Last 30 Days",
+      "lastWeek": "Last Week",
+      "thisMonth": "This Month",
+      "lastMonth": "Last Month",
+      "cancel": "Cancel",
+      "update": "Update",
+      "dateRange": "Date Range"
+    },
+    "DatePicker": {
+      "pick_date": "Pick a date",
+      "reset": "Reset",
+      "cancel": "Cancel"
+    },
+    "Pagination": {
+      "showing": "Showing {from} to {to} of {total} entries",
+      "rowsPerPage": "Rows per page",
+      "page": "Page {current} of {total}",
+      "previousPage": "Go to previous page",
+      "nextPage": "Go to next page"
+    },
+    "DataTable": {
+      "actions": "Actions",
+      "editColumns": "Edit Columns",
+      "fixedColumns": "Fixed columns",
+      "activeColumns": "Active columns",
+      "noResults": "No results."
+    }
   }
 }
