@@ -145,7 +145,7 @@ export default function MerchantDashboard() {
   }
 
   return (
-    <HeaderPage title="Dashboard">
+    <HeaderPage title={t("title")}>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <p className="text-muted-foreground">

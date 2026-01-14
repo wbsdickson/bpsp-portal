@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Languages } from "lucide-react";
 
 import { setUserLocale } from "@/actions/set-locale";
@@ -13,6 +13,7 @@ export default function LocaleSwitcherHorizontal() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const locale = useLocale();
+  const t = useTranslations("CommonComponent.LocaleSwitcher");
 
   const handleLocaleChange = (newLocale: "en" | "ja") => {
     if (newLocale === locale) return;
@@ -25,17 +26,16 @@ export default function LocaleSwitcherHorizontal() {
   return (
     <div className="flex items-center justify-between gap-3">
       <div className="flex items-center gap-3">
-        <div className="text-sm font-medium text-black">Language</div>
+        <div className="text-sm font-medium text-black">{t("language")}</div>
       </div>
 
-      <div className="bg-muted flex rounded-full p-0.5">
+      <div className="bg-muted flex h-7 rounded-full p-0.5">
         <Button
-          
           variant="ghost"
-          size="sm"
+          size="2xs"
           disabled={isPending}
           className={cn(
-            "text-muted-foreground h-8 rounded-full px-3 font-normal",
+            "text-muted-foreground rounded-full px-3 font-normal",
             locale === "ja" &&
               "bg-background font-bold text-black shadow-sm dark:text-white",
           )}
@@ -44,12 +44,11 @@ export default function LocaleSwitcherHorizontal() {
           日本語
         </Button>
         <Button
-          
           variant="ghost"
-          size="sm"
+          size="2xs"
           disabled={isPending}
           className={cn(
-            "text-muted-foreground h-8 rounded-full px-3 font-normal",
+            "text-muted-foreground rounded-full px-3 font-normal",
             locale === "en" &&
               "bg-background font-bold text-black shadow-sm dark:text-white",
           )}

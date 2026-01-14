@@ -1,12 +1,23 @@
 "use client";
 
-import { AudioWaveform, ChevronsUpDown } from "lucide-react";
+import {
+  AudioWaveform,
+  ChevronsUpDown,
+  User,
+  Key,
+  Bell,
+  Settings,
+  HelpCircle,
+  LogOut,
+} from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -28,36 +39,43 @@ export function TeamSwitcher({
 }) {
   const { isMobile } = useSidebar();
   const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations("CommonComponent.TeamSwitcher");
+
+  const isMerchantPortal = pathname?.includes("/merchant");
+  const accountInfoRoute = isMerchantPortal
+    ? `/${locale}/merchant/account-information`
+    : `/${locale}/operator/accounts`;
 
   const handleLogout = () => {
     signOut({ callbackUrl: `/${locale}/signin` });
   };
 
+  const handleUserDetails = () => {
+    router.push(accountInfoRoute);
+  };
+
   const actions = [
     {
-      label: t("profile"),
-      onClick: () => {},
-    },
-    {
       label: t("changePassword"),
+      icon: Key,
       onClick: () => {},
     },
     {
       label: t("noticeSettings"),
+      icon: Settings,
       onClick: () => {},
     },
     {
       label: t("notification"),
+      icon: Bell,
       onClick: () => {},
     },
     {
       label: t("faq"),
+      icon: HelpCircle,
       onClick: () => {},
-    },
-    {
-      label: t("logout"),
-      onClick: handleLogout,
     },
   ];
 
@@ -81,12 +99,22 @@ export function TeamSwitcher({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-65 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-65 rounded-xl bg-white p-2 shadow-lg"
             align="start"
             side={isMobile ? "bottom" : "right"}
             sideOffset={4}
           >
-            <DropdownMenuLabel className="text-muted-foreground text-xs">
+            {/* Company Info */}
+            <div className="flex items-center gap-3 px-3 py-2">
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg">
+                <AudioWaveform className="size-5" />
+              </div>
+              <div className="flex-1">
+                <div className="text-sm font-semibold">{company}</div>
+              </div>
+            </div>
+
+            <DropdownMenuLabel className="text-muted-foreground px-2 py-1.5 text-xs">
               <LocaleSwitcherHorizontal />
             </DropdownMenuLabel>
 
@@ -94,25 +122,30 @@ export function TeamSwitcher({
               <DropdownMenuItem
                 key={action.label}
                 onClick={action.onClick}
-                className="gap-2 p-2"
+                className="gap-3 rounded-sm px-2 py-2 text-sm hover:bg-gray-50"
               >
-                {/* <div className="size-6 flex items-center justify-center rounded-md border">
-                  <team.logo className="size-3.5 shrink-0" />
-                </div> */}
+                <action.icon className="size-4" />
                 {action.label}
-                {/* <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut> */}
               </DropdownMenuItem>
             ))}
-            {/* <DropdownMenuSeparator /> */}
-            {/* <DropdownMenuItem
-              className="h-10 hover:cursor-pointer"
-              onClick={handleLogout}
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem
+              onClick={handleUserDetails}
+              className="gap-3 rounded-sm px-2 py-2 text-sm hover:bg-gray-50"
             >
-              Logout
-              <DropdownMenuShortcut>
-                <LogOut size={14} />
-              </DropdownMenuShortcut>
-            </DropdownMenuItem> */}
+              <User className="size-4" />
+              {t("userDetails")}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="hover:bg-destructive/10! gap-3 rounded-sm px-2 py-2 text-sm"
+            >
+              <LogOut className="size-4" />
+              {t("logout")}
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

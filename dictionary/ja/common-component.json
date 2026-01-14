@@ -33,12 +33,18 @@
       "noResults": "結果がありません。"
     },
     "TeamSwitcher": {
-      "profile": "プロフィール",
       "changePassword": "パスワード変更",
       "noticeSettings": "通知設定",
       "notification": "通知",
       "faq": "よくある質問",
+      "userDetails": "ユーザー詳細",
       "logout": "ログアウト"
+    },
+    "Search": {
+      "placeholder": "検索"
+    },
+    "LocaleSwitcher": {
+      "language": "言語"
     }
   }
 }

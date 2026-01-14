@@ -1,6 +1,7 @@
 "use client";
 
 import { SearchIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { useSearch } from "@/context/search-provider";
 import { Button } from "./ui/button";
@@ -11,9 +12,13 @@ type SearchProps = {
 };
 
 export function Search({
-  className = "", placeholder ="Search",
+  className = "",
+  placeholder,
 }: SearchProps) {
   const { setOpen } = useSearch();
+  const t = useTranslations("CommonComponent.Search");
+  const displayPlaceholder = placeholder ?? t("placeholder");
+
   return (
     <Button
       variant="outline"
@@ -27,7 +32,7 @@ export function Search({
         aria-hidden="true"
         className="absolute left-1.5 top-1/2 h-4 w-4 -translate-y-1/2"
       />
-      <span className="ml-4">{placeholder}</span>
+      <span className="ml-4">{displayPlaceholder}</span>
       <kbd className="bg-muted group-hover:bg-accent pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
         <span className="text-xs">⌘</span>K
       </kbd>

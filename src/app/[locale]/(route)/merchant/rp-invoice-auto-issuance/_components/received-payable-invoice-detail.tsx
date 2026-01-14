@@ -62,12 +62,6 @@ export default function ReceivedPayableInvoiceDetail({ id }: { id: string }) {
           <h2 className="text-2xl font-bold tracking-tight">
             {invoice.settingName}
           </h2>
-          <Badge
-            variant="outline"
-            className="bg-emerald-50 capitalize text-emerald-700"
-          >
-            {invoice.status}
-          </Badge>
         </div>
         <div className="flex gap-2">
           <Button

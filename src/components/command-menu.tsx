@@ -280,7 +280,7 @@ export function CommandMenu() {
             disabled={theme === "light"}
           >
             <Sun className="size-3.5" />
-            <span className="flex-1">Light</span>
+            <span className="flex-1">{tCommand("light")}</span>
             {theme === "light" && <Check className="size-3.5" />}
           </CommandItem>
           <CommandItem
@@ -288,7 +288,7 @@ export function CommandMenu() {
             disabled={theme === "dark"}
           >
             <Moon className="size-3.5 scale-90" />
-            <span className="flex-1">Dark</span>
+            <span className="flex-1">{tCommand("dark")}</span>
             {theme === "dark" && <Check className="size-3.5" />}
           </CommandItem>
           <CommandItem
@@ -296,7 +296,7 @@ export function CommandMenu() {
             disabled={theme === "system"}
           >
             <Laptop className="size-3.5" />
-            <span className="flex-1">System</span>
+            <span className="flex-1">{tCommand("system")}</span>
             {theme === "system" && <Check className="size-3.5" />}
           </CommandItem>
         </CommandGroup>

@@ -92,7 +92,7 @@ export default function MerchantRegistrationPage() {
       capitalizeTitle={false}
     >
 
-      <div className="flex flex-col items-center justify-center bg-muted/50 p-4">
+      <div className="flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md">
           {storeStep === 'email' && <MerchantEmailForm />}
           {storeStep === 'form' && <MerchantRegistrationForm token={token!} onSuccess={() => setStoreStep('success')} />}

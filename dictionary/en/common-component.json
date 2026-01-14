@@ -33,12 +33,18 @@
       "noResults": "No results."
     },
     "TeamSwitcher": {
-      "profile": "Profile",
       "changePassword": "Change Password",
       "noticeSettings": "Notice settings",
       "notification": "Notification",
       "faq": "FAQ",
+      "userDetails": "User Details",
       "logout": "Logout"
+    },
+    "Search": {
+      "placeholder": "Search"
+    },
+    "LocaleSwitcher": {
+      "language": "Language"
     }
   }
 }

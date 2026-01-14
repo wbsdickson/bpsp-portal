@@ -47,7 +47,10 @@
       "noResults": "No results found.",
       "navigation": "Navigation",
       "locale": "Locale",
-      "theme": "Theme"
+      "theme": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
     },
     "SystemSettings": {
       "title": "System Settings",
