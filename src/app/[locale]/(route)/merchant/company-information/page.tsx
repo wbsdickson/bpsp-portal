@@ -9,7 +9,9 @@ export default function MerchantCompanyInformationPage() {
 
   return (
     <HeaderPage title={t("title")}>
-      <CompanyInformationForm />
+      <div className="max-w-5xl">
+        <CompanyInformationForm />
+      </div>
     </HeaderPage>
   );
 }

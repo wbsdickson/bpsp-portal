@@ -71,7 +71,18 @@ export default function ReceiptDetail({ id }: { id: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-end gap-3">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">
+            {receipt.receiptNumber}
+          </h2>
+          <Badge
+            variant="outline"
+            className="bg-emerald-50 capitalize text-emerald-700"
+          >
+            {receipt.status}
+          </Badge>
+        </div>
         <Button asChild variant="secondary" size="xs">
           <Link href={`${basePath}/edit/${receipt.id}`}>
             {t("buttons.edit")}

@@ -16,6 +16,11 @@ export default function MerchantPurchaseOrderDetailPage() {
   const locale = useLocale();
   const t = useTranslations("Merchant.PurchaseOrders");
 
+  const breadcrumbItems = [
+    { label: t("title"), href: basePath },
+    { label: id, active: true },
+  ];
+
   const purchaseOrder = usePurchaseOrderStore((s) =>
     id ? s.getPurchaseOrderById(id) : undefined,
   );
@@ -26,8 +31,8 @@ export default function MerchantPurchaseOrderDetailPage() {
   }
 
   return (
-    <div className="max-w-5xl space-y-6">
-      <PageBreadcrumb items={[{ label: t("title"), href: basePath }]} />
+    <div className="max-w-5xl">
+      <PageBreadcrumb items={breadcrumbItems} />
       <PurchaseOrderDetail purchaseOrderId={id} />
     </div>
   );

@@ -91,7 +91,6 @@ export default function ItemDetail({ itemId }: { itemId: string }) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">{item.name}</h2>
-          <p className="text-muted-foreground text-sm">{item.description}</p>
         </div>
         <div className="flex gap-2">
           {isEditing ? (
@@ -129,7 +128,7 @@ export default function ItemDetail({ itemId }: { itemId: string }) {
 
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="bg-card p-4 rounded-lg grid grid-cols-1 gap-6 md:grid-cols-2">
             <InlineEditField
               control={form.control}
               name="name"

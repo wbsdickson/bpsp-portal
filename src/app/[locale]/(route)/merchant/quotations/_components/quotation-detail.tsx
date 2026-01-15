@@ -40,6 +40,7 @@ import { createMerchantQuotationSchema } from "../_lib/merchant-quotation-schema
 import { toast } from "sonner";
 import { generateId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
 
 export default function QuotationDetail({
   quotationId,
@@ -163,7 +164,15 @@ export default function QuotationDetail({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-muted-foreground text-sm">{quotation.status}</p>
+          <h2 className="text-2xl font-bold tracking-tight">
+            {quotation.quotationNumber}
+          </h2>
+          <Badge
+            variant="outline"
+            className="bg-emerald-50 capitalize text-emerald-700"
+          >
+            {quotation.status}
+          </Badge>
         </div>
         <div className="flex gap-2">
           {isEditing ? (
