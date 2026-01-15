@@ -1,15 +1,16 @@
 "use client";
 
 import * as React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { X } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -30,12 +31,7 @@ import { useMerchantStore } from "@/store/merchant-store";
 import { useMerchantMemberStore } from "@/store/merchant/merchant-member-store";
 import type { MemberRole, User, UserRole } from "@/lib/types";
 import { generateId } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useBasePath } from "@/hooks/use-base-path";
 
 type MerchantMemberStatus = "active" | "suspended";
 
@@ -67,8 +63,8 @@ export default function MerchantMemberUpsertForm({
   userId?: string;
 }) {
   const router = useRouter();
-  const locale = useLocale();
   const t = useTranslations("Merchant.MerchantMembers");
+  const { basePath } = useBasePath();
   const searchParams = useSearchParams();
   const preselectedMerchantId = searchParams.get("merchantId") ?? "";
 
@@ -129,36 +125,59 @@ export default function MerchantMemberUpsertForm({
         memberRole: data.memberRole,
         status: data.status,
       });
-      if (onSuccess) onSuccess();
-      return;
+      toast.success(t("messages.updateSuccess"));
+    } else {
+      const newUser: User = {
+        id: generateId("u"),
+        merchantId: data.merchantId,
+        name: data.name.trim(),
+        email: data.email.trim(),
+        role: data.role,
+        memberRole: data.memberRole,
+        status: data.status,
+        createdAt: new Date().toISOString(),
+        lastLoginAt: new Date().toISOString(),
+      };
+
+      addMember(newUser);
+      toast.success(t("messages.createSuccess"));
     }
 
-    const newUser: User = {
-      id: generateId("u"),
-      merchantId: data.merchantId,
-      name: data.name.trim(),
-      email: data.email.trim(),
-      role: data.role,
-      memberRole: data.memberRole,
-      status: data.status,
-      createdAt: new Date().toISOString(),
-      lastLoginAt: new Date().toISOString(),
-    };
-
-    addMember(newUser);
-    if (onSuccess) onSuccess();
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      router.push(basePath);
+    }
   });
 
-  const title = userId ? t("form.editTitle") : t("form.createTitle");
-
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <Form {...form}>
-        <form onSubmit={onSubmit}>
-          <CardContent>
+    <div className="bg-card min-h-[calc(100vh-0px)] rounded-lg p-4">
+      <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
+        <div className="flex items-center gap-3 px-4 py-2">
+          <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => router.back()}>
+            <X className="h-4 w-4" />
+          </Button>
+
+          <div className="flex-1">
+            <div className="text-xl font-bold">
+              {userId ? t("form.editTitle") : t("form.createTitle")}
+            </div>
+          </div>
+
+          <Button
+            size="sm"
+            className="h-9"
+            onClick={onSubmit}
+            disabled={form.formState.isSubmitting}
+          >
+            {userId ? t("buttons.save") : t("buttons.create")}
+          </Button>
+        </div>
+      </div>
+
+      <div className="p-4">
+        <Form {...form}>
+          <form className="space-y-6" onSubmit={onSubmit}>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -296,29 +315,9 @@ export default function MerchantMemberUpsertForm({
                 )}
               />
             </div>
-          </CardContent>
-
-          <CardFooter className="mt-4 justify-end gap-2">
-            <Button
-              variant="outline"
-              className="h-9"
-              onClick={() => {
-                if (onSuccess) onSuccess();
-                router.push(`/${locale}/merchant/members`);
-              }}
-            >
-              {t("buttons.cancel")}
-            </Button>
-            <Button
-              type="submit"
-              className="h-9"
-              disabled={form.formState.isSubmitting}
-            >
-              {t("buttons.save")}
-            </Button>
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+          </form>
+        </Form>
+      </div>
+    </div>
   );
 }

@@ -344,7 +344,8 @@
         "phoneNumber": "Phone number",
         "email": "Email",
         "registrationDate": "Registration date",
-        "detailLink": "Detail link"
+        "detailLink": "Detail link",
+        "address": "Address"
       },
       "filters": {
         "name": "Client name",
@@ -360,13 +361,17 @@
       "buttons": {
         "clearFilters": "Clear filters",
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "create": "Create client"
       },
       "form": {
         "editTitle": "Edit client",
+        "createTitle": "Create client",
         "namePlaceholder": "Client name",
         "phonePlaceholder": "Phone number",
-        "emailPlaceholder": "name@company.com"
+        "emailPlaceholder": "name@company.com",
+        "contactPersonPlaceholder": "Contact person",
+        "addressPlaceholder": "Address"
       },
       "validation": {
         "nameRequired": "Name is required",
@@ -1536,6 +1541,7 @@
     "CreditPayment": {
       "title": "Credit Payment",
       "findInvoice": "Find Invoice",
+      "placeholderInvoiceId": "e.g. inv_001",
       "enterInvoiceId": "Enter the Invoice ID to proceed with payment.",
       "invoicePayment": "Invoice Payment",
       "invoiceId": "Invoice ID",

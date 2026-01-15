@@ -1,16 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useClientStore } from "@/store/client-store";
 import { useMerchantMemberStore } from "@/store/merchant-member-store";
 import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import { useBasePath } from "@/hooks/use-base-path";
+import Link from "next/link";
 
 export default function ClientDetail({ clientId }: { clientId: string }) {
   const t = useTranslations("Merchant.Clients");
   const router = useRouter();
-  const locale = useLocale();
+  const { basePath } = useBasePath();
 
   const client = useClientStore((s) => s.getClientById(clientId));
   const member = useMerchantMemberStore((s) =>
@@ -19,93 +20,94 @@ export default function ClientDetail({ clientId }: { clientId: string }) {
 
   if (!client || client.deletedAt) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-muted-foreground text-sm">
-            {t("messages.notFound")}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="space-y-4">
+        <div className="text-muted-foreground text-sm">
+          {t("messages.notFound")}
+        </div>
+        <Button asChild variant="outline" className="h-9">
+          <Link href={`${basePath}?tab=table`}>{t("buttons.back")}</Link>
+        </Button>
+      </div>
     );
   }
 
   const registrationLabel = client.createdAt
     ? (() => {
-        const dt = new Date(client.createdAt);
-        return Number.isNaN(dt.getTime())
-          ? client.createdAt
-          : dt.toLocaleString();
-      })()
+      const dt = new Date(client.createdAt);
+      return Number.isNaN(dt.getTime())
+        ? client.createdAt
+        : dt.toLocaleDateString();
+    })()
     : "—";
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-end gap-2">
-        <Button
-          
-          variant="outline"
-          className="h-9"
-          onClick={() => {
-            router.push(`/${locale}/merchant/client`);
-          }}
-        >
-          {t("buttons.cancel")}
-        </Button>
-        <Button
-          
-          className="h-9 "
-          onClick={() =>
-            router.push(`/${locale}/merchant/client/edit/${client.id}`)
-          }
-        >
-          {t("actions.edit")}
-        </Button>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">
+            {client.name}
+          </h2>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant="secondary"
+            size="xs"
+            onClick={() => {
+              router.push(`${basePath}/edit/${client.id}`);
+            }}
+            title={t("actions.edit")}
+          >
+            {t("actions.edit")}
+          </Button>
+        </div>
       </div>
-      <Card>
-        <CardContent>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.name")}
-              </div>
-              <div className="font-medium">{client.name}</div>
+
+      <div className="bg-card rounded-md p-4">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.name")}
             </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.contactPerson")}
-              </div>
-              <div className="font-medium">{member?.name ?? "—"}</div>
-            </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.phoneNumber")}
-              </div>
-              <div className="font-medium">{client.phoneNumber}</div>
-            </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.email")}
-              </div>
-              <div className="font-medium">{client.email}</div>
-            </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.registrationDate")}
-              </div>
-              <div className="font-medium">{registrationLabel}</div>
-            </div>
-            <div>
-              <div className="text-muted-foreground text-xs">
-                {t("columns.merchantId")}
-              </div>
-              <div className="font-medium">{client.merchantId}</div>
-            </div>
+            <div className="font-medium">{client.name}</div>
           </div>
-        </CardContent>
-      </Card>
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.contactPerson")}
+            </div>
+            <div className="font-medium">{member?.name ?? "—"}</div>
+          </div>
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.phoneNumber")}
+            </div>
+            <div className="font-medium">{client.phoneNumber}</div>
+          </div>
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.email")}
+            </div>
+            <div className="font-medium">{client.email}</div>
+          </div>
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.address")}
+            </div>
+            <div className="font-medium">{client.address || "—"}</div>
+          </div>
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.registrationDate")}
+            </div>
+            <div className="font-medium">{registrationLabel}</div>
+          </div>
+          <div>
+            <div className="text-muted-foreground text-xs">
+              {t("columns.merchantId")}
+            </div>
+            <div className="font-medium">{client.merchantId}</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
