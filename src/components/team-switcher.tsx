@@ -68,6 +68,13 @@ export function TeamSwitcher({
     router.push(faqRoute);
   };
 
+  const handleNotification = () => {
+    const notificationsRoute = isMerchantPortal
+      ? `/${locale}/merchant/notifications`
+      : `/${locale}/operator/notifications`;
+    router.push(notificationsRoute);
+  };
+
   const actions = [
     {
       label: t("changePassword"),
@@ -79,11 +86,15 @@ export function TeamSwitcher({
       icon: Settings,
       onClick: () => {},
     },
-    {
-      label: t("notification"),
-      icon: Bell,
-      onClick: () => {},
-    },
+    ...(isMerchantPortal
+      ? [
+          {
+            label: t("notification"),
+            icon: Bell,
+            onClick: handleNotification,
+          },
+        ]
+      : []),
     {
       label: t("faq"),
       icon: HelpCircle,

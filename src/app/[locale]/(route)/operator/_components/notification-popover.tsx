@@ -1,8 +1,9 @@
 "use client";
 
 import { Bell, ScrollText } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +17,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useNotificationStore } from "@/store/notification-store";
-import { useBasePath } from "@/hooks/use-base-path";
 
 function formatRelativeTime(dateString: string) {
   const now = new Date();
@@ -31,14 +31,26 @@ function formatRelativeTime(dateString: string) {
 
 export function NotificationPopover() {
   const t = useTranslations("Operator.Sidebar.footer");
+  const locale = useLocale();
   const notifications = useNotificationStore((s) => s.notifications);
+  const updateNotification = useNotificationStore((s) => s.updateNotification);
+  const [open, setOpen] = useState(false);
 
   const recentNotifications = notifications
     .filter((n) => !n.deletedAt)
+    .sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return dateB - dateA; // Newest first
+    })
     .slice(0, 5);
 
+  const unreadCount = notifications.filter(
+    (n) => !n.deletedAt && !n.isRead,
+  ).length;
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>
@@ -48,7 +60,7 @@ export function NotificationPopover() {
               className="hover:bg-muted-foreground/20 relative rounded-full"
             >
               <Bell className="size-4" />
-              {recentNotifications.length > 0 && (
+              {unreadCount > 0 && (
                 <span className="absolute right-1 top-1 flex h-2 w-2 rounded-full bg-red-600" />
               )}
             </Button>
@@ -80,9 +92,17 @@ export function NotificationPopover() {
               </div>
             ) : (
               recentNotifications.map((n) => (
-                <div
+                <Link
                   key={n.id}
-                  className="hover:bg-muted/50 flex gap-3 border-b px-4 py-3 transition-colors last:border-0"
+                  href={`/${locale}/operator/notifications?id=${n.id}`}
+                  onClick={() => {
+                    // Mark as read when clicked
+                    if (!n.isRead) {
+                      updateNotification(n.id, { isRead: true });
+                    }
+                    setOpen(false);
+                  }}
+                  className="hover:bg-muted/50 flex gap-3 border-b px-4 py-3 transition-colors last:border-0 cursor-pointer"
                 >
                   <div className="mt-1">
                     <ScrollText className="size-4 text-blue-500" />
@@ -98,7 +118,7 @@ export function NotificationPopover() {
                       {formatRelativeTime(n.createdAt)}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))
             )}
           </div>
@@ -109,7 +129,10 @@ export function NotificationPopover() {
               className="h-8 w-full text-xs"
               asChild
             >
-              <Link href={`/operator/notifications`}>
+              <Link
+                href={`/${locale}/operator/notifications`}
+                onClick={() => setOpen(false)}
+              >
                 View all notifications
               </Link>
             </Button>

@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 
 import { HelpPopover } from "./help-popover";
-import { NotificationPopover } from "./notification-popover";
 import { UserPreferencesDialog } from "./user-preferences-dialog";
 
 import { Button } from "@/components/ui/button";
@@ -168,7 +167,6 @@ export function HeaderButtons() {
     <>
       <div className="flex items-center gap-2">
         <HelpPopover />
-        <NotificationPopover />
         <LinkButton
           icon={Settings}
           tooltip={t("footer.settings")}
