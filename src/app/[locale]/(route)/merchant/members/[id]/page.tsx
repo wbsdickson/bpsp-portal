@@ -6,13 +6,20 @@ import { useLocale, useTranslations } from "next-intl";
 
 import HeaderPage from "@/components/header-page";
 import { Button } from "@/components/ui/button";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import MerchantMemberDetail from "../_components/merchant-member-detail";
+import { useBasePath } from "@/hooks/use-base-path";
 
 export default function MerchantMemberDetailPage() {
   const params = useParams<{ id: string }>();
   const id = params?.id;
   const t = useTranslations("Merchant.MerchantMembers");
 
+  const { basePath } = useBasePath();
+  const breadcrumbItems = [
+    { label: t("title"), href: basePath },
+    { label: id, active: true },
+  ];
   const locale = useLocale();
 
   if (!id) {
@@ -30,6 +37,7 @@ export default function MerchantMemberDetailPage() {
 
   return (
     <HeaderPage title={t("detailTitle")}>
+      <PageBreadcrumb items={breadcrumbItems} />
       <MerchantMemberDetail userId={id} />
     </HeaderPage>
   );

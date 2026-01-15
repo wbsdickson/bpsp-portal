@@ -11,10 +11,14 @@ import { useBasePath } from "@/hooks/use-base-path";
 export default function MerchantQuotationDetailPage() {
   const params = useParams<{ id: string }>();
   const id = params?.id;
-  const router = useRouter();
   const { basePath } = useBasePath();
   const locale = useLocale();
   const t = useTranslations("Merchant.Quotations");
+
+  const breadcrumbItems = [
+    { label: t("title"), href: basePath },
+    { label: id, active: true },
+  ];
 
   const quotation = useQuotationStore((s) =>
     id ? s.getQuotationById(id) : undefined,
@@ -27,7 +31,7 @@ export default function MerchantQuotationDetailPage() {
 
   return (
     <div className="max-w-5xl space-y-6">
-      <PageBreadcrumb items={[{ label: t("title"), href: basePath }]} />
+      <PageBreadcrumb items={breadcrumbItems} />
       <QuotationDetail quotationId={id} />
     </div>
   );

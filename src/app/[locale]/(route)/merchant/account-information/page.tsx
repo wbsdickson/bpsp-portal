@@ -9,7 +9,7 @@ export default function AccountInformationPage() {
 
   return (
     <HeaderPage title={t("title")}>
-      <div className="p-6">
+      <div className="max-w-5xl">
         <AccountInformationForm />
       </div>
     </HeaderPage>

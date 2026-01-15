@@ -60,21 +60,12 @@ const merchantRoutes: NavRoute[] = [
     icon: UserCircle,
   },
   {
-    label: "registration",
-    route: "merchant/registration",
-    icon: User,
-  },
-  {
     label: "creditPayment",
     route: "merchant/credit-payment",
     icon: CreditCard,
   },
   // Settings group
-  {
-    label: "accountInformationManagement",
-    route: "merchant/account-information",
-    icon: User,
-  },
+
   {
     label: "companyInformationManagement",
     route: "merchant/company-information",
