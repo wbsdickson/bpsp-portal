@@ -28,9 +28,11 @@ import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { SidebarLastUpdate } from "@/components/sidebar-last-update";
 import { useSession } from "next-auth/react";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { useTranslations } from "next-intl";
@@ -182,6 +184,9 @@ export function AppSidebar({
       <SidebarContent>
         <NavMain routes={routes} />
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarLastUpdate />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

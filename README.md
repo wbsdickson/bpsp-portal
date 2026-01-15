@@ -29,6 +29,12 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Git Hooks
+
+This project uses [Husky](https://typicode.github.io/husky/) to manage git hooks. The pre-commit hook automatically updates the build timestamp before each commit.
+
+**For new team members:** After cloning the repository, run `bun install` (or `npm install`). The `prepare` script will automatically set up the git hooks.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.

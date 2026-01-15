@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Update last update timestamp in build-info.ts before commit
+bash scripts/update-build-info.sh >/dev/null 2>&1
+
+# Stage the updated file
+git add src/lib/build-info.ts 2>/dev/null || true
