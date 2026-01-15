@@ -83,8 +83,10 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     () => ({
       name: session?.data?.user?.name ?? "",
       email: session?.data?.user?.email ?? "",
+      role: session?.data?.user?.role ?? "",
+      companyName: (session?.data?.user as any)?.companyName ?? "",
     }),
-    [session?.data?.user?.name, session?.data?.user?.email],
+    [session?.data?.user?.name, session?.data?.user?.email, session?.data?.user?.role],
   );
 
   const routes = React.useMemo<NavRoute[]>(
@@ -120,7 +122,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
       {...props}
     >
       <SidebarHeader>
-        <TeamSwitcher name={user.name} company={user.email} />
+        <TeamSwitcher name={user.name} role={user.role} email={user.email} companyName={user.companyName} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain routes={routes} />
