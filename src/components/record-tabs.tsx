@@ -122,7 +122,7 @@ export default function RecordTabs<T>({
             exit={{ opacity: 0 }}
             className={cn(
               !isActive && "hidden",
-              "rounded-md bg-card",
+              "bg-card rounded-md",
               isFirstTab && isActive && "rounded-tl-none",
               panelClassName,
             )}
