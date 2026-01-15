@@ -1,0 +1,318 @@
+# Cursor Rules for BPSP Portal
+
+## Project Overview
+
+This is a Next.js 16 application built with TypeScript, React 19, Tailwind CSS, and next-intl for internationalization. The project follows a multi-portal architecture with separate merchant and operator portals.
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript (strict mode)
+- **UI Library**: React 19
+- **Styling**: Tailwind CSS 4
+- **State Management**: Zustand
+- **Form Handling**: React Hook Form + Zod
+- **Internationalization**: next-intl
+- **Authentication**: next-auth v5
+- **UI Components**: Radix UI primitives + shadcn/ui
+- **Icons**: Lucide React
+- **Notifications**: Sonner
+- **Animations**: Framer Motion
+
+## Code Style & Conventions
+
+### TypeScript
+
+- Use strict TypeScript with proper typing
+- Avoid `any` types - use proper types or `unknown` when necessary
+- Use type inference where appropriate
+- Define interfaces/types in `src/types/` directory
+- Use `as const` for literal types when needed
+
+### File Naming
+
+- Components: PascalCase (e.g., `TeamSwitcher.tsx`)
+- Utilities: camelCase (e.g., `date-utils.ts`)
+- Pages: lowercase with hyphens (e.g., `page.tsx`, `client-detail.tsx`)
+- Use `.tsx` for React components, `.ts` for utilities/types
+
+### Component Structure
+
+- Use "use client" directive for client components
+- Place components in appropriate directories:
+  - `src/components/ui/` - Reusable UI components (shadcn/ui)
+  - `src/components/` - Custom application components
+  - `src/app/[locale]/(route)/*/_components/` - Page-specific components
+- Export components as named exports or default exports consistently
+- **IMPORTANT**: When creating a new component in `src/components/` (not `src/components/ui/`), you MUST add a demo/sample to the developer page (`src/app/[locale]/developer/page.tsx`):
+  1. Add the component key to the `customSections` array
+  2. Add the corresponding `Section` type if needed
+  3. Create a `{ComponentName}Section` function that demonstrates the component
+  4. Add the section rendering logic in the main content area
+  5. Follow the existing pattern used by other custom component sections
+
+### Import Organization
+
+1. React and Next.js imports
+2. Third-party library imports
+3. Internal component imports (`@/components/...`)
+4. Internal utility imports (`@/lib/...`, `@/hooks/...`, `@/store/...`)
+5. Type imports
+6. Relative imports (avoid when possible, use `@/` alias)
+
+### Styling Guidelines
+
+- Use Tailwind CSS utility classes
+- Prefer Tailwind classes over custom CSS
+- Use `cn()` utility from `@/lib/utils` for conditional classes
+- Use `class-variance-authority` (cva) for component variants
+- Follow responsive design patterns: mobile-first, then `md:`, `lg:` breakpoints
+- Use semantic color tokens: `bg-background`, `text-foreground`, `bg-card`, `bg-muted`, etc.
+- Dark mode: Use theme-aware classes, avoid hardcoded colors
+
+### Internationalization (i18n)
+
+- All user-facing text must use `useTranslations()` from `next-intl`
+- Translation keys follow namespace pattern: `Merchant.Section.key` or `Operator.Section.key`
+- Translation files are in `dictionary/{locale}/` directory
+- Use `useLocale()` for locale-aware routing
+- Never hardcode text strings in components
+
+### State Management
+
+- Use Zustand for global state (`src/store/`)
+- Use React hooks (`useState`, `useReducer`) for local component state
+- Use React Hook Form for form state
+- Prefer server components when possible, use client components only when needed
+
+### Form Handling
+
+- Use React Hook Form with Zod validation
+- Define schemas using Zod
+- Use `zodResolver` from `@hookform/resolvers`
+- Use `Form`, `FormField`, `FormItem`, `FormControl`, `FormMessage` from `@/components/ui/form`
+- Handle form submission with `form.handleSubmit()`
+- Show loading states during submission
+
+### API & Data Fetching
+
+- Use Next.js Server Components for data fetching when possible
+- Use Server Actions for mutations (`src/actions/`)
+- Handle errors gracefully with try-catch
+- Show user feedback with toast notifications
+
+### Error Handling
+
+- Use toast notifications for user-facing errors (`toast.error()`)
+- Log errors appropriately
+- Provide meaningful error messages
+- Handle loading states during async operations
+
+### Accessibility
+
+- Use semantic HTML elements
+- Include proper ARIA labels where needed
+- Ensure keyboard navigation works
+- Use Radix UI components which have built-in accessibility
+
+### Performance
+
+- Use `React.memo()` for expensive components when appropriate
+- Use `useMemo()` and `useCallback()` for expensive computations
+- Lazy load heavy components when possible
+- Optimize images with Next.js `Image` component
+- Use dynamic imports for code splitting
+
+## File Organization
+
+```
+src/
+├── actions/          # Server actions
+├── app/              # Next.js app router pages
+│   └── [locale]/     # Internationalized routes
+│       ├── (auth)/   # Authentication pages
+│       └── (route)/  # Protected routes
+│           ├── merchant/  # Merchant portal
+│           └── operator/ # Operator portal
+├── components/       # Shared components
+│   └── ui/          # UI primitives (shadcn/ui)
+├── context/         # React contexts
+├── hooks/           # Custom React hooks
+├── lib/             # Utilities and helpers
+├── store/           # Zustand stores
+└── types/           # TypeScript type definitions
+```
+
+## Common Patterns
+
+### Component Props
+
+```typescript
+interface ComponentProps {
+  // Required props first
+  requiredProp: string;
+  // Optional props with default values
+  optionalProp?: number;
+  // Event handlers
+  onSubmit?: (data: FormData) => void;
+  // Children
+  children?: React.ReactNode;
+}
+```
+
+### Form Pattern
+
+```typescript
+const form = useForm<FormValues>({
+  resolver: zodResolver(schema),
+  defaultValues: { ... },
+});
+
+const onSubmit = form.handleSubmit((data) => {
+  // Handle submission
+});
+```
+
+### Toast Notifications
+
+- Use `toast.success()` for successful operations
+- Use `toast.error()` for errors
+- Use `toast.promise()` for async operations
+- Use `toast.loading()` for long-running operations
+- Include descriptions for context
+
+### Routing
+
+- Use `useRouter()` from `next/navigation` for navigation
+- Use `usePathname()` for current path
+- Use `useSearchParams()` for URL parameters
+- Always include locale in routes: `/${locale}/path`
+
+### Responsive Design
+
+- Mobile-first approach
+- Use `hidden md:block` for responsive visibility
+- Use `flex-col md:flex-row` for responsive layouts
+- Test on mobile, tablet, and desktop breakpoints
+
+## Best Practices
+
+1. **Always use TypeScript types** - Avoid `any`, use proper types
+2. **Internationalize all text** - Never hardcode strings
+3. **Handle loading and error states** - Always show feedback to users
+4. **Use semantic HTML** - Proper heading hierarchy, semantic elements
+5. **Follow accessibility guidelines** - ARIA labels, keyboard navigation
+6. **Optimize for performance** - Memoization, code splitting, lazy loading
+7. **Keep components focused** - Single responsibility principle
+8. **Reuse components** - Don't duplicate code, extract to shared components
+9. **Use consistent naming** - Follow established patterns
+10. **Test responsive design** - Ensure mobile, tablet, desktop work correctly
+
+## Common Mistakes to Avoid
+
+1. ❌ Don't use `any` types
+2. ❌ Don't hardcode text strings
+3. ❌ Don't forget error handling
+4. ❌ Don't skip loading states
+5. ❌ Don't use inline styles when Tailwind classes work
+6. ❌ Don't create deeply nested components
+7. ❌ Don't forget to handle dark mode
+8. ❌ Don't skip TypeScript types
+9. ❌ Don't forget to internationalize
+10. ❌ Don't ignore accessibility
+
+## Code Examples
+
+### Creating a New Page Component
+
+```typescript
+"use client";
+
+import { useTranslations } from "next-intl";
+import HeaderPage from "@/components/header-page";
+
+export default function MyPage() {
+  const t = useTranslations("Merchant.MyPage");
+
+  return (
+    <HeaderPage title={t("title")}>
+      {/* Page content */}
+    </HeaderPage>
+  );
+}
+```
+
+### Creating a Form Component
+
+```typescript
+"use client";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Form } from "@/components/ui/form";
+import { toast } from "sonner";
+
+const schema = z.object({
+  name: z.string().min(1, "Name is required"),
+});
+
+type FormValues = z.infer<typeof schema>;
+
+export function MyForm() {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { name: "" },
+  });
+
+  const onSubmit = form.handleSubmit((data) => {
+    // Handle submission
+    toast.success("Saved successfully!");
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={onSubmit}>
+        {/* Form fields */}
+      </form>
+    </Form>
+  );
+}
+```
+
+### Using Zustand Store
+
+```typescript
+import { useMyStore } from "@/store/my-store";
+
+export function MyComponent() {
+  const data = useMyStore((state) => state.data);
+  const updateData = useMyStore((state) => state.updateData);
+
+  // Component logic
+}
+```
+
+## When Making Changes
+
+1. **Check existing patterns** - Look for similar implementations
+2. **Follow naming conventions** - Match existing code style
+3. **Add translations** - Update dictionary files for new text
+4. **Handle edge cases** - Consider error states, loading states
+5. **Test responsiveness** - Verify mobile, tablet, desktop
+6. **Check dark mode** - Ensure it works in both themes
+7. **Run linter** - Fix any linting errors
+8. **Update types** - Add proper TypeScript types
+9. **Add developer page demo** - If creating a new component in `src/components/`, add a demo section to the developer page
+
+## Questions to Ask Before Coding
+
+1. Is this component reusable? Should it be in `components/` or `_components/`?
+2. Does this need to be a client component? Can it be a server component?
+3. Are all text strings internationalized?
+4. Are loading and error states handled?
+5. Does this work in dark mode?
+6. Is this accessible (keyboard navigation, screen readers)?
+7. Is this responsive (mobile, tablet, desktop)?
+8. Are TypeScript types properly defined?
+9. If this is a new component in `src/components/`, have I added a demo to the developer page?
