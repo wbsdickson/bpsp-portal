@@ -158,10 +158,10 @@ export function AppSidebar({
     () => ({
       name: session?.data?.user?.name ?? "",
       email: session?.data?.user?.email ?? "",
-      role: session?.data?.user?.role ?? "",
+      role: (session?.data?.user as any)?.role ?? "",
       companyName: (session?.data?.user as any)?.companyName ?? "",
     }),
-    [session?.data?.user?.name, session?.data?.user?.email, session?.data?.user?.role],
+    [session?.data?.user?.name, session?.data?.user?.email, (session?.data?.user as any)?.role],
   );
 
   const routes = React.useMemo<NavRoute[]>(
