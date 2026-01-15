@@ -1,10 +1,11 @@
-import ActionsCell from "../../_components/action-cell";
+import ActionsCell from "@/components/action-cell";
 import { Button } from "@/components/ui/button";
 import type { Client } from "@/lib/types";
 import { useMerchantClientStore } from "@/store/merchant/merchant-client-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useBasePath } from "@/hooks/use-base-path";
 
 export type ClientRow = Client & { contactPerson: string };
 
@@ -15,14 +16,15 @@ export default function useClientTableColumn({
 }) {
   const t = useTranslations("Merchant.Clients");
   const router = useRouter();
+  const { basePath } = useBasePath();
   const deleteClient = useMerchantClientStore((s) => s.deleteClient);
 
   const onOpenDetail = (item: ClientRow) => {
-    router.push(`/merchant/clients/${item.id}`);
+    router.push(`${basePath}/${item.id}`);
   };
 
   const onOpenEdit = (item: ClientRow) => {
-    router.push(`/merchant/clients/edit/${item.id}`);
+    router.push(`${basePath}/edit/${item.id}`);
   };
 
   const onDelete = (item: ClientRow) => {
@@ -36,9 +38,20 @@ export default function useClientTableColumn({
       cell: ({ row }) => (
         <ActionsCell<ClientRow>
           item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
+          actions={[
+            {
+              title: t("actions.view"),
+              onPress: (item) => onOpenDetail(item),
+            },
+            {
+              title: t("actions.edit"),
+              onPress: (item) => onOpenEdit(item),
+            },
+            {
+              title: t("actions.delete"),
+              onPress: (item) => onDelete(item),
+            },
+          ]}
           t={t}
         />
       ),

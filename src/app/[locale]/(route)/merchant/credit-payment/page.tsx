@@ -170,7 +170,7 @@ function CreditPaymentContent() {
                                     <Search className="text-muted-foreground absolute left-3 top-2.5 h-4" />
                                     <Input
                                         id="invoiceId"
-                                        placeholder="e.g. inv_001"
+                                        placeholder={t("placeholderInvoiceId")}
                                         className="pl-8"
                                         value={invoiceId}
                                         onChange={(e) => setInvoiceId(e.target.value)}

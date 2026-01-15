@@ -337,10 +337,12 @@
       "columns": {
         "merchantId": "加盟店ID",
         "name": "取引先名",
+        "contactPerson": "連絡先",
         "phoneNumber": "電話番号",
         "email": "メールアドレス",
         "registrationDate": "登録日",
-        "detailLink": "詳細"
+        "detailLink": "詳細",
+        "address": "住所"
       },
       "filters": {
         "name": "取引先名",
@@ -356,16 +358,20 @@
       "buttons": {
         "clearFilters": "フィルターをクリア",
         "cancel": "キャンセル",
-        "save": "保存"
+        "save": "保存",
+        "create": "作成"
       },
       "form": {
-        "editTitle": "Clientを編集",
-        "namePlaceholder": "Client名",
+        "editTitle": "取引先を編集",
+        "createTitle": "取引先を作成",
+        "namePlaceholder": "取引先名",
         "phonePlaceholder": "電話番号",
-        "emailPlaceholder": "name@company.com"
+        "emailPlaceholder": "メールアドレス",
+        "contactPersonPlaceholder": "連絡先",
+        "addressPlaceholder": "住所"
       },
       "validation": {
-        "nameRequired": "Client名は必須です",
+        "nameRequired": "取引先名は必須です",
         "phoneRequired": "電話番号は必須です",
         "emailRequired": "メールアドレスは必須です",
         "emailInvalid": "メールアドレスの形式が正しくありません"
@@ -1542,6 +1548,7 @@
     "CreditPayment": {
       "title": "クレジット支払い",
       "findInvoice": "請求書を検索",
+      "placeholderInvoiceId": "例: inv_001",
       "enterInvoiceId": "支払いを進めるには請求書IDを入力してください。",
       "invoicePayment": "請求書支払い",
       "invoiceId": "請求書ID",
