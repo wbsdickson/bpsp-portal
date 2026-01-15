@@ -61,6 +61,13 @@ export function TeamSwitcher({
     router.push(accountInfoRoute);
   };
 
+  const handleFAQ = () => {
+    const faqRoute = isMerchantPortal
+      ? `/${locale}/merchant/faq`
+      : `/${locale}/operator/faq`;
+    router.push(faqRoute);
+  };
+
   const actions = [
     {
       label: t("changePassword"),
@@ -80,7 +87,7 @@ export function TeamSwitcher({
     {
       label: t("faq"),
       icon: HelpCircle,
-      onClick: () => {},
+      onClick: handleFAQ,
     },
   ];
 

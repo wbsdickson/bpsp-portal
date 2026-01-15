@@ -1669,6 +1669,11 @@
       "description": "Customize your sidebar style and primary color",
       "sidebarVariant": "Sidebar Style",
       "primaryColor": "Primary Color"
+    },
+    "FAQ": {
+      "title": "FAQ",
+      "searchPlaceholder": "Search FAQ...",
+      "noResults": "No results found for \"{searchQuery}\""
     }
   }
 }

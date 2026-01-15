@@ -1592,6 +1592,11 @@
       "description": "サイドバーのスタイルとプライマリカラーをカスタマイズ",
       "sidebarVariant": "サイドバースタイル",
       "primaryColor": "プライマリカラー"
+    },
+    "FAQ": {
+      "title": "よくある質問",
+      "searchPlaceholder": "よくある質問を検索...",
+      "noResults": "\"{searchQuery}\" に一致する結果が見つかりませんでした"
     }
   }
 }

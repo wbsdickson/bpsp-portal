@@ -4,7 +4,38 @@ import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "@/lib/utils";
-
+import { cva } from "class-variance-authority";
+const tabsListVariants = cva("inline-flex", {
+  variants: {
+    variant: {
+      default:
+        "bg-gray-200/60 items-center justify-center h-10 rounded-md p-1 text-muted-foreground",
+      outline: "border-b border-gray-200 w-full",
+      // Add more variants here
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+const tabsTriggerVariants = cva(
+  "rounded-sm px-3 py-1.5 inline-flex items-center justify-center text-sm font-medium whitespace-nowrap transition-all ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ",
+  {
+    variants: {
+      variant: {
+        default:
+          "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+        outline:
+          "group rounded-none bg-transparent shadow-none duration-300 ease-in-out data-[state=active]:shadow-none",
+        theme:
+          "data-[state=active]:bg-theme-background data-[state=active]:text-theme-foreground data-[state=active]:shadow-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+);
 function Tabs({
   className,
   ...props
@@ -20,15 +51,15 @@ function Tabs({
 
 function TabsList({
   className,
+  variant = "default",
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.List>) {
+}: React.ComponentProps<typeof TabsPrimitive.List> & {
+  variant?: "default" | "outline";
+}) {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      className={cn(
-        "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]",
-        className,
-      )}
+      className={cn(tabsListVariants({ variant }), className)}
       {...props}
     />
   );
@@ -36,17 +67,30 @@ function TabsList({
 
 function TabsTrigger({
   className,
+  variant = "default",
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+}: React.ComponentProps<typeof TabsPrimitive.Trigger> & {
+  variant?: "default" | "outline" | "theme";
+}) {
   return (
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "data-[state=active]:bg-background dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded border border-transparent px-2 py-1 text-sm font-medium transition-[color,box-shadow] focus-visible:outline-1 focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-sm [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        tabsTriggerVariants({ variant }),
+        "dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground text-foreground dark:text-muted-foreground h-[calc(100%-1px)] flex-1 border border-transparent [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className,
       )}
       {...props}
-    />
+    >
+      {variant === "outline" ? (
+        <div className={cn("relative w-full", className)}>
+          {props.children}
+          <div className="group-data-[state=active]:border-b-primary absolute bottom-[-7px] left-0 w-full border-b-2 border-b-transparent transition-all duration-300 ease-in-out"></div>
+        </div>
+      ) : (
+        props.children
+      )}
+    </TabsPrimitive.Trigger>
   );
 }
 
