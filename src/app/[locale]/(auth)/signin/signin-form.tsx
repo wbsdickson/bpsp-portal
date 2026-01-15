@@ -108,6 +108,7 @@ export function SignInForm({ locale }: { locale: string }) {
                 <Input
                   placeholder={t("emailPlaceholder")}
                   autoComplete="email"
+                  className="bg-card"
                   {...field}
                 />
               </FormControl>
@@ -134,6 +135,7 @@ export function SignInForm({ locale }: { locale: string }) {
                   placeholder={t("passwordPlaceholder")}
                   type="password"
                   autoComplete="current-password"
+                  className="bg-card"
                   {...field}
                 />
               </FormControl>
@@ -148,7 +150,7 @@ export function SignInForm({ locale }: { locale: string }) {
         ) : null}
         <Button
           type="submit"
-          className="w-full bg-neutral-900 text-white hover:bg-neutral-900/90 dark:bg-white dark:text-neutral-900 dark:hover:bg-white/90"
+          className="w-full"
           disabled={form.formState.isSubmitting || !form.formState.isValid}
         >
           {form.formState.isSubmitting ? (

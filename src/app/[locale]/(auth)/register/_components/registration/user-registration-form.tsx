@@ -130,6 +130,7 @@ export const UserRegistrationForm: React.FC = () => {
             form={otpForm}
             otpSize={otpSize}
             email={emailForm.getValues("email")}
+            onBack={goBack}
           />
         );
       case STAGE.SET_PASSWORD:
@@ -138,6 +139,7 @@ export const UserRegistrationForm: React.FC = () => {
             email={emailForm.getValues("email")}
             setStage={setStage}
             form={passwordForm}
+            onBack={goBack}
           />
         );
       default:
@@ -154,18 +156,7 @@ export const UserRegistrationForm: React.FC = () => {
 
   return (
     <div className="relative h-full">
-      <Button
-        variant="ghost"
-        size="icon"
-        className={cn(
-          "absolute left-4 top-4",
-          stage === STAGE.EMAIL ? "hidden" : "",
-        )}
-        onClick={goBack}
-      >
-        <ChevronLeft />
-      </Button>
-      <div className="flex h-full w-full flex-col justify-start py-12">
+      <div className="flex h-full w-full flex-col justify-start">
         <AnimatePresence mode="wait">
           <motion.div
             key={stage}

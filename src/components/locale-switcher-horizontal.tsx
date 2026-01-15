@@ -26,7 +26,7 @@ export default function LocaleSwitcherHorizontal() {
   return (
     <div className="flex items-center justify-between gap-3">
       <div className="flex items-center gap-3">
-        <div className="text-sm font-medium text-black">{t("language")}</div>
+        <div className="text-sm font-medium text-popover-foreground">{t("language")}</div>
       </div>
 
       <div className="bg-muted flex h-7 rounded-full p-0.5">

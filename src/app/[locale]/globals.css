@@ -143,32 +143,32 @@
   }
 
   /* Merchant Theme Overrides (Green) */
-  [data-role="merchant"] {
+  /* [data-role="merchant"] {
     --primary: oklch(0.4 0.15 150);
     --primary-foreground: oklch(0.985 0 0);
     --sidebar-primary: oklch(0.4 0.15 150);
-  }
+  } */
 
   /* Admin Theme Overrides (Blue) */
-  [data-role="admin"] {
+  /* [data-role="admin"] {
     --primary: oklch(0.3 0.1 260);
     --primary-foreground: oklch(0.985 0 0);
     --sidebar-primary: oklch(0.3 0.1 260);
-  }
+  } */
 
   /* JPCC Admin Theme Overrides (Purple) */
-  [data-role="jpcc_admin"] {
+  /* [data-role="jpcc_admin"] {
     --primary: oklch(0.35 0.15 300);
     --primary-foreground: oklch(0.985 0 0);
     --sidebar-primary: oklch(0.35 0.15 300);
-  }
+  } */
 
   /* JPCC Merchant Theme Overrides (Teal) */
-  [data-role="merchant_jpcc"] {
+  /* [data-role="merchant_jpcc"] {
     --primary: oklch(0.4 0.12 190);
     --primary-foreground: oklch(0.985 0 0);
     --sidebar-primary: oklch(0.4 0.12 190);
-  }
+  } */
 
   button:not(:disabled),
   [role="button"]:not(:disabled) {

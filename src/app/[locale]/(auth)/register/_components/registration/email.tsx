@@ -98,15 +98,17 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
   return (
     <div className="flex h-full flex-col justify-between">
       <FormWrapper>
-        <FormHeaderSection>
-          <FormHeader heading={` ${t("title")}`} />
+        <div className="space-y-4">
+          <div className="flex items-center justify-center">
+            <FormHeader heading={` ${t("title")}`} />
+          </div>
           <FormCaption
             caption={
               useConfigurationContext()?.configProfile?.register
                 ?.accountCreation || t("description")
             }
           />
-        </FormHeaderSection>
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onGetOTP)}
@@ -119,7 +121,11 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
                 render={({ field }) => (
                   <FormItem className="mb-4">
                     <FormControl>
-                      <Input {...field} placeholder={t("emailPlaceholder")} />
+                      <Input
+                        {...field}
+                        placeholder={t("emailPlaceholder")}
+                        className="bg-card"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,11 +145,12 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
                       return (
                         <FormItem
                           key="tnc"
-                          className="flex flex-row items-start space-x-3 space-y-0"
+                          className="flex flex-row items-start gap-0 space-x-3 space-y-0"
                         >
                           <FormControl>
                             <Checkbox
                               id="tnc"
+                              className="border-card-foreground/40 bg-card"
                               checked={field.value}
                               onCheckedChange={(checked) => {
                                 field.onChange(checked);
@@ -193,7 +200,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
           </form>
         </Form>
       </FormWrapper>
-      <div className="mt-12 px-10 pb-16 text-sm">
+      <div className="mt-12 px-10 text-sm">
         <span>
           {t("policyAgreement")}{" "}
           <Link

@@ -99,7 +99,7 @@ export function TeamSwitcher({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-65 rounded-xl bg-white p-2 shadow-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-65 rounded-xl bg-popover p-2 shadow-lg"
             align="start"
             side={isMobile ? "bottom" : "right"}
             sideOffset={4}
@@ -110,7 +110,7 @@ export function TeamSwitcher({
                 <AudioWaveform className="size-5" />
               </div>
               <div className="flex-1">
-                <div className="text-sm font-semibold">{company}</div>
+                <div className="text-sm font-semibold text-popover-foreground">{company}</div>
               </div>
             </div>
 
@@ -122,7 +122,7 @@ export function TeamSwitcher({
               <DropdownMenuItem
                 key={action.label}
                 onClick={action.onClick}
-                className="gap-3 rounded-sm px-2 py-2 text-sm hover:bg-gray-50"
+                className="gap-3 rounded-sm px-2 py-2 text-sm hover:bg-accent"
               >
                 <action.icon className="size-4" />
                 {action.label}
@@ -133,7 +133,7 @@ export function TeamSwitcher({
 
             <DropdownMenuItem
               onClick={handleUserDetails}
-              className="gap-3 rounded-sm px-2 py-2 text-sm hover:bg-gray-50"
+              className="gap-3 rounded-sm px-2 py-2 text-sm hover:bg-accent"
             >
               <User className="size-4" />
               {t("userDetails")}

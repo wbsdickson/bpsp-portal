@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import * as z from "zod";
 import {
@@ -33,6 +33,7 @@ interface Props {
   otpSize: number;
   codeTtl: number;
   setCodeTtl: React.Dispatch<React.SetStateAction<number>>;
+  onBack?: () => void;
 }
 
 const OTP = ({
@@ -42,6 +43,7 @@ const OTP = ({
   otpSize,
   codeTtl,
   setCodeTtl,
+  onBack,
 }: Props) => {
   const t = useTranslations("Auth.Registration");
   const [count, { startCountdown, stopCountdown, resetCountdown }] =
@@ -103,75 +105,87 @@ const OTP = ({
   }, [codeTtl]);
 
   return (
-    <FormWrapper>
-      <FormHeaderSection>
-        <FormHeader heading={t("enterVerificationCode")} />
-        <FormCaption caption={t("verificationCodeSent", { email })} />
-      </FormHeaderSection>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onGetOTP)}
-          className="space-y-6 text-center"
+    <div className="relative">
+      {onBack && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onBack}
+          className="absolute left-0 top-0"
         >
-          <FormField
-            control={form.control}
-            name="otp"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <InputOTP
-                    maxLength={otpSize}
-                    containerClassName="justify-center"
-                    {...field}
-                    onChange={(value) => {
-                      console.log(field);
-                      console.log(value);
-                      field.onChange(value);
-                      if (value.length === otpSize) {
-                        form.handleSubmit(onGetOTP)();
-                      }
-                    }}
-                  >
-                    <InputOTPGroup className="mx-auto">
-                      {Array.from({ length: otpSize }).map((_, index) => (
-                        <InputOTPSlot
-                          key={index}
-                          index={index}
-                          className="h-12 w-12 text-lg"
-                        />
-                      ))}
-                    </InputOTPGroup>
-                  </InputOTP>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <ChevronLeft />
+        </Button>
+      )}
+      <FormWrapper>
+        <div className="space-y-4 text-center">
+          <FormHeader heading={t("enterVerificationCode")} />
+          <FormCaption caption={t("verificationCodeSent", { email })} />
+        </div>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onGetOTP)}
+            className="space-y-6 text-center"
+          >
+            <FormField
+              control={form.control}
+              name="otp"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <InputOTP
+                      maxLength={otpSize}
+                      containerClassName="justify-center"
+                      {...field}
+                      onChange={(value) => {
+                        console.log(field);
+                        console.log(value);
+                        field.onChange(value);
+                        if (value.length === otpSize) {
+                          form.handleSubmit(onGetOTP)();
+                        }
+                      }}
+                    >
+                      <InputOTPGroup className="mx-auto">
+                        {Array.from({ length: otpSize }).map((_, index) => (
+                          <InputOTPSlot
+                            key={index}
+                            index={index}
+                            className="bg-card h-12 w-12 text-lg"
+                          />
+                        ))}
+                      </InputOTPGroup>
+                    </InputOTP>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button className="w-full">
-            {/* {verifyOtpMutation.isPending ? (
+            <Button className="w-full">
+              {/* {verifyOtpMutation.isPending ? (
               <Loader2 className="animate-spin" />
             ) : (
               <>{t("verify")}</>
             )} */}
-            <>{t("verify")}</>
-          </Button>
-          <div>{t("checkSpam")}</div>
-          <div>
-            <span className="text-sm">{t("noCode")} </span>
-            <Button
-              type="button"
-              className="p-0 text-blue-600"
-              variant="link"
-              disabled={count > 0}
-              onClick={reTriggerOtp}
-            >
-              {t("resendCode")} {count > 0 ? t("inSeconds", { count }) : ""}
+              <>{t("verify")}</>
             </Button>
-          </div>
-        </form>
-      </Form>
-    </FormWrapper>
+            <div>{t("checkSpam")}</div>
+            <div>
+              <span className="text-sm">{t("noCode")} </span>
+              <Button
+                type="button"
+                className="p-0 text-blue-600"
+                variant="link"
+                disabled={count > 0}
+                onClick={reTriggerOtp}
+              >
+                {t("resendCode")} {count > 0 ? t("inSeconds", { count }) : ""}
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </FormWrapper>
+    </div>
   );
 };
 

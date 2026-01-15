@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Loader2, XCircle } from "lucide-react";
+import { CheckCircle2, ChevronLeft, Loader2, XCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
@@ -39,9 +39,10 @@ interface Props {
   setStage: React.Dispatch<React.SetStateAction<STAGE>>;
   form: UseFormReturn<z.infer<typeof PasswordFormSchema>>;
   email: string;
+  onBack?: () => void;
 }
 
-const SetPassword = ({ setStage, form, email }: Props) => {
+const SetPassword = ({ setStage, form, email, onBack }: Props) => {
   const t = useTranslations("Auth.SetupPassword");
   const tReg = useTranslations("Auth.Registration");
   const router = useRouter();
@@ -158,62 +159,82 @@ const SetPassword = ({ setStage, form, email }: Props) => {
     );
   });
   return (
-    <FormWrapper>
-      <FormHeaderSection>
-        <FormHeader heading={tReg("setPassword")} />
-        <FormCaption caption={tReg("createPasswordDescription")} />
-      </FormHeaderSection>
-
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onCreateUserWithPassword)}
-          className="space-y-6 text-left"
+    <div className="relative">
+      {onBack && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onBack}
+          className="absolute left-0 top-0"
         >
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{tReg("passwordLabel")}</FormLabel>
-                <FormControl>
-                  <Input {...field} type="password" className="font-mono" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{tReg("confirmPasswordLabel")}</FormLabel>
-                <FormControl>
-                  <Input {...field} type="password" className="font-mono" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="p-2">
-            <ul className="list-decimal space-y-2 py-2 font-mono">
-              {PasswordConstraintItemsJSX}
-            </ul>
-          </div>
-          <Button
-            disabled={isSubmitting || isSuccessfullyRegistered}
-            className="w-full"
-            type="submit"
+          <ChevronLeft />
+        </Button>
+      )}
+      <FormWrapper>
+        <div className="space-y-4 text-center">
+          <FormHeader heading={tReg("setPassword")} />
+          <FormCaption caption={tReg("createPasswordDescription")} />
+        </div>
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onCreateUserWithPassword)}
+            className="space-y-6"
           >
-            {isSubmitting ? (
-              <Loader2 className="animate-spin" />
-            ) : (
-              <>{tReg("confirm")}</>
-            )}
-          </Button>
-        </form>
-      </Form>
-    </FormWrapper>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tReg("passwordLabel")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      className="bg-card font-mono"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tReg("confirmPasswordLabel")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      className="bg-card font-mono"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="p-2">
+              <ul className="list-decimal space-y-2 py-2 font-mono">
+                {PasswordConstraintItemsJSX}
+              </ul>
+            </div>
+            <Button
+              disabled={isSubmitting || isSuccessfullyRegistered}
+              className="w-full"
+              type="submit"
+            >
+              {isSubmitting ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <>{tReg("confirm")}</>
+              )}
+            </Button>
+          </form>
+        </Form>
+      </FormWrapper>
+    </div>
   );
 };
 
