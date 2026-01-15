@@ -140,6 +140,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { IconsSection } from "./_components/icons-section";
+import { BaseModal } from "@/components/modals/base-modal";
 
 type Section =
   | "icons"
@@ -182,7 +183,8 @@ type Section =
   | "search"
   | "record-tabs"
   | "theme-toggle"
-  | "title-field";
+  | "title-field"
+  | "modals";
 
 type SectionGroup = {
   label: string;
@@ -232,9 +234,10 @@ const customSections: { key: Section; label: string }[] = [
   { key: "inline-edit-field", label: "Inline Edit Field" },
   { key: "locale-switcher", label: "Locale Switcher" },
   { key: "locale-tabs", label: "Locale Tabs" },
+  { key: "modals", label: "Modals" },
   { key: "page-breadcrumb", label: "Page Breadcrumb" },
-  { key: "search", label: "Search" },
   { key: "record-tabs", label: "Record Tabs" },
+  { key: "search", label: "Search" },
   { key: "theme-toggle", label: "Theme Toggle" },
   { key: "title-field", label: "Title Field" },
 ];
@@ -350,6 +353,7 @@ export default function DeveloperPage() {
                 {activeSection === "record-tabs" && <RecordTabsSection />}
                 {activeSection === "theme-toggle" && <ThemeToggleSection />}
                 {activeSection === "title-field" && <TitleFieldSection />}
+                {activeSection === "modals" && <ModalsSection />}
               </ScrollArea>
             </main>
           </div>
@@ -1816,6 +1820,193 @@ function TitleFieldSection() {
             <TitleField label="Name" value="John Doe" />
             <TitleField label="Email" value="john@example.com" />
             <TitleField label="Role" value={<Badge>Admin</Badge>} />
+          </div>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function ModalsSection() {
+  const [baseModalOpen, setBaseModalOpen] = useState(false);
+  const [alertDialogOpen, setAlertDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  return (
+    <SectionWrapper
+      title="Modals"
+      description="Test different modal components including BaseModal, AlertDialog, Dialog, and Sheet."
+    >
+      <div className="space-y-6">
+        {/* BaseModal */}
+        <div className="space-y-2">
+          <Label>BaseModal</Label>
+          <p className="text-muted-foreground text-sm">
+            Custom modal component built on top of AlertDialog with consistent
+            styling
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Button onClick={() => setBaseModalOpen(true)}>
+              Open BaseModal
+            </Button>
+          </div>
+          <BaseModal
+            open={baseModalOpen}
+            onOpenChange={setBaseModalOpen}
+            title="BaseModal Example"
+            description="This is a custom modal component with title and description."
+          >
+            <div className="space-y-4 py-4">
+              <p className="text-sm">
+                This modal uses the BaseModal component which wraps AlertDialog
+                with consistent styling and structure.
+              </p>
+              <div className="flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setBaseModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button onClick={() => setBaseModalOpen(false)}>Confirm</Button>
+              </div>
+            </div>
+          </BaseModal>
+        </div>
+
+        {/* AlertDialog */}
+        <div className="space-y-2">
+          <Label>AlertDialog</Label>
+          <p className="text-muted-foreground text-sm">
+            Alert dialog for important confirmations and actions
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <AlertDialog
+              open={alertDialogOpen}
+              onOpenChange={setAlertDialogOpen}
+            >
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive">Open AlertDialog</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your account and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        </div>
+
+        {/* Dialog */}
+        <div className="space-y-2">
+          <Label>Dialog</Label>
+          <p className="text-muted-foreground text-sm">
+            Standard dialog for forms and content
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <Button>Open Dialog</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Edit Profile</DialogTitle>
+                  <DialogDescription>
+                    Make changes to your profile here. Click save when you're
+                    done.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" defaultValue="John Doe" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      defaultValue="john@example.com"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button
+                    variant="outline"
+                    onClick={() => setDialogOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button onClick={() => setDialogOpen(false)}>Save</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
+
+        {/* Sheet */}
+        <div className="space-y-2">
+          <Label>Sheet</Label>
+          <p className="text-muted-foreground text-sm">
+            Slide-over panel from the edge of the screen
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+              <SheetTrigger asChild>
+                <Button>Open Sheet</Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Edit Profile</SheetTitle>
+                  <SheetDescription>
+                    Make changes to your profile here. Click save when you're
+                    done.
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="sheet-name">Name</Label>
+                    <Input id="sheet-name" defaultValue="John Doe" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="sheet-email">Email</Label>
+                    <Input
+                      id="sheet-email"
+                      type="email"
+                      defaultValue="john@example.com"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="sheet-phone">Phone</Label>
+                    <Input id="sheet-phone" defaultValue="+1 234 567 8900" />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => setSheetOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    className="flex-1"
+                    onClick={() => setSheetOpen(false)}
+                  >
+                    Save
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
