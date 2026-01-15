@@ -9,7 +9,7 @@ import LocaleSwitcher from "@/components/locale-switcher";
 import LocaleTabs from "@/components/locale-tabs";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import RecordTabs from "@/components/record-tabs";
-import { Search } from "@/components/search";
+import { Search as SearchComponent } from "@/components/search";
 import { TitleField } from "@/components/title-field";
 import {
   Accordion,
@@ -39,7 +39,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -139,8 +139,10 @@ import { ChevronDown, ChevronRight, Home } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { IconsSection } from "./_components/icons-section";
 
 type Section =
+  | "icons"
   | "accordion"
   | "alert-dialog"
   | "avatar"
@@ -186,6 +188,10 @@ type SectionGroup = {
   label: string;
   sections: { key: Section; label: string }[];
 };
+
+const iconSections: { key: Section; label: string }[] = [
+  { key: "icons", label: "Icons" },
+];
 
 const uiSections: { key: Section; label: string }[] = [
   { key: "accordion", label: "Accordion" },
@@ -234,12 +240,13 @@ const customSections: { key: Section; label: string }[] = [
 ];
 
 const sectionGroups: SectionGroup[] = [
+  { label: "Icons", sections: iconSections },
   { label: "UI", sections: uiSections },
   { label: "Custom", sections: customSections },
 ];
 
 export default function DeveloperPage() {
-  const [activeSection, setActiveSection] = useState<Section>("toast");
+  const [activeSection, setActiveSection] = useState<Section>("icons");
 
   return (
     <SearchProvider>
@@ -249,7 +256,7 @@ export default function DeveloperPage() {
           <div className="border-b px-6 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold">Developer Tools</h1>
+                <h1 className="text-3xl font-bold">Developer Handbook</h1>
                 <p className="text-muted-foreground mt-1">
                   Test different UI components and variants
                 </p>
@@ -296,6 +303,7 @@ export default function DeveloperPage() {
             {/* Right Content Pane */}
             <main className="flex-1 p-6">
               <ScrollArea className="h-[calc(100vh-200px)]">
+                {activeSection === "icons" && <IconsSection />}
                 {activeSection === "toast" && <ToastSection />}
                 {activeSection === "tabs" && <TabsSection />}
                 {activeSection === "input" && <InputSection />}
@@ -1260,7 +1268,7 @@ function CalendarSection() {
       title="Calendar"
       description="Test calendar date picker component."
     >
-      <Calendar
+      <CalendarComponent
         mode="single"
         selected={date}
         onSelect={setDate}
@@ -1456,7 +1464,7 @@ function CommandMenuSection() {
           button
         </p>
         <div className="pt-2">
-          <Search />
+          <SearchComponent />
         </div>
         <div className="pt-4">
           <CommandMenu />
@@ -1683,7 +1691,7 @@ function SearchSection() {
           Search button that opens the command menu
         </p>
         <div className="pt-2">
-          <Search />
+          <SearchComponent />
         </div>
       </div>
     </SectionWrapper>

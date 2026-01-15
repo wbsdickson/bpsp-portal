@@ -51,6 +51,24 @@ This is a Next.js 16 application built with TypeScript, React 19, Tailwind CSS, 
   4. Add the section rendering logic in the main content area
   5. Follow the existing pattern used by other custom component sections
 
+### Icons
+
+- **Custom Icons**: Custom icons are defined in `src/components/icons/` and exported from `src/components/icons/index.tsx`
+- **Lucide React Icons**: Use icons from `lucide-react` for standard UI icons
+- **IMPORTANT**: When introducing a new icon, you MUST add it to the developer page (`src/app/[locale]/developer/page.tsx`):
+  - **For custom icons** (in `src/components/icons/`):
+    1. The icon will automatically appear in the Icons section if exported from `index.tsx`
+    2. No additional action needed - custom icons are automatically discovered
+  - **For Lucide React icons** (from `lucide-react`):
+    1. Import the icon component at the top of `developer/page.tsx` (if not already imported)
+    2. Add an entry to the `lucideIconUsage` object with:
+       - The icon name as the key
+       - An object containing:
+         - `component`: The imported icon component
+         - `usages`: An array of component/file names where the icon is used (e.g., `["TeamSwitcher", "MerchantSidebar"]`)
+    3. Follow the existing pattern in `lucideIconUsage` for consistency
+    4. Sort the `lucideIconUsage` entries alphabetically by icon name
+
 ### Import Organization
 
 1. React and Next.js imports
@@ -304,6 +322,7 @@ export function MyComponent() {
 7. **Run linter** - Fix any linting errors
 8. **Update types** - Add proper TypeScript types
 9. **Add developer page demo** - If creating a new component in `src/components/`, add a demo section to the developer page
+10. **Add icons to developer page** - If using a new Lucide React icon, add it to `lucideIconUsage` in the developer page with usage references
 
 ## Questions to Ask Before Coding
 
@@ -316,3 +335,4 @@ export function MyComponent() {
 7. Is this responsive (mobile, tablet, desktop)?
 8. Are TypeScript types properly defined?
 9. If this is a new component in `src/components/`, have I added a demo to the developer page?
+10. If I'm using a new Lucide React icon, have I added it to the `lucideIconUsage` mapping in the developer page?
