@@ -12,7 +12,7 @@ export default async function FinalRegisterPage({
   await getTranslations({ locale, namespace: "Auth" });
 
   return (
-    <Card className="bg-background/90 w-full border-0 shadow-2xl backdrop-blur">
+    <Card className="bg-sidebar w-full border-0 shadow-2xl backdrop-blur">
       <CardContent className="p-10">
         <FinalRegisterForm />
       </CardContent>

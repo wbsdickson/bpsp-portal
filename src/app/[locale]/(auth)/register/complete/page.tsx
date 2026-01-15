@@ -25,7 +25,7 @@ export default function RegisterCompletePage() {
     : `/${locale}/signin`;
 
   return (
-    <Card className="bg-background/90 w-full border-0 shadow-2xl backdrop-blur">
+    <Card className="bg-sidebar w-full border-0 shadow-2xl backdrop-blur">
       <CardHeader>
         <div className="mb-4 flex justify-center">
           <div className="rounded-full bg-green-100 p-3">

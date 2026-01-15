@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
 
   if (isSubmitted) {
     return (
-      <Card className="bg-background/90 w-full border-0 shadow-2xl backdrop-blur">
+      <Card className="bg-sidebar w-full border-0 shadow-2xl backdrop-blur">
         <CardHeader className="text-center">
           <div className="mb-4 flex justify-center">
             <div className="rounded-full bg-green-100 p-3">
@@ -106,7 +106,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <Card className="bg-background/90 w-full border-0 shadow-2xl backdrop-blur">
+    <Card className="bg-sidebar w-full border-0 shadow-2xl backdrop-blur">
       <CardHeader className="text-center">
         <CardTitle className="text-xl">{t("forgotPasswordTitle")}</CardTitle>
         <CardDescription className="whitespace-pre-line">
