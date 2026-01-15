@@ -24,8 +24,8 @@ export default async function SignInPage({
     : null;
 
   return (
-    <Card className="bg-sidebar w-full border-0 p-10 shadow-2xl backdrop-blur">
-      <CardHeader className="space-y-3 text-center">
+    <Card className="bg-sidebar flex-col-center h-full w-full rounded-none border-0 p-4 shadow-2xl backdrop-blur md:flex md:h-auto md:flex-col md:rounded-xl md:p-10">
+      <CardHeader className="w-full space-y-3 text-center">
         <CardTitle className="text-2xl">{t("signInTitle")}</CardTitle>
       </CardHeader>
 

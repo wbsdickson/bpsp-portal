@@ -98,10 +98,8 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
   return (
     <div className="flex h-full flex-col justify-between">
       <FormWrapper>
-        <div className="space-y-4">
-          <div className="flex items-center justify-center">
-            <FormHeader heading={` ${t("title")}`} />
-          </div>
+        <div className="space-y-4 md:text-center">
+          <FormHeader heading={` ${t("title")}`} />
           <FormCaption
             caption={
               useConfigurationContext()?.configProfile?.register

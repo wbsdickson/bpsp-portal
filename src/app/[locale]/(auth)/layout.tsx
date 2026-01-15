@@ -18,20 +18,22 @@ export default async function AuthLayout({
   return (
     <div className="relative min-h-screen">
       <VideoBackground />
-      <div className="absolute inset-0 bg-black/55" />
+      <div className="bg-black/55 absolute inset-0" />
 
-      <div className="relative mx-auto grid min-h-screen max-w-6xl items-center gap-10 px-6 py-10 lg:grid-cols-2">
-        <div className="text-white">
-          <h1 className="whitespace-pre-line text-5xl font-bold leading-[1.05] tracking-tight">
+      <div className="relative mx-auto grid min-h-screen max-w-6xl items-center px-0 py-0 md:px-6 md:py-10 lg:grid-cols-2">
+        <div className="hidden w-full text-white md:block md:text-center">
+          <h1 className="text-5xl font-bold leading-[1.05] tracking-tight">
             {t("welcomeTitle")}
           </h1>
-          <p className="mt-6 max-w-md text-sm text-white/75">
+          <p className="md:mx-none mt-6 max-w-md text-sm text-white/75 sm:mx-auto">
             {t("welcomeDescription")}
           </p>
         </div>
 
-        <div className="w-full max-w-xl space-y-4 justify-self-end">
-          <LocaleSwitcher />
+        <div className="flex h-screen w-full max-w-full flex-col justify-center md:h-auto md:max-w-xl md:justify-self-center lg:justify-self-end">
+          <div className="hidden md:mb-4 md:block">
+            <LocaleSwitcher />
+          </div>
           {children}
         </div>
       </div>

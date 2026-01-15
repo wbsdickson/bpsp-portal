@@ -175,11 +175,13 @@ export const UserRegistrationForm: React.FC = () => {
 };
 
 export const FormHeader: React.FC<{ heading: string }> = ({ heading }) => (
-  <h1 className="text-2xl font-semibold tracking-tight">{heading}</h1>
+  <h1 className="text-center text-2xl font-semibold tracking-tight">
+    {heading}
+  </h1>
 );
 
 export const FormCaption: React.FC<{ caption: string }> = ({ caption }) => (
-  <p className="text-muted-foreground text-sm">{caption}</p>
+  <p className="text-muted-foreground text-center text-sm">{caption}</p>
 );
 
 export const FormHeaderSection: React.FC<{ children: React.ReactNode }> = ({
