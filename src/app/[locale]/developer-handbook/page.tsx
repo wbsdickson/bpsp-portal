@@ -181,7 +181,6 @@ type Section =
   | "locale-tabs"
   | "page-breadcrumb"
   | "search"
-  | "record-tabs"
   | "theme-toggle"
   | "title-field"
   | "modals";
@@ -236,7 +235,6 @@ const customSections: { key: Section; label: string }[] = [
   { key: "locale-tabs", label: "Locale Tabs" },
   { key: "modals", label: "Modals" },
   { key: "page-breadcrumb", label: "Page Breadcrumb" },
-  { key: "record-tabs", label: "Record Tabs" },
   { key: "search", label: "Search" },
   { key: "theme-toggle", label: "Theme Toggle" },
   { key: "title-field", label: "Title Field" },
@@ -350,7 +348,6 @@ export default function DeveloperPage() {
                   <PageBreadcrumbSection />
                 )}
                 {activeSection === "search" && <SearchSection />}
-                {activeSection === "record-tabs" && <RecordTabsSection />}
                 {activeSection === "theme-toggle" && <ThemeToggleSection />}
                 {activeSection === "title-field" && <TitleFieldSection />}
                 {activeSection === "modals" && <ModalsSection />}
@@ -670,6 +667,66 @@ function TabsSection() {
               </Card>
             </TabsContent>
           </Tabs>
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Record Tabs */}
+      <div className="space-y-2">
+        <Label>Record Tabs</Label>
+        <p className="text-muted-foreground text-sm">
+          Record tabs with dynamic tab management, closable tabs, and content
+          panels
+        </p>
+        <div className="pt-2">
+          <RecordTabs
+            initialTabs={[
+              { key: "tab1", label: "Tab 1", closable: false },
+              { key: "tab2", label: "Tab 2", closable: true },
+              { key: "tab3", label: "Tab 3", closable: true },
+            ]}
+            defaultActiveKey="tab1"
+            renderTab={(tab, helpers) => {
+              return (
+                <div className="p-4">
+                  <div>
+                    <h2 className="text-lg font-semibold">
+                      {tab.label} Content
+                    </h2>
+                    <p className="text-muted-foreground text-sm">
+                      This is the content for {tab.label}
+                    </p>
+                  </div>
+                  <div className="space-y-4">
+                    <p>Active tab: {helpers.activeKey}</p>
+                    <p>Total tabs: {helpers.tabItems.length}</p>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() =>
+                          helpers.addTab({
+                            key: `tab-${Date.now()}`,
+                            label: `New Tab ${helpers.tabItems.length + 1}`,
+                            closable: true,
+                          })
+                        }
+                      >
+                        Add Tab
+                      </Button>
+                      {tab.closable && (
+                        <Button
+                          variant="destructive"
+                          onClick={() => helpers.removeTab(tab.key)}
+                        >
+                          Close This Tab
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            }}
+          />
         </div>
       </div>
     </SectionWrapper>
@@ -1702,72 +1759,6 @@ function SearchSection() {
   );
 }
 
-function RecordTabsSection() {
-  return (
-    <SectionWrapper
-      title="Record Tabs"
-      description="Test record tabs component with dynamic tab management, scrollable tabs, and content panels."
-    >
-      <div className="space-y-2">
-        <Label>Record Tabs Example</Label>
-        <p className="text-muted-foreground text-sm">
-          Record tabs with dynamic tab management, closable tabs, and content
-          panels
-        </p>
-        <div className="pt-2">
-          <RecordTabs
-            initialTabs={[
-              { key: "tab1", label: "Tab 1", closable: false },
-              { key: "tab2", label: "Tab 2", closable: true },
-              { key: "tab3", label: "Tab 3", closable: true },
-            ]}
-            defaultActiveKey="tab1"
-            renderTab={(tab, helpers) => {
-              return (
-                <div className="p-4">
-                  <div>
-                    <h2 className="text-lg font-semibold">
-                      {tab.label} Content
-                    </h2>
-                    <p className="text-muted-foreground text-sm">
-                      This is the content for {tab.label}
-                    </p>
-                  </div>
-                  <div className="space-y-4">
-                    <p>Active tab: {helpers.activeKey}</p>
-                    <p>Total tabs: {helpers.tabItems.length}</p>
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() =>
-                          helpers.addTab({
-                            key: `tab-${Date.now()}`,
-                            label: `New Tab ${helpers.tabItems.length + 1}`,
-                            closable: true,
-                          })
-                        }
-                      >
-                        Add Tab
-                      </Button>
-                      {tab.closable && (
-                        <Button
-                          variant="destructive"
-                          onClick={() => helpers.removeTab(tab.key)}
-                        >
-                          Close This Tab
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            }}
-          />
-        </div>
-      </div>
-    </SectionWrapper>
-  );
-}
-
 function ThemeToggleSection() {
   return (
     <SectionWrapper
@@ -1829,6 +1820,7 @@ function TitleFieldSection() {
 
 function ModalsSection() {
   const [baseModalOpen, setBaseModalOpen] = useState(false);
+  const [baseModalNoTitleOpen, setBaseModalNoTitleOpen] = useState(false);
   const [alertDialogOpen, setAlertDialogOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -1870,6 +1862,44 @@ function ModalsSection() {
                   Cancel
                 </Button>
                 <Button onClick={() => setBaseModalOpen(false)}>Confirm</Button>
+              </div>
+            </div>
+          </BaseModal>
+        </div>
+
+        {/* BaseModal without Title */}
+        <div className="space-y-2">
+          <Label>BaseModal (without Title/Description Props)</Label>
+          <p className="text-muted-foreground text-sm">
+            Use BaseModal without title/description props when you need full
+            control over the content structure, such as simple confirmations or
+            custom layouts
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Button onClick={() => setBaseModalNoTitleOpen(true)}>
+              Open BaseModal (No Title Props)
+            </Button>
+          </div>
+          <BaseModal
+            open={baseModalNoTitleOpen}
+            onOpenChange={setBaseModalNoTitleOpen}
+          >
+            <div className="space-y-4 py-4">
+              <p className="text-sm">
+                This is a simple confirmation dialog without using title and
+                description props. Perfect for quick actions or when you need
+                custom content layout.
+              </p>
+              <div className="flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setBaseModalNoTitleOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button onClick={() => setBaseModalNoTitleOpen(false)}>
+                  Confirm
+                </Button>
               </div>
             </div>
           </BaseModal>

@@ -9,7 +9,7 @@ const tabsListVariants = cva("inline-flex", {
   variants: {
     variant: {
       default:
-        "bg-gray-200/60 items-center justify-center h-10 rounded-md p-1 text-muted-foreground",
+        "bg-muted items-center justify-center h-10 rounded-md p-1 text-muted-foreground",
       outline: "border-b border-gray-200 w-full",
       // Add more variants here
     },
@@ -26,7 +26,7 @@ const tabsTriggerVariants = cva(
         default:
           "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
         outline:
-          "group rounded-none bg-transparent shadow-none duration-300 ease-in-out data-[state=active]:shadow-none",
+          "dark:data-[state=active]:bg-transparent dark:data-[state=active]:border-none group rounded-none bg-transparent shadow-none duration-300 ease-in-out data-[state=active]:shadow-none",
         theme:
           "data-[state=active]:bg-theme-background data-[state=active]:text-theme-foreground data-[state=active]:shadow-sm",
       },
@@ -76,8 +76,8 @@ function TabsTrigger({
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        tabsTriggerVariants({ variant }),
         "dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground text-foreground dark:text-muted-foreground h-[calc(100%-1px)] flex-1 border border-transparent [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        tabsTriggerVariants({ variant }),
         className,
       )}
       {...props}
@@ -85,7 +85,7 @@ function TabsTrigger({
       {variant === "outline" ? (
         <div className={cn("relative w-full", className)}>
           {props.children}
-          <div className="group-data-[state=active]:border-b-primary absolute bottom-[-7px] left-0 w-full border-b-2 border-b-transparent transition-all duration-300 ease-in-out"></div>
+          <div className="group-data-[state=active]:border-b-primary absolute bottom-[-9px] left-0 w-full border-b-2 border-b-transparent transition-all duration-300 ease-in-out"></div>
         </div>
       ) : (
         props.children
