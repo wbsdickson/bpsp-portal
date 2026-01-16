@@ -1413,7 +1413,22 @@
     "Notifications": {
       "title": "お知らせ",
       "tabs": {
-        "all": "すべて"
+        "all": "すべて",
+        "unread": "未読",
+        "archive": "アーカイブ"
+      },
+      "empty": {
+        "all": "通知はありません",
+        "unread": "未読の通知はありません",
+        "archive": "アーカイブされた通知はありません",
+        "selected": "通知が選択されていません",
+        "selectedDescription": "リストから通知を選択して詳細を表示してください"
+      },
+      "time": {
+        "justNow": "たった今",
+        "minutesAgo": "{count}分前",
+        "hoursAgo": "{count}時間前",
+        "daysAgo": "{count}日前"
       },
       "missingNotificationId": "通知IDがありません。",
       "columns": {

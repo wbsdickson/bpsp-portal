@@ -45,6 +45,18 @@
     },
     "LocaleSwitcher": {
       "language": "言語"
+    },
+    "NotificationPopover": {
+      "viewAllNotifications": "すべての通知を表示",
+      "title": "通知",
+      "recent": "最新 {count} 件",
+      "noNotifications": "新しい通知はありません",
+      "time": {
+        "justNow": "たった今",
+        "minutesAgo": "{count}分前",
+        "hoursAgo": "{count}時間前",
+        "daysAgo": "{count}日前"
+      }
     }
   }
 }

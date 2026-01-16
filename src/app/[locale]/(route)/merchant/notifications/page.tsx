@@ -18,18 +18,6 @@ import {
 import HeaderPage from "@/components/header-page";
 import type { Notification } from "@/lib/types";
 
-function formatRelativeTime(dateString: string) {
-  const now = new Date();
-  const date = new Date(dateString);
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-  if (diffInSeconds < 60) return "Just now";
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-  if (diffInSeconds < 604800)
-    return `${Math.floor(diffInSeconds / 86400)}d ago`;
-  return date.toLocaleDateString();
-}
 
 function getTypeColor(type: Notification["type"]) {
   switch (type) {
@@ -52,6 +40,21 @@ export default function NotificationsPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
+
+  function formatRelativeTime(dateString: string) {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    if (diffInSeconds < 60) return t("time.justNow");
+    if (diffInSeconds < 3600)
+      return t("time.minutesAgo", { count: Math.floor(diffInSeconds / 60) });
+    if (diffInSeconds < 86400)
+      return t("time.hoursAgo", { count: Math.floor(diffInSeconds / 3600) });
+    if (diffInSeconds < 604800)
+      return t("time.daysAgo", { count: Math.floor(diffInSeconds / 86400) });
+    return date.toLocaleDateString();
+  }
 
   // Read notification ID from URL query parameter
   useEffect(() => {
@@ -128,19 +131,19 @@ export default function NotificationsPage() {
                 <div className="flex items-center py-2">
                   <TabsList variant="outline">
                     <TabsTrigger value="all" variant="outline">
-                      All
+                      {t("tabs.all")}
                       <Badge variant="secondary" className="ml-2 rounded-full">
                         {counts.all}
                       </Badge>
                     </TabsTrigger>
                     <TabsTrigger value="unread" variant="outline">
-                      Unread
+                      {t("tabs.unread")}
                       <Badge variant="secondary" className="ml-2 rounded-full">
                         {counts.unread}
                       </Badge>
                     </TabsTrigger>
                     <TabsTrigger value="archive" variant="outline">
-                      Archive
+                      {t("tabs.archive")}
                       <Badge variant="secondary" className="ml-2 rounded-full">
                         {counts.archive}
                       </Badge>
@@ -151,7 +154,7 @@ export default function NotificationsPage() {
                   <div className="relative">
                     <Search className="text-muted-foreground size-4 absolute left-2 top-2.5" />
                     <Input
-                      placeholder="Search"
+                      placeholder={t("filters.search")}
                       className="bg-card pl-8"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
@@ -167,7 +170,7 @@ export default function NotificationsPage() {
                       <div className="flex flex-col items-center justify-center p-8 text-center">
                         <Mail className="text-muted-foreground/30 size-12 mb-4" />
                         <p className="text-muted-foreground text-sm">
-                          No notifications
+                          {t("empty.all")}
                         </p>
                       </div>
                     ) : (
@@ -220,11 +223,11 @@ export default function NotificationsPage() {
                 >
                   <ScrollArea className="h-full">
                     {filteredNotifications.filter((n) => !n.isRead).length ===
-                    0 ? (
+                      0 ? (
                       <div className="flex flex-col items-center justify-center p-8 text-center">
                         <Mail className="text-muted-foreground/30 size-12 mb-4" />
                         <p className="text-muted-foreground text-sm">
-                          No unread notifications
+                          {t("empty.unread")}
                         </p>
                       </div>
                     ) : (
@@ -276,11 +279,11 @@ export default function NotificationsPage() {
                 >
                   <ScrollArea className="h-full">
                     {filteredNotifications.filter((n) => n.isRead).length ===
-                    0 ? (
+                      0 ? (
                       <div className="flex flex-col items-center justify-center p-8 text-center">
                         <Mail className="text-muted-foreground/30 size-12 mb-4" />
                         <p className="text-muted-foreground text-sm">
-                          No archived notifications
+                          {t("empty.archive")}
                         </p>
                       </div>
                     ) : (
@@ -368,10 +371,10 @@ export default function NotificationsPage() {
                 <div className="flex h-full flex-col items-center justify-center p-8 text-center">
                   <Mail className="text-muted-foreground/30 size-16 mb-4" />
                   <h3 className="text-lg font-semibold">
-                    No notification selected
+                    {t("empty.selected")}
                   </h3>
                   <p className="text-muted-foreground mt-2 text-sm">
-                    Select a notification from the list to view its details
+                    {t("empty.selectedDescription")}
                   </p>
                 </div>
               )}

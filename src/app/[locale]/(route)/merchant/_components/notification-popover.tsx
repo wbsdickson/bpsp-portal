@@ -18,23 +18,25 @@ import {
 } from "@/components/ui/tooltip";
 import { useNotificationStore } from "@/store/notification-store";
 
-function formatRelativeTime(dateString: string) {
-  const now = new Date();
-  const date = new Date(dateString);
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-  if (diffInSeconds < 60) return "Just now";
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-  return `${Math.floor(diffInSeconds / 86400)}d ago`;
-}
-
 export function NotificationPopover() {
-  const t = useTranslations("Merchant.Sidebar.footer");
+  const t = useTranslations("CommonComponent.NotificationPopover");
   const locale = useLocale();
   const notifications = useNotificationStore((s) => s.notifications);
   const updateNotification = useNotificationStore((s) => s.updateNotification);
   const [open, setOpen] = useState(false);
+
+  function formatRelativeTime(dateString: string) {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    if (diffInSeconds < 60) return t("time.justNow");
+    if (diffInSeconds < 3600)
+      return t("time.minutesAgo", { count: Math.floor(diffInSeconds / 60) });
+    if (diffInSeconds < 86400)
+      return t("time.hoursAgo", { count: Math.floor(diffInSeconds / 3600) });
+    return t("time.daysAgo", { count: Math.floor(diffInSeconds / 86400) });
+  }
 
   const recentNotifications = notifications
     .filter((n) => !n.deletedAt)
@@ -67,7 +69,7 @@ export function NotificationPopover() {
           </PopoverTrigger>
         </TooltipTrigger>
         <TooltipContent side="top" align="center">
-          {t("notifications")}
+          {t("title")}
         </TooltipContent>
       </Tooltip>
       <PopoverContent
@@ -77,9 +79,9 @@ export function NotificationPopover() {
       >
         <div className="flex flex-col">
           <div className="bg-muted/30 flex items-center justify-between border-b px-4 py-3">
-            <h3 className="text-sm font-semibold">Notifications</h3>
+            <h3 className="text-sm font-semibold">{t("title")}</h3>
             <span className="text-muted-foreground text-xs">
-              {recentNotifications.length} recent
+              {t("recent", { count: recentNotifications.length })}
             </span>
           </div>
           <div className="max-h-[300px] overflow-y-auto">
@@ -87,7 +89,7 @@ export function NotificationPopover() {
               <div className="flex flex-col items-center justify-center px-4 py-8 text-center">
                 <Bell className="text-muted-foreground/30 size-8 mb-2" />
                 <p className="text-muted-foreground text-sm">
-                  No new notifications
+                  {t("noNotifications")}
                 </p>
               </div>
             ) : (
@@ -133,7 +135,7 @@ export function NotificationPopover() {
                 href={`/${locale}/merchant/notifications`}
                 onClick={() => setOpen(false)}
               >
-                View all notifications
+                {t("viewAllNotifications")}
               </Link>
             </Button>
           </div>
