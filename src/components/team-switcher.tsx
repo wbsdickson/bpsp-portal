@@ -11,6 +11,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 
 import {
   DropdownMenu,
@@ -48,32 +49,28 @@ export function TeamSwitcher({
   const pathname = usePathname();
   const t = useTranslations("CommonComponent.TeamSwitcher");
 
-  const isMerchantPortal = pathname?.includes("/merchant");
-  const accountInfoRoute = isMerchantPortal
-    ? `/${locale}/merchant/account-information`
-    : `/${locale}/operator/accounts`;
+  const isMerchantPortal =
+    pathname?.startsWith(`/${locale}/merchant`) ||
+    pathname?.startsWith("/merchant");
 
   const handleLogout = () => {
     signOut({ callbackUrl: `/${locale}/signin` });
   };
 
-  const handleUserDetails = () => {
-    router.push(accountInfoRoute);
-  };
+  // Removed handleUserDetails, handleFAQ, handleNotification handlers
+  // Defined routes below for Link usage
 
-  const handleFAQ = () => {
-    const faqRoute = isMerchantPortal
-      ? `/${locale}/merchant/faq`
-      : `/${locale}/operator/faq`;
-    router.push(faqRoute);
-  };
+  const userDetailRoute = isMerchantPortal
+    ? `/${locale}/merchant/account-information`
+    : `/${locale}/operator/user-details`;
 
-  const handleNotification = () => {
-    const notificationsRoute = isMerchantPortal
-      ? `/${locale}/merchant/notifications`
-      : `/${locale}/operator/notifications`;
-    router.push(notificationsRoute);
-  };
+  const notificationRoute = isMerchantPortal
+    ? `/${locale}/merchant/notifications`
+    : `/${locale}/operator/notifications`;
+
+  const faqRoute = isMerchantPortal
+    ? `/${locale}/merchant/faq`
+    : `/${locale}/operator/faq`;
 
   const actions = [
     {
@@ -91,14 +88,14 @@ export function TeamSwitcher({
           {
             label: t("notification"),
             icon: Bell,
-            onClick: handleNotification,
+            href: notificationRoute,
           },
         ]
       : []),
     {
       label: t("faq"),
       icon: HelpCircle,
-      onClick: handleFAQ,
+      href: faqRoute,
     },
   ];
 
@@ -111,7 +108,7 @@ export function TeamSwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="bg-sidebar-primary text-sidebar-primary-foreground size-8 flex aspect-square items-center justify-center rounded-lg">
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                 <AudioWaveform className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -156,25 +153,43 @@ export function TeamSwitcher({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            {actions.map((action, index) => (
-              <DropdownMenuItem
-                key={action.label}
-                onClick={action.onClick}
-                className="hover:bg-accent gap-3 rounded-sm px-2 py-2 text-sm"
-              >
-                <action.icon className="size-4" />
-                {action.label}
-              </DropdownMenuItem>
-            ))}
+            {actions.map((action, index) => {
+              if (action.href) {
+                return (
+                  <DropdownMenuItem
+                    key={action.label}
+                    asChild
+                    className="hover:bg-accent gap-3 rounded-sm px-2 py-2 text-sm"
+                  >
+                    <Link href={action.href}>
+                      <action.icon className="size-4" />
+                      {action.label}
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              }
+              return (
+                <DropdownMenuItem
+                  key={action.label}
+                  onClick={action.onClick}
+                  className="hover:bg-accent gap-3 rounded-sm px-2 py-2 text-sm"
+                >
+                  <action.icon className="size-4" />
+                  {action.label}
+                </DropdownMenuItem>
+              );
+            })}
 
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={handleUserDetails}
+              asChild
               className="hover:bg-accent gap-3 rounded-sm px-2 py-2 text-sm"
             >
-              <User className="size-4" />
-              {t("userDetails")}
+              <Link href={userDetailRoute}>
+                <User className="size-4" />
+                {t("userDetails")}
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem

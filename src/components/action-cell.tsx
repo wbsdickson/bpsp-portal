@@ -10,15 +10,11 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import {
-  AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { BaseModal } from "@/components/modals/base-modal";
 
 export interface ActionItem<T> {
   title: string;
@@ -90,26 +86,22 @@ export default function ActionsCell<T>({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent className="bg-card p-4">
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {activeAction?.confirmation?.title}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              {activeAction?.confirmation?.description}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>
-              {activeAction?.confirmation?.cancelText || t("dialog.cancel")}
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirm}>
-              {activeAction?.confirmation?.confirmText || t("dialog.confirm")}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <BaseModal
+        open={open}
+        onOpenChange={setOpen}
+        title={activeAction?.confirmation?.title}
+        description={activeAction?.confirmation?.description}
+        className="bg-card p-4"
+      >
+        <AlertDialogFooter>
+          <AlertDialogCancel>
+            {activeAction?.confirmation?.cancelText || t("dialog.cancel")}
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirm}>
+            {activeAction?.confirmation?.confirmText || t("dialog.confirm")}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </BaseModal>
     </>
   );
 }

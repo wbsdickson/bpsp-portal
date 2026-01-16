@@ -20,7 +20,7 @@ export default function MidFeePage() {
       title={t("title")}
       pageActions={
         <Button size="sm" onClick={() => onOpen("create-mid-fee")}>
-          <Plus /> Create {t("title")}
+          <Plus /> {t("form.createTitle")}
         </Button>
       }
     >

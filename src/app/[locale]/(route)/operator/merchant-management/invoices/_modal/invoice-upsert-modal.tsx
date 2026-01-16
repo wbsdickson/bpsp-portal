@@ -2,7 +2,7 @@
 
 import { useModalStore } from "@/store/modal-store";
 import { InvoiceUpsertPage } from "../_components/invoice-upsert";
-import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
+import { BaseModal } from "@/components/modals/base-modal";
 
 export const InvoiceUpsertModal = () => {
   const { isOpen, onClose, type, data } = useModalStore();
@@ -18,10 +18,12 @@ export const InvoiceUpsertModal = () => {
   if (!isModalOpen) return null;
 
   return (
-    <AlertDialog open={isModalOpen} onOpenChange={handleClose}>
-      <AlertDialogContent className="!left-0 !top-0 !m-0 !h-screen !w-screen !max-w-none !translate-x-0 !translate-y-0 !rounded-none !border-0 !p-0">
-        <InvoiceUpsertPage invoiceId={invoiceId} onClose={handleClose} />
-      </AlertDialogContent>
-    </AlertDialog>
+    <BaseModal
+      open={isModalOpen}
+      onOpenChange={handleClose}
+      className="!left-0 !top-0 !m-0 !h-screen !w-screen !max-w-none !translate-x-0 !translate-y-0 !rounded-none !border-0 !p-0"
+    >
+      <InvoiceUpsertPage invoiceId={invoiceId} onClose={handleClose} />
+    </BaseModal>
   );
 };

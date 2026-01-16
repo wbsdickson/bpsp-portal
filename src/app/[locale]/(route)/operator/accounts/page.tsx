@@ -20,7 +20,7 @@ export default function AccountsPage() {
       title={t("title")}
       pageActions={
         <Button size="sm" onClick={() => onOpen("create-account")}>
-          <Plus /> Create {t("title")}
+          <Plus /> {t("form.createTitle")}
         </Button>
       }
     >

@@ -20,7 +20,7 @@ export default function MerchantMidsPage() {
       title={t("title")}
       pageActions={
         <Button size="sm" onClick={() => onOpen("create-merchant-mid")}>
-          <Plus /> Create {t("title")}
+          <Plus /> {t("form.createTitle")}
         </Button>
       }
     >

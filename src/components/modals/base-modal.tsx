@@ -28,9 +28,7 @@ export const BaseModal = ({
 }: BaseModalProps) => {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent
-        className={cn("bg-card w-full p-4 sm:max-w-3xl", className)}
-      >
+      <AlertDialogContent className={cn("bg-card w-full p-4", className)}>
         {(title || description) && (
           <AlertDialogHeader>
             {title && <AlertDialogTitle>{title}</AlertDialogTitle>}

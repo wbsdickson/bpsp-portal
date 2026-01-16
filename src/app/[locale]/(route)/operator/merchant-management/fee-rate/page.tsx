@@ -24,7 +24,7 @@ export default function MerchantFeePage() {
       title={t("title")}
       pageActions={
         <Button size="sm" onClick={() => onOpen("create-merchant-fee")}>
-          <Plus /> Create {t("title")}
+          <Plus /> {t("form.createTitle")}
         </Button>
       }
     >
