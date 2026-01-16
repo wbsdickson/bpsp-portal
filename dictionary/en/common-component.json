@@ -45,6 +45,18 @@
     },
     "LocaleSwitcher": {
       "language": "Language"
+    },
+    "NotificationPopover": {
+      "viewAllNotifications": "View all notifications",
+      "title": "Notifications",
+      "recent": "{count} recent",
+      "noNotifications": "No new notifications",
+      "time": {
+        "justNow": "Just now",
+        "minutesAgo": "{count}m ago",
+        "hoursAgo": "{count}h ago",
+        "daysAgo": "{count}d ago"
+      }
     }
   }
 }

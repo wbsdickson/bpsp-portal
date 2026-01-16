@@ -1406,7 +1406,22 @@
     "Notifications": {
       "title": "Notifications",
       "tabs": {
-        "all": "All"
+        "all": "All",
+        "unread": "Unread",
+        "archive": "Archive"
+      },
+      "empty": {
+        "all": "No notifications",
+        "unread": "No unread notifications",
+        "archive": "No archived notifications",
+        "selected": "No notification selected",
+        "selectedDescription": "Select a notification from the list to view its details"
+      },
+      "time": {
+        "justNow": "Just now",
+        "minutesAgo": "{count}m ago",
+        "hoursAgo": "{count}h ago",
+        "daysAgo": "{count}d ago"
       },
       "missingNotificationId": "Missing notification id.",
       "columns": {
