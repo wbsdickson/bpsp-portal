@@ -65,6 +65,7 @@ export const { handlers, auth } = NextAuth({
     }) {
       if (session.user) {
         const sessionUser = session.user as AuthUser;
+        sessionUser.id = token.sub ?? sessionUser.id ?? "";
         sessionUser.role = token.role;
         sessionUser.merchantId = token.merchantId;
       }

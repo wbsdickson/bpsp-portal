@@ -25,7 +25,7 @@ export default function OperatorDeliveryNotesPage() {
       title={t("title")}
       pageActions={
         <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
-          <Plus /> Create {t("title")}
+          <Plus /> {t("form.createTitle")}
         </Button>
       }
     >

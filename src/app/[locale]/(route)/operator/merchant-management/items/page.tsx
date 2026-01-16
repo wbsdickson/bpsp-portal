@@ -24,7 +24,7 @@ export default function ItemsPage() {
       title={t("title")}
       pageActions={
         <Button onClick={() => onOpen("create-merchant-item")} size="sm">
-          <Plus /> Create {t("title")}
+          <Plus /> {t("form.createTitle")}
         </Button>
       }
     >

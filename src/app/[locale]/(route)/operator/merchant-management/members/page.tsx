@@ -22,7 +22,7 @@ export default function MerchantMembersPage() {
       title={t("title")}
       pageActions={
         <Button size="sm" onClick={() => onOpen("create-merchant-member")}>
-          <Plus /> Create {t("title")}
+          <Plus /> {t("form.createTitle")}
         </Button>
       }
     >
