@@ -83,7 +83,7 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
   label,
   labelShown = false,
 }): React.JSX.Element => {
-  const t = useTranslations("Calendar");
+  const t = useTranslations("CommonComponent.Calendar");
   const isMobile = useMediaQuery("(max-width: 767px)");
   // Define presets
   const PRESETS: Preset[] = [

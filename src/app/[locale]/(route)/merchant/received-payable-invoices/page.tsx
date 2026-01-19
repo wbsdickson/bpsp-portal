@@ -28,7 +28,7 @@ export default function ReceivedPayableInvoicesPage() {
       title={t("title")}
       pageActions={
         <Button onClick={() => router.push(`${basePath}/create`)} size="sm">
-          <Plus /> Create {t("title")}
+          <Plus /> {t("buttons.create")}
         </Button>
       }
     >
@@ -50,7 +50,7 @@ export default function ReceivedPayableInvoicesPage() {
           if (tab.key === "summary") {
             return <MonthlySummary />;
           }
-          
+
           if (tab.key === "table") {
             return (
               <div className="p-4">

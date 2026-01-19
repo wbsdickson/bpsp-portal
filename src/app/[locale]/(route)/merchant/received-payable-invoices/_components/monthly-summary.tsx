@@ -1,13 +1,28 @@
 "use client";
 
 import * as React from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useReceivedInvoiceStore } from "@/store/merchant/received-invoice-store";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
-import { Calendar, TrendingUp, TrendingDown, DollarSign, FileText, CheckCircle, XCircle, Clock } from "lucide-react";
+import {
+  Calendar,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  FileText,
+  CheckCircle,
+  XCircle,
+  Clock,
+} from "lucide-react";
 
 type MonthlySummaryData = {
   month: string;
@@ -24,11 +39,14 @@ export default function MonthlySummary() {
   const t = useTranslations("Merchant.ReceivedPayableInvoices");
   const invoices = useReceivedInvoiceStore((s) => s.invoices);
 
+  const locale = useLocale();
+
   // Get current month as default
   const currentDate = new Date();
-  const currentMonth = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
+  const currentMonth = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}`;
 
-  const [selectedMonth, setSelectedMonth] = React.useState<string>(currentMonth);
+  const [selectedMonth, setSelectedMonth] =
+    React.useState<string>(currentMonth);
 
   // Generate month options for the last 12 months
   const monthOptions = React.useMemo(() => {
@@ -37,16 +55,16 @@ export default function MonthlySummary() {
 
     for (let i = 0; i < 12; i++) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-      const monthLabel = date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long'
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+      const monthLabel = date.toLocaleDateString(locale, {
+        year: "numeric",
+        month: "long",
       });
       options.push({ value: monthKey, label: monthLabel });
     }
 
     return options;
-  }, []);
+  }, [locale]);
 
   // Calculate monthly summary data
   const summaryData = React.useMemo<MonthlySummaryData>(() => {
@@ -56,30 +74,48 @@ export default function MonthlySummary() {
       return invoiceMonth === selectedMonth;
     });
 
-    const receivableInvoices = filteredInvoices.filter(inv => inv.direction === 'receivable');
-    const payableInvoices = filteredInvoices.filter(inv => inv.direction === 'payable');
+    const receivableInvoices = filteredInvoices.filter(
+      (inv) => inv.direction === "receivable",
+    );
+    const payableInvoices = filteredInvoices.filter(
+      (inv) => inv.direction === "payable",
+    );
 
-    const totalBilledAmount = receivableInvoices.reduce((sum, inv) => sum + inv.amount, 0);
-    const totalPayableAmount = payableInvoices.reduce((sum, inv) => sum + inv.amount, 0);
+    const totalBilledAmount = receivableInvoices.reduce(
+      (sum, inv) => sum + inv.amount,
+      0,
+    );
+    const totalPayableAmount = payableInvoices.reduce(
+      (sum, inv) => sum + inv.amount,
+      0,
+    );
 
-    const paidInvoices = filteredInvoices.filter(inv => inv.status === 'paid');
-    const unpaidInvoices = filteredInvoices.filter(inv =>
-      inv.status !== 'paid' && inv.status !== 'void' && inv.status !== 'rejected'
+    const paidInvoices = filteredInvoices.filter(
+      (inv) => inv.status === "paid",
+    );
+    const unpaidInvoices = filteredInvoices.filter(
+      (inv) =>
+        inv.status !== "paid" &&
+        inv.status !== "void" &&
+        inv.status !== "rejected",
     );
 
     // For this example, settled means paid invoices, unsettled means pending/approved invoices
     const settledInvoices = paidInvoices;
-    const unsettledInvoices = filteredInvoices.filter(inv =>
-      inv.status === 'pending' || inv.status === 'approved'
+    const unsettledInvoices = filteredInvoices.filter(
+      (inv) => inv.status === "pending" || inv.status === "approved",
     );
 
     // Use the most common currency or default to JPY
-    const currencies = filteredInvoices.map(inv => inv.currency);
-    const mostCommonCurrency = currencies.length > 0
-      ? currencies.sort((a, b) =>
-        currencies.filter(c => c === b).length - currencies.filter(c => c === a).length
-      )[0]
-      : 'JPY';
+    const currencies = filteredInvoices.map((inv) => inv.currency);
+    const mostCommonCurrency =
+      currencies.length > 0
+        ? currencies.sort(
+            (a, b) =>
+              currencies.filter((c) => c === b).length -
+              currencies.filter((c) => c === a).length,
+          )[0]
+        : "JPY";
 
     return {
       month: selectedMonth,
@@ -101,9 +137,11 @@ export default function MonthlySummary() {
     <div className="space-y-6 p-4">
       {/* Month Selector */}
       <div className="flex items-center gap-4">
-        <Calendar className="h-5 w-5 text-muted-foreground" />
+        <Calendar className="text-muted-foreground h-5 w-5" />
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">{t("summary.targetMonth")}</span>
+          <span className="text-sm font-medium">
+            {t("summary.targetMonth")}
+          </span>
           <Select value={selectedMonth} onValueChange={setSelectedMonth}>
             <SelectTrigger className="w-48">
               <SelectValue />
@@ -120,19 +158,22 @@ export default function MonthlySummary() {
       </div>
 
       {/* Summary Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {/* Total Billed Amount */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("summary.totalBilledAmount")}</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">
+              {t("summary.totalBilledAmount")}
+            </CardTitle>
+            <TrendingUp className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
               {formatCurrency(summaryData.totalBilledAmount)}
             </div>
-            <p className="text-xs text-muted-foreground">
-              {t("summary.receivableInvoicesFor")} {monthOptions.find(m => m.value === selectedMonth)?.label}
+            <p className="text-muted-foreground text-xs">
+              {t("summary.receivableInvoicesFor")}{" "}
+              {monthOptions.find((m) => m.value === selectedMonth)?.label}
             </p>
           </CardContent>
         </Card>
@@ -140,15 +181,18 @@ export default function MonthlySummary() {
         {/* Total Payable Amount */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("summary.totalPayableAmount")}</CardTitle>
-            <TrendingDown className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">
+              {t("summary.totalPayableAmount")}
+            </CardTitle>
+            <TrendingDown className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-600">
               {formatCurrency(summaryData.totalPayableAmount)}
             </div>
-            <p className="text-xs text-muted-foreground">
-              {t("summary.payableInvoicesFor")} {monthOptions.find(m => m.value === selectedMonth)?.label}
+            <p className="text-muted-foreground text-xs">
+              {t("summary.payableInvoicesFor")}{" "}
+              {monthOptions.find((m) => m.value === selectedMonth)?.label}
             </p>
           </CardContent>
         </Card>
@@ -156,12 +200,14 @@ export default function MonthlySummary() {
         {/* Paid Count */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("summary.paidCount")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("summary.paidCount")}
+            </CardTitle>
             <CheckCircle className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summaryData.paidCount}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {t("summary.invoicesMarkedAsPaid")}
             </p>
           </CardContent>
@@ -170,12 +216,14 @@ export default function MonthlySummary() {
         {/* Unpaid Count */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("summary.unpaidCount")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("summary.unpaidCount")}
+            </CardTitle>
             <XCircle className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summaryData.unpaidCount}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {t("summary.invoicesPendingPayment")}
             </p>
           </CardContent>
@@ -184,12 +232,14 @@ export default function MonthlySummary() {
         {/* Settled Count */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("settledCount")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("settledCount")}
+            </CardTitle>
             <CheckCircle className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summaryData.settledCount}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {t("transactionsSettled")}
             </p>
           </CardContent>
@@ -198,12 +248,16 @@ export default function MonthlySummary() {
         {/* Unsettled Count */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("unsettledCount")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("unsettledCount")}
+            </CardTitle>
             <Clock className="h-4 w-4 text-amber-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{summaryData.unsettledCount}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-2xl font-bold">
+              {summaryData.unsettledCount}
+            </div>
+            <p className="text-muted-foreground text-xs">
               {t("transactionsPendingSettlement")}
             </p>
           </CardContent>
@@ -215,29 +269,40 @@ export default function MonthlySummary() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText className="h-5 w-5" />
-            {t("monthlyOverview")} - {monthOptions.find(m => m.value === selectedMonth)?.label}
+            {t("monthlyOverview")} -{" "}
+            {monthOptions.find((m) => m.value === selectedMonth)?.label}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-3">
-              <h4 className="font-medium text-sm text-muted-foreground">{t("incomeStatus")}</h4>
+              <h4 className="text-muted-foreground text-sm font-medium">
+                {t("incomeStatus")}
+              </h4>
               <div className="flex items-center justify-between">
                 <span>{t("totalBilled")}</span>
-                <Badge variant="secondary" className="bg-green-50 text-green-700">
+                <Badge
+                  variant="secondary"
+                  className="bg-green-50 text-green-700"
+                >
                   {formatCurrency(summaryData.totalBilledAmount)}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span>{t("paidInvoices")}</span>
-                <Badge variant="secondary" className="bg-emerald-50 text-emerald-700">
+                <Badge
+                  variant="secondary"
+                  className="bg-emerald-50 text-emerald-700"
+                >
                   {summaryData.paidCount} {t("invoices")}
                 </Badge>
               </div>
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-medium text-sm text-muted-foreground">{t("paymentStatus")}</h4>
+              <h4 className="text-muted-foreground text-sm font-medium">
+                {t("paymentStatus")}
+              </h4>
               <div className="flex items-center justify-between">
                 <span>{t("totalPayable")}</span>
                 <Badge variant="secondary" className="bg-red-50 text-red-700">
@@ -246,7 +311,10 @@ export default function MonthlySummary() {
               </div>
               <div className="flex items-center justify-between">
                 <span>{t("unpaidInvoices")}</span>
-                <Badge variant="secondary" className="bg-amber-50 text-amber-700">
+                <Badge
+                  variant="secondary"
+                  className="bg-amber-50 text-amber-700"
+                >
                   {summaryData.unpaidCount} {t("invoices")}
                 </Badge>
               </div>

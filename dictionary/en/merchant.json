@@ -267,6 +267,7 @@
       "columns": {
         "id": "ID",
         "merchantId": "Merchant ID",
+        "merchant": "Merchant",
         "name": "Name",
         "email": "Email address",
         "role": "Role",
