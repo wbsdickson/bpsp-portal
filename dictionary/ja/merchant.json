@@ -263,6 +263,7 @@
       "columns": {
         "id": "ID",
         "merchantId": "加盟店ID",
+        "merchant": "加盟店名",
         "name": "氏名",
         "email": "メールアドレス",
         "role": "ロール",

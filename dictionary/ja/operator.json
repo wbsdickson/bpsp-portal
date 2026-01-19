@@ -707,6 +707,7 @@
       "columns": {
         "id": "ID",
         "merchantId": "加盟店",
+        "merchant": "加盟店名",
         "name": "氏名",
         "email": "メールアドレス",
         "role": "ロール",
@@ -1571,7 +1572,8 @@
         "clientName": "取引先名",
         "amount": "金額",
         "transactionDateTime": "取引日時",
-        "payoutStatus": "振込ステータス"
+        "payoutStatus": "振込ステータス",
+        "status": "ステータス"
       },
       "filters": {
         "period": "期間",

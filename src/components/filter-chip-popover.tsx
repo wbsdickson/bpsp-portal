@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export type FilterOperator = "eq";
 
@@ -39,6 +40,7 @@ export function FilterChipPopover({
   placeholder,
   disabled,
 }: FilterChipPopoverProps) {
+  const t = useTranslations("CommonComponent.FilterChip");
   const [open, setOpen] = React.useState(false);
   const [draft, setDraft] = React.useState(value);
 
@@ -83,7 +85,7 @@ export function FilterChipPopover({
                 <SelectValue placeholder="Operator" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="eq">is equal to</SelectItem>
+                <SelectItem value="eq">{t("isEqualTo")}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -106,7 +108,7 @@ export function FilterChipPopover({
                 setOpen(false);
               }}
             >
-              Reset
+              {t("reset")}
             </Button>
             <Button
               size="sm"
@@ -116,7 +118,7 @@ export function FilterChipPopover({
                 setOpen(false);
               }}
             >
-              Done
+              {t("done")}
             </Button>
           </div>
         </div>

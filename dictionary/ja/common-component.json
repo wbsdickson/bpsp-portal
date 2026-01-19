@@ -57,6 +57,11 @@
         "hoursAgo": "{count}時間前",
         "daysAgo": "{count}日前"
       }
+    },
+    "FilterChip": {
+      "isEqualTo": "次と等しい",
+      "reset": "リセット",
+      "done": "完了"
     }
   }
 }

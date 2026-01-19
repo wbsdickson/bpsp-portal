@@ -57,6 +57,11 @@
         "hoursAgo": "{count}h ago",
         "daysAgo": "{count}d ago"
       }
+    },
+    "FilterChip": {
+      "isEqualTo": "is equal to",
+      "reset": "Reset",
+      "done": "Done"
     }
   }
 }
