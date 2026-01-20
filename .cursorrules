@@ -78,6 +78,12 @@ This is a Next.js 16 application built with TypeScript, React 19, Tailwind CSS, 
 5. Type imports
 6. Relative imports (avoid when possible, use `@/` alias)
 
+**IMPORTANT**: Before saving any file:
+- **Remove all unused imports** - Delete any imports that are not used in the file
+- **Sort imports** - Organize imports in the order specified above, with blank lines between groups
+- **Group related imports** - Keep imports from the same package together
+- **Use consistent formatting** - Follow the existing import style in the codebase
+
 ### Styling Guidelines
 
 - Use Tailwind CSS utility classes
@@ -323,6 +329,7 @@ export function MyComponent() {
 8. **Update types** - Add proper TypeScript types
 9. **Add developer page demo** - If creating a new component in `src/components/`, add a demo section to the developer page
 10. **Add icons to developer page** - If using a new Lucide React icon, add it to `lucideIconUsage` in the developer page with usage references
+11. **Clean up imports** - Remove unused imports and sort all imports before saving
 
 ## Questions to Ask Before Coding
 
@@ -336,3 +343,53 @@ export function MyComponent() {
 8. Are TypeScript types properly defined?
 9. If this is a new component in `src/components/`, have I added a demo to the developer page?
 10. If I'm using a new Lucide React icon, have I added it to the `lucideIconUsage` mapping in the developer page?
+11. Have I removed all unused imports and sorted imports correctly?
+
+## Code Cleanup Rules
+
+### Before Saving Any File
+
+**MANDATORY**: Always perform these actions before saving:
+
+1. **Remove Unused Imports**
+   - Check all import statements
+   - Remove any imports that are not used in the file
+   - Use your IDE's "Organize Imports" feature or manually verify each import
+
+2. **Sort and Organize Imports**
+   - Sort imports in the following order (with blank lines between groups):
+     1. React and Next.js imports (e.g., `react`, `next/navigation`, `next-intl`)
+     2. Third-party library imports (e.g., `axios`, `zod`, `@tanstack/react-query`)
+     3. Internal component imports (`@/components/...`)
+     4. Internal utility imports (`@/lib/...`, `@/hooks/...`, `@/store/...`, `@/services/...`)
+     5. Type-only imports (use `import type` for types)
+     6. Relative imports (avoid when possible, use `@/` alias)
+   - Alphabetically sort imports within each group
+   - Use consistent formatting (single vs double quotes should match project style)
+
+3. **Example of Properly Organized Imports**:
+```typescript
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+
+import { useQuery } from "@tanstack/react-query";
+import { z } from "zod";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+import HeaderPage from "@/components/header-page";
+
+import { useMerchantApi } from "@/hooks/use-merchant-api";
+import { fetchMerchants } from "@/services/merchants-service";
+
+import type { AppMerchant } from "@/types/merchant";
+```
+
+### Import Sorting Tools
+
+- Use your IDE's built-in import organization (VS Code: "Organize Imports")
+- Consider using ESLint plugins like `eslint-plugin-import` for automatic sorting
+- Always verify sorted imports before committing
