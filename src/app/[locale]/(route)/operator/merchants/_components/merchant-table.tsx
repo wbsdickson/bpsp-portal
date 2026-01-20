@@ -20,7 +20,6 @@ export default function MerchantTable({
   addTab: (id: string) => void;
 }) {
   const t = useTranslations("Operator.Merchants");
-  const router = useRouter();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<MerchantStatus | undefined>(undefined);

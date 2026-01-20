@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchMerchantFees } from "@/services/merchant-fees-service";
+import { merchantKeys } from "./query-keys";
 
 export function useMerchantFeesApi(merchantId: string) {
   const query = useQuery({
-    queryKey: ["merchant-fees", merchantId],
+    queryKey: merchantKeys.fees(merchantId),
     queryFn: () => fetchMerchantFees(merchantId),
     enabled: !!merchantId,
   });

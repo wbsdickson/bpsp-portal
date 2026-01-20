@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchMerchantMembers } from "@/services/merchant-members-service";
+import { merchantKeys } from "./query-keys";
 
 export function useMerchantMembersApi(merchantId: string) {
   const query = useQuery({
-    queryKey: ["merchant-members", merchantId],
+    queryKey: merchantKeys.members(merchantId),
     queryFn: () => fetchMerchantMembers(merchantId),
-    enabled: !!merchantId, // Only fetch if merchantId is provided
+    enabled: !!merchantId, 
   });
 
   return {

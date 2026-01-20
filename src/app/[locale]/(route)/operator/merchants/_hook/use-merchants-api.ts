@@ -1,30 +1,16 @@
-import { useMemo } from "react";
-
 import { useQuery } from "@tanstack/react-query";
 
 import {
   fetchMerchants,
   type MerchantsApiParams,
 } from "@/services/merchants-service";
+import { merchantKeys } from "./query-keys";
 
 export type UseMerchantsApiParams = MerchantsApiParams;
 
 export function useMerchantsApi(params: UseMerchantsApiParams) {
-  // Memoize query key to prevent unnecessary refetches
-  const queryKey = useMemo(
-    () => ["merchants", params],
-    [
-      params.page,
-      params.limit,
-      params.status,
-      params.search,
-      params.sortBy,
-      params.sortOrder,
-    ],
-  );
-
   const query = useQuery({
-    queryKey,
+    queryKey: merchantKeys.list(params),
     queryFn: () => fetchMerchants(params),
   });
 
