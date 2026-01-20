@@ -21,7 +21,7 @@ import {
 import { useAppStore } from "@/lib/store";
 import { UserRole } from "@/lib/types";
 import { Link } from "next-view-transitions";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
 const createSchema = (t: (key: string) => string) =>
   z.object({
@@ -38,11 +38,12 @@ export function SignInForm({ locale }: { locale: string }) {
   const t = useTranslations("Auth");
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const searchParams = useSearchParams();
   const schema = useMemo(() => createSchema(t), [t]);
   const form = useForm<Values>({
     resolver: zodResolver(schema),
-    defaultValues: { email: "bob@bpsp.com", password: "password123" },
+    defaultValues: { email: "", password: "" },
     mode: "onChange",
   });
   const { login } = useAppStore();
@@ -97,18 +98,18 @@ export function SignInForm({ locale }: { locale: string }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel>{t("emailLabel")}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder={t("emailPlaceholder")}
+                  floatingLabel={true}
+                  label={t("emailLabel")}
                   autoComplete="email"
-                  className="bg-card"
+                  className="rounded"
                   {...field}
                 />
               </FormControl>
@@ -121,63 +122,70 @@ export function SignInForm({ locale }: { locale: string }) {
           name="password"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <div className="flex items-center">
-                <FormLabel>{t("passwordLabel")}</FormLabel>
-                <Link
-                  href={nextForgetUrl}
-                  className="ml-auto text-sm underline-offset-4 hover:underline"
-                >
-                  {t("forgotPassword")}
-                </Link>
-              </div>
               <FormControl>
-                <Input
-                  placeholder={t("passwordPlaceholder")}
-                  type="password"
-                  autoComplete="current-password"
-                  className="bg-card"
-                  {...field}
-                />
+                <div className="relative">
+                  <Input
+                    floatingLabel={true}
+                    label={t("passwordLabel")}
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    className="rounded pr-10"
+                    {...field}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-muted-foreground hover:text-foreground absolute right-3 top-1/2 -translate-y-1/2"
+                  >
+                    {showPassword ? (
+                      <Eye className="text-primary h-4 w-4" />
+                    ) : (
+                      <EyeOff className="text-primary h-4 w-4" />
+                    )}
+                  </button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <div className="flex items-center justify-between">
+          <label className="flex cursor-pointer items-center space-x-2">
+            <input
+              type="checkbox"
+              className="h-4 w-4 rounded border-gray-300"
+            />
+            <span className="text-sm">{t("rememberMe")}</span>
+          </label>
+          <Link
+            href={nextForgetUrl}
+            className="text-sm text-red-600 hover:underline"
+          >
+            {t("forgotPasswordShort")}
+          </Link>
+        </div>
+
         {formError ? (
           <div className="border-destructive/30 bg-destructive/10 text-destructive rounded-md border px-3 py-2 text-sm">
             {formError}
           </div>
         ) : null}
+
         <Button
           type="submit"
-          className="w-full"
+          className="bg-primary w-full rounded hover:bg-blue-700"
           disabled={form.formState.isSubmitting || !form.formState.isValid}
         >
           {form.formState.isSubmitting ? (
             <>
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               {t("loginButton")}
             </>
           ) : (
             t("loginButton")
           )}
         </Button>
-        <p className="text-muted-foreground text-center text-xs">
-          {t("termsAgreement")}{" "}
-          <a
-            href="#"
-            className="text-foreground text-xs underline underline-offset-4"
-          >
-            {t("termsOfService")}
-          </a>{" "}
-          |{" "}
-          <a
-            href="#"
-            className="text-foreground text-xs underline underline-offset-4"
-          >
-            {t("privacyPolicy")}
-          </a>
-        </p>
       </form>
     </Form>
   );
