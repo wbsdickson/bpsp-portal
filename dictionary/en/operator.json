@@ -662,11 +662,25 @@
         "create": "Create merchant",
         "cancel": "Cancel",
         "save": "Save",
-        "clearFilters": "Clear filters"
+        "clearFilters": "Clear filters",
+        "retry": "Retry"
       },
       "filters": {
         "merchantId": "Merchant ID",
-        "name": "Name"
+        "name": "Name",
+        "search": "Search merchants...",
+        "status": "Status",
+        "allStatuses": "All Statuses"
+      },
+      "pagination": {
+        "showing": "Showing",
+        "of": "of",
+        "page": "Page",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "errors": {
+        "loadFailed": "Failed to load merchants"
       },
       "form": {
         "createTitle": "Create merchant",

@@ -237,7 +237,9 @@ export function DataTable<TData>({
                               }
                               aria-label={`Toggle ${column.id} column`}
                             />
-                            <div className="flex-1">{column.columnDef.header as any}</div>
+                            <div className="flex-1">
+                              {column.columnDef.header as any}
+                            </div>
                             {enableColumnReorder ? (
                               <div
                                 className="text-muted-foreground cursor-grab"
@@ -274,9 +276,9 @@ export function DataTable<TData>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 ))}
               </TableRow>

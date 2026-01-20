@@ -12,17 +12,23 @@ export type MerchantRow = AppMerchant;
 
 export default function useMerchantTableColumn({
   addTab,
+  refetch,
 }: {
   addTab: (id: string) => void;
+  refetch?: () => Promise<void>;
 }) {
   const t = useTranslations("Operator.Merchants");
   const router = useRouter();
   const { deleteMerchant } = useMerchantStore();
   const { basePath } = useBasePath();
 
-  const onDelete = (item: MerchantRow) => {
+  const onDelete = async (item: MerchantRow) => {
     deleteMerchant(item.id);
     toast.success(t("messages.deleteSuccess"));
+    // Refetch data from API if refetch function is provided
+    if (refetch) {
+      await refetch();
+    }
   };
 
   const column: ColumnDef<MerchantRow>[] = [

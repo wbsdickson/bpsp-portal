@@ -2,47 +2,53 @@
 
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { useInvoiceStore } from "@/store/invoice-store";
-import { useMerchantStore } from "@/store/merchant-store";
-import { useMerchantFeeStore } from "@/store/merchant-fee-store";
-import { useMerchantMemberStore } from "@/store/merchant-member-store";
-import { Link } from "next-view-transitions";
 import { useLocale, useTranslations } from "next-intl";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+
 import { InlineEditField } from "@/components/inline-edit-field";
-import { createMerchantSchema } from "../_lib/merchant-schema";
 import { TitleField } from "@/components/title-field";
+
+import { useMerchantApi } from "../_hook/use-merchant-api";
+import { useMerchantFeesApi } from "../_hook/use-merchant-fees-api";
+import { useMerchantInvoicesApi } from "../_hook/use-merchant-invoices-api";
+import { useMerchantMembersApi } from "../_hook/use-merchant-members-api";
+import { createMerchantSchema } from "../_lib/merchant-schema";
+import { MerchantDetailSkeleton } from "./merchant-detail-skeleton";
 
 export default function MerchantDetail({ merchantId }: { merchantId: string }) {
   const locale = useLocale();
   const t = useTranslations("Operator.Merchants");
 
-  const merchant = useMerchantStore((s) => s.getMerchantById(merchantId));
-  const updateMerchant = useMerchantStore((s) => s.updateMerchant);
-  const fees = useMerchantFeeStore((s) => s.fees);
-  const invoices = useInvoiceStore((s) => s.invoices);
-  const members = React.useMemo(
-    () => useMerchantMemberStore.getState().getMembersByMerchantId(merchantId),
-    [merchantId],
-  );
+  const {
+    merchant,
+    isLoading: isMerchantLoading,
+    updateMerchant,
+    isUpdating,
+  } = useMerchantApi(merchantId);
+  const { fees } = useMerchantFeesApi(merchantId);
+  const { invoices } = useMerchantInvoicesApi(merchantId);
+  const { members } = useMerchantMembersApi(merchantId);
 
   const [isEditing, setIsEditing] = React.useState(false);
 
   const schema = React.useMemo(() => createMerchantSchema(t), [t]);
   type MerchantDetailValues = z.infer<typeof schema>;
 
+  // Always call useForm - hooks must be called in the same order
+  // Use stable default values - form will be reset via useEffect when merchant loads
   const form = useForm<MerchantDetailValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: merchant?.name ?? "",
-      address: merchant?.address ?? "",
+      name: "",
+      address: "",
     },
   });
 
@@ -56,27 +62,57 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
     }
   }, [merchant, form, isEditing]);
 
+  const transactionAmount = React.useMemo(() => {
+    if (!merchant) return 0;
+    return invoices
+      .filter((inv) => !inv.deletedAt && inv.merchantId === merchant.id)
+      .reduce(
+        (acc, inv) =>
+          acc +
+          (typeof inv.amount === "number"
+            ? inv.amount
+            : Number(inv.amount ?? 0)),
+        0,
+      );
+  }, [invoices, merchant?.id]);
+
+  // Early returns AFTER all hooks
+  if (isMerchantLoading) {
+    return <MerchantDetailSkeleton />;
+  }
+
   if (!merchant) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-muted-foreground text-sm">
-            {t("messages.merchantNotFound")}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="bg-card rounded-lg p-4">
+        <div className="text-muted-foreground text-sm">
+          {t("messages.merchantNotFound")}
+        </div>
+      </div>
     );
   }
 
   const onSubmit = form.handleSubmit((data) => {
-    updateMerchant(merchantId, {
-      name: data.name,
-      address: data.address,
-    });
-    setIsEditing(false);
+    updateMerchant(
+      {
+        name: data.name,
+        address: data.address,
+      },
+      {
+        onSuccess: () => {
+          toast.success(
+            t("messages.updateSuccess") || "Merchant updated successfully",
+          );
+          setIsEditing(false);
+        },
+        onError: (error) => {
+          toast.error(
+            error instanceof Error
+              ? error.message
+              : "Failed to update merchant",
+          );
+        },
+      },
+    );
   });
 
   const onCancel = () => {
@@ -97,19 +133,6 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
     fees.find((f) => f.merchantId === merchant.id && f.status === "active") ??
     fees.find((f) => f.merchantId === merchant.id);
   const feeRateLabel = fee ? `${fee.mdrPercent.toFixed(2)}%` : "—";
-
-  const transactionAmount = React.useMemo(() => {
-    return invoices
-      .filter((inv) => !inv.deletedAt && inv.merchantId === merchant.id)
-      .reduce(
-        (acc, inv) =>
-          acc +
-          (typeof inv.amount === "number"
-            ? inv.amount
-            : Number(inv.amount ?? 0)),
-        0,
-      );
-  }, [invoices, merchant.id]);
 
   const representative =
     members.find((m) => m.memberRole === "owner") ?? members[0];

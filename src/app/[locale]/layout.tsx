@@ -7,6 +7,7 @@ import { getMessages } from "next-intl/server";
 import { ViewTransitions } from "next-view-transitions";
 import { SessionProvider } from "next-auth/react";
 import { Geist, Geist_Mono } from "next/font/google";
+import { QueryProvider } from "./_providers/query-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -42,17 +43,19 @@ export default async function LocaleLayout({
       >
         <ViewTransitions>
           <SessionProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <NextIntlClientProvider locale={safeLocale} messages={messages}>
-                <RoleThemeProvider>{children}</RoleThemeProvider>
-              </NextIntlClientProvider>
-              <Toaster />
-            </ThemeProvider>
+            <QueryProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="light"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <NextIntlClientProvider locale={safeLocale} messages={messages}>
+                  <RoleThemeProvider>{children}</RoleThemeProvider>
+                </NextIntlClientProvider>
+                <Toaster />
+              </ThemeProvider>
+            </QueryProvider>
           </SessionProvider>
         </ViewTransitions>
       </body>
