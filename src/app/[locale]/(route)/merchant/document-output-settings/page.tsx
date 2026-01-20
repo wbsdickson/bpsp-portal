@@ -198,7 +198,7 @@ export default function DocumentOutputSettingsPage() {
                       <FormItem>
                         <FormLabel>{t("form.logo") || "Logo Image"}</FormLabel>
                         <FormControl>
-                          <>
+                          <div>
                             <input
                               type="file"
                               accept="image/png,image/jpeg"
@@ -207,7 +207,6 @@ export default function DocumentOutputSettingsPage() {
                               style={{ display: "none" }}
                             />
                             <Button
-                              
                               variant="outline"
                               className="w-full"
                               onClick={() => fileRef.current?.click()}
@@ -221,7 +220,7 @@ export default function DocumentOutputSettingsPage() {
                                 className="mt-2 max-h-24 rounded border"
                               />
                             )}
-                          </>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -254,7 +253,6 @@ export default function DocumentOutputSettingsPage() {
 
               <CardFooter className="justify-end gap-2 p-6">
                 <Button
-                  
                   variant="outline"
                   className="h-9"
                   onClick={() => form.reset()}

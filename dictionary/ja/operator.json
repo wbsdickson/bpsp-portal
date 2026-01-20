@@ -32,7 +32,10 @@
         "apps": "アプリ",
         "help": "ヘルプ",
         "notifications": "通知",
-        "settings": "設定"
+        "settings": "設定",
+        "documentation": "ドキュメント",
+        "support": "サポート",
+        "changelog": "変更履歴"
       },
       "quickActions": {
         "invoice": "請求書",

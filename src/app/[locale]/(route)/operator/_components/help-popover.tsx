@@ -40,15 +40,15 @@ export function HelpPopover() {
         <div className="flex flex-col gap-1">
           <Button variant="ghost" className="h-9 justify-start gap-2 px-2">
             <BookOpen className="size-4" />
-            <span>Documentation</span>
+            <span>{t("documentation")}</span>
           </Button>
           <Button variant="ghost" className="h-9 justify-start gap-2 px-2">
             <LifeBuoy className="size-4" />
-            <span>Support</span>
+            <span>{t("support")}</span>
           </Button>
           <Button variant="ghost" className="h-9 justify-start gap-2 px-2">
             <Zap className="size-4" />
-            <span>Changelog</span>
+            <span>{t("changelog")}</span>
           </Button>
         </div>
       </PopoverContent>

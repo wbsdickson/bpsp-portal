@@ -32,7 +32,10 @@
         "apps": "Apps",
         "help": "Help",
         "notifications": "Notifications",
-        "settings": "Settings"
+        "settings": "Settings",
+        "documentation": "Documentation",
+        "support": "Support",
+        "changelog": "Changelog"
       },
       "quickActions": {
         "invoice": "Invoice",
