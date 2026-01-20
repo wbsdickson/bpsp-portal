@@ -134,8 +134,32 @@ import {
 } from "@/components/ui/tooltip";
 import { SearchProvider } from "@/context/search-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { FilterChipPopover } from "@/components/filter-chip-popover";
+import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
+import { FilterChipSelectPopover } from "@/components/filter-chip-select-popover";
+import LocaleSwitcherHorizontal from "@/components/locale-switcher-horizontal";
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import TabsHorizontal from "@/components/tabs-horizontal";
+import { DateInput } from "@/components/ui/date-input";
+import { DatePicker } from "@/components/ui/date-picker";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { PaginationControls } from "@/components/ui/pagination-controls";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronRight, Home } from "lucide-react";
+import { ChevronDown, ChevronRight, Home, Settings } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -155,35 +179,48 @@ type Section =
   | "checkbox"
   | "collapsible"
   | "command"
+  | "date-input"
+  | "date-picker"
+  | "date-range-picker"
   | "dialog"
   | "dropdown-menu"
   | "input"
   | "input-otp"
+  | "pagination-controls"
   | "popover"
   | "radio"
+  | "record-tabs"
   | "resizable"
   | "scroll-area"
   | "select"
   | "sheet"
+  | "sidebar"
   | "skeleton"
   | "switch"
   | "table"
   | "tabs"
+  | "tabs-horizontal"
   | "textarea"
   | "toast"
   | "tooltip"
   | "action-cell"
   | "command-menu"
   | "data-table"
+  | "filter-chip-multiselect-popover"
+  | "filter-chip-popover"
+  | "filter-chip-select-popover"
   | "header-page"
   | "inline-edit-field"
   | "locale-switcher"
+  | "locale-switcher-horizontal"
   | "locale-tabs"
+  | "modals"
+  | "nav-main"
+  | "nav-projects"
   | "page-breadcrumb"
   | "search"
   | "theme-toggle"
-  | "title-field"
-  | "modals";
+  | "title-field";
 
 type SectionGroup = {
   label: string;
@@ -206,16 +243,21 @@ const uiSections: { key: Section; label: string }[] = [
   { key: "checkbox", label: "Checkbox" },
   { key: "collapsible", label: "Collapsible" },
   { key: "command", label: "Command" },
+  { key: "date-input", label: "Date Input" },
+  { key: "date-picker", label: "Date Picker" },
+  { key: "date-range-picker", label: "Date Range Picker" },
   { key: "dialog", label: "Dialog" },
   { key: "dropdown-menu", label: "Dropdown Menu" },
   { key: "input", label: "Input" },
   { key: "input-otp", label: "Input OTP" },
+  { key: "pagination-controls", label: "Pagination Controls" },
   { key: "popover", label: "Popover" },
   { key: "radio", label: "Radio" },
   { key: "resizable", label: "Resizable" },
   { key: "scroll-area", label: "Scroll Area" },
   { key: "select", label: "Select" },
   { key: "sheet", label: "Sheet" },
+  { key: "sidebar", label: "Sidebar" },
   { key: "skeleton", label: "Skeleton" },
   { key: "switch", label: "Switch" },
   { key: "table", label: "Table" },
@@ -229,13 +271,21 @@ const customSections: { key: Section; label: string }[] = [
   { key: "action-cell", label: "Action Cell" },
   { key: "command-menu", label: "Command Menu" },
   { key: "data-table", label: "Data Table" },
+  { key: "filter-chip-multiselect-popover", label: "Filter Chip Multi-Select" },
+  { key: "filter-chip-popover", label: "Filter Chip Popover" },
+  { key: "filter-chip-select-popover", label: "Filter Chip Select" },
   { key: "header-page", label: "Header Page" },
   { key: "inline-edit-field", label: "Inline Edit Field" },
   { key: "locale-switcher", label: "Locale Switcher" },
+  { key: "locale-switcher-horizontal", label: "Locale Switcher Horizontal" },
   { key: "locale-tabs", label: "Locale Tabs" },
   { key: "modals", label: "Modals" },
+  { key: "nav-main", label: "Nav Main" },
+  { key: "nav-projects", label: "Nav Projects" },
   { key: "page-breadcrumb", label: "Page Breadcrumb" },
+  { key: "record-tabs", label: "Record Tabs" },
   { key: "search", label: "Search" },
+  { key: "tabs-horizontal", label: "Tabs Horizontal" },
   { key: "theme-toggle", label: "Theme Toggle" },
   { key: "title-field", label: "Title Field" },
 ];
@@ -328,7 +378,16 @@ export default function DeveloperPage() {
                 {activeSection === "breadcrumb" && <BreadcrumbSection />}
                 {activeSection === "scroll-area" && <ScrollAreaSection />}
                 {activeSection === "calendar" && <CalendarSection />}
+                {activeSection === "date-input" && <DateInputSection />}
+                {activeSection === "date-picker" && <DatePickerSection />}
+                {activeSection === "date-range-picker" && (
+                  <DateRangePickerSection />
+                )}
                 {activeSection === "input-otp" && <InputOTPSection />}
+                {activeSection === "pagination-controls" && (
+                  <PaginationControlsSection />
+                )}
+                {activeSection === "sidebar" && <SidebarSection />}
                 {activeSection === "table" && <TableSection />}
                 {activeSection === "dropdown-menu" && <DropdownMenuSection />}
                 {activeSection === "command" && <CommandSection />}
@@ -336,6 +395,15 @@ export default function DeveloperPage() {
                 {activeSection === "action-cell" && <ActionCellSection />}
                 {activeSection === "command-menu" && <CommandMenuSection />}
                 {activeSection === "data-table" && <DataTableSection />}
+                {activeSection === "filter-chip-multiselect-popover" && (
+                  <FilterChipMultiSelectPopoverSection />
+                )}
+                {activeSection === "filter-chip-popover" && (
+                  <FilterChipPopoverSection />
+                )}
+                {activeSection === "filter-chip-select-popover" && (
+                  <FilterChipSelectPopoverSection />
+                )}
                 {activeSection === "header-page" && <HeaderPageSection />}
                 {activeSection === "inline-edit-field" && (
                   <InlineEditFieldSection />
@@ -343,14 +411,23 @@ export default function DeveloperPage() {
                 {activeSection === "locale-switcher" && (
                   <LocaleSwitcherSection />
                 )}
+                {activeSection === "locale-switcher-horizontal" && (
+                  <LocaleSwitcherHorizontalSection />
+                )}
                 {activeSection === "locale-tabs" && <LocaleTabsSection />}
+                {activeSection === "modals" && <ModalsSection />}
+                {activeSection === "nav-main" && <NavMainSection />}
+                {activeSection === "nav-projects" && <NavProjectsSection />}
                 {activeSection === "page-breadcrumb" && (
                   <PageBreadcrumbSection />
                 )}
+                {activeSection === "record-tabs" && <RecordTabsSection />}
                 {activeSection === "search" && <SearchSection />}
+                {activeSection === "tabs-horizontal" && (
+                  <TabsHorizontalSection />
+                )}
                 {activeSection === "theme-toggle" && <ThemeToggleSection />}
                 {activeSection === "title-field" && <TitleFieldSection />}
-                {activeSection === "modals" && <ModalsSection />}
               </ScrollArea>
             </main>
           </div>
@@ -2037,6 +2114,412 @@ function ModalsSection() {
                 </div>
               </SheetContent>
             </Sheet>
+          </div>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function DateInputSection() {
+  const [date, setDate] = useState<Date>(new Date());
+  return (
+    <SectionWrapper
+      title="Date Input"
+      description="Test date input component with separate day, month, and year fields."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Date Input</Label>
+          <DateInput value={date} onChange={setDate} />
+          <p className="text-muted-foreground text-sm">
+            Selected date: {date.toLocaleDateString()}
+          </p>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function DatePickerSection() {
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  return (
+    <SectionWrapper
+      title="Date Picker"
+      description="Test date picker component with calendar popover."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <DatePicker
+            label="Select Date"
+            value={date}
+            onChange={setDate}
+            placeholder="YYYY/MM/DD"
+          />
+          <p className="text-muted-foreground text-sm">
+            Selected date: {date ? date.toLocaleDateString() : "None"}
+          </p>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function DateRangePickerSection() {
+  return (
+    <SectionWrapper
+      title="Date Range Picker"
+      description="Test date range picker component for selecting date ranges."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Date Range Picker</Label>
+          <DateRangePicker
+            onUpdate={(values) => {
+              toast.success(
+                `Range selected: ${values.range.from?.toLocaleDateString()} - ${values.range.to?.toLocaleDateString()}`,
+              );
+            }}
+          />
+          <p className="text-muted-foreground text-sm">
+            Click to select a date range
+          </p>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function PaginationControlsSection() {
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const totalItems = 100;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  return (
+    <SectionWrapper
+      title="Pagination Controls"
+      description="Test pagination controls component with page navigation and items per page selection."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Pagination Controls</Label>
+          <PaginationControls
+            currentPage={page}
+            totalPages={totalPages}
+            itemsPerPage={itemsPerPage}
+            totalItems={totalItems}
+            onPageChange={setPage}
+            onItemsPerPageChange={(value) => {
+              setItemsPerPage(value);
+              setPage(1);
+            }}
+          />
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function SidebarSection() {
+  return (
+    <SectionWrapper
+      title="Sidebar"
+      description="Test sidebar navigation component with collapsible menu."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Sidebar Example</Label>
+          <p className="text-muted-foreground text-sm">
+            Sidebar component with header, content, and footer sections
+          </p>
+          <div className="h-[400px] w-full rounded-lg border">
+            <SidebarProvider>
+              <Sidebar>
+                <SidebarHeader>
+                  <div className="px-4 py-2">
+                    <h3 className="font-semibold">Sidebar Header</h3>
+                  </div>
+                </SidebarHeader>
+                <SidebarContent>
+                  <SidebarGroup>
+                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                      <SidebarMenu>
+                        <SidebarMenuItem>
+                          <SidebarMenuButton>
+                            <Home className="size-4" />
+                            <span>Home</span>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                          <SidebarMenuButton>
+                            <Settings className="size-4" />
+                            <span>Settings</span>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      </SidebarMenu>
+                    </SidebarGroupContent>
+                  </SidebarGroup>
+                </SidebarContent>
+                <SidebarFooter>
+                  <div className="px-4 py-2">
+                    <p className="text-muted-foreground text-sm">Footer</p>
+                  </div>
+                </SidebarFooter>
+              </Sidebar>
+            </SidebarProvider>
+          </div>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function FilterChipPopoverSection() {
+  const [value, setValue] = useState("");
+  return (
+    <SectionWrapper
+      title="Filter Chip Popover"
+      description="Test filter chip popover component for text-based filtering."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Filter Chip Popover</Label>
+          <FilterChipPopover
+            label="Name"
+            value={value}
+            onChange={setValue}
+            placeholder="Enter name..."
+          />
+          <p className="text-muted-foreground text-sm">
+            Current value: {value || "None"}
+          </p>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function FilterChipSelectPopoverSection() {
+  const [value, setValue] = useState("");
+  const options = [
+    { value: "active", label: "Active" },
+    { value: "suspended", label: "Suspended" },
+    { value: "pending", label: "Pending" },
+  ];
+  return (
+    <SectionWrapper
+      title="Filter Chip Select Popover"
+      description="Test filter chip select popover component for dropdown-based filtering."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Filter Chip Select Popover</Label>
+          <FilterChipSelectPopover
+            label="Status"
+            value={value}
+            options={options}
+            onChange={(v) => setValue(v || "")}
+            placeholder="All Statuses"
+          />
+          <p className="text-muted-foreground text-sm">
+            Selected: {value || "None"}
+          </p>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function FilterChipMultiSelectPopoverSection() {
+  const [values, setValues] = useState<string[]>([]);
+  const options = [
+    { value: "option1", label: "Option 1" },
+    { value: "option2", label: "Option 2" },
+    { value: "option3", label: "Option 3" },
+    { value: "option4", label: "Option 4" },
+  ];
+  return (
+    <SectionWrapper
+      title="Filter Chip Multi-Select Popover"
+      description="Test filter chip multi-select popover component for multiple selection filtering."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Filter Chip Multi-Select Popover</Label>
+          <FilterChipMultiSelectPopover
+            label="Tags"
+            values={values}
+            options={options}
+            onChange={setValues}
+            placeholder="Select tags..."
+          />
+          <p className="text-muted-foreground text-sm">
+            Selected: {values.length > 0 ? values.join(", ") : "None"}
+          </p>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function LocaleSwitcherHorizontalSection() {
+  return (
+    <SectionWrapper
+      title="Locale Switcher Horizontal"
+      description="Test horizontal locale switcher component for language selection."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Locale Switcher Horizontal</Label>
+          <LocaleSwitcherHorizontal />
+          <p className="text-muted-foreground text-sm">
+            Horizontal layout for switching between locales
+          </p>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function NavMainSection() {
+  const routes = [
+    {
+      label: "Home",
+      route: "/",
+      icon: Home,
+      isActive: true,
+    },
+    {
+      label: "Settings",
+      route: "/settings",
+      icon: Settings,
+      children: [
+        { label: "Profile", route: "/settings/profile" },
+        { label: "Account", route: "/settings/account" },
+      ],
+    },
+  ];
+  return (
+    <SectionWrapper
+      title="Nav Main"
+      description="Test main navigation component for sidebar menu items."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Nav Main</Label>
+          <div className="w-64 rounded-lg border p-4">
+            <SidebarProvider>
+              <Sidebar>
+                <SidebarContent>
+                  <NavMain routes={routes} />
+                </SidebarContent>
+              </Sidebar>
+            </SidebarProvider>
+          </div>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function NavProjectsSection() {
+  const projects = [
+    { name: "Project 1", url: "/project1", icon: Home },
+    { name: "Project 2", url: "/project2", icon: Settings },
+  ];
+  return (
+    <SectionWrapper
+      title="Nav Projects"
+      description="Test projects navigation component for sidebar project links."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Nav Projects</Label>
+          <div className="w-64 rounded-lg border p-4">
+            <SidebarProvider>
+              <Sidebar>
+                <SidebarContent>
+                  <NavProjects projects={projects} />
+                </SidebarContent>
+              </Sidebar>
+            </SidebarProvider>
+          </div>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function RecordTabsSection() {
+  return (
+    <SectionWrapper
+      title="Record Tabs"
+      description="Test record tabs component with dynamic tab management."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Record Tabs</Label>
+          <p className="text-muted-foreground text-sm">
+            Dynamic tabs with add/remove functionality
+          </p>
+          <div className="pt-2">
+            <RecordTabs
+              initialTabs={[
+                { key: "tab1", label: "Tab 1", closable: false },
+                { key: "tab2", label: "Tab 2", closable: true },
+              ]}
+              defaultActiveKey="tab1"
+              renderTab={(tab) => (
+                <div className="p-4">
+                  <h3 className="font-semibold">{tab.label} Content</h3>
+                  <p className="text-muted-foreground text-sm">
+                    This is the content for {tab.label}
+                  </p>
+                </div>
+              )}
+            />
+          </div>
+        </div>
+      </div>
+    </SectionWrapper>
+  );
+}
+
+function TabsHorizontalSection() {
+  const [activeKey, setActiveKey] = useState("tab1");
+  const [tabs, setTabs] = useState([
+    { key: "tab1", label: "Tab 1", closable: false },
+    { key: "tab2", label: "Tab 2", closable: true },
+    { key: "tab3", label: "Tab 3", closable: true },
+  ]);
+
+  const removeTab = (key: string) => {
+    setTabs(tabs.filter((tab) => tab.key !== key));
+    if (activeKey === key && tabs.length > 1) {
+      const index = tabs.findIndex((t) => t.key === key);
+      setActiveKey(tabs[index - 1]?.key || tabs[0]?.key || "tab1");
+    }
+  };
+
+  return (
+    <SectionWrapper
+      title="Tabs Horizontal"
+      description="Test horizontal tabs component with scrollable tab list."
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Tabs Horizontal</Label>
+          <div className="rounded-lg border p-4">
+            <TabsHorizontal
+              tabItems={tabs}
+              remove={removeTab}
+              activeKey={activeKey}
+            />
+            <div className="bg-muted mt-4 rounded p-4">
+              <p>Active tab: {activeKey}</p>
+            </div>
           </div>
         </div>
       </div>
