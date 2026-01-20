@@ -15,6 +15,7 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { BaseModal } from "@/components/modals/base-modal";
+import { useTranslations } from "next-intl";
 
 export interface ActionItem<T> {
   title: string;
@@ -40,6 +41,7 @@ export default function ActionsCell<T>({
 }) {
   const [open, setOpen] = useState(false);
   const [activeAction, setActiveAction] = useState<ActionItem<T> | null>(null);
+  const tDialog = useTranslations("CommonComponent.Dialog");
 
   const handleAction = (action: ActionItem<T>) => {
     if (action.confirmation) {
@@ -95,10 +97,10 @@ export default function ActionsCell<T>({
       >
         <AlertDialogFooter>
           <AlertDialogCancel>
-            {activeAction?.confirmation?.cancelText || t("dialog.cancel")}
+            {activeAction?.confirmation?.cancelText || tDialog("cancel")}
           </AlertDialogCancel>
           <AlertDialogAction onClick={handleConfirm}>
-            {activeAction?.confirmation?.confirmText || t("dialog.confirm")}
+            {activeAction?.confirmation?.confirmText || tDialog("confirm")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </BaseModal>

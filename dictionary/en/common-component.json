@@ -62,6 +62,10 @@
       "isEqualTo": "is equal to",
       "reset": "Reset",
       "done": "Done"
+    },
+    "Dialog": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
     }
   }
 }

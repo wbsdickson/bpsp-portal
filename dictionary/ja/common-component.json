@@ -62,6 +62,10 @@
       "isEqualTo": "次と等しい",
       "reset": "リセット",
       "done": "完了"
+    },
+    "Dialog": {
+      "confirm": "確認",
+      "cancel": "キャンセル"
     }
   }
 }
