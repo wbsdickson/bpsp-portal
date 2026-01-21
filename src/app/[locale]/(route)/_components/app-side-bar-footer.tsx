@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { ChevronLeft, FileText, HelpCircle, Home, LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { SidebarLastUpdate } from "@/components/sidebar-last-update";
 import { signOut } from "next-auth/react";
+import { LAST_UPDATE } from "@/lib/build-info";
 
 export function AppSideBarFooter({ t }: { t: (key: string) => string }) {
   const handleLogout = () => {
@@ -83,9 +83,10 @@ export function AppSideBarFooter({ t }: { t: (key: string) => string }) {
         <p className="text-primary text-xs font-medium">
           © Japan Credit Card Co., LTD.
         </p>
+        <p className="text-muted-foreground mt-1 text-[10px]">
+          Last update: {LAST_UPDATE}
+        </p>
       </div>
-
-      <SidebarLastUpdate />
     </SidebarFooter>
   );
 }
