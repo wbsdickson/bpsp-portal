@@ -36,8 +36,12 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
 
 export const PasswordFormSchema = z
   .object({
+    representativeName: z.string().min(1, "Required"),
+    companyName: z.string().min(1, "Required"),
+    phoneNumber: z.string().min(1, "Required"),
+    legalForm: z.enum(["corporation", "individual"]),
     password: z.string().min(1, "Required").regex(passwordRegex, {
-      message: "Password does not meet requirements", // Customize this message as needed
+      message: "Password does not meet requirements",
     }),
     confirmPassword: z.string().min(1, "Required"),
   })
@@ -79,6 +83,10 @@ export const UserRegistrationForm: React.FC = () => {
 
   const passwordFormSchema = z
     .object({
+      representativeName: z.string().min(1, t("requiredError")),
+      companyName: z.string().min(1, t("requiredError")),
+      phoneNumber: z.string().min(1, t("requiredError")),
+      legalForm: z.enum(["corporation", "individual"]),
       password: z
         .string()
         .min(1, t("requiredError"))
@@ -95,6 +103,10 @@ export const UserRegistrationForm: React.FC = () => {
   const passwordForm = useForm<z.infer<typeof PasswordFormSchema>>({
     resolver: zodResolver(passwordFormSchema),
     defaultValues: {
+      representativeName: "",
+      companyName: "",
+      phoneNumber: "",
+      legalForm: "corporation",
       password: "",
       confirmPassword: "",
     },

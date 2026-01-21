@@ -13,9 +13,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { HelpPopover } from "./help-popover";
-import { UserPreferencesDialog } from "./user-preferences-dialog";
-
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -166,12 +163,6 @@ export function HeaderButtons() {
   return (
     <>
       <div className="flex items-center gap-2">
-        {/* <HelpPopover />
-        <LinkButton
-          icon={Settings}
-          tooltip={t("footer.settings")}
-          url="/operator/system-settings"
-        /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button size="icon-2xs" className="rounded-full">
@@ -201,10 +192,6 @@ export function HeaderButtons() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <UserPreferencesDialog
-        open={preferencesOpen}
-        onOpenChange={setPreferencesOpen}
-      />
     </>
   );
 }

@@ -183,6 +183,95 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
           >
             <FormField
               control={form.control}
+              name="representativeName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tReg("representativeNameLabel")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder={tReg("representativeNamePlaceholder")}
+                      className="bg-card"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="companyName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tReg("companyNameLabel")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder={tReg("companyNamePlaceholder")}
+                      className="bg-card"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tReg("phoneNumberLabel")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder={tReg("phoneNumberPlaceholder")}
+                      className="bg-card"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="legalForm"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tReg("legalFormLabel")}</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-4">
+                      <label className="flex cursor-pointer items-center gap-2">
+                        <input
+                          type="radio"
+                          value="corporation"
+                          checked={field.value === "corporation"}
+                          onChange={() => field.onChange("corporation")}
+                          className="h-4 w-4"
+                        />
+                        <span className="text-sm">
+                          {tReg("legalFormCorporation")}
+                        </span>
+                      </label>
+                      <label className="flex cursor-pointer items-center gap-2">
+                        <input
+                          type="radio"
+                          value="individual"
+                          checked={field.value === "individual"}
+                          onChange={() => field.onChange("individual")}
+                          className="h-4 w-4"
+                        />
+                        <span className="text-sm">
+                          {tReg("legalFormIndividual")}
+                        </span>
+                      </label>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="password"
               render={({ field }) => (
                 <FormItem>

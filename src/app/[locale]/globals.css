@@ -153,12 +153,12 @@
     @apply bg-background text-foreground;
   }
 
-  /* Merchant Theme Overrides (Green) */
-  /* [data-role="merchant"] {
-    --primary: oklch(0.4 0.15 150);
+  /* Merchant Theme Overrides (Blue) */
+  [data-role="merchant"] {
+    --primary: oklch(0.42 0.15 250);
     --primary-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.4 0.15 150);
-  } */
+    --sidebar-primary: oklch(0.42 0.15 250);
+  }
 
   /* Admin Theme Overrides (Blue) */
   /* [data-role="admin"] {
