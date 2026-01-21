@@ -93,13 +93,20 @@ export default function MerchantMemberUpsertForm({
   }, [form, preselectedMerchantId, user]);
 
   const onSubmit = form.handleSubmit((data) => {
+    // Map memberRole to new role system
+    const roleMap: Record<MemberRole, UserRole> = {
+      owner: "merchant_owner",
+      staff: "merchant_admin",
+      viewer: "merchant_viewer",
+    };
+    const userRole = roleMap[data.memberRole];
+
     if (userId) {
       updateMember(userId, {
         merchantId: data.merchantId,
         name: data.name.trim(),
         email: data.email.trim(),
-        role: "merchant",
-        memberRole: data.memberRole,
+        role: userRole,
         status: data.status,
         ...(data.password?.trim()
           ? ({ password: data.password } satisfies Partial<any>)
@@ -112,8 +119,7 @@ export default function MerchantMemberUpsertForm({
         merchantId: data.merchantId,
         name: data.name.trim(),
         email: data.email.trim(),
-        role: "merchant",
-        memberRole: data.memberRole,
+        role: userRole,
         status: data.status,
         createdAt: new Date().toISOString(),
         lastLoginAt: new Date().toISOString(),
@@ -268,7 +274,6 @@ export default function MerchantMemberUpsertForm({
                       value={field.value ?? ""}
                     />
                     <Button
-                      
                       variant="ghost"
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
@@ -293,12 +298,7 @@ export default function MerchantMemberUpsertForm({
 
         <div className="flex justify-end gap-2">
           {onCancel && (
-            <Button
-              
-              variant="outline"
-              className="h-9"
-              onClick={onCancel}
-            >
+            <Button variant="outline" className="h-9" onClick={onCancel}>
               {t("buttons.cancel")}
             </Button>
           )}

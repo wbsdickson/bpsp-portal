@@ -17,7 +17,7 @@ export default async function AuthLayout({
 
   return (
     <div className="grid h-screen grid-cols-2 flex-col items-center justify-center bg-white lg:max-w-none lg:px-0">
-      <div className="mx-auto flex h-full w-[400px] flex-col justify-center space-y-6">
+      <div className="mx-auto flex h-full max-w-[550px] flex-col justify-center space-y-6">
         <div className="hidden transition-opacity duration-300 md:mb-4 md:block">
           <LocaleSwitcher />
         </div>

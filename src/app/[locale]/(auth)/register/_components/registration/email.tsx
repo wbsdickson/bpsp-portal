@@ -183,7 +183,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
 
           <Button
             // disabled={getOtpMutation.isPending}
-            className="bg-primary w-full rounded hover:bg-blue-700"
+            className="bg-primary w-full"
             type="submit"
           >
             {/* {getOtpMutation.isPending ? (

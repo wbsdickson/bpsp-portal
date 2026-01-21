@@ -35,14 +35,6 @@ import { useBasePath } from "@/hooks/use-base-path";
 
 type MerchantMemberStatus = "active" | "suspended";
 
-type MerchantMemberUpsertValues = {
-  merchantId: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  status: MerchantMemberStatus;
-};
-
 const ROLE_OPTIONS: UserRole[] = [
   "merchant_owner",
   "merchant_admin",
@@ -81,15 +73,13 @@ export default function MerchantMemberUpsertForm({
           .string()
           .min(1, t("validation.emailRequired"))
           .email(t("validation.emailInvalid")),
-        role: z.enum([
-          "merchant_owner",
-          "merchant_admin",
-          "merchant_viewer",
-        ]),
+        role: z.enum(["merchant_owner", "merchant_admin", "merchant_viewer"]),
         status: z.enum(["active", "suspended"]),
       }),
     [t],
   );
+
+  type MerchantMemberUpsertValues = z.infer<typeof schema>;
 
   const form = useForm<MerchantMemberUpsertValues>({
     resolver: zodResolver(schema),
@@ -97,17 +87,28 @@ export default function MerchantMemberUpsertForm({
       merchantId: user?.merchantId ?? preselectedMerchantId,
       name: user?.name ?? "",
       email: user?.email ?? "",
-      role: (user?.role ?? "merchant_viewer") as UserRole,
+      role: (user?.role ?? "merchant_viewer") as
+        | "merchant_owner"
+        | "merchant_admin"
+        | "merchant_viewer",
       status: (user?.status ?? "active") as MerchantMemberStatus,
     },
   });
 
   useEffect(() => {
+    const userRole = user?.role;
+    const validRole =
+      userRole === "merchant_owner" ||
+      userRole === "merchant_admin" ||
+      userRole === "merchant_viewer"
+        ? userRole
+        : "merchant_viewer";
+
     form.reset({
       merchantId: user?.merchantId ?? preselectedMerchantId,
       name: user?.name ?? "",
       email: user?.email ?? "",
-      role: (user?.role ?? "merchant_viewer") as UserRole,
+      role: validRole,
       status: (user?.status ?? "active") as MerchantMemberStatus,
     });
   }, [form, preselectedMerchantId, user]);
@@ -149,7 +150,12 @@ export default function MerchantMemberUpsertForm({
     <div className="bg-card min-h-[calc(100vh-0px)] rounded-lg p-4">
       <div className="bg-card/95 sticky top-0 z-10 border-b backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-2">
-          <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => router.back()}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9"
+            onClick={() => router.back()}
+          >
             <X className="h-4 w-4" />
           </Button>
 
