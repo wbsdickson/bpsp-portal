@@ -67,7 +67,7 @@ export function VideoBackground() {
         muted
         playsInline
         poster="/login-bg.jpg"
-        className="rounded-4xl absolute inset-0 z-0 h-full w-full object-cover p-2"
+        className="rounded-4xl absolute inset-0 z-0 h-full w-full object-cover p-2 brightness-[0.45]"
       >
         <source src="/login-bg.mp4" type="video/mp4" />
       </video>
