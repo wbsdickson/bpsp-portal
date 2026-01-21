@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useMemo } from "react";
-import type { AppAbility } from "@/lib/ability";
+import type { AppAbility, Actions, Subjects } from "@/lib/ability";
 import { createAbility } from "@/lib/ability";
 import type { AppUser } from "@/types/user";
 
@@ -46,7 +46,8 @@ export function useCan() {
   const ability = useAbility();
 
   return {
-    can: (action: string, subject: string) => ability.can(action, subject),
-    cannot: (action: string, subject: string) => ability.cannot(action, subject),
+    can: (action: Actions, subject: Subjects) => ability.can(action, subject),
+    cannot: (action: Actions, subject: Subjects) =>
+      ability.cannot(action, subject),
   };
 }

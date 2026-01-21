@@ -92,6 +92,38 @@ export function DemoAccounts({ locale }: DemoAccountsProps) {
             )}
           </Button>
         </div>
+        <div className="flex items-center justify-between gap-2">
+          <span>{t("demoAccountStaff")}</span>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => handleDemoLogin("sarah@bpsp.com")}
+            disabled={isLoading !== null}
+            className="h-7 text-xs"
+          >
+            {isLoading === "sarah@bpsp.com" ? (
+              <Loader2 className="h-3 w-3 animate-spin" />
+            ) : (
+              t("loginButton")
+            )}
+          </Button>
+        </div>
+        <div className="flex items-center justify-between gap-2">
+          <span>{t("demoAccountJessica")}</span>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => handleDemoLogin("jessica@bpsp.com")}
+            disabled={isLoading !== null}
+            className="h-7 text-xs"
+          >
+            {isLoading === "jessica@bpsp.com" ? (
+              <Loader2 className="h-3 w-3 animate-spin" />
+            ) : (
+              t("loginButton")
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );

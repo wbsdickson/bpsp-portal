@@ -48,6 +48,34 @@ type AbilityConfig = {
 };
 
 /**
+ * Custom conditions matcher for CASL
+ * Matches conditions using simple equality checks
+ */
+function conditionsMatcher(conditions: unknown) {
+  if (!conditions || typeof conditions !== "object") {
+    return () => true;
+  }
+
+  const conditionRecord = conditions as Record<string, unknown>;
+
+  return (object: unknown) => {
+    if (!object || typeof object !== "object") {
+      return false;
+    }
+
+    const objectRecord = object as Record<string, unknown>;
+
+    for (const [key, value] of Object.entries(conditionRecord)) {
+      if (objectRecord[key] !== value) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+}
+
+/**
  * Define abilities based on user role using static JSON configuration
  */
 export function defineAbilityFor(user: AppUser | null): AppAbility {
@@ -55,7 +83,9 @@ export function defineAbilityFor(user: AppUser | null): AppAbility {
 
   if (!user) {
     // No user = no permissions
-    return build();
+    return build({
+      conditionsMatcher,
+    });
   }
 
   const userRole = user.role as UserRole;
@@ -63,7 +93,9 @@ export function defineAbilityFor(user: AppUser | null): AppAbility {
 
   if (!config) {
     // Unknown role = no permissions
-    return build();
+    return build({
+      conditionsMatcher,
+    });
   }
 
   // Apply permissions from JSON config
@@ -97,7 +129,9 @@ export function defineAbilityFor(user: AppUser | null): AppAbility {
     }
   }
 
-  return build();
+  return build({
+    conditionsMatcher,
+  });
 }
 
 /**

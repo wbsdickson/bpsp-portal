@@ -15,6 +15,10 @@
           "subject": "all"
         },
         {
+          "action": "read",
+          "subject": "Merchant"
+        },
+        {
           "action": "update",
           "subject": "Invoice"
         },
@@ -53,12 +57,20 @@
           "subject": "all"
         },
         {
-          "action": "manage",
-          "subject": "User"
+          "action": "delete",
+          "subject": "Merchant"
+        },
+        {
+          "action": "create",
+          "subject": "Merchant"
+        },
+        {
+          "action": "update",
+          "subject": "Merchant"
         },
         {
           "action": "manage",
-          "subject": "Merchant"
+          "subject": "User"
         }
       ]
     },

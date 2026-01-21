@@ -39,6 +39,9 @@ export function SignInForm({ locale }: { locale: string }) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [quickLoginLoading, setQuickLoginLoading] = useState<string | null>(
+    null,
+  );
   const searchParams = useSearchParams();
   const schema = useMemo(() => createSchema(t), [t]);
   const form = useForm<Values>({
@@ -99,6 +102,44 @@ export function SignInForm({ locale }: { locale: string }) {
         )}`
       : `/${locale}/forgot-password`;
   }, [locale, searchParams]);
+
+  const handleQuickLogin = async (email: string) => {
+    setQuickLoginLoading(email);
+    setFormError(null);
+    const password = "password123";
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (!result || result.error) {
+      setQuickLoginLoading(null);
+      setFormError(t("invalidCredentialsError"));
+      return;
+    }
+
+    const callbackUrl = searchParams.get("callbackUrl");
+    const safeCallbackUrl = callbackUrl
+      ? callbackUrl.replace(/^\/+/, "").replace(/^https?:\/\//, "")
+      : null;
+
+    const session = await getSession();
+    const role =
+      session?.user && "role" in session.user ? session.user.role : "operator";
+    login(role as UserRole);
+
+    const isMerchantRole =
+      role === "merchant_owner" ||
+      role === "merchant_admin" ||
+      role === "merchant_viewer";
+    const nextUrl = safeCallbackUrl
+      ? `/${locale}/${safeCallbackUrl}`
+      : `/${locale}/${isMerchantRole ? "merchant" : "operator"}/dashboard`;
+
+    router.replace(nextUrl);
+  };
 
   return (
     <Form {...form}>
@@ -190,6 +231,71 @@ export function SignInForm({ locale }: { locale: string }) {
             t("loginButton")
           )}
         </Button>
+
+        <div className="bg-muted/40 rounded-md border p-3 text-sm">
+          <div className="text-foreground/80 mb-2 font-medium">
+            {t("quickLogin")}
+          </div>
+          <div className="text-foreground/70 space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs">Backoffice Admin (Bob)</span>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => handleQuickLogin("bob@bpsp.com")}
+                disabled={
+                  quickLoginLoading !== null || form.formState.isSubmitting
+                }
+                className="h-7 text-xs"
+              >
+                {quickLoginLoading === "bob@bpsp.com" ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : (
+                  t("loginButton")
+                )}
+              </Button>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs">Backoffice Staff (Jessica)</span>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => handleQuickLogin("jessica@bpsp.com")}
+                disabled={
+                  quickLoginLoading !== null || form.formState.isSubmitting
+                }
+                className="h-7 text-xs"
+              >
+                {quickLoginLoading === "jessica@bpsp.com" ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : (
+                  t("loginButton")
+                )}
+              </Button>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs">Merchant Owner (Alice)</span>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => handleQuickLogin("alice@techcorp.com")}
+                disabled={
+                  quickLoginLoading !== null || form.formState.isSubmitting
+                }
+                className="h-7 text-xs"
+              >
+                {quickLoginLoading === "alice@techcorp.com" ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : (
+                  t("loginButton")
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
       </form>
     </Form>
   );
