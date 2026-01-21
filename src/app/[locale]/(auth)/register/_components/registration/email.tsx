@@ -144,12 +144,12 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
                         className="flex flex-row items-start gap-0 space-x-3 space-y-0"
                       >
                         <FormControl>
-                          <input
-                            type="checkbox"
-                            className="h-4 w-4 rounded border-gray-300"
+                          <Checkbox
+                            id="tnc"
+                            className="border-card-foreground/40 bg-card"
                             checked={field.value}
-                            onChange={(e) => {
-                              field.onChange(e.target.checked);
+                            onCheckedChange={(checked) => {
+                              field.onChange(checked);
                             }}
                           />
                         </FormControl>
@@ -183,7 +183,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
 
           <Button
             // disabled={getOtpMutation.isPending}
-            className="bg-primary w-full"
+            className="bg-primary w-full rounded hover:bg-blue-700"
             type="submit"
           >
             {/* {getOtpMutation.isPending ? (

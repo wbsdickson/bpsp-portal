@@ -10,6 +10,8 @@ import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+
 import {
   Form,
   FormControl,
@@ -197,9 +199,9 @@ export function SignInForm({ locale }: { locale: string }) {
 
         <div className="flex items-center justify-between">
           <label className="flex cursor-pointer items-center space-x-2">
-            <input
-              type="checkbox"
-              className="h-4 w-4 rounded border-gray-300"
+            <Checkbox
+              id="rememberMe"
+              className="border-card-foreground/40 bg-card"
             />
             <span className="text-sm">{t("rememberMe")}</span>
           </label>
