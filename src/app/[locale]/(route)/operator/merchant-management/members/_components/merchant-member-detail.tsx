@@ -82,7 +82,7 @@ export default function MerchantMemberDetail({ userId }: { userId: string }) {
       merchantId: data.merchantId,
       name: data.name,
       email: data.email,
-      role: "merchant", // Preserve hardcoded role if needed or update via schema
+      role: "merchant_owner",
       memberRole: data.memberRole,
       status: data.status,
       ...(data.password?.trim()

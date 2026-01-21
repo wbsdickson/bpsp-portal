@@ -634,7 +634,12 @@
         "merchant": "merchant",
         "admin": "admin",
         "jpcc_admin": "jpcc_admin",
-        "merchant_jpcc": "merchant_jpcc"
+        "merchant_jpcc": "merchant_jpcc",
+        "backoffice_admin": "バックオフィス管理者",
+        "backoffice_staff": "バックオフィススタッフ",
+        "merchant_owner": "加盟店オーナー",
+        "merchant_admin": "加盟店管理者",
+        "merchant_viewer": "加盟店閲覧者"
       },
       "messages": {
         "userNotFound": "ユーザーが見つかりません。",

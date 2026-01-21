@@ -633,7 +633,12 @@
         "merchant": "merchant",
         "admin": "admin",
         "jpcc_admin": "jpcc_admin",
-        "merchant_jpcc": "merchant_jpcc"
+        "merchant_jpcc": "merchant_jpcc",
+        "backoffice_admin": "Backoffice Admin",
+        "backoffice_staff": "Backoffice Staff",
+        "merchant_owner": "Merchant Owner",
+        "merchant_admin": "Merchant Admin",
+        "merchant_viewer": "Merchant Viewer"
       },
       "messages": {
         "userNotFound": "User not found.",

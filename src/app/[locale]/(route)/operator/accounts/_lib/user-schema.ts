@@ -7,7 +7,13 @@ export const createUserSchema = (t: any) => {
       .string()
       .min(1, t("validation.emailRequired"))
       .email(t("validation.emailInvalid")),
-    role: z.enum(["merchant", "admin", "jpcc_admin", "merchant_jpcc"]),
+    role: z.enum([
+      "backoffice_admin",
+      "backoffice_staff",
+      "merchant_owner",
+      "merchant_admin",
+      "merchant_viewer",
+    ]),
     password: z.string().optional().or(z.literal("")),
   });
 };
