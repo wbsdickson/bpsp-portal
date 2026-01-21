@@ -33,10 +33,11 @@ import { Eye, EyeOff } from "lucide-react";
 import { createUserSchema } from "../_lib/user-schema";
 
 const ROLE_OPTIONS: UserRole[] = [
-  "merchant",
-  "admin",
-  "jpcc_admin",
-  "merchant_jpcc",
+  "backoffice_admin",
+  "backoffice_staff",
+  "merchant_owner",
+  "merchant_admin",
+  "merchant_viewer",
 ];
 
 export interface UserUpsertFormProps {
@@ -73,7 +74,7 @@ const UserUpsertForm = React.forwardRef<
     defaultValues: {
       name: user?.name ?? "",
       email: user?.email ?? "",
-      role: (user?.role ?? "merchant") as UserRole,
+      role: (user?.role ?? "merchant_viewer") as UserRole,
       password: "",
     },
   });
@@ -86,7 +87,7 @@ const UserUpsertForm = React.forwardRef<
     form.reset({
       name: user?.name ?? "",
       email: user?.email ?? "",
-      role: (user?.role ?? "merchant") as UserRole,
+      role: (user?.role ?? "merchant_viewer") as UserRole,
       password: "",
     });
   }, [form, user]);

@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/select";
 import { useMerchantStore } from "@/store/merchant-store";
 import { useMerchantMemberStore } from "@/store/merchant/merchant-member-store";
-import type { MemberRole, User, UserRole } from "@/lib/types";
+import type { User, UserRole } from "@/lib/types";
 import { generateId } from "@/lib/utils";
 import { useBasePath } from "@/hooks/use-base-path";
 
@@ -40,18 +40,14 @@ type MerchantMemberUpsertValues = {
   name: string;
   email: string;
   role: UserRole;
-  memberRole: MemberRole;
   status: MerchantMemberStatus;
 };
 
 const ROLE_OPTIONS: UserRole[] = [
-  "merchant",
-  "admin",
-  "jpcc_admin",
-  "merchant_jpcc",
+  "merchant_owner",
+  "merchant_admin",
+  "merchant_viewer",
 ];
-
-const MEMBER_ROLE_OPTIONS: MemberRole[] = ["owner", "staff", "viewer"];
 
 const STATUS_OPTIONS: MerchantMemberStatus[] = ["active", "suspended"];
 
@@ -85,8 +81,11 @@ export default function MerchantMemberUpsertForm({
           .string()
           .min(1, t("validation.emailRequired"))
           .email(t("validation.emailInvalid")),
-        role: z.enum(["merchant", "admin", "jpcc_admin", "merchant_jpcc"]),
-        memberRole: z.enum(["owner", "staff", "viewer"]),
+        role: z.enum([
+          "merchant_owner",
+          "merchant_admin",
+          "merchant_viewer",
+        ]),
         status: z.enum(["active", "suspended"]),
       }),
     [t],
@@ -98,8 +97,7 @@ export default function MerchantMemberUpsertForm({
       merchantId: user?.merchantId ?? preselectedMerchantId,
       name: user?.name ?? "",
       email: user?.email ?? "",
-      role: (user?.role ?? "merchant") as UserRole,
-      memberRole: (user?.memberRole ?? "staff") as MemberRole,
+      role: (user?.role ?? "merchant_viewer") as UserRole,
       status: (user?.status ?? "active") as MerchantMemberStatus,
     },
   });
@@ -109,8 +107,7 @@ export default function MerchantMemberUpsertForm({
       merchantId: user?.merchantId ?? preselectedMerchantId,
       name: user?.name ?? "",
       email: user?.email ?? "",
-      role: (user?.role ?? "merchant") as UserRole,
-      memberRole: (user?.memberRole ?? "staff") as MemberRole,
+      role: (user?.role ?? "merchant_viewer") as UserRole,
       status: (user?.status ?? "active") as MerchantMemberStatus,
     });
   }, [form, preselectedMerchantId, user]);
@@ -122,7 +119,6 @@ export default function MerchantMemberUpsertForm({
         name: data.name.trim(),
         email: data.email.trim(),
         role: data.role,
-        memberRole: data.memberRole,
         status: data.status,
       });
       toast.success(t("messages.updateSuccess"));
@@ -133,7 +129,6 @@ export default function MerchantMemberUpsertForm({
         name: data.name.trim(),
         email: data.email.trim(),
         role: data.role,
-        memberRole: data.memberRole,
         status: data.status,
         createdAt: new Date().toISOString(),
         lastLoginAt: new Date().toISOString(),
@@ -254,33 +249,6 @@ export default function MerchantMemberUpsertForm({
                         {ROLE_OPTIONS.map((r) => (
                           <SelectItem key={r} value={r}>
                             {t(`roles.${r}`)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="memberRole"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("columns.memberRole")}</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="h-9 w-full">
-                          <SelectValue
-                            placeholder={t("form.selectMemberRole")}
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {MEMBER_ROLE_OPTIONS.map((r) => (
-                          <SelectItem key={r} value={r}>
-                            {t(`memberRoles.${r}`)}
                           </SelectItem>
                         ))}
                       </SelectContent>

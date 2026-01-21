@@ -13,7 +13,11 @@ const credentialsSchema = z.object({
   password: z.string().min(1),
 });
 
-type AuthUser = (User | AdapterUser) & { role?: string; merchantId?: string };
+type AuthUser = (User | AdapterUser) & {
+  role?: string;
+  merchantId?: string;
+  memberRole?: "owner" | "staff" | "viewer";
+};
 
 export const { handlers, auth } = NextAuth({
   providers: [
@@ -42,6 +46,7 @@ export const { handlers, auth } = NextAuth({
           email: user.email,
           role: user.role,
           merchantId: user.merchantId,
+          memberRole: user.memberRole,
         };
       },
     }),
@@ -49,10 +54,15 @@ export const { handlers, auth } = NextAuth({
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: AuthUser }) {
-      const nextToken = token as JWT & { role?: string; merchantId?: string };
+      const nextToken = token as JWT & {
+        role?: string;
+        merchantId?: string;
+        memberRole?: "owner" | "staff" | "viewer";
+      };
       if (user) {
         nextToken.role = user.role;
         nextToken.merchantId = user.merchantId;
+        nextToken.memberRole = user.memberRole;
       }
       return nextToken;
     },
@@ -61,13 +71,18 @@ export const { handlers, auth } = NextAuth({
       token,
     }: {
       session: Session;
-      token: JWT & { role?: string; merchantId?: string };
+      token: JWT & {
+        role?: string;
+        merchantId?: string;
+        memberRole?: "owner" | "staff" | "viewer";
+      };
     }) {
       if (session.user) {
         const sessionUser = session.user as AuthUser;
         sessionUser.id = token.sub ?? sessionUser.id ?? "";
         sessionUser.role = token.role;
         sessionUser.merchantId = token.merchantId;
+        sessionUser.memberRole = token.memberRole;
       }
       return session;
     },

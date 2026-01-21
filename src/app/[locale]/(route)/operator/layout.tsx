@@ -12,6 +12,7 @@ import { ModalProvider } from "./_providers/modal-provider";
 import { SearchProvider } from "@/context/search-provider";
 import { Search } from "@/components/search";
 import { UserPreferencesProvider } from "./_components/user-preferences-provider";
+import { AbilityProvider } from "../_providers/ability-provider";
 
 export default async function RouteLayout({
   children,
@@ -28,29 +29,35 @@ export default async function RouteLayout({
     redirect(`/${locale}/signin`);
   }
 
-  if (!currentUser?.role || currentUser.role !== "admin") {
+  if (
+    !currentUser?.role ||
+    (currentUser.role !== "backoffice_admin" &&
+      currentUser.role !== "backoffice_staff")
+  ) {
     redirect(`/${locale}/merchant/dashboard`);
   }
 
   return (
     <SearchProvider>
       <UserPreferencesProvider>
-        <SidebarProvider>
-          <ModalProvider />
-          <AppSidebar />
-          <SidebarInset>
-            <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-background flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear">
-              <div className="flex flex-1 items-center gap-2 px-4">
-                <SidebarTrigger className="-ml-1" />
-                <Search />
-              </div>
-              <div className="flex items-center gap-2 px-4">
-                <HeaderButtons />
-              </div>
-            </header>
-            <div className="bg-background h-full p-4">{children}</div>
-          </SidebarInset>
-        </SidebarProvider>
+        <AbilityProvider>
+          <SidebarProvider>
+            <ModalProvider />
+            <AppSidebar />
+            <SidebarInset>
+              <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-background flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear">
+                <div className="flex flex-1 items-center gap-2 px-4">
+                  <SidebarTrigger className="-ml-1" />
+                  <Search />
+                </div>
+                <div className="flex items-center gap-2 px-4">
+                  <HeaderButtons />
+                </div>
+              </header>
+              <div className="bg-background h-full p-4">{children}</div>
+            </SidebarInset>
+          </SidebarProvider>
+        </AbilityProvider>
       </UserPreferencesProvider>
     </SearchProvider>
   );

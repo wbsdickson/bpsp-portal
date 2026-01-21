@@ -9,6 +9,7 @@ export type AppUser = {
   email: string;
   role: string;
   merchantId?: string;
+  memberRole?: "owner" | "staff" | "viewer";
   lastLoginAt?: string;
   deletedAt?: string | null;
   createdAt?: string;

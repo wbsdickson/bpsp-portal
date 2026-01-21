@@ -1,5 +1,10 @@
-export type UserRole = "merchant" | "admin" | "jpcc_admin" | "merchant_jpcc";
-export type MemberRole = "owner" | "staff" | "viewer";
+export type UserRole =
+  | "backoffice_admin"
+  | "backoffice_staff"
+  | "merchant_owner"
+  | "merchant_admin"
+  | "merchant_viewer";
+export type MemberRole = "owner" | "staff" | "viewer"; // Deprecated: Use UserRole instead
 
 export interface User {
   id: string;

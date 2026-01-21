@@ -1,0 +1,226 @@
+{
+  "roles": {
+    "backoffice_admin": {
+      "permissions": [
+        {
+          "action": "manage",
+          "subject": "all"
+        }
+      ]
+    },
+    "backoffice_staff": {
+      "permissions": [
+        {
+          "action": "read",
+          "subject": "all"
+        },
+        {
+          "action": "update",
+          "subject": "Invoice"
+        },
+        {
+          "action": "update",
+          "subject": "Client"
+        },
+        {
+          "action": "update",
+          "subject": "Transaction"
+        },
+        {
+          "action": "update",
+          "subject": "Payment"
+        },
+        {
+          "action": "read",
+          "subject": "Dashboard"
+        },
+        {
+          "action": "read",
+          "subject": "Settings"
+        },
+        {
+          "action": "read",
+          "subject": "Report"
+        },
+        {
+          "action": "export",
+          "subject": "Report"
+        }
+      ],
+      "restrictions": [
+        {
+          "action": "delete",
+          "subject": "all"
+        },
+        {
+          "action": "manage",
+          "subject": "User"
+        },
+        {
+          "action": "manage",
+          "subject": "Merchant"
+        }
+      ]
+    },
+    "merchant_owner": {
+      "permissions": [
+        {
+          "action": "read",
+          "subject": "Dashboard"
+        },
+        {
+          "action": "manage",
+          "subject": "Invoice"
+        },
+        {
+          "action": "manage",
+          "subject": "Client"
+        },
+        {
+          "action": "manage",
+          "subject": "Transaction"
+        },
+        {
+          "action": "manage",
+          "subject": "Payment"
+        },
+        {
+          "action": "manage",
+          "subject": "Settings"
+        },
+        {
+          "action": "read",
+          "subject": "Report"
+        },
+        {
+          "action": "export",
+          "subject": "Report"
+        },
+        {
+          "action": "manage",
+          "subject": "Account"
+        }
+      ]
+    },
+    "merchant_admin": {
+      "permissions": [
+        {
+          "action": "read",
+          "subject": "Dashboard"
+        },
+        {
+          "action": "create",
+          "subject": "Invoice"
+        },
+        {
+          "action": "update",
+          "subject": "Invoice"
+        },
+        {
+          "action": "create",
+          "subject": "Client"
+        },
+        {
+          "action": "update",
+          "subject": "Client"
+        },
+        {
+          "action": "read",
+          "subject": "Transaction"
+        },
+        {
+          "action": "read",
+          "subject": "Payment"
+        },
+        {
+          "action": "read",
+          "subject": "Settings"
+        },
+        {
+          "action": "read",
+          "subject": "Report"
+        },
+        {
+          "action": "export",
+          "subject": "Report"
+        }
+      ],
+      "restrictions": [
+        {
+          "action": "delete",
+          "subject": "Invoice"
+        },
+        {
+          "action": "delete",
+          "subject": "Client"
+        },
+        {
+          "action": "manage",
+          "subject": "Settings"
+        },
+        {
+          "action": "manage",
+          "subject": "Account"
+        }
+      ]
+    },
+    "merchant_viewer": {
+      "permissions": [
+        {
+          "action": "read",
+          "subject": "Dashboard"
+        },
+        {
+          "action": "read",
+          "subject": "Invoice"
+        },
+        {
+          "action": "read",
+          "subject": "Client"
+        },
+        {
+          "action": "read",
+          "subject": "Transaction"
+        },
+        {
+          "action": "read",
+          "subject": "Payment"
+        },
+        {
+          "action": "read",
+          "subject": "Settings"
+        },
+        {
+          "action": "read",
+          "subject": "Report"
+        }
+      ],
+      "restrictions": [
+        {
+          "action": "create",
+          "subject": "all"
+        },
+        {
+          "action": "update",
+          "subject": "all"
+        },
+        {
+          "action": "delete",
+          "subject": "all"
+        },
+        {
+          "action": "export",
+          "subject": "Report"
+        },
+        {
+          "action": "manage",
+          "subject": "Settings"
+        },
+        {
+          "action": "manage",
+          "subject": "Account"
+        }
+      ]
+    }
+  }
+}

@@ -15,7 +15,11 @@ export default async function LocaleIndexPage({
     redirect(`/${locale}/signin`);
   }
 
-  if (currentUser?.role === "merchant") {
+  const isMerchantRole =
+    currentUser?.role === "merchant_owner" ||
+    currentUser?.role === "merchant_admin" ||
+    currentUser?.role === "merchant_viewer";
+  if (isMerchantRole) {
     redirect(`/${locale}/merchant/dashboard`);
   }
 

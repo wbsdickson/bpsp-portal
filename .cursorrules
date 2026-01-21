@@ -14,6 +14,7 @@ This is a Next.js 16 application built with TypeScript, React 19, Tailwind CSS, 
 - **Form Handling**: React Hook Form + Zod
 - **Internationalization**: next-intl
 - **Authentication**: next-auth v5
+- **Permission Management**: CASL (@casl/ability, @casl/react)
 - **UI Components**: Radix UI primitives + shadcn/ui
 - **Icons**: Lucide React
 - **Notifications**: Sonner
@@ -124,6 +125,34 @@ This is a Next.js 16 application built with TypeScript, React 19, Tailwind CSS, 
 - Use Server Actions for mutations (`src/actions/`)
 - Handle errors gracefully with try-catch
 - Show user feedback with toast notifications
+
+### Role & Permission Management
+
+- **Use CASL (cals) library** for all role and permission checks
+- **Never use direct role checks** like `user.role === "admin"` - always use CASL abilities
+- **Client Components**: Use `useAbility()` or `useCan()` hooks from `@/context/ability-context`
+- **Server Components/API Routes**: Use `checkPermission()` or `requirePermission()` from `@/lib/permissions`
+- **UI Components**: Use `<Can I="action" a="Subject">` component from `@/components/can` for conditional rendering
+- **Permission Checks**: Use `usePermissions()` hook for common permission checks (e.g., `canCreateInvoice()`)
+- **Ability Definition**: All permissions are defined in `src/lib/ability.ts` - update there when adding new permissions
+- **Subjects**: Available subjects are: `User`, `Merchant`, `Invoice`, `Client`, `Transaction`, `Payment`, `Dashboard`, `Settings`, `Report`, `all`
+- **Actions**: Available actions are: `manage`, `create`, `read`, `update`, `delete`, `view`, `edit`, `approve`, `reject`, `export`
+- **Example Usage**:
+  ```typescript
+  // Client component
+  const { can } = useCan();
+  if (can("create", "Invoice")) { ... }
+  
+  // Or use Can component
+  <Can I="create" a="Invoice">
+    <Button>Create Invoice</Button>
+  </Can>
+  
+  // Server component/API route
+  if (!checkPermission(user, "create", "Invoice")) {
+    return redirect("/unauthorized");
+  }
+  ```
 
 ### Error Handling
 

@@ -28,7 +28,11 @@ export default function MerchantMemberTable({
   const allMembers = useMerchantMemberStore((s) => s.members);
   const members = React.useMemo(() => {
     const active = allMembers.filter(
-      (u) => !u.deletedAt && u.role === "merchant",
+      (u) =>
+        !u.deletedAt &&
+        (u.role === "merchant_owner" ||
+          u.role === "merchant_admin" ||
+          u.role === "merchant_viewer"),
     );
     if (!merchantId) return active;
     return active.filter((u) => u.merchantId === merchantId);

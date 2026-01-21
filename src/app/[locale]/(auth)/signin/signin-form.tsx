@@ -76,9 +76,13 @@ export function SignInForm({ locale }: { locale: string }) {
       session?.user && "role" in session.user ? session.user.role : "operator";
     login(role as UserRole);
 
+    const isMerchantRole =
+      role === "merchant_owner" ||
+      role === "merchant_admin" ||
+      role === "merchant_viewer";
     const nextUrl = safeCallbackUrl
       ? `/${locale}/${safeCallbackUrl}`
-      : `/${locale}/${role === "merchant" ? "merchant" : "operator"}/dashboard`;
+      : `/${locale}/${isMerchantRole ? "merchant" : "operator"}/dashboard`;
 
     router.replace(nextUrl);
   }

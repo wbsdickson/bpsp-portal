@@ -113,7 +113,9 @@ export function TeamSwitcher({
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-bold">
-                  {role === "admin" ? "Back Office" : "Merchant Company"}
+                  {role === "backoffice_admin" || role === "backoffice_staff"
+                    ? "Back Office"
+                    : "Merchant Company"}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto" />

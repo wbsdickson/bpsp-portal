@@ -152,17 +152,20 @@ export function CommandMenu() {
   const t = useTranslations();
   const merchantTCommand = useTranslations("Merchant.CommandMenu");
   const operatorTCommand = useTranslations("Operator.CommandMenu");
-  const tCommand =
-    userRole === "merchant" ? merchantTCommand : operatorTCommand;
+  const isMerchantRole =
+    userRole === "merchant_owner" ||
+    userRole === "merchant_admin" ||
+    userRole === "merchant_viewer";
+  const tCommand = isMerchantRole ? merchantTCommand : operatorTCommand;
   const [isPending, startTransition] = useTransition();
 
   const sidebarData = React.useMemo(() => {
-    if (userRole === "merchant") {
+    if (isMerchantRole) {
       return getMerchantRoutes(t, merchantTCommand);
     }
-    // For admin and other roles, show operator routes
+    // For backoffice and other roles, show operator routes
     return getOperatorRoutes(t, operatorTCommand);
-  }, [t, merchantTCommand, operatorTCommand, userRole]);
+  }, [t, merchantTCommand, operatorTCommand, isMerchantRole]);
   const [selectedUrl, setSelectedUrl] = React.useState<string | null>(null);
 
   const localeOptions = [

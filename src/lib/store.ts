@@ -225,7 +225,11 @@ export const useAppStore = create<AppState>((set, get) => ({
   impersonateMerchant: (merchantId: string) => {
     const state = get();
     const merchant = state.users.find((u) => u.id === merchantId);
-    if (merchant && state.currentUser?.role === "admin") {
+    if (
+      merchant &&
+      (state.currentUser?.role === "backoffice_admin" ||
+        state.currentUser?.role === "backoffice_staff")
+    ) {
       set({
         originalAdmin: state.currentUser,
         currentUser: merchant,

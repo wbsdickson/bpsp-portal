@@ -27,7 +27,13 @@ import { InlineEditField } from "@/components/inline-edit-field";
 import { createUserSchema } from "../_lib/user-schema";
 import { Card } from "@/components/ui/card";
 
-const ROLE_OPTIONS: UserRole[] = ["merchant", "admin"];
+const ROLE_OPTIONS: UserRole[] = [
+  "backoffice_admin",
+  "backoffice_staff",
+  "merchant_owner",
+  "merchant_admin",
+  "merchant_viewer",
+];
 
 export default function UserDetail({ userId }: { userId: string }) {
   const t = useTranslations("Operator.Accounts");
@@ -44,7 +50,7 @@ export default function UserDetail({ userId }: { userId: string }) {
     defaultValues: {
       name: user?.name ?? "",
       email: user?.email ?? "",
-      role: (user?.role ?? "merchant") as UserRole,
+      role: (user?.role ?? "merchant_viewer") as UserRole,
       password: "",
     },
   });
