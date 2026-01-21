@@ -27,6 +27,7 @@ import { requestPasswordReset } from "./actions";
 import { toast } from "sonner";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import Image from "next/image";
 
 /**
  * Function ID: MERCHANT_002a
@@ -106,58 +107,80 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <Card className="bg-sidebar w-full border-0 shadow-2xl backdrop-blur">
-      <CardHeader className="text-center">
-        <CardTitle className="text-xl">{t("forgotPasswordTitle")}</CardTitle>
-        <CardDescription className="whitespace-pre-line">
-          {t("forgotPasswordDescription")}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("forgotPasswordEmailLabel")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t("forgotPasswordEmailPlaceholder")}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+    <div className="w-full space-y-4">
+      <div className="mb-16 items-center gap-1">
+        <div className="flex items-center space-x-2">
+          <div className="flex items-center justify-center rounded-lg">
+            <Image
+              src="/logo.png"
+              alt="JPCC Logo"
+              width={32}
+              height={32}
+              className="object-cover"
+              priority
             />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-primary text-4xl font-bold">JPCC</span>
+          </div>
+        </div>
+        <div>
+          <span className="text-primary text-xs">{t("logoSubtitle")}</span>
+        </div>
+      </div>
+      <div className="mb-6 space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">
+          {t("forgotPasswordTitle")}
+        </h1>
+        <p className="text-muted-foreground text-sm">
+          {t("forgotPasswordDescription")}
+        </p>
+      </div>
 
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    {...field}
+                    floatingLabel={true}
+                    label={t("forgotPasswordEmailLabel")}
+                    className="bg-card rounded"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className="bg-primary w-full rounded hover:bg-blue-700"
+            disabled={isLoading || !form.formState.isValid}
+          >
+            {isLoading
+              ? t("forgotPasswordSubmitting")
+              : t("forgotPasswordSubmit")}
+          </Button>
+
+          <div className="text-center">
             <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading || !form.formState.isValid}
+              variant="link"
+              asChild
+              className="text-muted-foreground text-sm"
             >
-              {isLoading
-                ? t("forgotPasswordSubmitting")
-                : t("forgotPasswordSubmit")}
+              <Link href={`/${locale}/signin`}>
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                {t("backToLogin")}
+              </Link>
             </Button>
-
-            <div className="text-center">
-              <Button
-                variant="link"
-                asChild
-                className="text-muted-foreground text-sm"
-              >
-                <Link href={`/${locale}/signin`}>
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  {t("backToLogin")}
-                </Link>
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 }
