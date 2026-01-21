@@ -14,13 +14,6 @@ export function VideoBackground() {
 
   return (
     <div className="absolute inset-0 h-full w-full">
-      <Image
-        src="/login-bg.jpg"
-        alt="Background"
-        fill
-        className="object-cover"
-        priority
-      />
       <video
         ref={videoRef}
         autoPlay
@@ -28,7 +21,7 @@ export function VideoBackground() {
         muted
         playsInline
         poster="/login-bg.jpg"
-        className="absolute inset-0 h-full w-full object-cover"
+        className="rounded-4xl absolute inset-0 h-full w-full object-cover p-2"
       >
         <source src="/login-bg.mp4" type="video/mp4" />
       </video>
