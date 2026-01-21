@@ -35,17 +35,19 @@ export default async function NewOperatorLayout({
   return (
     <SearchProvider>
       <UserPreferencesProvider>
-         <AbilityProvider>
-        <SidebarProvider>
-          <ModalProvider />
-          <AppSidebar />
-          <SidebarInset>
-            <Header currentUser={currentUser} />
-            <div className="flex-1 overflow-auto bg-gray-50">
-              <div className="h-full p-6">{children}</div>
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
+        <AbilityProvider>
+          <SidebarProvider>
+            <ModalProvider />
+            <AppSidebar />
+            <SidebarInset>
+              <Header currentUser={currentUser} />
+              <div
+                className="flex-1 overflow-auto"
+              >
+                <div className="h-full p-6">{children}</div>
+              </div>
+            </SidebarInset>
+          </SidebarProvider>
         </AbilityProvider>
       </UserPreferencesProvider>
     </SearchProvider>
