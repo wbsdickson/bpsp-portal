@@ -96,109 +96,107 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
   }
 
   return (
-    <div className="flex h-full flex-col justify-between">
-      <FormWrapper>
-        <div className="space-y-4 md:text-center">
-          <FormHeader heading={` ${t("title")}`} />
-          <FormCaption
-            caption={
-              useConfigurationContext()?.configProfile?.register
-                ?.accountCreation || t("description")
-            }
-          />
-        </div>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onGetOTP)}
-            className="space-y-10 text-left"
-          >
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="mb-4">
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={t("emailPlaceholder")}
-                        className="bg-card"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {isEmailTaken ? <EmailTaken /> : <AlreadyHaveAccount />}
-            </div>
+    <div className="flex h-full flex-col">
+      <div className="mb-6 space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
+        <p className="text-muted-foreground text-sm">
+          {useConfigurationContext()?.configProfile?.register
+            ?.accountCreation || t("description")}
+        </p>
+      </div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onGetOTP)}
+          className="space-y-4 text-left"
+        >
+          <div className="space-y-4">
             <FormField
               control={form.control}
-              name="isTncConfirmed"
-              render={() => (
-                <FormItem>
-                  <FormField
-                    control={form.control}
-                    name="isTncConfirmed"
-                    render={({ field }) => {
-                      return (
-                        <FormItem
-                          key="tnc"
-                          className="flex flex-row items-start gap-0 space-x-3 space-y-0"
-                        >
-                          <FormControl>
-                            <Checkbox
-                              id="tnc"
-                              className="border-card-foreground/40 bg-card"
-                              checked={field.value}
-                              onCheckedChange={(checked) => {
-                                field.onChange(checked);
-                              }}
-                            />
-                          </FormControl>
-                          <div className="flex flex-col gap-2">
-                            <label
-                              htmlFor="tnc"
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              {t("termsAgreement")}{" "}
-                              <Link
-                                className="text-blue-600"
-                                href={
-                                  // eslint-disable-next-line react-hooks/rules-of-hooks
-                                  useConfigurationContext()?.configProfile
-                                    ?.documents?.termsOfService || "/"
-                                }
-                                target="_blank"
-                              >
-                                {t("termsLink")}
-                              </Link>
-                            </label>
-                          </div>
-                        </FormItem>
-                      );
-                    }}
-                  />
+              name="email"
+              render={({ field }) => (
+                <FormItem className="mb-4">
+                  <FormControl>
+                    <Input
+                      {...field}
+                      floatingLabel={true}
+                      label={t("emailPlaceholder")}
+                      className="bg-card rounded"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            {isEmailTaken ? <EmailTaken /> : <AlreadyHaveAccount />}
+          </div>
+          <FormField
+            control={form.control}
+            name="isTncConfirmed"
+            render={() => (
+              <FormItem>
+                <FormField
+                  control={form.control}
+                  name="isTncConfirmed"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key="tnc"
+                        className="flex flex-row items-start gap-0 space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            className="h-4 w-4 rounded border-gray-300"
+                            checked={field.value}
+                            onChange={(e) => {
+                              field.onChange(e.target.checked);
+                            }}
+                          />
+                        </FormControl>
+                        <div className="flex flex-col gap-2">
+                          <label
+                            htmlFor="tnc"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            {t("termsAgreement")}{" "}
+                            <Link
+                              className="text-primary"
+                              href={
+                                // eslint-disable-next-line react-hooks/rules-of-hooks
+                                useConfigurationContext()?.configProfile
+                                  ?.documents?.termsOfService || "/"
+                              }
+                              target="_blank"
+                            >
+                              {t("termsLink")}
+                            </Link>
+                          </label>
+                        </div>
+                      </FormItem>
+                    );
+                  }}
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <Button
-              // disabled={getOtpMutation.isPending}
-              className="w-full"
-              type="submit"
-            >
-              {/* {getOtpMutation.isPending ? (
+          <Button
+            // disabled={getOtpMutation.isPending}
+            className="bg-primary w-full rounded hover:bg-blue-700"
+            type="submit"
+          >
+            {/* {getOtpMutation.isPending ? (
                 <Loader2 className="animate-spin" />
               ) : (
                 <>{t("getVerificationCode")}</>
               )} */}
-              {t("getVerificationCode")}
-            </Button>
-          </form>
-        </Form>
-      </FormWrapper>
-      <div className="mt-12 px-10 text-sm">
+            {t("getVerificationCode")}
+          </Button>
+        </form>
+      </Form>
+      {/* </FormWrapper> */}
+      <div className="mt-10 text-sm">
         <span>
           {t("policyAgreement")}{" "}
           <Link
