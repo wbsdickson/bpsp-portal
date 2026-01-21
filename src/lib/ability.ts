@@ -35,6 +35,7 @@ export type AppAbility = PureAbility<[Actions, Subjects]>;
 type PermissionConfig = {
   action: Actions;
   subject: Subjects;
+  conditions?: Record<string, unknown>;
 };
 
 type RoleConfig = {
@@ -68,18 +69,57 @@ export function defineAbilityFor(user: AppUser | null): AppAbility {
   // Apply permissions from JSON config
   if (config.permissions) {
     for (const permission of config.permissions) {
-      can(permission.action, permission.subject);
+      // Resolve conditions dynamically based on user context
+      const conditions = permission.conditions
+        ? resolveConditions(permission.conditions, user)
+        : undefined;
+
+      if (conditions) {
+        can(permission.action, permission.subject, conditions);
+      } else {
+        can(permission.action, permission.subject);
+      }
     }
   }
 
   // Apply restrictions from JSON config
   if (config.restrictions) {
     for (const restriction of config.restrictions) {
-      cannot(restriction.action, restriction.subject);
+      const conditions = restriction.conditions
+        ? resolveConditions(restriction.conditions, user)
+        : undefined;
+
+      if (conditions) {
+        cannot(restriction.action, restriction.subject, conditions);
+      } else {
+        cannot(restriction.action, restriction.subject);
+      }
     }
   }
 
   return build();
+}
+
+/**
+ * Resolve condition placeholders with actual user values
+ */
+function resolveConditions(
+  conditions: Record<string, unknown>,
+  user: AppUser,
+): Record<string, unknown> {
+  const resolved: Record<string, unknown> = {};
+
+  for (const [key, value] of Object.entries(conditions)) {
+    if (typeof value === "string" && value.startsWith("$user.")) {
+      // Resolve user property references like "$user.merchantId"
+      const prop = value.replace("$user.", "") as keyof AppUser;
+      resolved[key] = user[prop];
+    } else {
+      resolved[key] = value;
+    }
+  }
+
+  return resolved;
 }
 
 /**

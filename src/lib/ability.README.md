@@ -132,7 +132,13 @@ The permissions are defined in `src/lib/ability-config.json` with the following 
     "role_name": {
       "permissions": [
         { "action": "read", "subject": "Invoice" },
-        { "action": "create", "subject": "Invoice" }
+        { 
+          "action": "create", 
+          "subject": "Invoice",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
+        }
       ],
       "restrictions": [
         { "action": "delete", "subject": "Invoice" }
@@ -144,6 +150,25 @@ The permissions are defined in `src/lib/ability-config.json` with the following 
 
 - **permissions**: Array of allowed actions on subjects
 - **restrictions**: Array of denied actions on subjects (takes precedence over permissions)
+- **conditions**: Optional field-level conditions for fine-grained access control
+  - Use `$user.propertyName` to reference user properties (e.g., `$user.merchantId`)
+  - Conditions are automatically resolved at runtime based on the current user
+
+### Conditions Example
+
+For merchant roles, conditions ensure users can only access resources belonging to their merchant:
+
+```json
+{
+  "action": "read",
+  "subject": "Invoice",
+  "conditions": {
+    "merchantId": "$user.merchantId"
+  }
+}
+```
+
+This means a merchant user can only read invoices where `invoice.merchantId === user.merchantId`.
 
 ## Best Practices
 

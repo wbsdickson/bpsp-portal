@@ -70,35 +70,59 @@
         },
         {
           "action": "manage",
-          "subject": "Invoice"
+          "subject": "Invoice",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "manage",
-          "subject": "Client"
+          "subject": "Client",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "manage",
-          "subject": "Transaction"
+          "subject": "Transaction",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "manage",
-          "subject": "Payment"
+          "subject": "Payment",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "manage",
-          "subject": "Settings"
+          "subject": "Settings",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Report"
+          "subject": "Report",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "export",
-          "subject": "Report"
+          "subject": "Report",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "manage",
-          "subject": "Account"
+          "subject": "Account",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         }
       ]
     },
@@ -110,39 +134,66 @@
         },
         {
           "action": "create",
-          "subject": "Invoice"
+          "subject": "Invoice",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "update",
-          "subject": "Invoice"
+          "subject": "Invoice",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "create",
-          "subject": "Client"
+          "subject": "Client",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "update",
-          "subject": "Client"
+          "subject": "Client",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Transaction"
+          "subject": "Transaction",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Payment"
+          "subject": "Payment",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Settings"
+          "subject": "Settings",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Report"
+          "subject": "Report",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "export",
-          "subject": "Report"
+          "subject": "Report",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         }
       ],
       "restrictions": [
@@ -172,27 +223,45 @@
         },
         {
           "action": "read",
-          "subject": "Invoice"
+          "subject": "Invoice",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Client"
+          "subject": "Client",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Transaction"
+          "subject": "Transaction",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Payment"
+          "subject": "Payment",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Settings"
+          "subject": "Settings",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         },
         {
           "action": "read",
-          "subject": "Report"
+          "subject": "Report",
+          "conditions": {
+            "merchantId": "$user.merchantId"
+          }
         }
       ],
       "restrictions": [
