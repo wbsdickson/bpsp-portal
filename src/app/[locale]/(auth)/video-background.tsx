@@ -23,16 +23,20 @@ export function VideoBackground() {
 
   useEffect(() => {
     setMount(true);
-    setIsPlaying(videoAutoPlay);
+  }, []);
 
-    if (videoRef.current) {
+  useEffect(() => {
+    if (mount && videoRef.current) {
+      setIsPlaying(videoAutoPlay);
       if (videoAutoPlay) {
-        videoRef.current.play();
+        videoRef.current.play().catch(() => {
+          // Handle autoplay failure silently
+        });
       } else {
         videoRef.current.pause();
       }
     }
-  }, [videoAutoPlay]);
+  }, [videoAutoPlay, mount]);
 
   const toggleVideo = () => {
     if (videoRef.current) {
@@ -59,7 +63,6 @@ export function VideoBackground() {
       />
       <video
         ref={videoRef}
-        autoPlay
         loop
         muted
         playsInline

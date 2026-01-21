@@ -15,7 +15,7 @@ export default async function RegisterPage({ params }: RegisterPageProps) {
   const t = await getTranslations({ locale, namespace: "Auth" });
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-6">
       <div className="mb-16 items-center gap-1">
         <div className="flex items-center space-x-2">
           <div className="flex items-center justify-center rounded-lg">
