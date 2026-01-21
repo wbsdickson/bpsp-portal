@@ -78,7 +78,7 @@ export default async function SignInPage({
         >
           <Button
             variant="outline"
-            className="text-primary border-primary w-full rounded"
+            className="text-primary border-primary w-full"
           >
             {t("freeAccountRegistration")}
           </Button>

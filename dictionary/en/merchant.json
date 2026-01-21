@@ -291,7 +291,8 @@
         "memberRole": "Member role",
         "lastLoginAt": "Last login at",
         "status": "Status",
-        "detailLink": "Detail link"
+        "detailLink": "Detail link",
+        "actions": "Action"
       },
       "actions": {
         "label": "Actions",

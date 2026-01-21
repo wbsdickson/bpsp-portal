@@ -7,19 +7,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash2, Pencil, Eye } from "lucide-react";
 export default function ActionsCell<T>({
   item,
   onOpenDetail,
   onOpenEdit,
   onDelete,
   t,
+  variant = "dropdown",
 }: {
   item: T;
   onOpenDetail?: (item: T) => void;
   onOpenEdit?: (item: T) => void;
   onDelete?: (item: T) => void;
   t: (key: string) => string;
+  variant?: "dropdown" | "verbose";
 }) {
   const actions = [];
   if (onOpenDetail)
@@ -31,6 +33,43 @@ export default function ActionsCell<T>({
     actions.push({ title: t("actions.edit"), onPress: () => onOpenEdit(item) });
   if (onDelete)
     actions.push({ title: t("actions.delete"), onPress: () => onDelete(item) });
+
+  if (variant === "verbose") {
+    return (
+      <div className="flex items-center gap-1">
+        {onDelete && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-destructive hover:text-destructive h-8 w-8"
+            onClick={() => onDelete(item)}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        )}
+        {onOpenEdit && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => onOpenEdit(item)}
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
+        )}
+        {onOpenDetail && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => onOpenDetail(item)}
+          >
+            <Eye className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
+    );
+  }
 
   return (
     <DropdownMenu>

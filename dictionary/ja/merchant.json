@@ -281,14 +281,15 @@
         "id": "ID",
         "merchantId": "加盟店ID",
         "merchant": "加盟店名",
-        "name": "氏名",
+        "name": "ユーザー名",
         "email": "メールアドレス",
-        "role": "ロール",
+        "role": "権限",
         "memberRole": "メンバーロール",
         "registrationDate": "登録日",
         "status": "ステータス",
         "detailLink": "詳細",
-        "lastLoginAt": "最終ログイン日時"
+        "lastLoginAt": "登録日時",
+        "actions": "アクション"
       },
       "actions": {
         "label": "操作",

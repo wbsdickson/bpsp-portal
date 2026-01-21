@@ -36,21 +36,9 @@ export default function useMerchantMemberTableColumn({
 
   const column: ColumnDef<MerchantMemberRow>[] = [
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<MerchantMemberRow>
-          item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
-          t={t}
-        />
-      ),
-    },
-    {
       accessorKey: "id",
       header: t("columns.id"),
+      size: 80,
       cell: ({ row }) => (
         <Button
           variant="ghost"
@@ -62,55 +50,41 @@ export default function useMerchantMemberTableColumn({
       ),
     },
     {
-      accessorKey: "merchantId",
-      header: t("columns.merchantId"),
-      cell: ({ row }) => {
-        const merchantId = row.getValue("merchantId");
-        return <div>{String(merchantId ?? "")}</div>;
-      },
-    },
-    {
       accessorKey: "name",
       header: t("columns.name"),
+      size: 150,
       cell: ({ row }) => (
-        <Button
-          variant="ghost"
-          className="h-8 px-2 font-medium"
-          onClick={() => addTab(row.original.id)}
-        >
-          {String(row.getValue("name") ?? "")}
-        </Button>
+        <div className="font-normal">{String(row.getValue("name") ?? "")}</div>
       ),
     },
     {
       accessorKey: "email",
       header: t("columns.email"),
+      size: 150,
       cell: ({ row }) => <div>{String(row.getValue("email") ?? "")}</div>,
     },
     {
       id: "role",
       accessorKey: "memberRole",
       header: t("columns.role"),
+      size: 120,
       cell: ({ row }) => {
         const role = row.original.memberRole ?? row.original.role;
-        return <div className="capitalize">{String(role ?? "—")}</div>;
-      },
-    },
-    {
-      accessorKey: "lastLoginAt",
-      header: t("columns.lastLoginAt"),
-      cell: ({ row }) => {
-        const raw = row.getValue("lastLoginAt");
-        const value = typeof raw === "string" ? raw : "";
-        if (!value) return <div className="text-muted-foreground">—</div>;
-        const dt = new Date(value);
-        const label = Number.isNaN(dt.getTime()) ? value : dt.toLocaleString();
-        return <div>{label}</div>;
+        const roleStr = String(role ?? "").toLowerCase();
+
+        if (!roleStr) return <div className="text-muted-foreground">—</div>;
+
+        return (
+          <Badge variant="outline-primary" className="capitalize">
+            {t(`memberRoles.${roleStr}`)}
+          </Badge>
+        );
       },
     },
     {
       accessorKey: "status",
       header: t("columns.status"),
+      size: 120,
       filterFn: (row, columnId, filterValue) => {
         if (!filterValue) return true;
         const rowValue = row.getValue(columnId);
@@ -125,16 +99,49 @@ export default function useMerchantMemberTableColumn({
       cell: ({ row }) => {
         const raw = row.getValue("status");
         return (
-          <div className="capitalize">
+          <div>
             {raw === "active" && (
-              <Badge variant="success">{t(`statuses.${raw}`)}</Badge>
+              <Badge variant="outline-success" className="capitalize">
+                {t(`statuses.${raw}`)}
+              </Badge>
             )}
             {raw === "suspended" && (
-              <Badge variant="destructive">{t(`statuses.${raw}`)}</Badge>
+              <Badge variant="outline-destructive" className="capitalize">
+                {t(`statuses.${raw}`)}
+              </Badge>
             )}
           </div>
         );
       },
+    },
+    {
+      accessorKey: "lastLoginAt",
+      header: t("columns.lastLoginAt"),
+      size: 150,
+      cell: ({ row }) => {
+        const raw = row.getValue("lastLoginAt");
+        const value = typeof raw === "string" ? raw : "";
+        if (!value) return <div className="text-muted-foreground">—</div>;
+        const dt = new Date(value);
+        const label = Number.isNaN(dt.getTime()) ? value : dt.toLocaleString();
+        return <div className="font-normal">{label}</div>;
+      },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<MerchantMemberRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

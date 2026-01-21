@@ -120,7 +120,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
                       {...field}
                       floatingLabel={true}
                       label={t("emailPlaceholder")}
-                      className="bg-card rounded"
+                      className="bg-card"
                     />
                   </FormControl>
                   <FormMessage />
@@ -183,7 +183,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
 
           <Button
             // disabled={getOtpMutation.isPending}
-            className="bg-primary w-full rounded hover:bg-blue-700"
+            className="bg-primary w-full hover:bg-blue-700"
             type="submit"
           >
             {/* {getOtpMutation.isPending ? (
