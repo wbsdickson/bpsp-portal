@@ -156,7 +156,6 @@ export function SignInForm({ locale }: { locale: string }) {
                   floatingLabel={true}
                   label={t("emailLabel")}
                   autoComplete="email"
-                  className="rounded"
                   {...field}
                 />
               </FormControl>
@@ -176,20 +175,20 @@ export function SignInForm({ locale }: { locale: string }) {
                     label={t("passwordLabel")}
                     type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
-                    className="rounded pr-10"
+                    className="pr-10"
                     {...field}
                   />
-                  <button
+                  <Button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-muted-foreground hover:text-foreground absolute right-3 top-1/2 -translate-y-1/2"
+                    className="text-muted-foreground hover:text-foreground absolute right-3 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent"
                   >
                     {showPassword ? (
                       <Eye className="text-primary h-4 w-4" />
                     ) : (
                       <EyeOff className="text-primary h-4 w-4" />
                     )}
-                  </button>
+                  </Button>
                 </div>
               </FormControl>
               <FormMessage />
@@ -221,7 +220,7 @@ export function SignInForm({ locale }: { locale: string }) {
 
         <Button
           type="submit"
-          className="bg-primary w-full rounded hover:bg-blue-700"
+          className="bg-primary w-full hover:bg-blue-700"
           disabled={form.formState.isSubmitting || !form.formState.isValid}
         >
           {form.formState.isSubmitting ? (

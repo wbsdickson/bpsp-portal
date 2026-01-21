@@ -149,7 +149,7 @@ export default function ForgotPasswordPage() {
                     {...field}
                     floatingLabel={true}
                     label={t("forgotPasswordEmailLabel")}
-                    className="bg-card rounded"
+                    className="bg-card"
                   />
                 </FormControl>
                 <FormMessage />
@@ -159,7 +159,7 @@ export default function ForgotPasswordPage() {
 
           <Button
             type="submit"
-            className="bg-primary w-full rounded hover:bg-blue-700"
+            className="bg-primary w-full hover:bg-blue-700"
             disabled={isLoading || !form.formState.isValid}
           >
             {isLoading
