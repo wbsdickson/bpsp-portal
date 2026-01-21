@@ -36,6 +36,8 @@ import { SidebarLastUpdate } from "@/components/sidebar-last-update";
 import { useSession } from "next-auth/react";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { useTranslations } from "next-intl";
+import { AppSideBarHeader } from "../../_components/app-side-bar-header";
+import { AppSideBarFooter } from "../../_components/app-side-bar-footer";
 
 type NavRoute = {
   label: string;
@@ -161,7 +163,11 @@ export function AppSidebar({
       role: (session?.data?.user as any)?.role ?? "",
       companyName: (session?.data?.user as any)?.companyName ?? "",
     }),
-    [session?.data?.user?.name, session?.data?.user?.email, (session?.data?.user as any)?.role],
+    [
+      session?.data?.user?.name,
+      session?.data?.user?.email,
+      (session?.data?.user as any)?.role,
+    ],
   );
 
   const routes = React.useMemo<NavRoute[]>(
@@ -177,16 +183,17 @@ export function AppSidebar({
   );
 
   return (
-    <Sidebar collapsible="icon" variant={preferences.sidebarVariant} {...props}>
-      <SidebarHeader>
-        <TeamSwitcher name={user?.name ?? ""} role={user?.role ?? ""} email={user?.email ?? ""} companyName={user?.companyName ?? ""} />
-      </SidebarHeader>
+    <Sidebar
+      collapsible="icon"
+      variant={preferences.sidebarVariant}
+      {...props}
+      className="p-0"
+    >
+      <AppSideBarHeader />
       <SidebarContent>
         <NavMain routes={routes} />
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarLastUpdate />
-      </SidebarFooter>
+      <AppSideBarFooter t={t} />
       <SidebarRail />
     </Sidebar>
   );

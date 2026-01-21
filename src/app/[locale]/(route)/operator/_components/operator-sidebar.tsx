@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import {
   LayoutDashboard,
   Users,
@@ -12,22 +13,34 @@ import {
   Settings,
   Wallet,
   Receipt,
+  ChevronLeft,
+  ChevronRight,
+  HelpCircle,
+  Home,
+  FileText,
+  LogOut,
   type LucideIcon,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
 import { SidebarLastUpdate } from "@/components/sidebar-last-update";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
+import { AppSideBarHeader } from "../../_components/app-side-bar-header";
+import { AppSideBarFooter } from "../../_components/app-side-bar-footer";
 
 type NavRoute = {
   label: string;
@@ -65,11 +78,19 @@ const MERCHANT_MANAGEMENT_ROUTES = [
 
 const MAIN_ROUTES = [
   { key: "dashboard", route: "operator/dashboard", icon: LayoutDashboard },
-  { key: "merchantsManagement", route: "operator/merchant-management", icon: Building2 },
+  {
+    key: "merchantsManagement",
+    route: "operator/merchant-management",
+    icon: Building2,
+  },
   { key: "merchants", route: "operator/merchants", icon: Store },
   { key: "accounts", route: "operator/accounts", icon: Users },
   { key: "sales", route: "operator/sales", icon: TrendingUp },
-  { key: "payoutTransactions", route: "operator/payout-transactions", icon: CreditCard },
+  {
+    key: "payoutTransactions",
+    route: "operator/payout-transactions",
+    icon: CreditCard,
+  },
   { key: "notifications", route: "operator/notifications", icon: Bell },
   { key: "midSettings", route: "operator/mid-setting", icon: Wallet },
   { key: "midFee", route: "operator/mid-fee", icon: Receipt },
@@ -88,7 +109,11 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
       role: (session?.data?.user as any)?.role ?? "",
       companyName: (session?.data?.user as any)?.companyName ?? "",
     }),
-    [session?.data?.user?.name, session?.data?.user?.email, (session?.data?.user as any)?.role],
+    [
+      session?.data?.user?.name,
+      session?.data?.user?.email,
+      (session?.data?.user as any)?.role,
+    ],
   );
 
   const routes = React.useMemo<NavRoute[]>(
@@ -117,21 +142,25 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     [t],
   );
 
+  const { toggleSidebar, state } = useSidebar();
+  const isCollapsed = state === "collapsed";
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: `/signin` });
+  };
+
   return (
     <Sidebar
       collapsible="icon"
       variant={preferences.sidebarVariant}
       {...props}
+      className="p-0"
     >
-      <SidebarHeader>
-        <TeamSwitcher name={user.name} role={user.role} email={user.email} companyName={user.companyName} />
-      </SidebarHeader>
+      <AppSideBarHeader />
       <SidebarContent>
         <NavMain routes={routes} />
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarLastUpdate />
-      </SidebarFooter>
+      <AppSideBarFooter t={t} />
       <SidebarRail />
     </Sidebar>
   );
