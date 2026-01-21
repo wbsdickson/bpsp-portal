@@ -41,9 +41,7 @@ export default async function NewOperatorLayout({
             <AppSidebar />
             <SidebarInset>
               <Header currentUser={currentUser} />
-              <div
-                className="flex-1 overflow-auto"
-              >
+              <div className="flex-1 overflow-auto">
                 <div className="h-full p-6">{children}</div>
               </div>
             </SidebarInset>

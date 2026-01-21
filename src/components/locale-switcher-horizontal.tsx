@@ -26,7 +26,9 @@ export default function LocaleSwitcherHorizontal() {
   return (
     <div className="flex items-center justify-between gap-3">
       <div className="flex items-center gap-3">
-        <div className="text-sm font-medium text-popover-foreground">{t("language")}</div>
+        <div className="text-popover-foreground text-sm font-medium">
+          {t("language")}
+        </div>
       </div>
 
       <div className="bg-muted flex h-7 rounded-full p-0.5">
@@ -36,8 +38,7 @@ export default function LocaleSwitcherHorizontal() {
           disabled={isPending}
           className={cn(
             "text-muted-foreground rounded-full px-3 font-normal",
-            locale === "ja" &&
-              "bg-background font-bold text-black shadow-sm dark:text-white",
+            locale === "ja" && "bg-primary text-primary-foreground font-bold",
           )}
           onClick={() => handleLocaleChange("ja")}
         >
@@ -49,8 +50,7 @@ export default function LocaleSwitcherHorizontal() {
           disabled={isPending}
           className={cn(
             "text-muted-foreground rounded-full px-3 font-normal",
-            locale === "en" &&
-              "bg-background font-bold text-black shadow-sm dark:text-white",
+            locale === "en" && "bg-primary text-primary-foreground font-bold",
           )}
           onClick={() => handleLocaleChange("en")}
         >

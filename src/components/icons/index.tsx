@@ -26,6 +26,10 @@ import Circle3 from "./numbers/circle-3";
 import Meter from "./meter";
 import Question from "./question";
 import Exclamation from "./exclamation";
+import ArrowDown from "./arrows/arrow-down";
+import ArrowLeft from "./arrows/arrow-left";
+import ArrowRight from "./arrows/arrow-right";
+import ArrowUp from "./arrows/arrow-up";
 
 export {
   PSP,
@@ -56,4 +60,8 @@ export {
   Meter,
   Question,
   Exclamation,
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
 };

@@ -24,21 +24,23 @@ export function Header({ currentUser }: { currentUser: AppUser }) {
       <div className="flex items-center gap-4 px-4">
         <Search />
 
-        <Separator orientation="vertical" className="h-6" />
-
-        <Button variant="ghost" size="icon" className="relative">
+        <Button
+          variant="secondary"
+          size="icon-sm"
+          className="relative rounded-full"
+        >
           <Bell className="h-5 w-5" />
           <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500" />
         </Button>
+        <HeaderButtons />
 
+        <Separator orientation="vertical" className="h-6! w-px self-center" />
         <TeamSwitcher
           name={currentUser.name}
           role={currentUser.role}
           email={currentUser.email}
           companyName={currentUser.companyName}
         />
-
-        <HeaderButtons />
       </div>
     </header>
   );

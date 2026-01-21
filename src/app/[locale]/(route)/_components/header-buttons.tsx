@@ -165,8 +165,8 @@ export function HeaderButtons() {
       <div className="flex items-center gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button size="icon-2xs" className="rounded-full">
-              <Plus className="size-4" />
+            <Button size="icon-sm" variant="secondary" className="rounded-full">
+              <Plus />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
