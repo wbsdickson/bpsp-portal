@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { Label } from "./label";
 
 export interface InputProps extends React.ComponentProps<"input"> {
   label?: string;
@@ -25,9 +26,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {floatingLabel && label && (
-          <label className="text-muted-foreground peer-focus:text-primary bg-background pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm font-bold transition-all peer-focus:top-0 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs">
+          <Label
+            htmlFor={props.id}
+            className="text-muted-foreground peer-focus:text-primary pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm transition-all peer-focus:top-0 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs"
+          >
             {label}
-          </label>
+          </Label>
         )}
       </div>
     );

@@ -4,6 +4,7 @@ import { SignInForm } from "./signin-form";
 import { DemoAccounts } from "./demo-accounts";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { Separator } from "@/components/ui/separator";
 
 type SignInPageProps = {
   params: Promise<{ locale: string }>;
@@ -56,13 +57,12 @@ export default async function SignInPage({
       </div>
 
       <SignInForm locale={locale} />
-
       <div className="flex flex-row items-center justify-center gap-3">
-        <div className="bg-muted-foreground h-[1px] w-1/2"></div>
+        <div className="bg-border h-px w-1/2"></div>
         <span className="text-muted-foreground whitespace-nowrap text-xs">
           {t("orDivider")}
         </span>
-        <div className="bg-muted-foreground h-[1px] w-1/2"></div>
+        <div className="bg-border h-px w-1/2"></div>
       </div>
 
       <div className="space-y-3 text-center font-bold">
