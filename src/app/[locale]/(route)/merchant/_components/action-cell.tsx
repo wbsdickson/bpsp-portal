@@ -40,31 +40,31 @@ export default function ActionsCell<T>({
         {onDelete && (
           <Button
             variant="ghost"
-            size="icon"
-            className="text-destructive hover:text-destructive h-8 w-8"
+            size="icon-sm"
+            className="text-destructive hover:bg-muted-foreground/30 hover:text-destructive"
             onClick={() => onDelete(item)}
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 />
           </Button>
         )}
         {onOpenEdit && (
           <Button
             variant="ghost"
-            size="icon"
-            className="h-8 w-8"
+            size="icon-sm"
+            className="hover:bg-muted-foreground/30"
             onClick={() => onOpenEdit(item)}
           >
-            <Pencil className="h-4 w-4" />
+            <Pencil />
           </Button>
         )}
         {onOpenDetail && (
           <Button
             variant="ghost"
-            size="icon"
-            className="h-8 w-8"
+            size="icon-sm"
+            className="hover:bg-muted-foreground/30"
             onClick={() => onOpenDetail(item)}
           >
-            <Eye className="h-4 w-4" />
+            <Eye />
           </Button>
         )}
       </div>

@@ -18,7 +18,6 @@ export default function useMerchantMemberTableColumn({
   const t = useTranslations("Merchant.MerchantMembers");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const merchantId = searchParams.get("merchantId");
 
   const { deleteMember } = useMerchantMemberStore();
 
@@ -42,7 +41,7 @@ export default function useMerchantMemberTableColumn({
       cell: ({ row }) => (
         <Button
           variant="ghost"
-          className="h-8 px-2 font-medium"
+          className="hover:bg-muted-foreground/30 h-8 px-2 font-medium"
           onClick={() => addTab(String(row.getValue("id") ?? ""))}
         >
           {String(row.getValue("id") ?? "")}
