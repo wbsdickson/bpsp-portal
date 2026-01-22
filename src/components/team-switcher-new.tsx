@@ -101,7 +101,7 @@ export function TeamSwitcher({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="hover:bg-accent flex items-center gap-3 rounded-md p-2 focus-visible:outline-none">
+      <DropdownMenuTrigger className="hover:bg-secondary flex items-center gap-3 rounded-md p-2 focus-visible:outline-none">
         <>
           <div className="text-right">
             <div className="text-sm font-medium">{name || "田中 健人"}</div>
