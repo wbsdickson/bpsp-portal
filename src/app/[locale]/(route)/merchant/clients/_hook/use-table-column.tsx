@@ -1,4 +1,4 @@
-import ActionsCell from "@/components/action-cell";
+import ActionsCell from "../../_components/action-cell";
 import { Button } from "@/components/ui/button";
 import type { Client } from "@/lib/types";
 import { useMerchantClientStore } from "@/store/merchant/merchant-client-store";
@@ -32,30 +32,30 @@ export default function useClientTableColumn({
   };
 
   const column: ColumnDef<ClientRow>[] = [
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<ClientRow>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => onOpenDetail(item),
-            },
-            {
-              title: t("actions.edit"),
-              onPress: (item) => onOpenEdit(item),
-            },
-            {
-              title: t("actions.delete"),
-              onPress: (item) => onDelete(item),
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
+    // {
+    //   id: "actions",
+    //   enableHiding: false,
+    //   cell: ({ row }) => (
+    //     <ActionsCell<ClientRow>
+    //       item={row.original}
+    //       actions={[
+    //         {
+    //           title: t("actions.view"),
+    //           onPress: (item) => onOpenDetail(item),
+    //         },
+    //         {
+    //           title: t("actions.edit"),
+    //           onPress: (item) => onOpenEdit(item),
+    //         },
+    //         {
+    //           title: t("actions.delete"),
+    //           onPress: (item) => onDelete(item),
+    //         },
+    //       ]}
+    //       t={t}
+    //     />
+    //   ),
+    // },
     {
       accessorKey: "name",
       header: t("columns.name"),
@@ -90,6 +90,22 @@ export default function useClientTableColumn({
         const label = Number.isNaN(dt.getTime()) ? value : dt.toLocaleString();
         return <div>{label}</div>;
       },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<ClientRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 
