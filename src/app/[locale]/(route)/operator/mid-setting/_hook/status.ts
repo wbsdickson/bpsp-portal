@@ -5,8 +5,8 @@ export const getMidSettingStatusBadgeVariant = (
   status: MidStatus,
 ): BadgeVariant => {
   const variantMap: Record<MidStatus, BadgeVariant> = {
-    active: "success",
-    inactive: "secondary",
+    active: "outline-success",
+    inactive: "outline-destructive",
   };
 
   return variantMap[status] || "secondary";

@@ -22,6 +22,10 @@ export default function useMerchantTableColumn({
   const { deleteMerchant } = useMerchantStore();
   const { basePath } = useBasePath();
 
+  const onOpenDetail = (item: MerchantRow) => {
+    router.push(`${basePath}/${item.id}`);
+  };
+
   const onDelete = async (item: MerchantRow) => {
     deleteMerchant(item.id);
     toast.success(t("messages.deleteSuccess"));
@@ -32,31 +36,6 @@ export default function useMerchantTableColumn({
   };
 
   const column: ColumnDef<MerchantRow>[] = [
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<MerchantRow>
-          item={row.original}
-          t={t}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => router.push(`${basePath}/${item.id}`),
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: (item) => onDelete(item),
-              confirmation: {
-                title: t("dialog.deleteTitle"),
-                description: t("dialog.deleteDescription"),
-              },
-            },
-          ]}
-        />
-      ),
-    },
     {
       accessorKey: "id",
       header: t("columns.merchantId"),
@@ -101,6 +80,21 @@ export default function useMerchantTableColumn({
         const v = row.getValue("transactionCount");
         return <div>{typeof v === "number" ? v : Number(v ?? 0)}</div>;
       },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<MerchantRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

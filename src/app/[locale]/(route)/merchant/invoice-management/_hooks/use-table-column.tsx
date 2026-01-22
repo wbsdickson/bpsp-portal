@@ -7,7 +7,7 @@ import { useMerchantFeeStore } from "@/store/merchant-fee-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { Badge } from "@/components/ui/badge";
-import ActionsCell from "@/components/action-cell";
+import ActionsCell from "../../_components/action-cell";
 
 function InvoiceNumberCell({
   id,
@@ -80,31 +80,6 @@ export default function useMerchantInvoiceTableColumn({
 
   const column: ColumnDef<InvoiceRow>[] = [
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<InvoiceRow>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => onOpenDetail(item),
-            },
-            {
-              title: t("actions.edit"),
-              onPress: (item) => onOpenEdit(item),
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: (item) => onDelete(item),
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
-    {
       accessorKey: "invoiceNumber",
       header: t("invoiceNumber"),
       cell: ({ row }) => (
@@ -146,33 +121,33 @@ export default function useMerchantInvoiceTableColumn({
         return (
           <div className="flex items-center gap-3">
             {inv.status === "draft" && (
-              <Badge variant="info">{t("statusDraft")}</Badge>
+              <Badge variant="outline-info">{t("statusDraft")}</Badge>
             )}
 
             {inv.status === "pending" && (
-              <Badge variant="warning">{t("statusPending")}</Badge>
+              <Badge variant="outline-warning">{t("statusPending")}</Badge>
             )}
 
             {inv.status === "approved" && (
-              <Badge variant="warning">{t("statusApproved")}</Badge>
+              <Badge variant="outline-success">{t("statusApproved")}</Badge>
             )}
 
             {inv.status === "rejected" && (
-              <Badge variant="destructive">{t("statusRejected")}</Badge>
+              <Badge variant="outline-destructive">{t("statusRejected")}</Badge>
             )}
 
             {inv.status === "void" && (
-              <Badge variant="secondary">{t("statusVoid")}</Badge>
+              <Badge variant="outline-info">{t("statusVoid")}</Badge>
             )}
 
             {inv.status === "paid" && (
-              <Badge variant="success">{t("statusPaid")}</Badge>
+              <Badge variant="outline-success">{t("statusPaid")}</Badge>
             )}
             {inv.status === "past_due" && (
-              <Badge variant="warning">{t("statusPastDue")}</Badge>
+              <Badge variant="outline-warning">{t("statusPastDue")}</Badge>
             )}
             {inv.status === "open" && (
-              <Badge variant="info">{t("statusOpen")}</Badge>
+              <Badge variant="outline-info">{t("statusOpen")}</Badge>
             )}
           </div>
         );
@@ -194,6 +169,22 @@ export default function useMerchantInvoiceTableColumn({
           </div>
         );
       },
+    },
+    {
+      id: "actions",
+      header: t("actions.label"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<InvoiceRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

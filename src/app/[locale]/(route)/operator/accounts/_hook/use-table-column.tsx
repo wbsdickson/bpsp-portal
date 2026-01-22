@@ -38,35 +38,6 @@ export default function useAccounTableColumn({
 
   const column: ColumnDef<UserRow>[] = [
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<UserRow>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: onOpenDetail,
-            },
-            {
-              title: t("actions.resetPassword"),
-              onPress: onResetPassword,
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: onDelete,
-              confirmation: {
-                title: t("dialog.deleteTitle"),
-                description: t("dialog.deleteDescription"),
-              },
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
-    {
       accessorKey: "name",
       header: t("columns.name"),
       cell: ({ row }) => (
@@ -113,6 +84,22 @@ export default function useAccounTableColumn({
         const label = Number.isNaN(dt.getTime()) ? value : dt.toLocaleString();
         return <div>{label}</div>;
       },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<UserRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
   return { column };

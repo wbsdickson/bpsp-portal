@@ -32,22 +32,6 @@ export default function useTransactionTableColumn({
 
   const columns: ColumnDef<Transaction>[] = [
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<Transaction>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => onOpenDetail(item),
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
-    {
       accessorKey: "id",
       header: t("columns.transactionId"),
       cell: ({ row }) => (
@@ -107,6 +91,20 @@ export default function useTransactionTableColumn({
         if (Array.isArray(value)) return value.includes(cellValue);
         return cellValue === String(value ?? "");
       },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<Transaction>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

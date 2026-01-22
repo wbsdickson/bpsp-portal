@@ -5,9 +5,9 @@ export const getStatusBadgeVariant = (
   status: MerchantMidStatus,
 ): BadgeVariant => {
   const variantMap: Record<MerchantMidStatus, BadgeVariant> = {
-    active: "success",
-    inactive: "secondary",
+    active: "outline-success",
+    inactive: "outline-destructive",
   };
 
-  return variantMap[status] || "secondary";
+  return variantMap[status] || "outline-info";
 };

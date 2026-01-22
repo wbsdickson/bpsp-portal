@@ -6,7 +6,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/data-table";
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
-import ActionsCell from "@/components/action-cell";
+import ActionsCell from "../../_components/action-cell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
@@ -38,33 +38,36 @@ function getStatusBadge(value: string) {
   const t = useTranslations("Merchant.ReceivedPayableInvoices");
   if (value === "paid") {
     return (
-      <Badge variant="secondary" className="bg-emerald-50 text-emerald-700">
+      <Badge
+        variant="outline-success"
+        className="bg-emerald-50 text-emerald-700"
+      >
         {t("paid")}
       </Badge>
     );
   }
   if (value === "pending") {
     return (
-      <Badge variant="secondary" className="bg-amber-50 text-amber-700">
+      <Badge variant="outline-warning" className="bg-amber-50 text-amber-700">
         {t("pending")}
       </Badge>
     );
   }
   if (value === "draft") {
-    return <Badge variant="secondary">{t("draft")}</Badge>;
+    return <Badge variant="outline-warning">{t("draft")}</Badge>;
   }
   if (value === "approved") {
     return (
-      <Badge variant="secondary" className="bg-indigo-50 text-indigo-700">
+      <Badge variant="outline-success" className="bg-indigo-50 text-indigo-700">
         {t("approved")}
       </Badge>
     );
   }
   if (value === "rejected") {
-    return <Badge variant="destructive">{t("rejected")}</Badge>;
+    return <Badge variant="outline-destructive">{t("rejected")}</Badge>;
   }
   if (value === "void") {
-    return <Badge variant="outline">{t("void")}</Badge>;
+    return <Badge variant="outline-info">{t("void")}</Badge>;
   }
   return <Badge variant="outline">{value || "—"}</Badge>;
 }
@@ -122,31 +125,6 @@ export default function ReceivedPayableInvoiceTable({
 
   const columns = React.useMemo<ColumnDef<PayableInvoiceRow>[]>(
     () => [
-      {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => (
-          <ActionsCell<PayableInvoiceRow>
-            item={row.original}
-            actions={[
-              {
-                title: t("actions.view"),
-                onPress: (item) => onOpenDetail(item),
-              },
-              {
-                title: t("actions.edit"),
-                onPress: (item) => onOpenEdit(item),
-              },
-              {
-                title: t("actions.delete"),
-                variant: "destructive",
-                onPress: (item) => onDelete(item),
-              },
-            ]}
-            t={t}
-          />
-        ),
-      },
       {
         accessorKey: "invoiceNumber",
         header: t("columns.invoiceNumber"),
@@ -213,14 +191,29 @@ export default function ReceivedPayableInvoiceTable({
 
           return String(rowValue) === String(filterValue);
         },
-        cell: ({ row }) =>
-          getStatusBadge(String(row.getValue("status") ?? "")),
+        cell: ({ row }) => getStatusBadge(String(row.getValue("status") ?? "")),
       },
       {
         accessorKey: "paymentMethod",
         header: t("columns.paymentMethod"),
         cell: ({ row }) => (
           <div>{String(row.getValue("paymentMethod") ?? "")}</div>
+        ),
+      },
+      {
+        id: "actions",
+        header: t("columns.actions"),
+        size: 100,
+        enableHiding: false,
+        cell: ({ row }) => (
+          <ActionsCell<PayableInvoiceRow>
+            item={row.original}
+            onOpenDetail={onOpenDetail}
+            onOpenEdit={onOpenEdit}
+            onDelete={onDelete}
+            t={t}
+            variant="verbose"
+          />
         ),
       },
     ],

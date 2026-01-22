@@ -5,9 +5,9 @@ export const getNotificationStatusBadgeVariant = (
   status: PublicationStatus,
 ): BadgeVariant => {
   const variantMap: Record<PublicationStatus, BadgeVariant> = {
-    published: "success",
-    scheduled: "warning",
-    expired: "secondary",
+    published: "outline-success",
+    scheduled: "outline-warning",
+    expired: "outline-destructive",
   };
 
   return variantMap[status] || "secondary";

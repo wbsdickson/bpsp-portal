@@ -3,15 +3,15 @@ import { InvoiceStatus } from "@/lib/types";
 
 export const getStatusBadgeVariant = (status: InvoiceStatus): BadgeVariant => {
   const variantMap: Record<InvoiceStatus, BadgeVariant> = {
-    paid: "success",
-    pending: "warning",
-    approved: "success",
-    rejected: "destructive",
-    draft: "info",
-    open: "info",
-    past_due: "warning",
-    void: "secondary",
+    paid: "outline-success",
+    pending: "outline-warning",
+    approved: "outline-success",
+    rejected: "outline-destructive",
+    draft: "outline-info",
+    open: "outline-info",
+    past_due: "outline-warning",
+    void: "outline-info",
   };
 
-  return variantMap[status] || "secondary";
+  return variantMap[status] || "outline-info";
 };

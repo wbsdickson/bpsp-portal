@@ -37,24 +37,10 @@ export default function useItemTableColumn({
 
   const column: ColumnDef<ItemRow>[] = [
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<ItemRow>
-          item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
-          t={t}
-        />
-      ),
-    },
-    {
       accessorKey: "id",
       header: t("columns.id"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
@@ -93,6 +79,22 @@ export default function useItemTableColumn({
       accessorKey: "createdAt",
       header: t("columns.createDate"),
       cell: ({ row }) => <div>{String(row.getValue("createdAt") ?? "")}</div>,
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<ItemRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

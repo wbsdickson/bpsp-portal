@@ -472,7 +472,8 @@
         "client": "取引先",
         "amount": "金額",
         "issueDate": "発行日",
-        "status": "ステータス"
+        "status": "ステータス",
+        "actions": "操作"
       },
       "filters": {
         "receiptNumber": "領収書番号",
@@ -542,7 +543,8 @@
         "amount": "金額",
         "issueDate": "発行日",
         "paymentDueDate": "支払期日",
-        "status": "ステータス"
+        "status": "ステータス",
+        "actions": "操作"
       },
       "statuses": {
         "draft": "下書き",
@@ -606,7 +608,8 @@
         "role": "ロール",
         "lastLoginAt": "最終ログイン日時",
         "status": "ステータス",
-        "company": "会社名"
+        "company": "会社名",
+        "actions": "操作"
       },
       "statuses": {
         "active": "有効",
@@ -682,7 +685,8 @@
         "transactionCount": "取引件数",
         "detailLink": "詳細",
         "invoiceEmail": "請求書送付先メール",
-        "enableCreditPayment": "クレジットカード決済を有効"
+        "enableCreditPayment": "クレジットカード決済を有効",
+        "actions": "操作"
       },
       "actions": {
         "label": "操作",
@@ -749,7 +753,8 @@
         "registrationDate": "登録日",
         "status": "ステータス",
         "detailLink": "詳細",
-        "password": "パスワード"
+        "password": "パスワード",
+        "actions": "操作"
       },
       "actions": {
         "label": "操作",
@@ -829,7 +834,8 @@
         "registrationDate": "登録日",
         "status": "ステータス",
         "active": "稼働",
-        "detailLink": "詳細"
+        "detailLink": "詳細",
+        "actions": "操作"
       },
       "filters": {
         "merchantName": "加盟店名",
@@ -909,7 +915,8 @@
         "registrationDate": "登録日",
         "lastUpdatedDate": "最終更新日",
         "status": "ステータス",
-        "detailLink": "詳細"
+        "detailLink": "詳細",
+        "actions": "操作"
       },
       "filters": {
         "merchantName": "加盟店名",
@@ -982,7 +989,8 @@
         "phoneNumber": "電話番号",
         "email": "メールアドレス",
         "registrationDate": "登録日",
-        "detailLink": "詳細"
+        "detailLink": "詳細",
+        "actions": "操作"
       },
       "filters": {
         "name": "取引先名",
@@ -1038,7 +1046,8 @@
         "accountNumber": "口座番号",
         "accountHolder": "口座名義",
         "registrationDate": "登録日",
-        "detailLink": "詳細"
+        "detailLink": "詳細",
+        "actions": "操作"
       },
       "filters": {
         "bankName": "銀行名",
@@ -1134,7 +1143,8 @@
         "unitPrice": "単価",
         "taxCategory": "税区分",
         "description": "説明",
-        "status": "ステータス"
+        "status": "ステータス",
+        "actions": "操作"
       },
       "filters": {
         "name": "商品名",
@@ -1212,7 +1222,8 @@
         "uploadedPdf": "PDFアップロード（任意）",
         "detailLink": "詳細",
         "editLink": "編集",
-        "deleteLink": "削除"
+        "deleteLink": "削除",
+        "actions": "操作"
       },
       "filters": {
         "number": "納品書番号",
@@ -1304,7 +1315,8 @@
         "uploadedPdf": "PDFアップロード（任意）",
         "detailLink": "詳細",
         "editLink": "編集",
-        "deleteLink": "削除"
+        "deleteLink": "削除",
+        "actions": "操作"
       },
       "filters": {
         "number": "見積書番号",
@@ -1389,7 +1401,8 @@
         "amount": "金額",
         "transactionDateTime": "取引日時",
         "payoutStatus": "振込ステータス",
-        "bankTransferAccount": "振込先口座"
+        "bankTransferAccount": "振込先口座",
+        "actions": "操作"
       },
       "filters": {
         "period": "期間",
@@ -1433,7 +1446,8 @@
         "linkedMerchantsCount": "紐付け加盟店数",
         "createdAt": "作成日",
         "connectionEndpoint": "接続エンドポイント",
-        "linkedMerchants": "紐付け加盟店"
+        "linkedMerchants": "紐付け加盟店",
+        "actions": "操作"
       },
       "filters": {
         "mid": "MID",
@@ -1501,7 +1515,8 @@
         "fixedFeeAmount": "固定手数料",
         "status": "ステータス",
         "createdAt": "作成日",
-        "updatedAt": "更新日"
+        "updatedAt": "更新日",
+        "actions": "操作"
       },
       "filters": {
         "brand": "ブランド",
@@ -1607,7 +1622,8 @@
         "amount": "金額",
         "transactionDateTime": "取引日時",
         "payoutStatus": "振込ステータス",
-        "status": "ステータス"
+        "status": "ステータス",
+        "actions": "操作"
       },
       "filters": {
         "period": "期間",
@@ -1652,7 +1668,8 @@
         "publicationEndDate": "公開終了日",
         "targetMerchantsCount": "対象加盟店数",
         "editLink": "編集",
-        "deleteLink": "削除"
+        "deleteLink": "削除",
+        "actions": "操作"
       },
       "filters": {
         "title": "タイトル",

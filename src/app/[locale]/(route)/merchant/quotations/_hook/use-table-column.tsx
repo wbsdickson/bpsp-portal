@@ -1,4 +1,3 @@
-import ActionsCell from "@/components/action-cell";
 import { Button } from "@/components/ui/button";
 import type { Quotation } from "@/lib/types";
 import { useQuotationStore } from "@/store/merchant/quotation-store";
@@ -7,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
 import { Badge } from "@/components/ui/badge";
+import ActionsCell from "../../_components/action-cell";
 
 export type QuotationRow = Quotation & {
   clientName: string;
@@ -36,31 +36,6 @@ export default function useQuotationTableColumn({
   };
 
   const column: ColumnDef<QuotationRow>[] = [
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<QuotationRow>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => onOpenDetail(item),
-            },
-            {
-              title: t("actions.edit"),
-              onPress: (item) => onOpenEdit(item),
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: (item) => onDelete(item),
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
     {
       accessorKey: "quotationNumber",
       header: t("columns.quotationNumber"),
@@ -95,28 +70,45 @@ export default function useQuotationTableColumn({
         return <div>{num.toLocaleString()}</div>;
       },
     },
-
     {
       accessorKey: "status",
       header: t("columns.status"),
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
           {row.original.status === "draft" && (
-            <Badge variant="info">{t("statuses.draft")}</Badge>
+            <Badge variant="outline-info">{t("statuses.draft")}</Badge>
           )}
           {row.original.status === "sent" && (
-            <Badge variant="warning">{t("statuses.sent")}</Badge>
+            <Badge variant="outline-warning">{t("statuses.sent")}</Badge>
           )}
           {row.original.status === "accepted" && (
-            <Badge variant="success">{t("statuses.accepted")}</Badge>
+            <Badge variant="outline-success">{t("statuses.accepted")}</Badge>
           )}
           {row.original.status === "rejected" && (
-            <Badge variant="destructive">{t("statuses.rejected")}</Badge>
+            <Badge variant="outline-destructive">
+              {t("statuses.rejected")}
+            </Badge>
           )}
           {row.original.status === "expired" && (
-            <Badge variant="warning">{t("statuses.expired")}</Badge>
+            <Badge variant="outline-warning">{t("statuses.expired")}</Badge>
           )}
         </div>
+      ),
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<QuotationRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
       ),
     },
   ];

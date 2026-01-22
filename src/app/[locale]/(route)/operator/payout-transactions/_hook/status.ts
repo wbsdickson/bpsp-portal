@@ -5,9 +5,9 @@ export const getPayoutTransactionStatusBadgeVariant = (
   status: PaymentStatus,
 ): BadgeVariant => {
   const variantMap: Record<PaymentStatus, BadgeVariant> = {
-    settled: "success",
-    failed: "destructive",
-    pending_approval: "warning",
+    settled: "outline-success",
+    failed: "outline-destructive",
+    pending_approval: "outline-warning",
   };
 
   return variantMap[status] || "secondary";

@@ -419,7 +419,8 @@
         "accountNumber": "Account number",
         "accountHolder": "Account holder",
         "registrationDate": "Registration date",
-        "detailLink": "Detail link"
+        "detailLink": "Detail link",
+        "actions": "Action"
       },
       "filters": {
         "bankName": "Bank name",
@@ -554,7 +555,8 @@
         "taxCategory": "Tax category",
         "description": "Description",
         "status": "Status",
-        "createDate": "Create date"
+        "createDate": "Create date",
+        "actions": "Action"
       },
       "filters": {
         "name": "Item name",
@@ -929,7 +931,8 @@
         "uploadedPdf": "Uploaded PDF (Optional)",
         "detailLink": "Detail link",
         "editLink": "Edit link",
-        "deleteLink": "Delete link"
+        "deleteLink": "Delete link",
+        "actions": "Actions"
       },
       "filters": {
         "quotationDate": "Quotation date",
@@ -1024,7 +1027,8 @@
         "uploadedPdf": "Uploaded PDF (Optional)",
         "detailLink": "Detail link",
         "editLink": "Edit link",
-        "deleteLink": "Delete link"
+        "deleteLink": "Delete link",
+        "actions": "Actions"
       },
       "filters": {
         "purchaseOrderDate": "Purchase order date",
@@ -1118,7 +1122,8 @@
         "uploadedPdf": "Uploaded PDF (Optional)",
         "detailLink": "Detail link",
         "editLink": "Edit link",
-        "deleteLink": "Delete link"
+        "deleteLink": "Delete link",
+        "actions": "Actions"
       },
       "filters": {
         "number": "Delivery note number",
@@ -1195,7 +1200,8 @@
         "client": "Client Name",
         "amount": "Total Amount",
         "issueDate": "Issue Date",
-        "status": "Status"
+        "status": "Status",
+        "actions": "Actions"
       },
       "filters": {
         "receiptNumber": "Receipt number",
@@ -1295,7 +1301,8 @@
         "invoiceDate": "Invoice Date",
         "paymentDueDate": "Payment Due Date",
         "paymentMethod": "Payment Method",
-        "status": "Status"
+        "status": "Status",
+        "actions": "Actions"
       },
       "filters": {
         "invoiceNumber": "Invoice Number",
@@ -1390,7 +1397,8 @@
         "direction": "Direction",
         "template": "Template",
         "enabled": "Enabled",
-        "notes": "Notes"
+        "notes": "Notes",
+        "actions": "Actions"
       },
       "filters": {
         "settingName": "Setting Name",

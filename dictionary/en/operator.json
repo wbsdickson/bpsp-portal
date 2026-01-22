@@ -471,7 +471,8 @@
         "client": "Client",
         "amount": "Amount",
         "issueDate": "Issue date",
-        "status": "Status"
+        "status": "Status",
+        "actions": "Actions"
       },
       "filters": {
         "receiptNumber": "Receipt number",
@@ -541,7 +542,8 @@
         "amount": "Amount",
         "issueDate": "Issue date",
         "paymentDueDate": "Payment due date",
-        "status": "Status"
+        "status": "Status",
+        "actions": "Actions"
       },
       "statuses": {
         "draft": "Draft",
@@ -605,7 +607,8 @@
         "role": "Role",
         "lastLoginAt": "Last login timestamp",
         "status": "Status",
-        "company": "Company"
+        "company": "Company",
+        "actions": "Actions"
       },
       "statuses": {
         "active": "Active",
@@ -681,7 +684,8 @@
         "transactionCount": "Transaction count",
         "detailLink": "Detail link",
         "invoiceEmail": "Invoice email",
-        "enableCreditPayment": "Enable credit card payment"
+        "enableCreditPayment": "Enable credit card payment",
+        "actions": "Actions"
       },
       "actions": {
         "label": "Actions",
@@ -763,7 +767,8 @@
         "registrationDate": "Registration date",
         "status": "Status",
         "detailLink": "Detail link",
-        "password": "Password"
+        "password": "Password",
+        "actions": "Actions"
       },
       "actions": {
         "label": "Actions",
@@ -843,7 +848,8 @@
         "registrationDate": "Registration date",
         "status": "Status",
         "active": "Active",
-        "detailLink": "Detail link"
+        "detailLink": "Detail link",
+        "actions": "Actions"
       },
       "filters": {
         "merchantName": "Merchant name",
@@ -922,7 +928,8 @@
         "registrationDate": "Registration date",
         "lastUpdatedDate": "Last updated date",
         "status": "Status",
-        "detailLink": "Detail link"
+        "detailLink": "Detail link",
+        "actions": "Actions"
       },
       "filters": {
         "merchantName": "Merchant name",
@@ -995,7 +1002,8 @@
         "phoneNumber": "Phone number",
         "email": "Email",
         "registrationDate": "Registration date",
-        "detailLink": "Detail link"
+        "detailLink": "Detail link",
+        "actions": "Actions"
       },
       "filters": {
         "name": "Client name",
@@ -1051,7 +1059,8 @@
         "accountNumber": "Account number",
         "accountHolder": "Account holder",
         "registrationDate": "Registration date",
-        "detailLink": "Detail link"
+        "detailLink": "Detail link",
+        "actions": "Actions"
       },
       "filters": {
         "bankName": "Bank name",
@@ -1147,7 +1156,8 @@
         "unitPrice": "Unit price",
         "taxCategory": "Tax category",
         "description": "Description",
-        "status": "Status"
+        "status": "Status",
+        "actions": "Actions"
       },
       "filters": {
         "name": "Item name",
@@ -1225,7 +1235,8 @@
         "uploadedPdf": "Uploaded PDF (Optional)",
         "detailLink": "Detail link",
         "editLink": "Edit link",
-        "deleteLink": "Delete link"
+        "deleteLink": "Delete link",
+        "actions": "Actions"
       },
       "filters": {
         "number": "Delivery note number",
@@ -1317,7 +1328,8 @@
         "uploadedPdf": "Uploaded PDF (Optional)",
         "detailLink": "Detail link",
         "editLink": "Edit link",
-        "deleteLink": "Delete link"
+        "deleteLink": "Delete link",
+        "actions": "Actions"
       },
       "filters": {
         "number": "Quotation number",
@@ -1402,7 +1414,8 @@
         "amount": "Amount",
         "transactionDateTime": "Transaction Date",
         "payoutStatus": "Payout status",
-        "bankTransferAccount": "Bank transfer account"
+        "bankTransferAccount": "Bank transfer account",
+        "actions": "Actions"
       },
       "filters": {
         "period": "Period",
@@ -1446,7 +1459,8 @@
         "linkedMerchantsCount": "Number of linked merchants",
         "createdAt": "Created at",
         "connectionEndpoint": "Connection endpoint",
-        "linkedMerchants": "Linked merchants"
+        "linkedMerchants": "Linked merchants",
+        "actions": "Actions"
       },
       "filters": {
         "mid": "MID",
@@ -1513,7 +1527,8 @@
         "fixedFeeAmount": "Fixed fee amount",
         "status": "Status",
         "createdAt": "Created at",
-        "updatedAt": "Updated at"
+        "updatedAt": "Updated at",
+        "actions": "Actions"
       },
       "filters": {
         "brand": "Brand",
@@ -1620,7 +1635,8 @@
         "clientName": "Client name",
         "amount": "Amount",
         "transactionDateTime": "Transaction Date",
-        "status": "Status"
+        "status": "Status",
+        "actions": "Actions"
       },
       "filters": {
         "period": "Period",
@@ -1665,7 +1681,8 @@
         "publicationEndDate": "Publication end date",
         "targetMerchantsCount": "Target merchants",
         "editLink": "Edit link",
-        "deleteLink": "Delete link"
+        "deleteLink": "Delete link",
+        "actions": "Actions"
       },
       "filters": {
         "title": "Title",

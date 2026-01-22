@@ -7,9 +7,9 @@ type ItemStatus = NonNullable<Item["status"]>;
 
 export const getStatusBadgeVariant = (status: ItemStatus): BadgeVariant => {
   const variantMap: Record<ItemStatus, BadgeVariant> = {
-    active: "success",
-    inactive: "secondary",
+    active: "outline-success",
+    inactive: "outline-destructive",
   };
 
-  return variantMap[status] || "secondary";
+  return variantMap[status] || "outline-info";
 };

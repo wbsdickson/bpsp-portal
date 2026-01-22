@@ -22,6 +22,8 @@ const badgeVariants = cva(
           "border-transparent bg-warning/20 text-warning [a&]:hover:bg-warning/30",
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        "outline-info":
+          "border-info/30 bg-info/5 text-info [a&]:hover:bg-info/10 rounded",
         "outline-primary":
           "border-primary/30 bg-primary/5 text-primary [a&]:hover:bg-primary/10 rounded",
         "outline-success":

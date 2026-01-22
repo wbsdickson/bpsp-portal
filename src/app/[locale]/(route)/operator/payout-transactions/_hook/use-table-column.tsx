@@ -24,23 +24,11 @@ export default function usePayoutTransactionTableColumn({
   const router = useRouter();
   const { basePath } = useBasePath();
 
+  const onOpenDetail = (id: string) => {
+    router.push(`${basePath}/${id}`);
+  };
+
   const columns: ColumnDef<PayoutTransaction>[] = [
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<PayoutTransaction>
-          item={row.original}
-          t={t}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => router.push(`${basePath}/${item.id}`),
-            },
-          ]}
-        />
-      ),
-    },
     {
       accessorKey: "id",
       header: t("columns.transactionId"),
@@ -107,6 +95,20 @@ export default function usePayoutTransactionTableColumn({
         if (Array.isArray(value)) return value.includes(cellValue);
         return cellValue === String(value ?? "");
       },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<PayoutTransaction>
+          item={row.original}
+          t={t}
+          onOpenDetail={() => onOpenDetail(row.original.id)}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

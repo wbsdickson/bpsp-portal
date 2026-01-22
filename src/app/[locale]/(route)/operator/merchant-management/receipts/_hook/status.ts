@@ -6,8 +6,8 @@ export const getReceiptStatusBadgeVariant = (
   status: ReceiptStatus,
 ): BadgeVariant => {
   const variantMap: Record<ReceiptStatus, BadgeVariant> = {
-    issued: "success",
-    draft: "secondary",
+    issued: "outline-success",
+    draft: "outline-info",
   };
 
   return variantMap[status] || "outline";

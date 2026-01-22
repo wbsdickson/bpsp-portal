@@ -1,4 +1,3 @@
-import ActionsCell from "@/components/action-cell";
 import { Button } from "@/components/ui/button";
 import type { PurchaseOrder, Quotation } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -7,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
 import { usePurchaseOrderStore } from "@/store/merchant/purchase-order-store";
 import { Badge } from "@/components/ui/badge";
+import ActionsCell from "../../_components/action-cell";
 
 export type PurchaseOrderRow = PurchaseOrder & {
   clientName: string;
@@ -38,31 +38,6 @@ export default function useQuotationTableColumn({
   };
 
   const column: ColumnDef<PurchaseOrderRow>[] = [
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<PurchaseOrderRow>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => onOpenDetail(item),
-            },
-            {
-              title: t("actions.edit"),
-              onPress: (item) => onOpenEdit(item),
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: (item) => onDelete(item),
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
     {
       accessorKey: "poNumber",
       header: t("columns.purchaseOrderNumber"),
@@ -102,19 +77,21 @@ export default function useQuotationTableColumn({
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
           {row.getValue("status") === "draft" && (
-            <Badge variant="info">{t("statuses.draft")}</Badge>
+            <Badge variant="outline-info">{t("statuses.draft")}</Badge>
           )}
           {row.getValue("status") === "sent" && (
-            <Badge variant="warning">{t("statuses.sent")}</Badge>
+            <Badge variant="outline-warning">{t("statuses.sent")}</Badge>
           )}
           {row.getValue("status") === "accepted" && (
-            <Badge variant="success">{t("statuses.accepted")}</Badge>
+            <Badge variant="outline-success">{t("statuses.accepted")}</Badge>
           )}
           {row.getValue("status") === "rejected" && (
-            <Badge variant="destructive">{t("statuses.rejected")}</Badge>
+            <Badge variant="outline-destructive">
+              {t("statuses.rejected")}
+            </Badge>
           )}
           {row.getValue("status") === "expired" && (
-            <Badge variant="warning">{t("statuses.expired")}</Badge>
+            <Badge variant="outline-warning">{t("statuses.expired")}</Badge>
           )}
         </div>
       ),
@@ -123,6 +100,22 @@ export default function useQuotationTableColumn({
         if (Array.isArray(value)) return value.includes(cellValue);
         return cellValue === String(value ?? "");
       },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<PurchaseOrderRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          variant="verbose"
+          t={t}
+        />
+      ),
     },
   ];
 

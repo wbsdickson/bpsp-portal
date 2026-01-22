@@ -5,9 +5,9 @@ export const getStatusBadgeVariant = (
   status: MerchantFeeStatus,
 ): BadgeVariant => {
   const variantMap: Record<MerchantFeeStatus, BadgeVariant> = {
-    active: "success",
-    suspended: "destructive",
+    active: "outline-success",
+    suspended: "outline-destructive",
   };
 
-  return variantMap[status] || "secondary";
+  return variantMap[status] || "outline-info";
 };
