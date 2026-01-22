@@ -58,7 +58,18 @@
         "quotation": "見積書",
         "client": "取引先",
         "merchant": "加盟店"
-      }
+      },
+      "merchantSection": "Merchant",
+      "issuance": "発行",
+      "receiptPayment": "受領・支払",
+      "settings": "設定",
+      "companyInfoSettings": "自社情報設定",
+      "clientManagement": "取引先管理",
+      "issuanceSettings": "発行設定",
+      "paymentSettings": "支払い設定",
+      "memberManagement": "メンバー管理",
+      "itemManagement": "品目管理",
+      "bankAccountManagement": "振込先管理"
     },
     "CommandMenu": {
       "placeholder": "ページ/機能を検索",

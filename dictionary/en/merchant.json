@@ -16,6 +16,9 @@
         "paymentLink": "Payment link",
         "payment": "Payment"
       },
+      "issuance": "Issuance",
+      "receiptPayment": "Receipt/Payment",
+      "settings": "Settings",
       "dashboard": "Dashboard",
       "accountInformationManagement": "Account Information",
       "companyInformationManagement": "Company Information",

@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
 import { Link } from "next-view-transitions";
+import { usePathname } from "next/navigation";
 
 type FooterButton = {
   icon: LucideIcon;
@@ -47,39 +48,6 @@ const HEADER_BUTTONS: FooterButton[] = [
     icon: Settings,
     tooltipKey: "footer.settings",
     url: "/operator/system-settings",
-  },
-];
-
-const QUICK_ACTIONS: QuickActionItem[] = [
-  {
-    icon: FileText,
-    labelKey: "quickActions.invoice",
-    shortcut: "C I",
-    url: "/operator/merchant-management/invoices/create",
-  },
-  {
-    icon: Receipt,
-    labelKey: "quickActions.receipt",
-    shortcut: "C S",
-    url: "/operator/merchant-management/receipts/create",
-  },
-  {
-    icon: ScrollText,
-    labelKey: "quickActions.quotation",
-    shortcut: "C S",
-    url: "/operator/merchant-management/quotations/create",
-  },
-  {
-    icon: User,
-    labelKey: "quickActions.client",
-    shortcut: "C S",
-    url: "/operator/merchant-management/clients/create",
-  },
-  {
-    icon: Store,
-    labelKey: "quickActions.merchant",
-    shortcut: "C L",
-    url: "/operator/merchants/create",
   },
 ];
 
@@ -118,6 +86,50 @@ export function HeaderButtons() {
   const [preferencesOpen, setPreferencesOpen] = React.useState(false);
   const [dKeyCount, setDKeyCount] = React.useState(0);
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const pathname = usePathname();
+  const isOperator = pathname?.includes("/operator");
+  const basePath = isOperator ? "/operator/merchant-management" : "/merchant";
+
+  const QUICK_ACTIONS: QuickActionItem[] = [
+    {
+      icon: FileText,
+      labelKey: "quickActions.invoice",
+      shortcut: "C I",
+      url: isOperator
+        ? `${basePath}/invoices/create`
+        : `${basePath}/invoice-management/create`,
+    },
+    {
+      icon: Receipt,
+      labelKey: "quickActions.receipt",
+      shortcut: "C S",
+      url: isOperator
+        ? `${basePath}/receipts/create`
+        : `${basePath}/receipt/create`,
+    },
+    {
+      icon: ScrollText,
+      labelKey: "quickActions.quotation",
+      shortcut: "C S",
+      url: `${basePath}/quotations/create`,
+    },
+    {
+      icon: User,
+      labelKey: "quickActions.client",
+      shortcut: "C S",
+      url: `${basePath}/clients/create`,
+    },
+    ...(isOperator
+      ? [
+          {
+            icon: Store,
+            labelKey: "quickActions.merchant",
+            shortcut: "C L",
+            url: "/operator/merchants/create",
+          },
+        ]
+      : []),
+  ];
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

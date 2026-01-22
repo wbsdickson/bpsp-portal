@@ -49,17 +49,7 @@ type NavRoute = {
   children?: NavRoute[];
 };
 
-const MERCHANT_MANAGEMENT_ROUTES = [
-  { key: "dashboard", route: "operator/merchant-management/dashboard" },
-  { key: "member", route: "operator/merchant-management/members" },
-  { key: "client", route: "operator/merchant-management/clients" },
-  { key: "transaction", route: "operator/merchant-management/transactions" },
-  { key: "bankAccount", route: "operator/merchant-management/bank-accounts" },
-  { key: "cards", route: "operator/merchant-management/cards" },
-  { key: "midSettings", route: "operator/merchant-management/mid-settings" },
-  { key: "feeRate", route: "operator/merchant-management/fee-rate" },
-  { key: "taxSettings", route: "operator/merchant-management/tax-settings" },
-  { key: "items", route: "operator/merchant-management/items" },
+const ISSUANCE_ROUTES = [
   { key: "invoicesIssuance", route: "operator/merchant-management/invoices" },
   {
     key: "quotationsIssuance",
@@ -70,19 +60,37 @@ const MERCHANT_MANAGEMENT_ROUTES = [
     route: "operator/merchant-management/delivery-notes",
   },
   { key: "receiptIssuance", route: "operator/merchant-management/receipts" },
+] as const;
+
+const RECEIPT_PAYMENT_ROUTES = [
   {
     key: "receivedPayableInvoices",
     route: "operator/merchant-management/received-payable-invoices",
   },
+  { key: "transaction", route: "operator/merchant-management/transactions" },
 ] as const;
 
-const MAIN_ROUTES = [
-  { key: "dashboard", route: "operator/dashboard", icon: LayoutDashboard },
+const SETTINGS_ROUTES = [
   {
-    key: "merchantsManagement",
-    route: "operator/merchant-management",
-    icon: Building2,
+    key: "midSettings",
+    route: "operator/merchant-management/mid-settings",
+  }, // Placeholder mapping
+  { key: "clients", route: "operator/merchant-management/clients" },
+  {
+    key: "taxSettings",
+    route: "operator/merchant-management/tax-settings",
+  }, // Placeholder mapping
+  { key: "feeRate", route: "operator/merchant-management/fee-rate" }, // Placeholder mapping
+  { key: "member", route: "operator/merchant-management/members" },
+  { key: "items", route: "operator/merchant-management/items" },
+  {
+    key: "bankAccount",
+    route: "operator/merchant-management/bank-accounts",
   },
+] as const;
+
+const TOP_LEVEL_ROUTES = [
+  { key: "dashboard", route: "operator/dashboard", icon: LayoutDashboard },
   { key: "merchants", route: "operator/merchants", icon: Store },
   { key: "accounts", route: "operator/accounts", icon: Users },
   { key: "sales", route: "operator/sales", icon: TrendingUp },
@@ -95,6 +103,24 @@ const MAIN_ROUTES = [
   { key: "midSettings", route: "operator/mid-setting", icon: Wallet },
   { key: "midFee", route: "operator/mid-fee", icon: Receipt },
   { key: "systemSettings", route: "operator/system-settings", icon: Settings },
+] as const;
+
+const MERCHANT_GROUP_ROUTES = [
+  {
+    key: "issuance",
+    route: "#",
+    icon: FileText,
+  },
+  {
+    key: "receiptPayment",
+    route: "#",
+    icon: Wallet,
+  },
+  {
+    key: "settings",
+    route: "#",
+    icon: Settings,
+  },
 ] as const;
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
@@ -116,15 +142,55 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     ],
   );
 
-  const routes = React.useMemo<NavRoute[]>(
+  const topRoutes = React.useMemo<NavRoute[]>(
     () => [
-      ...MAIN_ROUTES.map(({ key, route, icon }) => {
-        if (key === "merchantsManagement") {
+      ...TOP_LEVEL_ROUTES.map(({ key, route, icon }) => ({
+        label: t(key),
+        route,
+        icon,
+      })),
+    ],
+    [t],
+  );
+
+  const merchantRoutes = React.useMemo<NavRoute[]>(
+    () => [
+      ...MERCHANT_GROUP_ROUTES.map(({ key, route, icon }) => {
+        if (key === "issuance") {
           return {
             label: t(key),
             route,
             icon,
-            children: MERCHANT_MANAGEMENT_ROUTES.map(
+            children: ISSUANCE_ROUTES.map(
+              ({ key: childKey, route: childRoute }) => ({
+                label: t(`merchantManagement.${childKey}`),
+                route: childRoute,
+              }),
+            ),
+          };
+        }
+        if (key === "receiptPayment") {
+          return {
+            label: t(key),
+            route,
+            icon,
+            children: RECEIPT_PAYMENT_ROUTES.map(
+              ({ key: childKey, route: childRoute }) => {
+                let labelKey = `merchantManagement.${childKey}`;
+                return {
+                  label: t(labelKey),
+                  route: childRoute,
+                };
+              },
+            ),
+          };
+        }
+        if (key === "settings") {
+          return {
+            label: t(key),
+            route,
+            icon,
+            children: SETTINGS_ROUTES.map(
               ({ key: childKey, route: childRoute }) => ({
                 label: t(`merchantManagement.${childKey}`),
                 route: childRoute,
@@ -158,7 +224,8 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     >
       <AppSideBarHeader />
       <SidebarContent>
-        <NavMain routes={routes} />
+        <NavMain routes={topRoutes} />
+        <NavMain routes={merchantRoutes} title={t("merchantSection")} />
       </SidebarContent>
       <AppSideBarFooter t={t} />
       <SidebarRail />

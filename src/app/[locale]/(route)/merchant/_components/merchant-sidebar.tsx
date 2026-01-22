@@ -21,6 +21,7 @@ import {
   StickyNote,
   type LucideIcon,
   Bell,
+  Settings,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -46,108 +47,57 @@ type NavRoute = {
   children?: NavRoute[];
 };
 
-const merchantRoutes: NavRoute[] = [
-  // Top section
-  {
-    label: "dashboard",
-    route: "merchant/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    label: "memberManagement",
-    route: "merchant/members",
-    icon: Users,
-  },
-  {
-    label: "clientManagement",
-    route: "merchant/clients",
-    icon: UserCircle,
-  },
-  {
-    label: "creditPayment",
-    route: "merchant/credit-payment",
-    icon: CreditCard,
-  },
-  // Settings group
+const ISSUANCE_ROUTES = [
+  { key: "invoiceManagement", route: "merchant/invoice-management" },
+  { key: "invoiceAutoIssuance", route: "merchant/invoice-auto-issuance" },
+  { key: "quotationIssuance", route: "merchant/quotations" },
+  { key: "deliveryNotesIssuance", route: "merchant/delivery-notes" },
+  { key: "receiptIssuance", route: "merchant/receipt" },
+  { key: "rpInvoicesAutoIssuance", route: "merchant/rp-invoice-auto-issuance" },
+] as const;
 
+const RECEIPT_PAYMENT_ROUTES = [
   {
-    label: "companyInformationManagement",
+    key: "receivedPayableInvoices",
+    route: "merchant/received-payable-invoices",
+  },
+  { key: "purchaseOrders", route: "merchant/purchase-orders" },
+  { key: "creditPayment", route: "merchant/credit-payment" },
+] as const;
+
+const SETTINGS_ROUTES = [
+  {
+    key: "companyInformationManagement",
     route: "merchant/company-information",
-    icon: Building2,
+  },
+  { key: "memberManagement", route: "merchant/members" },
+  { key: "clientManagement", route: "merchant/clients" },
+  { key: "merchantBankAccount", route: "merchant/bank-accounts" },
+  { key: "merchantCards", route: "merchant/cards" },
+  { key: "taxSettings", route: "merchant/tax-settings" },
+  { key: "documentOutputSettings", route: "merchant/document-output-settings" },
+  { key: "items", route: "merchant/items" },
+  { key: "notifications", route: "merchant/notifications" },
+] as const;
+
+const MAIN_ROUTES = [
+  { key: "dashboard", route: "merchant/dashboard", icon: LayoutDashboard },
+  {
+    key: "issuance",
+    route: "#",
+    icon: FileText,
   },
   {
-    label: "merchantBankAccount",
-    route: "merchant/bank-accounts",
+    key: "receiptPayment",
+    route: "#",
     icon: Wallet,
   },
   {
-    label: "merchantCards",
-    route: "merchant/cards",
-    icon: CreditCard,
+    key: "settings",
+    route: "#",
+    icon: Settings,
   },
-  {
-    label: "taxSettings",
-    route: "merchant/tax-settings",
-    icon: Receipt,
-  },
-  {
-    label: "documentOutputSettings",
-    route: "merchant/document-output-settings",
-    icon: File,
-  },
-  {
-    label: "notifications",
-    route: "merchant/notifications",
-    icon: Bell,
-  },
-  {
-    label: "purchaseOrders",
-    route: "merchant/purchase-orders",
-    icon: ShoppingCart,
-  },
-  {
-    label: "items",
-    route: "merchant/items",
-    icon: ShoppingBag,
-  },
-  {
-    label: "invoiceManagement",
-    route: "merchant/invoice-management",
-    icon: FileText,
-  },
-  // Issuance group
-  {
-    label: "invoiceAutoIssuance",
-    route: "merchant/invoice-auto-issuance",
-    icon: Zap,
-  },
-  {
-    label: "quotationIssuance",
-    route: "merchant/quotations",
-    icon: Quote,
-  },
-  {
-    label: "deliveryNotesIssuance",
-    route: "merchant/delivery-notes",
-    icon: Truck,
-  },
-  {
-    label: "receiptIssuance",
-    route: "merchant/receipt",
-    icon: StickyNote,
-  },
-  {
-    label: "rpInvoicesAutoIssuance",
-    route: "merchant/rp-invoice-auto-issuance",
-    icon: Zap,
-  },
-  // Other management items
-  {
-    label: "receivedPayableInvoices",
-    route: "merchant/received-payable-invoices",
-    icon: FileCheck,
-  },
-];
+] as const;
 
 export function AppSidebar({
   ...props
@@ -171,14 +121,54 @@ export function AppSidebar({
   );
 
   const routes = React.useMemo<NavRoute[]>(
-    () =>
-      merchantRoutes.map(({ label, route, icon }) => {
+    () => [
+      ...MAIN_ROUTES.map(({ key, route, icon }) => {
+        if (key === "issuance") {
+          return {
+            label: t(key),
+            route,
+            icon,
+            children: ISSUANCE_ROUTES.map(
+              ({ key: childKey, route: childRoute }) => ({
+                label: t(`${childKey}` as any),
+                route: childRoute,
+              }),
+            ),
+          };
+        }
+        if (key === "receiptPayment") {
+          return {
+            label: t(key),
+            route,
+            icon,
+            children: RECEIPT_PAYMENT_ROUTES.map(
+              ({ key: childKey, route: childRoute }) => ({
+                label: t(`${childKey}` as any),
+                route: childRoute,
+              }),
+            ),
+          };
+        }
+        if (key === "settings") {
+          return {
+            label: t(key),
+            route,
+            icon,
+            children: SETTINGS_ROUTES.map(
+              ({ key: childKey, route: childRoute }) => ({
+                label: t(childKey as any),
+                route: childRoute,
+              }),
+            ),
+          };
+        }
         return {
-          label: t(label),
+          label: t(key),
           route,
           icon,
         };
       }),
+    ],
     [t],
   );
 
