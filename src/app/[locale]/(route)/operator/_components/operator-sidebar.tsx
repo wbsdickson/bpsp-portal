@@ -125,22 +125,7 @@ const MERCHANT_GROUP_ROUTES = [
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const t = useTranslations("Operator.Sidebar");
-  const session = useSession();
   const { preferences } = useUserPreferencesStore();
-
-  const user = React.useMemo(
-    () => ({
-      name: session?.data?.user?.name ?? "",
-      email: session?.data?.user?.email ?? "",
-      role: (session?.data?.user as any)?.role ?? "",
-      companyName: (session?.data?.user as any)?.companyName ?? "",
-    }),
-    [
-      session?.data?.user?.name,
-      session?.data?.user?.email,
-      (session?.data?.user as any)?.role,
-    ],
-  );
 
   const topRoutes = React.useMemo<NavRoute[]>(
     () => [
@@ -207,13 +192,6 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     ],
     [t],
   );
-
-  const { toggleSidebar, state } = useSidebar();
-  const isCollapsed = state === "collapsed";
-
-  const handleLogout = () => {
-    signOut({ callbackUrl: `/signin` });
-  };
 
   return (
     <Sidebar
