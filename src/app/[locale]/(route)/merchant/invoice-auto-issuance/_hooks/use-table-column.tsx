@@ -23,7 +23,7 @@ function ScheduleNameCell({
     <Button
       variant="ghost"
       onClick={addTab}
-      className="hover:bg-primary/10 block h-full text-left"
+      className="hover:bg-secondary text-center hover:underline"
     >
       {scheduleName}
     </Button>

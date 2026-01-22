@@ -10,7 +10,7 @@ import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multisele
 import { Badge } from "@/components/ui/badge";
 import { type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Plus, X } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 
@@ -79,7 +79,7 @@ function InvoiceNumberCell({
     <Button
       variant="ghost"
       onClick={addTab}
-      className="hover:bg-primary/10 block h-full text-left"
+      className="hover:bg-secondary text-center hover:underline"
     >
       {invoiceNumber}
     </Button>
@@ -195,7 +195,6 @@ export default function InvoiceTable({
 }: {
   addTab: (id: string) => void;
 }) {
-  const router = useRouter();
   const t = useTranslations("Operator.Invoice");
 
   const clients = useAppStore((s) => s.clients);

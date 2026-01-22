@@ -121,7 +121,7 @@ export default function ActionsCell<T>({
             <Button
               variant="ghost"
               size="icon-sm"
-              className="hover:text-secondary"
+              className="hover:bg-secondary"
               onClick={() => onOpenEdit(item)}
             >
               <Pencil />
