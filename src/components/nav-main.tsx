@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
@@ -30,6 +29,8 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { ArrowRight } from "./icons";
+import { LucideIcon } from "lucide-react";
 
 type RouteType = {
   label: string;
@@ -39,7 +40,13 @@ type RouteType = {
   children?: RouteType[];
 };
 
-export function NavMain({ routes }: { routes: RouteType[] }) {
+export function NavMain({
+  routes,
+  title,
+}: {
+  routes: RouteType[];
+  title?: string;
+}) {
   console.log(routes);
   const locale = useLocale();
   const pathname = usePathname();
@@ -98,7 +105,7 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
                   >
                     {item.icon && <item.icon />}
                     <span>{item.label}</span>
-                    <ChevronRight className="ml-auto" />
+                    <ArrowRight className="ml-auto" />
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -142,7 +149,7 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
                   <span className="truncate whitespace-nowrap">
                     {item.label}
                   </span>
-                  <ChevronRight className="ml-auto shrink-0 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  <ArrowRight className="ml-auto shrink-0 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -163,15 +170,14 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
             key={item.route}
             className={cn(
               "relative",
-              item.isActive &&
-                "before:bg-border before:absolute before:-left-3 before:top-1/2 before:z-10 before:h-px before:w-3 before:-translate-y-1/2",
+              "before:border-border/50 before:absolute before:-left-3 before:top-0 before:z-10 before:h-4 before:w-3 before:rounded-bl-md before:border-b before:border-l before:bg-transparent",
             )}
           >
             <SidebarMenuSubButton asChild isActive={item.isActive}>
               <Link href={href}>
                 <span
                   className={cn(
-                    item.isActive && "font-bold",
+                    item.isActive && "font-bold text-primary",
                     !item.isActive && "text-muted-foreground",
                   )}
                 >
@@ -209,6 +215,7 @@ export function NavMain({ routes }: { routes: RouteType[] }) {
 
   return (
     <SidebarGroup>
+      {title && <SidebarGroupLabel>{title}</SidebarGroupLabel>}
       <SidebarMenu>{renderRoute(processedRoutes)}</SidebarMenu>
     </SidebarGroup>
   );

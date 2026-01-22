@@ -16,6 +16,9 @@
         "paymentLink": "支払いリンク",
         "payment": "支払い"
       },
+      "issuance": "発行",
+      "receiptPayment": "受領・支払",
+      "settings": "設定",
       "dashboard": "ダッシュボード",
       "accountInformationManagement": "アカウント情報管理",
       "companyInformationManagement": "会社",

@@ -58,7 +58,18 @@
         "quotation": "Quotation",
         "client": "Client",
         "merchant": "Merchant"
-      }
+      },
+      "merchantSection": "Merchant",
+      "issuance": "Issuance",
+      "receiptPayment": "Receipt/Payment",
+      "settings": "Settings",
+      "companyInfoSettings": "Company Info Settings",
+      "clientManagement": "Client Management",
+      "issuanceSettings": "Issuance Settings",
+      "paymentSettings": "Payment Settings",
+      "memberManagement": "Member Management",
+      "itemManagement": "Item Management",
+      "bankAccountManagement": "Bank Account Management"
     },
     "CommandMenu": {
       "placeholder": "Search page/ function",
