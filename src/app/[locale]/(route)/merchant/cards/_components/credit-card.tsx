@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { AppMerchantCard } from "@/store/merchant/merchant-card-store";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 const getCardTypeLabel = (cardBrand: string): string => {
   const normalizedBrand = cardBrand.toUpperCase();
@@ -67,6 +68,7 @@ export function CreditCardComponent({
   onDelete,
   onEdit,
 }: CreditCardComponentProps) {
+  const t = useTranslations("Merchant.MerchantCards");
   const mm = String(card.expiryMonth ?? "").padStart(2, "0");
   const yy = String(card.expiryYear ?? "").slice(-2);
   const expiry = mm && yy ? `${mm}/${yy}` : "12/24";
@@ -81,35 +83,39 @@ export function CreditCardComponent({
   return (
     <div className="relative w-full overflow-hidden rounded-lg">
       {/* React Credit Cards Component */}
-      <div className="relative w-full [&_.rccs]:w-full! [&_.rccs__card]:w-full! [&_.rccs]:max-w-full! [&_.rccs__card]:max-w-full! [&_.rccs]:h-auto! [&_.rccs__card]:h-auto! [&_.rccs]:aspect-[1.586/1]">
-        <Cards
-          number={cardNumber}
-          expiry={expiry}
-          cvc={cvc}
-          name={cardHolder}
-          focused=""
-          preview={true}
-          locale={{ valid: "VALID THRU" }}
-        />
-      </div>
+      <style>
+        {`.rccs {
+          margin:0 !important;
+          width:100% !important;
+        }`}
+      </style>
+      <Cards
+        number={cardNumber}
+        expiry={expiry}
+        cvc={cvc}
+        name={cardHolder}
+        focused=""
+        preview={true}
+        locale={{ valid: "VALID THRU" }}
+      />
 
       {/* Menu Button Overlay */}
       <div className="absolute right-4 top-4 z-10">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              variant="secondary"
+              variant="ghost"
               size="icon"
-              className="rounded-full p-2 backdrop-blur-sm"
+              className="text-muted-foreground rounded-full"
               onClick={(e) => e.stopPropagation()}
             >
               <MoreVertical className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
+          <DropdownMenuContent align="end">
             {onEdit && (
               <DropdownMenuItem onClick={() => onEdit(card.id)}>
-                編集
+                {t("actions.edit")}
               </DropdownMenuItem>
             )}
             {onDelete && (
@@ -117,7 +123,7 @@ export function CreditCardComponent({
                 onClick={() => onDelete(card.id)}
                 className="text-destructive"
               >
-                削除
+                {t("actions.delete")}
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>

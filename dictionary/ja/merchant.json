@@ -488,6 +488,7 @@
       },
       "actions": {
         "label": "操作",
+        "edit": "編集",
         "delete": "削除"
       },
       "buttons": {
