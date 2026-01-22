@@ -38,7 +38,7 @@ export default function useTransactionTableColumn({
         <>
           <Button
             variant="ghost"
-            className="h-8 px-2 font-medium"
+            className="hover:bg-secondary h-8 px-2 font-medium hover:underline"
             onClick={() => addTab(String(row.getValue("id") ?? ""))}
           >
             {String(row.getValue("id") ?? "")}

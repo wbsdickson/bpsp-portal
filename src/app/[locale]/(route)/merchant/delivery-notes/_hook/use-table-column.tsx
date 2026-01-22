@@ -43,7 +43,7 @@ export default function useDeliveryNoteTableColumn({
         <Button
           type="button"
           variant="ghost"
-          className="h-8 px-2 font-medium"
+          className="hover:bg-secondary h-8 px-2 font-medium hover:underline"
           onClick={() => addTab(row.original.id)}
         >
           {String(row.getValue("deliveryNoteNumber") ?? "")}
