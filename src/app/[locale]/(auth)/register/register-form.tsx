@@ -59,7 +59,7 @@ export function RegisterForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-        <div className="text-center text-xl font-semibold tracking-tight">
+        <div className="text-foreground text-center text-xl font-semibold tracking-tight">
           {t("registerTitle")}
         </div>
 
@@ -68,7 +68,7 @@ export function RegisterForm() {
           name="email"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-sm font-medium leading-none">
+              <FormLabel className="text-foreground text-sm font-medium leading-none">
                 {t("emailLabel")}
               </FormLabel>
               <FormControl>
@@ -84,7 +84,7 @@ export function RegisterForm() {
           name="password"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-sm font-medium leading-none">
+              <FormLabel className="text-foreground text-sm font-medium leading-none">
                 {t("passwordLabel")}
               </FormLabel>
               <FormControl>
@@ -109,7 +109,7 @@ export function RegisterForm() {
                 <FormControl>
                   <Checkbox
                     id="agreement"
-                    className="mt-0.5"
+                    className="border-muted-foreground/40 bg-background mt-0.5"
                     checked={field.value}
                     onCheckedChange={(v) => field.onChange(v === true)}
                   />
@@ -117,12 +117,15 @@ export function RegisterForm() {
                 <div className="space-y-1">
                   <label
                     htmlFor="agreement"
-                    className="text-sm font-medium leading-none"
+                    className="text-foreground text-sm font-medium leading-none"
                   >
                     {t("agreementLabel")}
                   </label>
                   <div className="text-muted-foreground text-xs leading-relaxed">
-                    <Link href="#" className="underline underline-offset-2">
+                    <Link
+                      href="#"
+                      className="hover:text-foreground underline underline-offset-2"
+                    >
                       {t("agreementDescription")}
                     </Link>
                   </div>

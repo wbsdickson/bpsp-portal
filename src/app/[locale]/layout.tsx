@@ -46,7 +46,7 @@ export default async function LocaleLayout({
             <QueryProvider>
               <ThemeProvider
                 attribute="class"
-                defaultTheme="light"
+                defaultTheme="system"
                 enableSystem
                 disableTransitionOnChange
               >

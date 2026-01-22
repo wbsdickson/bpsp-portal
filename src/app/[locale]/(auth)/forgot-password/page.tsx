@@ -80,17 +80,17 @@ export default function ForgotPasswordPage() {
 
   if (isSubmitted) {
     return (
-      <Card className="bg-sidebar w-full border-0 shadow-2xl backdrop-blur">
+      <Card className="bg-card w-full border-0 shadow-2xl backdrop-blur">
         <CardHeader className="text-center">
           <div className="mb-4 flex justify-center">
-            <div className="rounded-full bg-green-100 p-3">
-              <CheckCircle2 className="h-8 w-8 text-green-600" />
+            <div className="bg-success/10 dark:bg-success/20 rounded-full p-3">
+              <CheckCircle2 className="text-success h-8 w-8" />
             </div>
           </div>
-          <CardTitle className="text-xl">
+          <CardTitle className="text-foreground text-xl">
             {t("forgotPasswordEmailSentTitle")}
           </CardTitle>
-          <CardDescription className="whitespace-pre-line">
+          <CardDescription className="text-muted-foreground whitespace-pre-line">
             {t("forgotPasswordEmailSentDescription")}
           </CardDescription>
         </CardHeader>
