@@ -1,6 +1,7 @@
 "use client";
 
 import ActionsCell from "@/components/action-cell";
+import MerchantActionsCell from "@/app/[locale]/(route)/merchant/_components/action-cell";
 import { CommandMenu } from "@/components/command-menu";
 import { DataTable } from "@/components/data-table";
 import HeaderPage from "@/components/header-page";
@@ -1613,7 +1614,31 @@ function CommandMenuSection() {
 }
 
 function DataTableSection() {
-  const columns = [
+  const mockItem = { id: "1", name: "Test Item" };
+  const t = (key: string) => {
+    const translations: Record<string, string> = {
+      "actions.label": "Actions",
+      "actions.view": "View",
+      "actions.edit": "Edit",
+      "actions.delete": "Delete",
+    };
+    return translations[key] || key;
+  };
+
+  const handleView = (item: typeof mockItem) => {
+    toast.info(`Viewing ${item.name}`);
+  };
+
+  const handleEdit = (item: typeof mockItem) => {
+    toast.info(`Editing ${item.name}`);
+  };
+
+  const handleDelete = (item: typeof mockItem) => {
+    toast.info(`Deleting ${item.name}`);
+  };
+
+  // Dropdown variant (verbose: false)
+  const columnsDropdown = [
     {
       id: "name",
       accessorKey: "name",
@@ -1629,6 +1654,53 @@ function DataTableSection() {
       accessorKey: "role",
       header: "Role",
     },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: () => (
+        <MerchantActionsCell
+          item={mockItem}
+          onOpenDetail={handleView}
+          onOpenEdit={handleEdit}
+          onDelete={handleDelete}
+          t={t}
+          variant="dropdown"
+        />
+      ),
+    },
+  ] as any[];
+
+  // Verbose variant (verbose: true)
+  const columnsVerbose = [
+    {
+      id: "name",
+      accessorKey: "name",
+      header: "Name",
+    },
+    {
+      id: "email",
+      accessorKey: "email",
+      header: "Email",
+    },
+    {
+      id: "role",
+      accessorKey: "role",
+      header: "Role",
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: () => (
+        <MerchantActionsCell
+          item={mockItem}
+          onOpenDetail={handleView}
+          onOpenEdit={handleEdit}
+          onDelete={handleDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
+    },
   ] as any[];
 
   const data = [
@@ -1642,7 +1714,35 @@ function DataTableSection() {
       title="Data Table"
       description="Test data table component with sorting, filtering, and pagination."
     >
-      <DataTable columns={columns} data={data} filterColumnId="name" />
+      <div className="space-y-8">
+        <div>
+          <h3 className="mb-4 text-lg font-semibold">
+            Action Cell - Dropdown Variant (verbose: false)
+          </h3>
+          <p className="text-muted-foreground mb-4 text-sm">
+            Actions are shown in a dropdown menu (three dots icon)
+          </p>
+          <DataTable
+            columns={columnsDropdown}
+            data={data}
+            filterColumnId="name"
+          />
+        </div>
+
+        <div>
+          <h3 className="mb-4 text-lg font-semibold">
+            Action Cell - Verbose Variant (verbose: true)
+          </h3>
+          <p className="text-muted-foreground mb-4 text-sm">
+            Actions are shown as individual icon buttons
+          </p>
+          <DataTable
+            columns={columnsVerbose}
+            data={data}
+            filterColumnId="name"
+          />
+        </div>
+      </div>
     </SectionWrapper>
   );
 }
