@@ -367,7 +367,8 @@
         "email": "Email",
         "registrationDate": "Registration date",
         "detailLink": "Detail link",
-        "address": "Address"
+        "address": "Address",
+        "actions": "Action"
       },
       "filters": {
         "name": "Client name",

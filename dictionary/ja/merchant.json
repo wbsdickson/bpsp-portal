@@ -364,7 +364,8 @@
         "email": "メールアドレス",
         "registrationDate": "登録日",
         "detailLink": "詳細",
-        "address": "住所"
+        "address": "住所",
+        "actions": "アクション"
       },
       "filters": {
         "name": "取引先名",

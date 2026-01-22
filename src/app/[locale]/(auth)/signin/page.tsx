@@ -3,7 +3,6 @@ import { getTranslations } from "next-intl/server";
 import { SignInForm } from "./signin-form";
 import { DemoAccounts } from "./demo-accounts";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 
 type SignInPageProps = {
@@ -26,27 +25,6 @@ export default async function SignInPage({
 
   return (
     <div className="w-full space-y-6">
-      <div className="mb-8 items-center gap-1 md:mb-16">
-        <div className="flex items-center space-x-2">
-          <div className="flex items-center justify-center rounded-lg">
-            <Image
-              src="/logo.png"
-              alt="JPCC Logo"
-              width={32}
-              height={32}
-              className="object-cover"
-              priority
-            />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-primary text-4xl font-bold">JPCC</span>
-          </div>
-        </div>
-        <div>
-          <span className="text-primary text-xs">{t("logoSubtitle")}</span>
-        </div>
-      </div>
-
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">
           {t("signInTitle")}

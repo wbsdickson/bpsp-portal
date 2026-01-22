@@ -41,7 +41,7 @@ export default function ActionsCell<T>({
           <Button
             variant="ghost"
             size="icon-sm"
-            className="text-destructive hover:bg-muted-foreground/30 hover:text-destructive"
+            className="text-destructive hover:bg-destructive/10"
             onClick={() => onDelete(item)}
           >
             <Trash2 />
@@ -51,7 +51,7 @@ export default function ActionsCell<T>({
           <Button
             variant="ghost"
             size="icon-sm"
-            className="hover:bg-muted-foreground/30"
+            className="hover:bg-primary/10 hover:text-primary"
             onClick={() => onOpenEdit(item)}
           >
             <Pencil />
@@ -61,7 +61,7 @@ export default function ActionsCell<T>({
           <Button
             variant="ghost"
             size="icon-sm"
-            className="hover:bg-muted-foreground/30"
+            className="hover:bg-accent hover:text-accent-foreground"
             onClick={() => onOpenDetail(item)}
           >
             <Eye />
