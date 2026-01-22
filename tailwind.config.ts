@@ -3,6 +3,7 @@ import typography from "@tailwindcss/typography";
 import containerQueries from "@tailwindcss/container-queries";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",

@@ -181,7 +181,7 @@ export function SignInForm({ locale }: { locale: string }) {
                   <Button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-muted-foreground hover:text-foreground absolute right-3 top-1/2 -translate-y-1/2 bg-transparent hover:bg-transparent"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent p-0 hover:bg-transparent"
                   >
                     {showPassword ? (
                       <Eye className="text-primary h-4 w-4" />
@@ -200,27 +200,27 @@ export function SignInForm({ locale }: { locale: string }) {
           <label className="flex cursor-pointer items-center space-x-2">
             <Checkbox
               id="rememberMe"
-              className="border-card-foreground/40 bg-card"
+              className="border-muted-foreground/40 bg-background"
             />
-            <span className="text-sm">{t("rememberMe")}</span>
+            <span className="text-foreground text-sm">{t("rememberMe")}</span>
           </label>
           <Link
             href={nextForgetUrl}
-            className="text-sm text-red-600 hover:underline"
+            className="text-sm text-red-600 hover:underline dark:text-red-400"
           >
             {t("forgotPasswordShort")}
           </Link>
         </div>
 
         {formError ? (
-          <div className="border-destructive/30 bg-destructive/10 text-destructive rounded-md border px-3 py-2 text-sm">
+          <div className="border-destructive/30 bg-destructive/10 text-destructive dark:border-destructive/50 dark:bg-destructive/20 rounded-md border px-3 py-2 text-sm">
             {formError}
           </div>
         ) : null}
 
         <Button
           type="submit"
-          className="bg-primary w-full hover:bg-blue-700"
+          className="bg-primary hover:bg-primary/90 w-full"
           disabled={form.formState.isSubmitting || !form.formState.isValid}
         >
           {form.formState.isSubmitting ? (
@@ -233,11 +233,11 @@ export function SignInForm({ locale }: { locale: string }) {
           )}
         </Button>
 
-        <div className="bg-muted/40 rounded-md border p-3 text-sm">
-          <div className="text-foreground/80 mb-2 font-medium">
+        <div className="border-border bg-muted/30 dark:bg-muted rounded-md border p-3 text-sm">
+          <div className="text-foreground mb-2 font-medium">
             {t("quickLogin")}
           </div>
-          <div className="text-foreground/70 space-y-2">
+          <div className="text-muted-foreground space-y-2">
             <div className="flex items-center justify-between gap-2">
               <span className="text-xs">Backoffice Admin (Bob)</span>
               <Button

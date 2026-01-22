@@ -12,7 +12,7 @@ import { AppUser } from "@/types/user";
 
 export function Header({ currentUser }: { currentUser: AppUser }) {
   return (
-    <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b bg-white transition-[width,height] ease-linear">
+    <header className="bg-background sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
       <div className="flex flex-1 items-center gap-4 px-4">
         <ConditionalSidebarTrigger />
 

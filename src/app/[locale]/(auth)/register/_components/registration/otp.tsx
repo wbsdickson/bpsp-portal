@@ -150,7 +150,7 @@ const OTP = ({
                           <InputOTPSlot
                             key={index}
                             index={index}
-                            className="bg-card h-12 w-12 text-lg"
+                            className="border-border bg-background h-12 w-12 text-lg"
                           />
                         ))}
                       </InputOTPGroup>
@@ -169,12 +169,14 @@ const OTP = ({
             )} */}
               <>{t("verify")}</>
             </Button>
-            <div>{t("checkSpam")}</div>
+            <div className="text-muted-foreground">{t("checkSpam")}</div>
             <div>
-              <span className="text-sm">{t("noCode")} </span>
+              <span className="text-muted-foreground text-sm">
+                {t("noCode")}{" "}
+              </span>
               <Button
                 type="button"
-                className="p-0 text-blue-600"
+                className="text-primary p-0"
                 variant="link"
                 disabled={count > 0}
                 onClick={reTriggerOtp}

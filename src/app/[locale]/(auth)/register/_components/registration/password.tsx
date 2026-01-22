@@ -150,7 +150,7 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
               exit={{ opacity: 0.5 }}
               transition={{ duration: 0.2 }}
             >
-              <CheckCircle2 className="mr-2 mt-[2px] h-4 w-4 text-green-700" />
+              <CheckCircle2 className="text-success mr-2 mt-[2px] h-4 w-4" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -186,12 +186,14 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
               name="representativeName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{tReg("representativeNameLabel")}</FormLabel>
+                  <FormLabel className="text-foreground">
+                    {tReg("representativeNameLabel")}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       placeholder={tReg("representativeNamePlaceholder")}
-                      className="bg-card"
+                      className="bg-background"
                     />
                   </FormControl>
                   <FormMessage />
@@ -203,12 +205,14 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
               name="companyName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{tReg("companyNameLabel")}</FormLabel>
+                  <FormLabel className="text-foreground">
+                    {tReg("companyNameLabel")}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       placeholder={tReg("companyNamePlaceholder")}
-                      className="bg-card"
+                      className="bg-background"
                     />
                   </FormControl>
                   <FormMessage />
@@ -220,12 +224,14 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
               name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{tReg("phoneNumberLabel")}</FormLabel>
+                  <FormLabel className="text-foreground">
+                    {tReg("phoneNumberLabel")}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       placeholder={tReg("phoneNumberPlaceholder")}
-                      className="bg-card"
+                      className="bg-background"
                     />
                   </FormControl>
                   <FormMessage />
@@ -237,7 +243,9 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
               name="legalForm"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{tReg("legalFormLabel")}</FormLabel>
+                  <FormLabel className="text-foreground">
+                    {tReg("legalFormLabel")}
+                  </FormLabel>
                   <FormControl>
                     <div className="flex gap-4">
                       <label className="flex cursor-pointer items-center gap-2">
@@ -246,9 +254,9 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
                           value="corporation"
                           checked={field.value === "corporation"}
                           onChange={() => field.onChange("corporation")}
-                          className="h-4 w-4"
+                          className="accent-primary h-4 w-4"
                         />
-                        <span className="text-sm">
+                        <span className="text-foreground text-sm">
                           {tReg("legalFormCorporation")}
                         </span>
                       </label>
@@ -258,9 +266,9 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
                           value="individual"
                           checked={field.value === "individual"}
                           onChange={() => field.onChange("individual")}
-                          className="h-4 w-4"
+                          className="accent-primary h-4 w-4"
                         />
-                        <span className="text-sm">
+                        <span className="text-foreground text-sm">
                           {tReg("legalFormIndividual")}
                         </span>
                       </label>
@@ -275,12 +283,14 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{tReg("passwordLabel")}</FormLabel>
+                  <FormLabel className="text-foreground">
+                    {tReg("passwordLabel")}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       type="password"
-                      className="bg-card font-mono"
+                      className="bg-background font-mono"
                     />
                   </FormControl>
                   <FormMessage />
@@ -292,12 +302,14 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{tReg("confirmPasswordLabel")}</FormLabel>
+                  <FormLabel className="text-foreground">
+                    {tReg("confirmPasswordLabel")}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       type="password"
-                      className="bg-card font-mono"
+                      className="bg-background font-mono"
                     />
                   </FormControl>
                   <FormMessage />
@@ -305,7 +317,7 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
               )}
             />
             <div className="p-2">
-              <ul className="list-decimal space-y-2 py-2 font-mono">
+              <ul className="text-muted-foreground list-decimal space-y-2 py-2 font-mono">
                 {PasswordConstraintItemsJSX}
               </ul>
             </div>

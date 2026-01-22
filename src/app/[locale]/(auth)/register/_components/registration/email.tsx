@@ -98,7 +98,9 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
   return (
     <div className="flex h-full flex-col">
       <div className="mb-6 space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
+        <h1 className="text-foreground text-3xl font-bold tracking-tight">
+          {t("title")}
+        </h1>
         <p className="text-muted-foreground text-sm">
           {useConfigurationContext()?.configProfile?.register
             ?.accountCreation || t("description")}
@@ -120,7 +122,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
                       {...field}
                       floatingLabel={true}
                       label={t("emailPlaceholder")}
-                      className="bg-card"
+                      className="bg-background"
                     />
                   </FormControl>
                   <FormMessage />
@@ -146,7 +148,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
                         <FormControl>
                           <Checkbox
                             id="tnc"
-                            className="border-card-foreground/40 bg-card"
+                            className="border-muted-foreground/40 bg-background"
                             checked={field.value}
                             onCheckedChange={(checked) => {
                               field.onChange(checked);
@@ -156,7 +158,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
                         <div className="flex flex-col gap-2">
                           <label
                             htmlFor="tnc"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            className="text-foreground text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                           >
                             {t("termsAgreement")}{" "}
                             <Link
@@ -183,7 +185,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
 
           <Button
             // disabled={getOtpMutation.isPending}
-            className="bg-primary w-full hover:bg-blue-700"
+            className="bg-primary hover:bg-primary/90 w-full"
             type="submit"
           >
             {/* {getOtpMutation.isPending ? (
@@ -196,11 +198,11 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
         </form>
       </Form>
       {/* </FormWrapper> */}
-      <div className="mt-10 text-sm">
+      <div className="text-muted-foreground mt-10 text-sm">
         <span>
           {t("policyAgreement")}{" "}
           <Link
-            className="text-blue-600"
+            className="text-primary hover:underline"
             href={
               useConfigurationContext()?.configProfile?.documents
                 ?.termsOfService || "/"
@@ -213,7 +215,7 @@ const Email = ({ setStage, form, setOtpSize, setCodeTtl }: Props) => {
           {/*{useConfigurationContext()?.configProfile?.companyName}&#39;s */}
           {/* privacy practices, please refer to the{" "} */}
           <Link
-            className="text-blue-600"
+            className="text-primary hover:underline"
             href={
               useConfigurationContext()?.configProfile?.documents
                 ?.privacyStatement || "/"
@@ -242,7 +244,7 @@ const AlreadyHaveAccount = () => {
       transition={{ duration: 0.5, delay: 0.3 }}
     >
       {t("alreadyHaveAccount")}{" "}
-      <Link className="ml-1 p-0 text-blue-600" href="/signin">
+      <Link className="text-primary ml-1 p-0 hover:underline" href="/signin">
         {t("signIn")}
       </Link>
     </motion.div>
@@ -259,7 +261,10 @@ const EmailTaken = () => {
       animate="visible"
     >
       {t("emailTakenMessage")}
-      <Link className="mx-1 p-0 text-blue-600" href="/resume-application">
+      <Link
+        className="text-primary mx-1 p-0 hover:underline"
+        href="/resume-application"
+      >
         {t("here")}
       </Link>
       {t("toSignIn")}

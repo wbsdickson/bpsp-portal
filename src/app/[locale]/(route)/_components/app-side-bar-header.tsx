@@ -42,7 +42,7 @@ export function AppSideBarHeader() {
             variant="ghost"
             size="icon"
             onClick={toggleSidebar}
-            className="h-6 w-6 rounded-sm bg-white"
+            className="bg-background h-6 w-6 rounded-sm"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
