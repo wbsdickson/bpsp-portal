@@ -8,6 +8,7 @@ import { AppSidebar } from "./_components/operator-sidebar";
 import { UserPreferencesProvider } from "./_components/user-preferences-provider";
 import { Header } from "../_components/header";
 import { AbilityProvider } from "../_providers/ability-provider";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function NewOperatorLayout({
   children,
@@ -41,9 +42,9 @@ export default async function NewOperatorLayout({
             <AppSidebar />
             <SidebarInset>
               <Header currentUser={currentUser} />
-              <div className="flex-1 overflow-auto">
+              <ScrollArea className="flex-1">
                 <div className="h-full p-6">{children}</div>
-              </div>
+              </ScrollArea>
             </SidebarInset>
           </SidebarProvider>
         </AbilityProvider>

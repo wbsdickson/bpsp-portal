@@ -3,17 +3,15 @@ import { auth } from "@/auth";
 import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { AppUser } from "@/types/user";
 import { AppSidebar } from "./_components/merchant-sidebar";
 import { ModalProvider } from "./_providers/modal-provider";
-import { HeaderButtons } from "./_components/header-buttons";
-import { Search } from "@/components/search";
 import { SearchProvider } from "@/context/search-provider";
 import { UserPreferencesProvider } from "@/app/[locale]/(route)/operator/_components/user-preferences-provider";
 import { Header } from "../_components/header";
 import { AbilityProvider } from "../_providers/ability-provider";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function RouteLayout({
   children,
@@ -48,7 +46,9 @@ export default async function RouteLayout({
           <AppSidebar role={currentUser?.role} />
           <SidebarInset>
             <Header currentUser={currentUser} />
-            <div className="bg-background h-full p-4">{children}</div>
+            <ScrollArea className="bg-background h-full">
+              <div className="p-4">{children}</div>
+            </ScrollArea>
           </SidebarInset>
         </SidebarProvider>
         </AbilityProvider>
