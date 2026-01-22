@@ -6,7 +6,6 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/data-table";
 import { FilterChipPopover } from "@/components/filter-chip-popover";
 import { FilterChipMultiSelectPopover } from "@/components/filter-chip-multiselect-popover";
-import ActionsCell from "@/components/action-cell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "next-intl";
@@ -17,6 +16,7 @@ import { useAppStore } from "@/lib/store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { useReceivedPayableInvoiceAutoIssuanceStore } from "@/store/merchant/rp-invoice-auto-issuance-store";
 import { asDateValue } from "@/lib/date-utils";
+import ActionsCell from "../../_components/action-cell";
 
 export type PayableInvoiceRow = {
   id: string;
@@ -79,31 +79,6 @@ export default function ReceivedPayableInvoiceTable({
 
   const columns = React.useMemo<ColumnDef<PayableInvoiceRow>[]>(
     () => [
-      {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => (
-          <ActionsCell<PayableInvoiceRow>
-            item={row.original}
-            actions={[
-              {
-                title: t("actions.view"),
-                onPress: (item) => onOpenDetail(item),
-              },
-              {
-                title: t("actions.edit"),
-                onPress: (item) => onOpenEdit(item),
-              },
-              {
-                title: t("actions.delete"),
-                variant: "destructive",
-                onPress: (item) => onDelete(item),
-              },
-            ]}
-            t={t}
-          />
-        ),
-      },
       {
         accessorKey: "settingName",
         header: t("columns.settingName"),
@@ -174,11 +149,27 @@ export default function ReceivedPayableInvoiceTable({
         cell: ({ row }) => (
           <div className="flex items-center gap-3">
             {row.original.enabled ? (
-              <Badge variant="success">{t("enabled")}</Badge>
+              <Badge variant="outline-success">{t("enabled")}</Badge>
             ) : (
-              <Badge variant="warning">{t("disabled")}</Badge>
+              <Badge variant="outline-warning">{t("disabled")}</Badge>
             )}
           </div>
+        ),
+      },
+      {
+        id: "actions",
+        header: t("columns.actions"),
+        size: 100,
+        enableHiding: false,
+        cell: ({ row }) => (
+          <ActionsCell<PayableInvoiceRow>
+            item={row.original}
+            onOpenDetail={onOpenDetail}
+            onOpenEdit={onOpenEdit}
+            onDelete={onDelete}
+            t={t}
+            variant="verbose"
+          />
         ),
       },
     ],

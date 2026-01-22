@@ -16,11 +16,11 @@ import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { useReceiptStore } from "@/store/merchant/receipt-store";
-import ActionsCell from "@/components/action-cell";
 import { useBasePath } from "@/hooks/use-base-path";
 import { toYmd } from "@/lib/date-utils";
 import DateRangePicker from "@/components/date-range-picker";
 import { asDateValue } from "@/lib/date-utils";
+import ActionsCell from "../../_components/action-cell";
 
 export type ReceiptRow = {
   id: string;
@@ -83,30 +83,6 @@ export default function ReceiptTable({
   const columns = React.useMemo<ColumnDef<ReceiptRow>[]>(
     () => [
       {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => (
-          <ActionsCell<ReceiptRow>
-            item={row.original}
-            actions={[
-              {
-                title: t("actions.view"),
-                onPress: (item) => onOpenDetail(item),
-              },
-              {
-                title: t("actions.edit"),
-                onPress: (item) => onOpenEdit(item),
-              },
-              {
-                title: t("actions.delete"),
-                onPress: (item) => onDelete(item),
-              },
-            ]}
-            t={t}
-          />
-        ),
-      },
-      {
         accessorKey: "receiptNumber",
         header: t("columns.receiptNumber"),
         cell: ({ row }) => (
@@ -143,6 +119,22 @@ export default function ReceiptTable({
         accessorKey: "issueDate",
         header: t("columns.issueDate"),
         cell: ({ row }) => <div>{String(row.getValue("issueDate") ?? "")}</div>,
+      },
+      {
+        id: "actions",
+        header: t("columns.actions"),
+        size: 100,
+        enableHiding: false,
+        cell: ({ row }) => (
+          <ActionsCell<ReceiptRow>
+            item={row.original}
+            onOpenDetail={onOpenDetail}
+            onOpenEdit={onOpenEdit}
+            onDelete={onDelete}
+            t={t}
+            variant="verbose"
+          />
+        ),
       },
     ],
     [addTab, deleteReceipt, locale, router, t],

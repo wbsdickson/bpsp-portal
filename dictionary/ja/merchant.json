@@ -413,7 +413,8 @@
         "accountNumber": "口座番号",
         "accountHolder": "口座名義",
         "registrationDate": "登録日",
-        "detailLink": "詳細"
+        "detailLink": "詳細",
+        "actions": "アクション"
       },
       "filters": {
         "bankName": "銀行名",
@@ -548,7 +549,8 @@
         "taxCategory": "税区分",
         "description": "説明",
         "status": "ステータス",
-        "createDate": "登録日"
+        "createDate": "登録日",
+        "actions": "アクション"
       },
       "filters": {
         "name": "商品名",
@@ -934,7 +936,8 @@
         "uploadedPdf": "PDFアップロード（任意）",
         "detailLink": "詳細",
         "editLink": "編集",
-        "deleteLink": "削除"
+        "deleteLink": "削除",
+        "actions": "アクション"
       },
       "filters": {
         "quotationDate": "見積日",
@@ -1031,7 +1034,8 @@
         "uploadedPdf": "PDFアップロード（任意）",
         "detailLink": "詳細",
         "editLink": "編集",
-        "deleteLink": "削除"
+        "deleteLink": "削除",
+        "actions": "アクション"
       },
       "filters": {
         "purchaseOrderDate": "発注日",
@@ -1125,7 +1129,8 @@
         "uploadedPdf": "PDFアップロード（任意）",
         "detailLink": "詳細",
         "editLink": "編集",
-        "deleteLink": "削除"
+        "deleteLink": "削除",
+        "actions": "アクション"
       },
       "filters": {
         "number": "納品書番号",
@@ -1203,7 +1208,8 @@
         "client": "取引先名",
         "amount": "金額",
         "issueDate": "発行日",
-        "status": "ステータス"
+        "status": "ステータス",
+        "actions": "アクション"
       },
       "filters": {
         "receiptNumber": "領収書番号",
@@ -1303,7 +1309,8 @@
         "paymentDueDate": "支払期日",
         "paymentMethod": "支払方法",
         "status": "ステータス",
-        "invoiceDate": "請求日"
+        "invoiceDate": "請求日",
+        "actions": "操作"
       },
       "filters": {
         "invoiceNumber": "請求書番号",
@@ -1397,7 +1404,8 @@
         "direction": "方向",
         "template": "テンプレート",
         "enabled": "有効",
-        "notes": "備考"
+        "notes": "備考",
+        "actions": "操作"
       },
       "filters": {
         "settingName": "設定名",

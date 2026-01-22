@@ -32,33 +32,11 @@ export default function useMidTableColumn({
     deleteMid(item.id);
     toast.success(t("messages.deleteSuccess"));
   };
+  const onOpenDetail = (item: MidRow) => {
+    router.push(`${basePath}/${item.id}`);
+  };
 
   const column: ColumnDef<MidRow>[] = [
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<MidRow>
-          item={row.original}
-          t={t}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => router.push(`${basePath}/${item.id}`),
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: (item) => onDelete(item),
-              confirmation: {
-                title: t("dialog.deleteTitle"),
-                description: t("dialog.deleteDescription"),
-              },
-            },
-          ]}
-        />
-      ),
-    },
     {
       accessorKey: "mid",
       header: t("columns.mid"),
@@ -133,6 +111,21 @@ export default function useMidTableColumn({
         const label = Number.isNaN(dt.getTime()) ? value : dt.toLocaleString();
         return <div>{label}</div>;
       },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<MidRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

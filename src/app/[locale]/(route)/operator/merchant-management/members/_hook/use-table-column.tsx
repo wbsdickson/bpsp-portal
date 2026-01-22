@@ -44,31 +44,6 @@ export default function useMerchantMemberTableColumn({
 
   const column: ColumnDef<MerchantMemberRow>[] = [
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<MerchantMemberRow>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: onOpenDetail,
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: onDelete,
-              confirmation: {
-                title: t("dialog.deleteTitle"),
-                description: t("dialog.deleteDescription"),
-              },
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
-    {
       accessorKey: "id",
       header: t("columns.id"),
       cell: ({ row }) => (
@@ -151,16 +126,35 @@ export default function useMerchantMemberTableColumn({
         if (!status) return <div className="text-muted-foreground">—</div>;
 
         const variantMap: Record<NonNullable<User["status"]>, BadgeVariant> = {
-          active: "success",
-          suspended: "destructive",
+          active: "outline-success",
+          suspended: "outline-destructive",
         };
 
         return (
-          <Badge variant={variantMap[status] || "secondary"}>
+          <Badge
+            variant={variantMap[status] || "outline-info"}
+            className="capitalize"
+          >
             {t(`statuses.${status}`)}
           </Badge>
         );
       },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<MerchantMemberRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

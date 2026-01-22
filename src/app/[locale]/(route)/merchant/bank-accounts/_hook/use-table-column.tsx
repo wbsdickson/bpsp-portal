@@ -34,26 +34,12 @@ export default function useBankAccountTableColumn({
     deleteBankAccount(item.id);
   };
 
-  const column: ColumnDef<BankAccountRow>[] = [
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<BankAccountRow>
-          item={row.original}
-          onOpenDetail={onOpenDetail}
-          onOpenEdit={onOpenEdit}
-          onDelete={onDelete}
-          t={t}
-        />
-      ),
-    },
+  const columns: ColumnDef<BankAccountRow>[] = [
     {
       accessorKey: "bankName",
       header: t("columns.bankName"),
       cell: ({ row }) => (
         <Button
-          
           variant="ghost"
           className="h-8 px-2 font-medium"
           onClick={() => addTab(row.original.id)}
@@ -96,7 +82,23 @@ export default function useBankAccountTableColumn({
         <div>{String(row.getValue("accountHolder") ?? "")}</div>
       ),
     },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<BankAccountRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
+    },
   ];
 
-  return { column };
+  return { columns };
 }

@@ -7,6 +7,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBasePath } from "@/hooks/use-base-path";
+import { cons } from "effect/List";
 
 export type PublicationStatus = "scheduled" | "published" | "expired";
 
@@ -26,27 +27,15 @@ export default function useNotificationTableColumn({
   const router = useRouter();
   const { basePath } = useBasePath();
 
+  const onOpenDetail = (item: NotificationRow) => {
+    router.push(`${basePath}/${item.id}`);
+  };
+
+  const onOpenEdit = (item: NotificationRow) => {
+    router.push(`${basePath}/edit/${item.id}`);
+  };
+
   const column: ColumnDef<NotificationRow>[] = [
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<NotificationRow>
-          item={row.original}
-          t={t}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => router.push(`${basePath}/${item.id}`),
-            },
-            {
-              title: t("actions.edit"),
-              onPress: (item) => router.push(`${basePath}/edit/${item.id}`),
-            },
-          ]}
-        />
-      ),
-    },
     {
       accessorKey: "id",
       header: t("columns.id"),
@@ -106,6 +95,21 @@ export default function useNotificationTableColumn({
       header: t("columns.targetMerchantsCount"),
       cell: ({ row }) => (
         <div>{Number(row.getValue("targetMerchantsCount") ?? 0)}</div>
+      ),
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<NotificationRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          t={t}
+          variant="verbose"
+        />
       ),
     },
   ];

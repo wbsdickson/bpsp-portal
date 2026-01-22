@@ -5,12 +5,12 @@ export const getQuotationStatusBadgeVariant = (
   status: QuotationStatus,
 ): BadgeVariant => {
   const variantMap: Record<QuotationStatus, BadgeVariant> = {
-    accepted: "success",
-    rejected: "destructive",
-    sent: "warning",
-    draft: "info",
-    expired: "secondary",
+    accepted: "outline-success",
+    rejected: "outline-destructive",
+    sent: "outline-warning",
+    draft: "outline-info",
+    expired: "outline-destructive",
   };
 
-  return variantMap[status] || "secondary";
+  return variantMap[status] || "outline-info";
 };

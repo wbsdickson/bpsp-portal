@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useInvoiceAutoIssuanceStore } from "@/store/merchant/invoice-auto-issuance-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { Badge } from "@/components/ui/badge";
-import ActionsCell from "@/components/action-cell";
+import ActionsCell from "../../_components/action-cell";
 
 function ScheduleNameCell({
   id,
@@ -66,31 +66,6 @@ export default function useInvoiceAutoIssuanceTableColumn({
 
   const column: ColumnDef<AutoIssuanceRow>[] = [
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<AutoIssuanceRow>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => onOpenDetail(item),
-            },
-            {
-              title: t("actions.edit"),
-              onPress: (item) => onOpenEdit(item),
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: (item) => onDelete(item),
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
-    {
       accessorKey: "scheduleName",
       header: t("scheduleName"),
       cell: ({ row }) => (
@@ -136,13 +111,29 @@ export default function useInvoiceAutoIssuanceTableColumn({
         return (
           <div className="flex items-center gap-3">
             {autoIssuance.enabled ? (
-              <Badge variant="success">{t("enabled")}</Badge>
+              <Badge variant="outline-success">{t("enabled")}</Badge>
             ) : (
-              <Badge variant="warning">{t("disabled")}</Badge>
+              <Badge variant="outline-warning">{t("disabled")}</Badge>
             )}
           </div>
         );
       },
+    },
+    {
+      id: "actions",
+      header: t("actions.label"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<AutoIssuanceRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

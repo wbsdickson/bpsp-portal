@@ -78,35 +78,6 @@ export default function useMerchantInvoiceTableColumn({
 
   const column: ColumnDef<InvoiceRow>[] = [
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<InvoiceRow>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: (item) => onOpenDetail(item),
-            },
-            {
-              title: t("actions.edit"),
-              onPress: (item) => onOpenEdit(item),
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: (item) => onDelete(item),
-              confirmation: {
-                title: t("dialog.deleteTitle"),
-                description: t("dialog.deleteDescription"),
-              },
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
-    {
       accessorKey: "invoiceNumber",
       header: t("invoiceNumber"),
       cell: ({ row }) => (
@@ -175,6 +146,22 @@ export default function useMerchantInvoiceTableColumn({
           </div>
         );
       },
+    },
+    {
+      id: "actions",
+      header: t("actions.label"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<InvoiceRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 

@@ -42,31 +42,6 @@ export default function useMerchantMidTableColumn({
 
   const column: ColumnDef<MerchantMidRow>[] = [
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => (
-        <ActionsCell<MerchantMidRow>
-          item={row.original}
-          actions={[
-            {
-              title: t("actions.view"),
-              onPress: () => onOpenDetail(row.original),
-            },
-            {
-              title: t("actions.delete"),
-              variant: "destructive",
-              onPress: () => onDelete(row.original),
-              confirmation: {
-                title: t("dialog.deleteTitle"),
-                description: t("dialog.deleteDescription"),
-              },
-            },
-          ]}
-          t={t}
-        />
-      ),
-    },
-    {
       accessorKey: "merchantName",
       header: t("columns.merchantName"),
       cell: ({ row }) => (
@@ -120,6 +95,22 @@ export default function useMerchantMidTableColumn({
         if (Array.isArray(value)) return value.includes(cellValue);
         return cellValue === String(value ?? "");
       },
+    },
+    {
+      id: "actions",
+      header: t("columns.actions"),
+      size: 100,
+      enableHiding: false,
+      cell: ({ row }) => (
+        <ActionsCell<MerchantMidRow>
+          item={row.original}
+          onOpenDetail={onOpenDetail}
+          onOpenEdit={onOpenEdit}
+          onDelete={onDelete}
+          t={t}
+          variant="verbose"
+        />
+      ),
     },
   ];
 
