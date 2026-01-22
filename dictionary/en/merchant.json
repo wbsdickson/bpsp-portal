@@ -460,6 +460,20 @@
     },
     "MerchantCards": {
       "title": "Cards",
+      "cardInformation": {
+        "title": "Registered Cards",
+        "subtitle": "You can register and change card information."
+      },
+      "payerName": {
+        "title": "Payer Name",
+        "subtitle": "You can register and change the payer name required for \"card payments\".",
+        "instructions": "※ The entered payer name will be used for transfers to the recipient's account. Please enter within 30 characters using full-width Katakana, alphanumeric characters, \"()「」/、一¥\" spaces.",
+        "placeholder": "Enter payer name",
+        "saveSuccess": "Payer name saved successfully"
+      },
+      "empty": {
+        "noCards": "No cards registered"
+      },
       "columns": {
         "merchant": "Merchant",
         "brand": "Card brand",
@@ -483,7 +497,9 @@
         "delete": "Delete"
       },
       "buttons": {
-        "clearFilters": "Clear filters"
+        "clearFilters": "Clear filters",
+        "addCard": "Add Card",
+        "save": "Save"
       }
     },
     "TaxSettings": {

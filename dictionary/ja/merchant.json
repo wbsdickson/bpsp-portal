@@ -454,6 +454,20 @@
     },
     "MerchantCards": {
       "title": "カード",
+      "cardInformation": {
+        "title": "登録済みカード",
+        "subtitle": "カード情報を登録・変更できます。"
+      },
+      "payerName": {
+        "title": "振込名義人名",
+        "subtitle": "「カード払い」で必要な振込依頼人名を登録・変更できます。",
+        "instructions": "※入力した依頼人名で取引先の口座に振込されます。全角のカタカナ、英数字、\"()「」/、一¥スペースで、30文字以内で入力してください。",
+        "placeholder": "振込名義人名を入力",
+        "saveSuccess": "振込名義人名を保存しました"
+      },
+      "empty": {
+        "noCards": "登録されているカードがありません"
+      },
       "columns": {
         "merchant": "加盟店名",
         "brand": "カードブランド",
@@ -477,7 +491,9 @@
         "delete": "削除"
       },
       "buttons": {
-        "clearFilters": "フィルターをクリア"
+        "clearFilters": "フィルターをクリア",
+        "addCard": "カード追加",
+        "save": "保存"
       }
     },
     "TaxSettings": {
