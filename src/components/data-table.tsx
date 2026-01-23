@@ -16,13 +16,9 @@ import {
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table";
-import {
-  ChevronDown,
-  Columns3,
-  GripVertical,
-  RotateCcw,
-} from "lucide-react";
+import { ChevronDown, Columns3, GripVertical, RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -273,14 +269,16 @@ export function DataTable<TData>({
                   </DropdownMenu>
                 ) : null}
                 <Button
-                  variant="default"
-                  size="icon"
-                  className="size-[35px] shrink-0 rounded-md bg-[#E5484D] text-white hover:bg-[#E5484D]/90"
+                  variant="secondary"
+                  size="icon-sm"
                   onClick={handleReload}
                   disabled={isReloading}
                 >
                   <RotateCcw
-                    className={`size-4 ${isReloading ? "animate-spin" : ""}`}
+                    className={cn(
+                      "size-4",
+                      isReloading && "direction-[reverse] animate-spin",
+                    )}
                   />
                 </Button>
               </>
