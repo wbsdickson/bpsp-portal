@@ -28,7 +28,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {floatingLabel && label && (
           <Label
             htmlFor={props.id}
-            className="text-muted-foreground peer-focus:bg-background peer-[:not(:placeholder-shown)]:bg-background pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 px-1 text-sm transition-all peer-focus:top-0 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs"
+            className={
+              "text-muted-foreground pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 px-1 text-sm transition-all " +
+              "dark:peer-focus:bg-background peer-focus:top-0 peer-focus:bg-white peer-focus:text-xs " +
+              "dark:peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:text-xs"
+            }
           >
             {label}
           </Label>
