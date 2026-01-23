@@ -9,6 +9,7 @@ import { Bell } from "lucide-react";
 import { TeamSwitcher } from "@/components/team-switcher-new";
 import { HeaderButtons } from "./header-buttons";
 import { AppUser } from "@/types/user";
+import LocaleSwitcher from "@/components/locale-switcher";
 
 export function Header({ currentUser }: { currentUser: AppUser }) {
   return (
@@ -23,6 +24,7 @@ export function Header({ currentUser }: { currentUser: AppUser }) {
       {/* Right side - Search and User */}
       <div className="flex items-center gap-4 px-4">
         <Search />
+        <LocaleSwitcher variant="icon-only" />
 
         <Button
           variant="secondary"
