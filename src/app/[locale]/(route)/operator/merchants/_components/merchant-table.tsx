@@ -107,36 +107,6 @@ export default function MerchantTable({
 
   return (
     <div className="space-y-3 p-4">
-      {/* Filters and Search */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex flex-wrap items-center gap-2 text-sm">
-          <Input
-            placeholder={t("filters.search") || "Search merchants..."}
-            value={search}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="h-8 w-[200px]"
-          />
-          <FilterChipSelectPopover
-            label={t("filters.status") || "Status"}
-            value={status ?? ""}
-            options={statusOptions}
-            onChange={(v) => handleStatusChange(v || undefined)}
-            placeholder={t("filters.allStatuses") || "All Statuses"}
-          />
-          <Button
-            variant="ghost-primary"
-            size="sm"
-            onClick={() => {
-              setSearch("");
-              setStatus(undefined);
-              setPage(1);
-            }}
-          >
-            {t("buttons.clearFilters") || "Clear Filters"}
-          </Button>
-        </div>
-      </div>
-
       {/* Table */}
       {isLoading || isFetching ? (
         <div className="space-y-2">
@@ -149,24 +119,38 @@ export default function MerchantTable({
           <DataTable
             columns={column}
             data={merchants}
-            showToolbar={false}
-            showFooter={false}
-            renderToolbar={() => null}
+            showToolbar={true}
+            renderToolbar={(table) => (
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center gap-2 text-sm">
+                  <Input
+                    placeholder={t("filters.search") || "Search merchants..."}
+                    value={search}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    className="h-8 w-[200px]"
+                  />
+                  <FilterChipSelectPopover
+                    label={t("filters.status") || "Status"}
+                    value={status ?? ""}
+                    options={statusOptions}
+                    onChange={(v) => handleStatusChange(v || undefined)}
+                    placeholder={t("filters.allStatuses") || "All Statuses"}
+                  />
+                  <Button
+                    variant="ghost-primary"
+                    size="sm"
+                    onClick={() => {
+                      setSearch("");
+                      setStatus(undefined);
+                      setPage(1);
+                    }}
+                  >
+                    {t("buttons.clearFilters") || "Clear Filters"}
+                  </Button>
+                </div>
+              </div>
+            )}
           />
-          {pagination && pagination.totalPages > 0 && (
-            <PaginationControls
-              currentPage={page}
-              totalPages={pagination.totalPages}
-              itemsPerPage={pagination.limit}
-              totalItems={pagination.total}
-              onPageChange={(newPage) => {
-                handlePageChange(newPage);
-              }}
-              onItemsPerPageChange={(newLimit) => {
-                handlePageChange(1);
-              }}
-            />
-          )}
         </>
       )}
     </div>
