@@ -17,11 +17,10 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import {
-  BarChart3,
   ChevronDown,
   Columns3,
-  Download,
   GripVertical,
+  RotateCcw,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -35,7 +34,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -75,6 +73,7 @@ export type DataTableProps<TData> = {
   toolbarRight?: React.ReactNode;
   renderToolbar?: (table: TanstackTable<TData>) => React.ReactNode;
   initialColumnVisibility?: VisibilityState;
+  onReload?: () => Promise<void> | void;
 };
 
 export function DataTable<TData>({
@@ -89,6 +88,7 @@ export function DataTable<TData>({
   toolbarRight,
   renderToolbar,
   initialColumnVisibility,
+  onReload,
 }: DataTableProps<TData>) {
   const t = useTranslations("CommonComponent.DataTable");
 
@@ -167,6 +167,19 @@ export function DataTable<TData>({
   const filterColumn = filterColumnId
     ? table.getColumn(filterColumnId)
     : undefined;
+
+  const [isReloading, setIsReloading] = React.useState(false);
+
+  const handleReload = async () => {
+    // if (!onReload) return;
+    setIsReloading(true);
+    try {
+      await onReload?.();
+    } finally {
+      // Add a small delay for better visual feedback if the reload is too fast
+      setTimeout(() => setIsReloading(false), 500);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -259,6 +272,17 @@ export function DataTable<TData>({
                     </DropdownMenuContent>
                   </DropdownMenu>
                 ) : null}
+                <Button
+                  variant="default"
+                  size="icon"
+                  className="size-[35px] shrink-0 rounded-md bg-[#E5484D] text-white hover:bg-[#E5484D]/90"
+                  onClick={handleReload}
+                  disabled={isReloading}
+                >
+                  <RotateCcw
+                    className={`size-4 ${isReloading ? "animate-spin" : ""}`}
+                  />
+                </Button>
               </>
             )}
           </div>

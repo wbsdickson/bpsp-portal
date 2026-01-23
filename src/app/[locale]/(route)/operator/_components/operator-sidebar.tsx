@@ -107,6 +107,11 @@ const TOP_LEVEL_ROUTES = [
 
 const MERCHANT_GROUP_ROUTES = [
   {
+    key: "dashboard",
+    route: "operator/merchant-management/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
     key: "issuance",
     route: "#",
     icon: FileText,
