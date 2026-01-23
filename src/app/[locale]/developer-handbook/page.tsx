@@ -162,6 +162,8 @@ import {
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronRight, Home, Settings } from "lucide-react";
 import { useState } from "react";
+import { Link } from "next-view-transitions";
+import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { IconsSection } from "./_components/icons-section";
@@ -193,6 +195,7 @@ type Section =
   | "record-tabs"
   | "resizable"
   | "scroll-area"
+  | "separator"
   | "select"
   | "sheet"
   | "sidebar"
@@ -256,6 +259,7 @@ const uiSections: { key: Section; label: string }[] = [
   { key: "radio", label: "Radio" },
   { key: "resizable", label: "Resizable" },
   { key: "scroll-area", label: "Scroll Area" },
+  { key: "separator", label: "Separator" },
   { key: "select", label: "Select" },
   { key: "sheet", label: "Sheet" },
   { key: "sidebar", label: "Sidebar" },
@@ -299,6 +303,7 @@ const sectionGroups: SectionGroup[] = [
 
 export default function DeveloperPage() {
   const [activeSection, setActiveSection] = useState<Section>("icons");
+  const locale = useLocale();
 
   return (
     <SearchProvider>
@@ -313,7 +318,15 @@ export default function DeveloperPage() {
                   Test different UI components and variants
                 </p>
               </div>
-              <ThemeToggle />
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <Button variant="outline" size="icon" asChild className="relative" title="Home">
+                  <Link href={`/${locale}`}>
+                    <Home className="size-4" />
+                    <span className="sr-only">Home</span>
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -378,6 +391,7 @@ export default function DeveloperPage() {
                 {activeSection === "collapsible" && <CollapsibleSection />}
                 {activeSection === "breadcrumb" && <BreadcrumbSection />}
                 {activeSection === "scroll-area" && <ScrollAreaSection />}
+                {activeSection === "separator" && <SeparatorSection />}
                 {activeSection === "calendar" && <CalendarSection />}
                 {activeSection === "date-input" && <DateInputSection />}
                 {activeSection === "date-picker" && <DatePickerSection />}
@@ -1396,6 +1410,63 @@ function ScrollAreaSection() {
           ))}
         </div>
       </ScrollArea>
+    </SectionWrapper>
+  );
+}
+
+function SeparatorSection() {
+  return (
+    <SectionWrapper
+      title="Separator"
+      description="Test separator component for visual division."
+    >
+      <div className="space-y-6">
+        <div>
+          <h4 className="mb-2 text-sm font-medium">Horizontal Separator</h4>
+          <div className="space-y-2">
+            <div>Content above</div>
+            <Separator />
+            <div>Content below</div>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="mb-2 text-sm font-medium">Vertical Separator</h4>
+          <div className="flex h-20 items-center gap-4">
+            <div>Left content</div>
+            <Separator orientation="vertical" />
+            <div>Right content</div>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="mb-2 text-sm font-medium">In a Card</h4>
+          <Card className="p-4">
+            <div className="space-y-4">
+              <div>
+                <h5 className="font-medium">Section 1</h5>
+                <p className="text-muted-foreground text-sm">
+                  This is the first section
+                </p>
+              </div>
+              <Separator />
+              <div>
+                <h5 className="font-medium">Section 2</h5>
+                <p className="text-muted-foreground text-sm">
+                  This is the second section
+                </p>
+              </div>
+              <Separator />
+              <div>
+                <h5 className="font-medium">Section 3</h5>
+                <p className="text-muted-foreground text-sm">
+                  This is the third section
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
     </SectionWrapper>
   );
 }
