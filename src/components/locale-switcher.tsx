@@ -28,8 +28,8 @@ export default function LocaleSwitcher({
   const locale = useLocale();
 
   const options = [
-    { value: "en", label: "English", icon: "/flags/usa_flag.png" },
-    { value: "ja", label: "日本語", icon: "/flags/japan_flag.png" },
+    { value: "en", label: "English", icon: "/flags/us-circle.svg" },
+    { value: "ja", label: "日本語", icon: "/flags/ja-circle.svg" },
   ] as const;
 
   const current = options.find((o) => o.value === locale)?.label ?? locale;
@@ -50,7 +50,7 @@ export default function LocaleSwitcher({
           disabled={isPending}
           className={
             variant === "icon-only"
-              ? "overflow-hidden rounded-full border-2 p-0"
+              ? "overflow-hidden rounded-full border-2 p-0.5"
               : "h-8 gap-2"
           }
         >
