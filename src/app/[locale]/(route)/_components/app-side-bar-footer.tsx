@@ -79,13 +79,16 @@ export function AppSideBarFooter({ t }: { t: (key: string) => string }) {
       </SidebarMenu>
 
       {/* Copyright */}
-      <div className="border-sidebar-border border-t p-4 text-center group-data-[collapsible=icon]:hidden">
-        <p className="text-primary text-xs font-medium">
+      <div className="border-sidebar-border border-t p-4 text-center">
+        <p className="text-primary text-xs font-medium group-data-[collapsible=icon]:hidden">
           © Japan Credit Card Co., LTD.
         </p>
-        <p className="text-muted-foreground mt-1 text-[10px]">
+        <p className="text-muted-foreground mt-1 text-[10px] group-data-[collapsible=icon]:hidden">
           Last update: {LAST_UPDATE}
         </p>
+        <div className="text-primary hidden text-xs font-medium group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:justify-center whitespace-nowrap">
+          © JPCC
+        </div>
       </div>
     </SidebarFooter>
   );
