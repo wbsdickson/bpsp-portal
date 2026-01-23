@@ -41,6 +41,7 @@ import { useTranslations } from "next-intl";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { AppSideBarHeader } from "../../_components/app-side-bar-header";
 import { AppSideBarFooter } from "../../_components/app-side-bar-footer";
+import { Separator } from "@/components/ui/separator";
 
 type NavRoute = {
   label: string;
@@ -210,6 +211,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
         <NavMain routes={topRoutes} />
         <NavMain routes={merchantRoutes} title={t("merchantSection")} />
       </SidebarContent>
+      <Separator />
       <AppSideBarFooter t={t} />
       <SidebarRail />
     </Sidebar>
