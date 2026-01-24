@@ -1,11 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import {
   LayoutDashboard,
   Users,
-  Building2,
   Store,
   CreditCard,
   Bell,
@@ -13,30 +11,12 @@ import {
   Settings,
   Wallet,
   Receipt,
-  ChevronLeft,
-  ChevronRight,
-  HelpCircle,
-  Home,
   FileText,
-  LogOut,
   type LucideIcon,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  useSidebar,
-} from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
-import { SidebarLastUpdate } from "@/components/sidebar-last-update";
-import { signOut, useSession } from "next-auth/react";
+import { Sidebar, SidebarContent, SidebarRail } from "@/components/ui/sidebar";
 import { useTranslations } from "next-intl";
 import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { AppSideBarHeader } from "../../_components/app-side-bar-header";

@@ -153,7 +153,7 @@ export function NavMain({
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <SidebarMenuSub className="before:bg-border/50 relative ml-6 border-l-0 pl-3 before:absolute before:bottom-0 before:left-0 before:top-0 before:w-px">
+                <SidebarMenuSub className="ml-6 pl-3">
                   {renderRoute(item.children, true)}
                 </SidebarMenuSub>
               </CollapsibleContent>
@@ -170,14 +170,14 @@ export function NavMain({
             key={item.route}
             className={cn(
               "relative",
-              "before:border-border/50 before:absolute before:-left-3 before:top-0 before:z-10 before:h-4 before:w-3 before:rounded-bl-md before:border-b before:border-l before:bg-transparent",
+              "before:border-sidebar-border before:absolute before:-left-3 before:top-0 before:z-10 before:h-4 before:w-3 before:rounded-bl-md before:border-b before:border-l before:bg-transparent",
             )}
           >
             <SidebarMenuSubButton asChild isActive={item.isActive}>
               <Link href={href}>
                 <span
                   className={cn(
-                    item.isActive && "font-bold text-primary",
+                    item.isActive && "text-primary font-bold",
                     !item.isActive && "text-muted-foreground",
                   )}
                 >
@@ -214,7 +214,7 @@ export function NavMain({
   };
 
   return (
-    <SidebarGroup>
+    <SidebarGroup className="px-0.5">
       {title && <SidebarGroupLabel>{title}</SidebarGroupLabel>}
       <SidebarMenu>{renderRoute(processedRoutes)}</SidebarMenu>
     </SidebarGroup>

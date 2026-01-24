@@ -303,17 +303,11 @@ export default function SystemSettingsPage() {
                   isEditing={isEditing}
                   value={
                     settings.enableEmailNotifications ? (
-                      <Badge
-                        variant="outline"
-                        className="border-green-200 bg-green-50 text-green-700"
-                      >
+                      <Badge variant="outline-success">
                         {t("status.enabled")}
                       </Badge>
                     ) : (
-                      <Badge
-                        variant="outline"
-                        className="border-gray-200 bg-gray-50 text-gray-500"
-                      >
+                      <Badge variant="outline-info">
                         {t("status.disabled")}
                       </Badge>
                     )
@@ -338,17 +332,11 @@ export default function SystemSettingsPage() {
                   isEditing={isEditing}
                   value={
                     settings.enableInAppNotifications ? (
-                      <Badge
-                        variant="outline"
-                        className="border-green-200 bg-green-50 text-green-700"
-                      >
+                      <Badge variant="outline-success">
                         {t("status.enabled")}
                       </Badge>
                     ) : (
-                      <Badge
-                        variant="outline"
-                        className="border-gray-200 bg-gray-50 text-gray-500"
-                      >
+                      <Badge variant="outline-success">
                         {t("status.disabled")}
                       </Badge>
                     )
