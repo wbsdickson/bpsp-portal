@@ -18,9 +18,9 @@ export function Search({ className = "", placeholder }: SearchProps) {
 
   return (
     <Button
-      variant="ghost"
+      variant="secondary"
       className={cn(
-        "bg-secondary text-muted-foreground hover:bg-accent group relative h-8 w-full flex-1 justify-start rounded-lg text-sm font-normal shadow-none sm:w-40 sm:pe-12 md:flex-none lg:w-52 xl:w-64",
+        "relative justify-start sm:w-40 sm:pe-12 md:flex-none lg:w-52 xl:w-64",
         className,
       )}
       onClick={() => setOpen(true)}

@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
+import { Card } from "@/components/ui/card";
 
 export function MerchantDetailSkeleton() {
   return (
@@ -11,7 +12,7 @@ export function MerchantDetailSkeleton() {
       </div>
 
       {/* Card Content */}
-      <div className="bg-card rounded-lg p-4">
+      <Card className="bg-card rounded-lg p-4">
         {/* Form Fields Grid */}
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {/* Name Field */}
@@ -79,7 +80,7 @@ export function MerchantDetailSkeleton() {
             <Skeleton className="h-6 w-2/3" />
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

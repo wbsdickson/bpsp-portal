@@ -26,6 +26,7 @@ import { createMidFeeSchema } from "../_lib/mid-fee-schema";
 import { MidFeeStatus } from "@/types/mid-fee";
 import { Badge } from "@/components/ui/badge";
 import { getMidFeeStatusBadgeVariant } from "../_hook/status";
+import { Card } from "@/components/ui/card";
 
 const STATUS_OPTIONS: MidFeeStatus[] = ["active", "inactive"];
 
@@ -65,12 +66,12 @@ export default function MidFeeDetail({ feeId }: { feeId: string }) {
 
   if (!fee) {
     return (
-      <div className="bg-card rounded-lg p-4">
+      <Card className="bg-card rounded-lg p-4">
         <h3 className="text-lg font-medium">{t("title")}</h3>
         <div className="text-muted-foreground mt-2 text-sm">
           {t("messages.notFound")}
         </div>
-      </div>
+      </Card>
     );
   }
 

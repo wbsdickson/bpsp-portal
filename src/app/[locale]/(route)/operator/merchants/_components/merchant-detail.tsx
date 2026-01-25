@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -22,9 +22,9 @@ import { useMerchantInvoicesApi } from "../_hook/use-merchant-invoices-api";
 import { useMerchantMembersApi } from "../_hook/use-merchant-members-api";
 import { createMerchantSchema } from "../_lib/merchant-schema";
 import { MerchantDetailSkeleton } from "./merchant-detail-skeleton";
+import { Card } from "@/components/ui/card";
 
 export default function MerchantDetail({ merchantId }: { merchantId: string }) {
-  const locale = useLocale();
   const t = useTranslations("Operator.Merchants");
 
   const {
@@ -83,11 +83,11 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
 
   if (!merchant) {
     return (
-      <div className="bg-card rounded-lg p-4">
+      <Card className="bg-card rounded-lg p-4">
         <div className="text-muted-foreground text-sm">
           {t("messages.merchantNotFound")}
         </div>
-      </div>
+      </Card>
     );
   }
 
@@ -175,7 +175,7 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
           )}
         </div>
       </div>
-      <div className="bg-card rounded-lg p-4">
+      <Card>
         <Form {...form}>
           <form onSubmit={onSubmit}>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -257,7 +257,7 @@ export default function MerchantDetail({ merchantId }: { merchantId: string }) {
             }
           />
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

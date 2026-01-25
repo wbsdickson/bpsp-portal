@@ -26,6 +26,7 @@ import { createMidSchema } from "../_lib/mid-schema";
 import { MidStatus } from "@/types/mid";
 import { Badge } from "@/components/ui/badge";
 import { getMidSettingStatusBadgeVariant } from "../_hook/status";
+import { Card } from "@/components/ui/card";
 
 const STATUS_OPTIONS: MidStatus[] = ["active", "inactive"];
 
@@ -73,12 +74,12 @@ export default function MidDetail({ id }: { id: string }) {
 
   if (!mid) {
     return (
-      <div className="bg-card rounded-lg p-4">
+      <Card className="bg-card rounded-lg p-4">
         <h3 className="text-lg font-medium">{t("title")}</h3>
         <div className="text-muted-foreground mt-2 text-sm">
           {t("messages.notFound")}
         </div>
-      </div>
+      </Card>
     );
   }
 
