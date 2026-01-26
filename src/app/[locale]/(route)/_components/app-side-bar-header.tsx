@@ -14,10 +14,10 @@ export function AppSideBarHeader() {
         // Collapsed state - Centered icon logo
         <div className="flex h-full w-full items-center justify-center">
           <Image
-            src="/logo.png"
+            src="/logo-icon.png"
             alt="JPCC"
-            width={40}
-            height={40}
+            width={30}
+            height={30}
             className="rounded-sm object-contain"
             priority
           />

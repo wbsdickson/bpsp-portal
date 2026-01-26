@@ -103,9 +103,12 @@ export function NavMain({
                     tooltip={item.label}
                     isActive={item.isActive}
                   >
-                    {item.icon && <item.icon />}
-                    <span>{item.label}</span>
-                    <ArrowRight className="ml-auto" />
+                    {item.icon && (
+                      <>
+                        <item.icon />
+                        <ArrowRight className="ml-auto" />
+                      </>
+                    )}
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -214,7 +217,7 @@ export function NavMain({
   };
 
   return (
-    <SidebarGroup className="px-0.5">
+    <SidebarGroup>
       {title && <SidebarGroupLabel>{title}</SidebarGroupLabel>}
       <SidebarMenu>{renderRoute(processedRoutes)}</SidebarMenu>
     </SidebarGroup>
