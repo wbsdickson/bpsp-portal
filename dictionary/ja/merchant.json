@@ -20,8 +20,9 @@
       "receiptPayment": "受領・支払",
       "settings": "設定",
       "dashboard": "ダッシュボード",
+      "companyInformation": "会社情報",
       "accountInformationManagement": "アカウント情報管理",
-      "companyInformationManagement": "会社",
+      "companyInformationManagement": "会社情報",
       "memberManagement": "メンバー管理",
       "members": "メンバー",
       "clientManagement": "取引先",
@@ -330,7 +331,10 @@
         "merchant": "merchant",
         "admin": "admin",
         "jpcc_admin": "jpcc_admin",
-        "merchant_jpcc": "merchant_jpcc"
+        "merchant_jpcc": "merchant_jpcc",
+        "merchant_viewer": "merchant_viewer",
+        "merchant_owner": "merchant_owner",
+        "merchant_admin": "merchant_admin"
       },
       "memberRoles": {
         "owner": "Owner",
