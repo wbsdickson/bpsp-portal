@@ -20,6 +20,7 @@
       "receiptPayment": "Receipt/Payment",
       "settings": "Settings",
       "dashboard": "Dashboard",
+      "companyInformation": "Company Information",
       "accountInformationManagement": "Account Information",
       "companyInformationManagement": "Company Information",
       "memberManagement": "Members",
@@ -333,7 +334,10 @@
         "merchant": "merchant",
         "admin": "admin",
         "jpcc_admin": "jpcc_admin",
-        "merchant_jpcc": "merchant_jpcc"
+        "merchant_jpcc": "merchant_jpcc",
+        "merchant_viewer": "merchant_viewer",
+        "merchant_owner": "merchant_owner",
+        "merchant_admin": "merchant_admin"
       },
       "memberRoles": {
         "owner": "Owner",
