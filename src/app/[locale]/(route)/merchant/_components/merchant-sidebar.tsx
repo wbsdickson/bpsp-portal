@@ -40,6 +40,9 @@ import { useTranslations } from "next-intl";
 import { AppSideBarHeader } from "../../_components/app-side-bar-header";
 import { AppSideBarFooter } from "../../_components/app-side-bar-footer";
 import { Separator } from "@/components/ui/separator";
+import Dashboard from "@/components/icons/dashboard";
+import FilePlus from "@/components/icons/file-plus";
+import BankNote from "@/components/icons/bank-note";
 
 type NavRoute = {
   label: string;
@@ -82,16 +85,16 @@ const SETTINGS_ROUTES = [
 ] as const;
 
 const MAIN_ROUTES = [
-  { key: "dashboard", route: "merchant/dashboard", icon: LayoutDashboard },
+  { key: "dashboard", route: "merchant/dashboard", icon: Dashboard as any },
   {
     key: "issuance",
     route: "#",
-    icon: FileText,
+    icon: FilePlus as any,
   },
   {
     key: "receiptPayment",
     route: "#",
-    icon: Wallet,
+    icon: BankNote as any,
   },
   {
     key: "settings",

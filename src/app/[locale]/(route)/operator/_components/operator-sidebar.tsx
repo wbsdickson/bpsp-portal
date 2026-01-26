@@ -22,14 +22,14 @@ import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { AppSideBarHeader } from "../../_components/app-side-bar-header";
 import { AppSideBarFooter } from "../../_components/app-side-bar-footer";
 import { Separator } from "@/components/ui/separator";
-import Home from "@/components/icons/home";
+import Dashboard from "@/components/icons/dashboard";
 import FilePlus from "@/components/icons/file-plus";
 import BankNote from "@/components/icons/bank-note";
 
 type NavRoute = {
   label: string;
   route: string;
-  icon?: LucideIcon;
+  icon?: LucideIcon | React.ComponentType<any>;
   children?: NavRoute[];
 };
 
@@ -74,7 +74,7 @@ const SETTINGS_ROUTES = [
 ] as const;
 
 const TOP_LEVEL_ROUTES = [
-  { key: "dashboard", route: "operator/dashboard", icon: LayoutDashboard },
+  { key: "dashboard", route: "operator/dashboard", icon: Dashboard },
   { key: "merchants", route: "operator/merchants", icon: Store },
   { key: "accounts", route: "operator/accounts", icon: Users },
   { key: "sales", route: "operator/sales", icon: TrendingUp },
@@ -93,17 +93,17 @@ const MERCHANT_GROUP_ROUTES = [
   {
     key: "dashboard",
     route: "operator/merchant-management/dashboard",
-    icon: Home as any,
+    icon: Dashboard,
   },
   {
     key: "issuance",
     route: "#",
-    icon: FilePlus as any,
+    icon: FilePlus,
   },
   {
     key: "receiptPayment",
     route: "#",
-    icon: BankNote as any,
+    icon: BankNote,
   },
   {
     key: "settings",

@@ -2,7 +2,7 @@
 
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, type ComponentType } from "react";
 
 import { useLocale } from "next-intl";
 
@@ -35,7 +35,7 @@ import { LucideIcon } from "lucide-react";
 type RouteType = {
   label: string;
   route: string;
-  icon?: LucideIcon;
+  icon?: LucideIcon | ComponentType<any>;
   isActive?: boolean;
   children?: RouteType[];
 };
@@ -47,7 +47,6 @@ export function NavMain({
   routes: RouteType[];
   title?: string;
 }) {
-  console.log(routes);
   const locale = useLocale();
   const pathname = usePathname();
   const { state } = useSidebar();
@@ -112,22 +111,50 @@ export function NavMain({
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  side="right"
+                  side="bottom"
                   align="start"
-                  className="w-56"
+                  className="ml-2 w-56 border-y-0 border-l-0 border-r p-2 shadow-none"
                 >
-                  {item.children.map((child) => {
-                    const childHref = withLocale(`/${child.route}`);
-                    return (
-                      <DropdownMenuItem key={child.route} asChild>
-                        <Link href={childHref}>
-                          <span className={cn(child.isActive && "font-bold")}>
-                            {child.label}
-                          </span>
-                        </Link>
-                      </DropdownMenuItem>
-                    );
-                  })}
+                  <div className="relative flex flex-col gap-1 pl-3.5">
+                    {item.children.map((child, index) => {
+                      const childHref = withLocale(`/${child.route}`);
+                      const isLast = index === (item.children?.length ?? 0) - 1;
+
+                      return (
+                        <DropdownMenuItem
+                          key={child.route}
+                          asChild
+                          className={cn(
+                            child.isActive && "focus:text-primary",
+                          )}
+                        >
+                          <Link
+                            href={childHref}
+                            className={cn(
+                              "outline-hidden relative flex w-full items-center gap-2 rounded-md py-1.5 pl-3.5 pr-2 text-sm transition-colors focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50",
+                              child.isActive &&
+                                "bg-sidebar-accent text-primary",
+                            )}
+                          >
+                            {/* Branch connector */}
+                            <span className="border-sidebar-border absolute -left-3.5 top-0 h-1/2 w-3.5 rounded-bl-md border-b border-l" />
+                            {/* Vertical line for non-last items */}
+                            {!isLast && (
+                              <span className="bg-sidebar-border absolute -left-3.5 top-0 h-[calc(100%+4px)] w-px" />
+                            )}
+                            <span
+                              className={cn(
+                                "truncate",
+                                child.isActive && "font-bold",
+                              )}
+                            >
+                              {child.label}
+                            </span>
+                          </Link>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </div>
                 </DropdownMenuContent>
               </SidebarMenuItem>
             </DropdownMenu>
