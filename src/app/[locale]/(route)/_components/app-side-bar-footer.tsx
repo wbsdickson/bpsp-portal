@@ -1,17 +1,13 @@
 import {
   SidebarFooter,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { useSidebar } from "@/components/ui/sidebar";
-import { ChevronLeft, FileText, HelpCircle, Home, LogOut } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { FileText, HelpCircle, LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { LAST_UPDATE } from "@/lib/build-info";
+import Home from "@/components/icons/home";
 
 export function AppSideBarFooter({ t }: { t: (key: string) => string }) {
   const handleLogout = () => {
