@@ -22,6 +22,9 @@ import { useUserPreferencesStore } from "@/store/user-preferences-store";
 import { AppSideBarHeader } from "../../_components/app-side-bar-header";
 import { AppSideBarFooter } from "../../_components/app-side-bar-footer";
 import { Separator } from "@/components/ui/separator";
+import Home from "@/components/icons/home";
+import FilePlus from "@/components/icons/file-plus";
+import BankNote from "@/components/icons/bank-note";
 
 type NavRoute = {
   label: string;
@@ -90,17 +93,17 @@ const MERCHANT_GROUP_ROUTES = [
   {
     key: "dashboard",
     route: "operator/merchant-management/dashboard",
-    icon: LayoutDashboard,
+    icon: Home as any,
   },
   {
     key: "issuance",
     route: "#",
-    icon: FileText,
+    icon: FilePlus as any,
   },
   {
     key: "receiptPayment",
     route: "#",
-    icon: Wallet,
+    icon: BankNote as any,
   },
   {
     key: "settings",
