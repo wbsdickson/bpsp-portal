@@ -122,9 +122,7 @@ export function NavMain({
                         <DropdownMenuItem
                           key={child.route}
                           asChild
-                          className={cn(
-                            child.isActive && "focus:text-primary",
-                          )}
+                          className={cn(child.isActive && "focus:text-primary")}
                         >
                           <Link
                             href={childHref}
@@ -242,7 +240,7 @@ export function NavMain({
   };
 
   return (
-    <SidebarGroup>
+    <SidebarGroup className="p-4">
       {title && <SidebarGroupLabel>{title}</SidebarGroupLabel>}
       <SidebarMenu>{renderRoute(processedRoutes)}</SidebarMenu>
     </SidebarGroup>
