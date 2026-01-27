@@ -1,12 +1,13 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { useMemo } from "react";
 
 export function TitleBreadcrumb() {
   const pathname = usePathname();
+  const params = useParams();
 
   // Determine the base path (operator or merchant) from pathname
   const basePath = useMemo(() => {
@@ -37,6 +38,8 @@ export function TitleBreadcrumb() {
     const items: Array<{ label: string; href?: string; active?: boolean }> = [];
     let currentPath = "";
 
+    const paramValues = Object.values(params).flat();
+
     pathSegments.forEach((segment, index) => {
       // Skip the base segment (operator/merchant)
       if (segment === basePath) {
@@ -45,6 +48,16 @@ export function TitleBreadcrumb() {
 
       currentPath += `/${segment}`;
       const isLast = index === pathSegments.length - 1;
+
+      // Check if segment is a dynamic parameter ID
+      if (paramValues.includes(segment)) {
+        items.push({
+          label: segment,
+          href: isLast ? undefined : `/${basePath}${currentPath}`,
+          active: isLast,
+        });
+        return;
+      }
 
       // Convert segment to translation key
       let translationKey = segment;
@@ -91,7 +104,7 @@ export function TitleBreadcrumb() {
     });
 
     return items;
-  }, [pathname, basePath, t]);
+  }, [pathname, basePath, t, params]);
 
   // Don't render if no breadcrumb items
   if (breadcrumbItems.length === 0) {
