@@ -56,24 +56,6 @@ export default function MerchantTable({
     setPage(1); // Reset to first page on filter change
   };
 
-  const handleSortChange = (
-    newSortBy: "name" | "createdAt" | "transactionCount",
-  ) => {
-    if (sortBy === newSortBy) {
-      // Toggle sort order if same column
-      const newOrder = sortOrder === "asc" ? "desc" : "asc";
-      setSortOrder(newOrder);
-    } else {
-      // New column, default to ascending
-      setSortBy(newSortBy);
-      setSortOrder("asc");
-    }
-  };
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
   const statusOptions = useMemo(
     () => [
       { value: "active", label: t("statuses.active") || "Active" },
