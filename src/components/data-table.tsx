@@ -70,6 +70,12 @@ export type DataTableProps<TData> = {
   renderToolbar?: (table: TanstackTable<TData>) => React.ReactNode;
   initialColumnVisibility?: VisibilityState;
   onReload?: () => Promise<void> | void;
+  onPageChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
+  pagination?: {
+    pageIndex: number;
+    pageSize: number;
+  };
+  totalCount?: number;
 };
 
 export function DataTable<TData>({
@@ -85,6 +91,9 @@ export function DataTable<TData>({
   renderToolbar,
   initialColumnVisibility,
   onReload,
+  onPageChange,
+  pagination,
+  totalCount,
 }: DataTableProps<TData>) {
   const t = useTranslations("CommonComponent.DataTable");
 
@@ -101,38 +110,73 @@ export function DataTable<TData>({
   const [draggingColumnId, setDraggingColumnId] = React.useState<string | null>(
     null,
   );
-  const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  const [internalPagination, setInternalPagination] =
+    React.useState<PaginationState>({
+      pageIndex: 0,
+      pageSize: 10,
+    });
+
+  const isControlled = pagination !== undefined;
+  const currentPagination: PaginationState = isControlled
+    ? { pageIndex: pagination.pageIndex, pageSize: pagination.pageSize }
+    : internalPagination;
+
+  const handlePaginationChange = React.useCallback(
+    (
+      updater: PaginationState | ((old: PaginationState) => PaginationState),
+    ) => {
+      const newPagination =
+        typeof updater === "function" ? updater(currentPagination) : updater;
+
+      if (isControlled && onPageChange) {
+        onPageChange({
+          pageIndex: newPagination.pageIndex,
+          pageSize: newPagination.pageSize,
+        });
+      } else {
+        setInternalPagination(newPagination);
+      }
+    },
+    [currentPagination, isControlled, onPageChange],
+  );
 
   const table = useReactTable({
     data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
-    onPaginationChange: setPagination,
+    onPaginationChange: handlePaginationChange,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: isControlled ? undefined : getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onColumnOrderChange: setColumnOrder,
     onRowSelectionChange: setRowSelection,
+    manualPagination: isControlled,
+    pageCount:
+      isControlled && totalCount
+        ? Math.ceil(totalCount / currentPagination.pageSize)
+        : undefined,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       columnOrder,
       rowSelection,
-      pagination,
+      pagination: currentPagination,
     },
   });
 
-  const totalItems = table.getFilteredRowModel().rows.length;
-  const totalPages = Math.max(1, table.getPageCount());
-  const currentPage = pagination.pageIndex + 1;
-  const itemsPerPage = pagination.pageSize;
+  const totalItems = isControlled
+    ? (totalCount ?? data.length)
+    : table.getFilteredRowModel().rows.length;
+  const totalPages =
+    isControlled && totalCount
+      ? Math.ceil(totalCount / currentPagination.pageSize)
+      : Math.max(1, table.getPageCount());
+  const currentPage = currentPagination.pageIndex + 1;
+  const itemsPerPage = currentPagination.pageSize;
 
   const fixedColumns = table.getAllLeafColumns().filter((c) => !c.getCanHide());
   const activeColumns = table.getAllLeafColumns().filter((c) => c.getCanHide());
@@ -343,8 +387,12 @@ export function DataTable<TData>({
             table.setPageIndex(Math.max(0, page - 1));
           }}
           onItemsPerPageChange={(value) => {
-            table.setPageSize(value);
-            table.setPageIndex(0);
+            if (isControlled && onPageChange) {
+              onPageChange({ pageIndex: 0, pageSize: value });
+            } else {
+              table.setPageSize(value);
+              table.setPageIndex(0);
+            }
           }}
         />
       ) : null}
