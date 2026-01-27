@@ -137,28 +137,25 @@ export function DataTable<TData>({
   const fixedColumns = table.getAllLeafColumns().filter((c) => !c.getCanHide());
   const activeColumns = table.getAllLeafColumns().filter((c) => c.getCanHide());
 
-  const setActiveColumnOrder = React.useCallback(
-    (sourceId: string, targetId: string) => {
-      if (!enableColumnReorder) return;
-      if (sourceId === targetId) return;
+  const setActiveColumnOrder = (sourceId: string, targetId: string) => {
+    if (!enableColumnReorder) return;
+    if (sourceId === targetId) return;
 
-      table.setColumnOrder((prev) => {
-        const leaf = table.getAllLeafColumns();
-        const canHideById = new Map(leaf.map((c) => [c.id, c.getCanHide()]));
+    table.setColumnOrder((prev) => {
+      const leaf = table.getAllLeafColumns();
+      const canHideById = new Map(leaf.map((c) => [c.id, c.getCanHide()]));
 
-        const fixedIds = prev.filter((id) => !canHideById.get(id));
-        const activeIds = prev.filter((id) => canHideById.get(id));
+      const fixedIds = prev.filter((id) => !canHideById.get(id));
+      const activeIds = prev.filter((id) => canHideById.get(id));
 
-        const fromIndex = activeIds.indexOf(sourceId);
-        const toIndex = activeIds.indexOf(targetId);
-        if (fromIndex === -1 || toIndex === -1) return prev;
+      const fromIndex = activeIds.indexOf(sourceId);
+      const toIndex = activeIds.indexOf(targetId);
+      if (fromIndex === -1 || toIndex === -1) return prev;
 
-        const nextActive = moveItem(activeIds, fromIndex, toIndex);
-        return [...fixedIds, ...nextActive];
-      });
-    },
-    [enableColumnReorder, table],
-  );
+      const nextActive = moveItem(activeIds, fromIndex, toIndex);
+      return [...fixedIds, ...nextActive];
+    });
+  };
 
   const filterColumn = filterColumnId
     ? table.getColumn(filterColumnId)

@@ -116,71 +116,65 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const t = useTranslations("Operator.Sidebar");
   const { preferences } = useUserPreferencesStore();
 
-  const topRoutes = React.useMemo<NavRoute[]>(
-    () => [
-      ...TOP_LEVEL_ROUTES.map(({ key, route, icon }) => ({
-        label: t(key),
-        route,
-        icon,
-      })),
-    ],
-    [t],
-  );
+  const topRoutes: NavRoute[] = [
+    ...TOP_LEVEL_ROUTES.map(({ key, route, icon }) => ({
+      label: t(key),
+      route,
+      icon,
+    })),
+  ];
 
-  const merchantRoutes = React.useMemo<NavRoute[]>(
-    () => [
-      ...MERCHANT_GROUP_ROUTES.map(({ key, route, icon }) => {
-        if (key === "issuance") {
-          return {
-            label: t(key),
-            route,
-            icon,
-            children: ISSUANCE_ROUTES.map(
-              ({ key: childKey, route: childRoute }) => ({
-                label: t(`merchantManagement.${childKey}`),
-                route: childRoute,
-              }),
-            ),
-          };
-        }
-        if (key === "receiptPayment") {
-          return {
-            label: t(key),
-            route,
-            icon,
-            children: RECEIPT_PAYMENT_ROUTES.map(
-              ({ key: childKey, route: childRoute }) => {
-                let labelKey = `merchantManagement.${childKey}`;
-                return {
-                  label: t(labelKey),
-                  route: childRoute,
-                };
-              },
-            ),
-          };
-        }
-        if (key === "settings") {
-          return {
-            label: t(key),
-            route,
-            icon,
-            children: SETTINGS_ROUTES.map(
-              ({ key: childKey, route: childRoute }) => ({
-                label: t(`merchantManagement.${childKey}`),
-                route: childRoute,
-              }),
-            ),
-          };
-        }
+  const merchantRoutes: NavRoute[] = [
+    ...MERCHANT_GROUP_ROUTES.map(({ key, route, icon }) => {
+      if (key === "issuance") {
         return {
           label: t(key),
           route,
           icon,
+          children: ISSUANCE_ROUTES.map(
+            ({ key: childKey, route: childRoute }) => ({
+              label: t(`merchantManagement.${childKey}`),
+              route: childRoute,
+            }),
+          ),
         };
-      }),
-    ],
-    [t],
-  );
+      }
+      if (key === "receiptPayment") {
+        return {
+          label: t(key),
+          route,
+          icon,
+          children: RECEIPT_PAYMENT_ROUTES.map(
+            ({ key: childKey, route: childRoute }) => {
+              let labelKey = `merchantManagement.${childKey}`;
+              return {
+                label: t(labelKey),
+                route: childRoute,
+              };
+            },
+          ),
+        };
+      }
+      if (key === "settings") {
+        return {
+          label: t(key),
+          route,
+          icon,
+          children: SETTINGS_ROUTES.map(
+            ({ key: childKey, route: childRoute }) => ({
+              label: t(`merchantManagement.${childKey}`),
+              route: childRoute,
+            }),
+          ),
+        };
+      }
+      return {
+        label: t(key),
+        route,
+        icon,
+      };
+    }),
+  ];
 
   return (
     <Sidebar

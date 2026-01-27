@@ -17,6 +17,7 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ["@/components/icons"],
+    reactCompiler: true,
   },
   logging: {
     fetches: {

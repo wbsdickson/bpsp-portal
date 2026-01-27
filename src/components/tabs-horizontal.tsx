@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,7 @@ const TabsHorizontal = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftScroll, setShowLeftScroll] = useState(false);
   const [showRightScroll, setShowRightScroll] = useState(false);
-  const scrollTabs = useCallback((direction: "left" | "right") => {
+  const scrollTabs = (direction: "left" | "right") => {
     const container = scrollContainerRef.current;
     if (container) {
       const scrollAmount = container.clientWidth / 2;
@@ -33,9 +33,9 @@ const TabsHorizontal = ({
         behavior: "smooth",
       });
     }
-  }, []);
+  };
 
-  const checkForScrollIndicators = useCallback(() => {
+  const checkForScrollIndicators = () => {
     const container = scrollContainerRef.current;
     if (container) {
       setShowLeftScroll(container.scrollLeft > 20);
@@ -44,7 +44,7 @@ const TabsHorizontal = ({
           container.scrollLeft < container.scrollWidth - container.clientWidth,
       );
     }
-  }, []);
+  };
 
   useEffect(() => {
     const container = scrollContainerRef.current;

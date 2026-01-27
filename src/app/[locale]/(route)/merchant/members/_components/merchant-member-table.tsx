@@ -23,11 +23,10 @@ export default function MerchantMemberTable({
   const merchantId = searchParams.get("merchantId");
 
   const allMembers = useMerchantMemberStore((s) => s.members);
-  const members = React.useMemo(() => {
-    const active = allMembers.filter((u) => !u.deletedAt);
-    if (!merchantId) return active;
-    return active.filter((u) => u.merchantId === merchantId);
-  }, [allMembers, merchantId]);
+  const active = allMembers.filter((u) => !u.deletedAt);
+  const members = !merchantId
+    ? active
+    : active.filter((u) => u.merchantId === merchantId);
 
   const { column } = useMerchantMemberTableColumn({ addTab });
 

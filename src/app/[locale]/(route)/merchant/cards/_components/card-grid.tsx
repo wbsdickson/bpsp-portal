@@ -24,10 +24,7 @@ export function CardGrid({
   const cards = useMerchantCardStore((s) => s.cards);
   const deleteCard = useMerchantCardStore((s) => s.deleteCard);
 
-  const activeCards = React.useMemo(
-    () => cards.filter((c) => !c.deletedAt),
-    [cards],
-  );
+  const activeCards = cards.filter((c) => !c.deletedAt);
 
   const handleDelete = (id: string) => {
     deleteCard(id);

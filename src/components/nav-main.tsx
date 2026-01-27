@@ -2,7 +2,7 @@
 
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
-import { useMemo, type ComponentType } from "react";
+import { type ComponentType } from "react";
 
 import { useLocale } from "next-intl";
 
@@ -65,29 +65,27 @@ export function NavMain({
     children?: ProcessedRouteType[];
   };
 
-  const processedRoutes = useMemo(() => {
-    const checkActive = (item: RouteType): ProcessedRouteType => {
-      const href = `/${item.route}`;
-      // Check if current path is exactly this route or a sub-route
-      const isSelfActive = pathname === href || pathname.startsWith(`${href}/`);
+  const checkActive = (item: RouteType): ProcessedRouteType => {
+    const href = `/${item.route}`;
+    // Check if current path is exactly this route or a sub-route
+    const isSelfActive = pathname === href || pathname.startsWith(`${href}/`);
 
-      let children: ProcessedRouteType[] | undefined = undefined;
-      let isChildActive = false;
+    let children: ProcessedRouteType[] | undefined = undefined;
+    let isChildActive = false;
 
-      if (item.children && item.children.length > 0) {
-        children = item.children.map(checkActive);
-        isChildActive = children.some((c) => c.isActive);
-      }
+    if (item.children && item.children.length > 0) {
+      children = item.children.map(checkActive);
+      isChildActive = children.some((c) => c.isActive);
+    }
 
-      return {
-        ...item,
-        children,
-        isActive: isSelfActive || isChildActive,
-      };
+    return {
+      ...item,
+      children,
+      isActive: isSelfActive || isChildActive,
     };
+  };
 
-    return routes.map(checkActive);
-  }, [routes, pathname, locale]);
+  const processedRoutes = routes.map(checkActive);
 
   const renderRoute = (route: typeof processedRoutes, isSub = false) => {
     return route.map((item) => {

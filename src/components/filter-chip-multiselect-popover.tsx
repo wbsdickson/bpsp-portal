@@ -53,11 +53,10 @@ export function FilterChipMultiSelectPopover({
 
   const active = draft.length > 0;
 
-  const filteredOptions = React.useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return options;
-    return options.filter((o) => String(o.label).toLowerCase().includes(q));
-  }, [options, query]);
+  const q = query.trim().toLowerCase();
+  const filteredOptions = !q
+    ? options
+    : options.filter((o) => String(o.label).toLowerCase().includes(q));
 
   return (
     <Popover

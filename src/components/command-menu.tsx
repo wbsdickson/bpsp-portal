@@ -159,13 +159,9 @@ export function CommandMenu() {
   const tCommand = isMerchantRole ? merchantTCommand : operatorTCommand;
   const [isPending, startTransition] = useTransition();
 
-  const sidebarData = React.useMemo(() => {
-    if (isMerchantRole) {
-      return getMerchantRoutes(t, merchantTCommand);
-    }
-    // For backoffice and other roles, show operator routes
-    return getOperatorRoutes(t, operatorTCommand);
-  }, [t, merchantTCommand, operatorTCommand, isMerchantRole]);
+  const sidebarData = isMerchantRole
+    ? getMerchantRoutes(t, merchantTCommand)
+    : getOperatorRoutes(t, operatorTCommand);
   const [selectedUrl, setSelectedUrl] = React.useState<string | null>(null);
 
   const localeOptions = [
@@ -173,13 +169,10 @@ export function CommandMenu() {
     { value: "ja", label: "日本語" },
   ] as const;
 
-  const runCommand = React.useCallback(
-    (command: () => unknown) => {
-      setOpen(false);
-      command();
-    },
-    [setOpen],
-  );
+  const runCommand = (command: () => unknown) => {
+    setOpen(false);
+    command();
+  };
 
   const navigateTo = (url: string) => {
     const localeUrl = url.startsWith(`/${locale}`) ? url : `/${locale}${url}`;

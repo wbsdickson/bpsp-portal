@@ -175,12 +175,11 @@ export default function MerchantManagementDashboardPage() {
     if (merchants[0]?.id) setMerchantId(merchants[0].id);
   }, [merchantId, merchants]);
 
-  const selectedMerchant: AppMerchant | undefined = React.useMemo(
-    () => merchants.find((m) => m.id === merchantId),
-    [merchantId, merchants],
+  const selectedMerchant: AppMerchant | undefined = merchants.find(
+    (m) => m.id === merchantId,
   );
 
-  const summary = React.useMemo(() => {
+  const summary = (() => {
     if (!merchantId) return undefined;
 
     const merchantInvoices = invoices.filter(
@@ -231,15 +230,9 @@ export default function MerchantManagementDashboardPage() {
       pendingPayoutAmount,
       lastUpdatedAt,
     };
-  }, [
-    fees,
-    invoices,
-    merchantId,
-    payoutTransactions,
-    selectedMerchant?.createdAt,
-  ]);
+  })();
 
-  const chartData = React.useMemo(() => {
+  const chartData = (() => {
     if (!merchantId) {
       return {
         currency: "JPY",
@@ -283,105 +276,94 @@ export default function MerchantManagementDashboardPage() {
       .sort((a, b) => b.value - a.value);
 
     return { currency, salesByMonth, payoutByStatus };
-  }, [invoices, merchantId, payoutTransactions]);
+  })();
 
-  const salesLineData = React.useMemo(() => {
-    return {
-      labels: chartData.salesByMonth.map((d) => d.month),
-      datasets: [
-        {
-          label: t("charts.sales"),
-          data: chartData.salesByMonth.map((d) => d.sales),
-          borderColor: "#4f46e5",
-          backgroundColor: "rgba(79, 70, 229, 0.15)",
-          tension: 0.3,
-          pointRadius: 0,
+  const salesLineData = {
+    labels: chartData.salesByMonth.map((d) => d.month),
+    datasets: [
+      {
+        label: t("charts.sales"),
+        data: chartData.salesByMonth.map((d) => d.sales),
+        borderColor: "#4f46e5",
+        backgroundColor: "rgba(79, 70, 229, 0.15)",
+        tension: 0.3,
+        pointRadius: 0,
+      },
+    ],
+  };
+
+  const salesLineOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true },
+      tooltip: {
+        callbacks: {
+          label: (ctx: TooltipItem<"line">) =>
+            formatMoney((ctx.parsed?.y ?? 0) as number, chartData.currency),
         },
-      ],
-    };
-  }, [chartData.salesByMonth, t]);
+      },
+    },
+    scales: {
+      x: { grid: { display: false } },
+      y: { ticks: { callback: (v: number | string) => String(v) } },
+    },
+  };
 
-  const salesLineOptions = React.useMemo(() => {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: true },
-        tooltip: {
-          callbacks: {
-            label: (ctx: TooltipItem<"line">) =>
-              formatMoney((ctx.parsed?.y ?? 0) as number, chartData.currency),
+  const payoutColors = chartData.payoutByStatus.map((entry) => {
+    if (entry.name === "settled") return "#16a34a";
+    if (entry.name === "pending_approval") return "#f59e0b";
+    if (entry.name === "failed") return "#dc2626";
+    return "#64748b";
+  });
+
+  const payoutDoughnutData = {
+    labels: chartData.payoutByStatus.map((d) => d.name),
+    datasets: [
+      {
+        label: t("charts.payoutStatus"),
+        data: chartData.payoutByStatus.map((d) => d.value),
+        backgroundColor: payoutColors,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const payoutDoughnutOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: "bottom" as const },
+      tooltip: {
+        callbacks: {
+          label: (ctx: { parsed?: number; label?: string }) => {
+            const amount = ctx.parsed ?? 0;
+            const label = ctx.label ?? "";
+            return `${label}: ${formatMoney(amount, chartData.currency)}`;
           },
         },
       },
-      scales: {
-        x: { grid: { display: false } },
-        y: { ticks: { callback: (v: number | string) => String(v) } },
-      },
-    };
-  }, [chartData.currency]);
-
-  const payoutColors = React.useMemo(() => {
-    return chartData.payoutByStatus.map((entry) => {
-      if (entry.name === "settled") return "#16a34a";
-      if (entry.name === "pending_approval") return "#f59e0b";
-      if (entry.name === "failed") return "#dc2626";
-      return "#64748b";
-    });
-  }, [chartData.payoutByStatus]);
-
-  const payoutDoughnutData = React.useMemo(() => {
-    return {
-      labels: chartData.payoutByStatus.map((d) => d.name),
-      datasets: [
-        {
-          label: t("charts.payoutStatus"),
-          data: chartData.payoutByStatus.map((d) => d.value),
-          backgroundColor: payoutColors,
-          borderWidth: 1,
-        },
-      ],
-    };
-  }, [chartData.payoutByStatus, payoutColors, t]);
-
-  const payoutDoughnutOptions = React.useMemo(() => {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: true, position: "bottom" as const },
-        tooltip: {
-          callbacks: {
-            label: (ctx: { parsed?: number; label?: string }) => {
-              const amount = ctx.parsed ?? 0;
-              const label = ctx.label ?? "";
-              return `${label}: ${formatMoney(amount, chartData.currency)}`;
-            },
-          },
-        },
-      },
-      cutout: "55%",
-    } as const;
-  }, [chartData.currency]);
+    },
+    cutout: "55%",
+  } as const;
 
   const [salesRange, setSalesRange] = React.useState<
     "today" | "weekly" | "yearly"
   >("weekly");
 
-  const recentInvoices = React.useMemo(() => {
-    if (!merchantId) return [];
-    return invoices
-      .filter((inv) => inv.merchantId === merchantId && !inv.deletedAt)
-      .slice()
-      .sort((a, b) => {
-        const ta = new Date(a.invoiceDate ?? a.createdAt ?? 0).getTime();
-        const tb = new Date(b.invoiceDate ?? b.createdAt ?? 0).getTime();
-        return tb - ta;
-      })
-      .slice(0, 5);
-  }, [invoices, merchantId]);
+  const recentInvoices = !merchantId
+    ? []
+    : invoices
+        .filter((inv) => inv.merchantId === merchantId && !inv.deletedAt)
+        .slice()
+        .sort((a, b) => {
+          const ta = new Date(a.invoiceDate ?? a.createdAt ?? 0).getTime();
+          const tb = new Date(b.invoiceDate ?? b.createdAt ?? 0).getTime();
+          return tb - ta;
+        })
+        .slice(0, 5);
 
-  const topSellingProducts = React.useMemo(() => {
+  const topSellingProducts = (() => {
     // Placeholder list (your current stores don’t expose product-level aggregation here)
     return [
       {
@@ -415,7 +397,6 @@ export default function MerchantManagementDashboardPage() {
         sales: "108 Sales",
       },
     ];
-  }, []);
 
   return (
     <HeaderPage title={t("title")}>

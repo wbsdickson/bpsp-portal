@@ -45,55 +45,49 @@ export default function RecordTabs<T>({
   const [tabItems, setTabItems] = React.useState<RecordTab<T>[]>(initialTabs);
   const [activeKey, setActiveKey] = React.useState(defaultActiveKey);
 
-  const openTab = React.useCallback((key: string) => {
+  const openTab = (key: string) => {
     setActiveKey(key);
-  }, []);
+  };
 
-  const addTab = React.useCallback((tab: RecordTab<T>) => {
+  const addTab = (tab: RecordTab<T>) => {
     setTabItems((prev) => {
       if (prev.some((t) => t.key === tab.key)) return prev;
       return [...prev, tab];
     });
     setActiveKey(tab.key);
-  }, []);
+  };
 
-  const removeTab = React.useCallback(
-    (targetKey: string) => {
-      let newActiveKey = activeKey;
-      let lastIndex = -1;
+  const removeTab = (targetKey: string) => {
+    let newActiveKey = activeKey;
+    let lastIndex = -1;
 
-      tabItems.forEach((item, i) => {
-        if (item.key === targetKey) {
-          lastIndex = i - 1;
-        }
-      });
-
-      const newPanes = tabItems.filter((item) => item.key !== targetKey);
-
-      if (newPanes.length && newActiveKey === targetKey) {
-        if (lastIndex >= 0) {
-          newActiveKey = newPanes[lastIndex].key;
-        } else {
-          newActiveKey = newPanes[0].key;
-        }
+    tabItems.forEach((item, i) => {
+      if (item.key === targetKey) {
+        lastIndex = i - 1;
       }
+    });
 
-      setTabItems(newPanes);
-      setActiveKey(newActiveKey);
-    },
-    [activeKey, tabItems],
-  );
+    const newPanes = tabItems.filter((item) => item.key !== targetKey);
 
-  const helpers = React.useMemo<RecordTabsHelpers<T>>(
-    () => ({
-      tabItems,
-      activeKey,
-      addTab,
-      openTab,
-      removeTab,
-    }),
-    [activeKey, addTab, openTab, removeTab, tabItems],
-  );
+    if (newPanes.length && newActiveKey === targetKey) {
+      if (lastIndex >= 0) {
+        newActiveKey = newPanes[lastIndex].key;
+      } else {
+        newActiveKey = newPanes[0].key;
+      }
+    }
+
+    setTabItems(newPanes);
+    setActiveKey(newActiveKey);
+  };
+
+  const helpers: RecordTabsHelpers<T> = {
+    tabItems,
+    activeKey,
+    addTab,
+    openTab,
+    removeTab,
+  };
 
   return (
     <Tabs

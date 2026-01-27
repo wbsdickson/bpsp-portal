@@ -26,17 +26,16 @@ export default function MerchantMemberTable({
   const merchantId = searchParams.get("merchantId");
 
   const allMembers = useMerchantMemberStore((s) => s.members);
-  const members = React.useMemo(() => {
-    const active = allMembers.filter(
-      (u) =>
-        !u.deletedAt &&
-        (u.role === "merchant_owner" ||
-          u.role === "merchant_admin" ||
-          u.role === "merchant_viewer"),
-    );
-    if (!merchantId) return active;
-    return active.filter((u) => u.merchantId === merchantId);
-  }, [allMembers, merchantId]);
+  const active = allMembers.filter(
+    (u) =>
+      !u.deletedAt &&
+      (u.role === "merchant_owner" ||
+        u.role === "merchant_admin" ||
+        u.role === "merchant_viewer"),
+  );
+  const members = !merchantId
+    ? active
+    : active.filter((u) => u.merchantId === merchantId);
 
   const { column } = useMerchantMemberTableColumn({ addTab });
 

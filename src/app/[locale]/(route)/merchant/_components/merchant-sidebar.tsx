@@ -110,71 +110,61 @@ export function AppSidebar({
   const session = useSession();
   const { preferences } = useUserPreferencesStore();
 
-  const user = React.useMemo(
-    () => ({
-      name: session?.data?.user?.name ?? "",
-      email: session?.data?.user?.email ?? "",
-      role: (session?.data?.user as any)?.role ?? "",
-      companyName: (session?.data?.user as any)?.companyName ?? "",
-    }),
-    [
-      session?.data?.user?.name,
-      session?.data?.user?.email,
-      (session?.data?.user as any)?.role,
-    ],
-  );
+  const user = {
+    name: session?.data?.user?.name ?? "",
+    email: session?.data?.user?.email ?? "",
+    role: (session?.data?.user as any)?.role ?? "",
+    companyName: (session?.data?.user as any)?.companyName ?? "",
+  };
 
-  const routes = React.useMemo<NavRoute[]>(
-    () => [
-      ...MAIN_ROUTES.map(({ key, route, icon }) => {
-        if (key === "issuance") {
-          return {
-            label: t(key),
-            route,
-            icon,
-            children: ISSUANCE_ROUTES.map(
-              ({ key: childKey, route: childRoute }) => ({
-                label: t(`${childKey}` as any),
-                route: childRoute,
-              }),
-            ),
-          };
-        }
-        if (key === "receiptPayment") {
-          return {
-            label: t(key),
-            route,
-            icon,
-            children: RECEIPT_PAYMENT_ROUTES.map(
-              ({ key: childKey, route: childRoute }) => ({
-                label: t(`${childKey}` as any),
-                route: childRoute,
-              }),
-            ),
-          };
-        }
-        if (key === "settings") {
-          return {
-            label: t(key),
-            route,
-            icon,
-            children: SETTINGS_ROUTES.map(
-              ({ key: childKey, route: childRoute }) => ({
-                label: t(childKey as any),
-                route: childRoute,
-              }),
-            ),
-          };
-        }
+  const routes: NavRoute[] = [
+    ...MAIN_ROUTES.map(({ key, route, icon }) => {
+      if (key === "issuance") {
         return {
           label: t(key),
           route,
           icon,
+          children: ISSUANCE_ROUTES.map(
+            ({ key: childKey, route: childRoute }) => ({
+              label: t(`${childKey}` as any),
+              route: childRoute,
+            }),
+          ),
         };
-      }),
-    ],
-    [t],
-  );
+      }
+      if (key === "receiptPayment") {
+        return {
+          label: t(key),
+          route,
+          icon,
+          children: RECEIPT_PAYMENT_ROUTES.map(
+            ({ key: childKey, route: childRoute }) => ({
+              label: t(`${childKey}` as any),
+              route: childRoute,
+            }),
+          ),
+        };
+      }
+      if (key === "settings") {
+        return {
+          label: t(key),
+          route,
+          icon,
+          children: SETTINGS_ROUTES.map(
+            ({ key: childKey, route: childRoute }) => ({
+              label: t(childKey as any),
+              route: childRoute,
+            }),
+          ),
+        };
+      }
+      return {
+        label: t(key),
+        route,
+        icon,
+      };
+    }),
+  ];
 
   return (
     <Sidebar

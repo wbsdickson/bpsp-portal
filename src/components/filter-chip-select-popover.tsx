@@ -49,11 +49,10 @@ export function FilterChipSelectPopover({
   const selected = options.find((o) => o.value === value) ?? null;
   const active = Boolean(value);
 
-  const filteredOptions = React.useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return options;
-    return options.filter((o) => String(o.label).toLowerCase().includes(q));
-  }, [options, query]);
+  const q = query.trim().toLowerCase();
+  const filteredOptions = !q
+    ? options
+    : options.filter((o) => String(o.label).toLowerCase().includes(q));
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

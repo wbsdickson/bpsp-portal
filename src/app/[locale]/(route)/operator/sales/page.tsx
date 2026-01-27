@@ -72,10 +72,9 @@ export default function SalesPage() {
     if (merchants[0]?.id) setMerchantId(merchants[0].id);
   }, [merchantId, merchants, setMerchantId]);
 
-  const merchantClients = React.useMemo(() => {
-    if (!merchantId) return [];
-    return clients.filter((c) => c.merchantId === merchantId && !c.deletedAt);
-  }, [clients, merchantId]);
+  const merchantClients = !merchantId
+    ? []
+    : clients.filter((c) => c.merchantId === merchantId && !c.deletedAt);
 
   React.useEffect(() => {
     if (!merchantId) return;
@@ -83,49 +82,31 @@ export default function SalesPage() {
     if (merchantClients[0]?.id) setClientId(merchantClients[0].id);
   }, [clientId, merchantClients, merchantId, setClientId]);
 
-  const kpis = React.useMemo(
-    () => getKpis(),
-    [getKpis, merchantId, clientId, period],
-  );
-  const daily = React.useMemo(
-    () => getDaily(),
-    [getDaily, merchantId, clientId, period],
-  );
-  const monthly = React.useMemo(
-    () => getMonthly(),
-    [getMonthly, merchantId, clientId, period],
-  );
-  const annual = React.useMemo(
-    () => getAnnual(),
-    [getAnnual, merchantId, clientId, period],
-  );
+  const kpis = getKpis();
+  const daily = getDaily();
+  const monthly = getMonthly();
+  const annual = getAnnual();
 
-  const dailyChartData = React.useMemo(() => {
-    return daily.map((d) => ({
-      date: d.key,
-      salesAmount: d.salesAmount,
-      feeAmount: d.feeAmount,
-      transactionCount: d.transactionCount,
-    }));
-  }, [daily]);
+  const dailyChartData = daily.map((d) => ({
+    date: d.key,
+    salesAmount: d.salesAmount,
+    feeAmount: d.feeAmount,
+    transactionCount: d.transactionCount,
+  }));
 
-  const monthlyChartData = React.useMemo(() => {
-    return monthly.map((m) => ({
-      month: m.key,
-      salesAmount: m.salesAmount,
-      feeAmount: m.feeAmount,
-      transactionCount: m.transactionCount,
-    }));
-  }, [monthly]);
+  const monthlyChartData = monthly.map((m) => ({
+    month: m.key,
+    salesAmount: m.salesAmount,
+    feeAmount: m.feeAmount,
+    transactionCount: m.transactionCount,
+  }));
 
-  const annualChartData = React.useMemo(() => {
-    return annual.map((y) => ({
-      year: y.key,
-      salesAmount: y.salesAmount,
-      feeAmount: y.feeAmount,
-      transactionCount: y.transactionCount,
-    }));
-  }, [annual]);
+  const annualChartData = annual.map((y) => ({
+    year: y.key,
+    salesAmount: y.salesAmount,
+    feeAmount: y.feeAmount,
+    transactionCount: y.transactionCount,
+  }));
 
   return (
     <HeaderPage title={t("title")}>
