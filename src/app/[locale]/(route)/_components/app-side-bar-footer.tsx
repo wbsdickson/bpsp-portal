@@ -15,7 +15,7 @@ export function AppSideBarFooter({ t }: { t: (key: string) => string }) {
   };
 
   return (
-    <SidebarFooter>
+    <SidebarFooter className="p-4">
       <SidebarMenu>
         {/* Support */}
         <SidebarMenuItem>
