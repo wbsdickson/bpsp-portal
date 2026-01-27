@@ -3,11 +3,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 
 import { useRouter } from "next/navigation";
-import { useMerchantFeeStore } from "@/store/merchant-fee-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { formattedAmount, getCurrencySymbol } from "@/lib/finance-utils";
 import { Badge } from "@/components/ui/badge";
 import ActionsCell from "../../_components/action-cell";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteInvoice } from "@/services/merchant-invoices-service";
+import { invoiceKeys } from "./query-keys";
 
 function InvoiceNumberCell({
   id,
@@ -61,11 +63,20 @@ export default function useMerchantInvoiceTableColumn({
   addTab: (id: string) => void;
 }) {
   const t = useTranslations("Merchant.InvoiceManagement");
-  const { deleteFee } = useMerchantFeeStore();
-
   const router = useRouter();
-
+  const queryClient = useQueryClient();
   const { basePath } = useBasePath();
+
+  const deleteMutation = useMutation({
+    mutationFn: (invoiceId: string) => deleteInvoice(invoiceId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: invoiceKeys.lists() });
+    },
+    onError: (error: Error) => {
+      console.error("Failed to delete invoice:", error);
+      alert(error.message || "Failed to delete invoice");
+    },
+  });
 
   const onOpenDetail = (item: InvoiceRow) => {
     router.push(`${basePath}/${item.id}`);
@@ -74,8 +85,9 @@ export default function useMerchantInvoiceTableColumn({
     router.push(`${basePath}/edit/${item.id}`);
   };
 
-  const onDelete = (item: InvoiceRow) => {
-    deleteFee(item.id);
+  const onDelete = async (item: InvoiceRow) => {
+    if (deleteMutation.isPending) return;
+    await deleteMutation.mutateAsync(item.id);
   };
 
   const column: ColumnDef<InvoiceRow>[] = [
