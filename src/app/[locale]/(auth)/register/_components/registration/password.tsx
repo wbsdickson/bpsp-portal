@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, useWatch } from "react-hook-form";
 import * as z from "zod";
 
 import {
@@ -12,7 +12,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, ChevronLeft, Loader2, XCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  ChevronLeft,
+  Eye,
+  EyeOff,
+  Loader2,
+  XCircle,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
@@ -49,6 +56,8 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
   const [isSuccessfullyRegistered, setIsSuccessfullyRegistered] =
     useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // const createUserWithPasswordMutation = useMutation({
   //   mutationFn: UaaService.createUserWithPassword,
@@ -92,11 +101,17 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
     );
   }
 
+  const passwordValue = useWatch({ control: form.control, name: "password" });
+  const confirmPasswordValue = useWatch({
+    control: form.control,
+    name: "confirmPassword",
+  });
+
   const validatePassword = () => {
     const errors: Array<string> = [];
-    const password = form.getValues("password");
+    const password = passwordValue;
 
-    const confirmPassword = form.getValues("confirmPassword");
+    const confirmPassword = confirmPasswordValue;
     if (!password)
       return ["length", "capital", "lowercase", "number", "special", "same"];
     if (password.length < 8) errors.push("length");
@@ -110,7 +125,7 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
   };
   const passwordValidationResult = useMemo(() => {
     return validatePassword();
-  }, [form.watch().password, form.watch().confirmPassword]);
+  }, [passwordValue, confirmPasswordValue]);
 
   const PasswordConstraintMessage: Record<PasswordConstraint, string> = {
     length: t("nLength", { n: 8 }),
@@ -287,11 +302,26 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
                     {tReg("passwordLabel")}
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      className="bg-background font-mono"
-                    />
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        type={showPassword ? "text" : "password"}
+                        className="bg-background pr-10 font-mono"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="text-muted-foreground h-4 w-4" />
+                        ) : (
+                          <Eye className="text-muted-foreground h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -306,11 +336,28 @@ const SetPassword = ({ setStage, form, email, onBack }: Props) => {
                     {tReg("confirmPasswordLabel")}
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      className="bg-background font-mono"
-                    />
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        type={showConfirmPassword ? "text" : "password"}
+                        className="bg-background pr-10 font-mono"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="text-muted-foreground h-4 w-4" />
+                        ) : (
+                          <Eye className="text-muted-foreground h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
