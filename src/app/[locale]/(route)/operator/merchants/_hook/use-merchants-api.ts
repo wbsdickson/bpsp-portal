@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import {
-  fetchMerchants,
+  getAllMerchants,
   type MerchantsApiParams,
 } from "@/services/merchants-service";
 import { merchantKeys } from "./query-keys";
@@ -11,7 +11,7 @@ export type UseMerchantsApiParams = MerchantsApiParams;
 export function useMerchantsApi(params: UseMerchantsApiParams) {
   const query = useQuery({
     queryKey: merchantKeys.list(params),
-    queryFn: () => fetchMerchants(params),
+    queryFn: () => getAllMerchants(params),
   });
 
   return {

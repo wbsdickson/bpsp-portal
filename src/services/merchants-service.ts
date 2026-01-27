@@ -55,13 +55,12 @@ const fetchMerchantsEffect = (
   const queryString = searchParams.toString();
   const url = `/api/operator/merchants${queryString ? `?${queryString}` : ""}`;
 
-  return fetchWithEffect<unknown>(() =>
-    apiClient.get<unknown>(url),
-  ).pipe(
+  return fetchWithEffect<unknown>(() => apiClient.get<unknown>(url)).pipe(
     Effect.flatMap((data) =>
       Effect.try({
         try: () => merchantsResponseSchema.parse(data),
-        catch: (error) => new Error(`Schema validation failed: ${String(error)}`),
+        catch: (error) =>
+          new Error(`Schema validation failed: ${String(error)}`),
       }),
     ),
     Effect.map((validatedData) => validatedData as MerchantsResponse),
@@ -69,7 +68,7 @@ const fetchMerchantsEffect = (
 };
 
 // Convert Effect to Promise for TanStack Query
-export const fetchMerchants = async (
+export const getAllMerchants = async (
   params: MerchantsApiParams,
 ): Promise<MerchantsResponse> => {
   const program = fetchMerchantsEffect(params);
@@ -93,13 +92,12 @@ const fetchMerchantByIdEffect = (
 ): Effect.Effect<{ data: AppMerchant }, AxiosError | Error> => {
   const url = `/api/operator/merchants/${merchantId}`;
 
-  return fetchWithEffect<unknown>(() =>
-    apiClient.get<unknown>(url),
-  ).pipe(
+  return fetchWithEffect<unknown>(() => apiClient.get<unknown>(url)).pipe(
     Effect.flatMap((data) =>
       Effect.try({
         try: () => merchantResponseSchema.parse(data),
-        catch: (error) => new Error(`Schema validation failed: ${String(error)}`),
+        catch: (error) =>
+          new Error(`Schema validation failed: ${String(error)}`),
       }),
     ),
     Effect.map((validatedData) => validatedData as { data: AppMerchant }),
@@ -135,9 +133,9 @@ export const updateMerchant = async (
     apiClient.patch<{ data: AppMerchant }>(url, data),
   );
 
-  // We are not validating the UPDATE response strictly here for brevity, 
+  // We are not validating the UPDATE response strictly here for brevity,
   // but in a full implementation we should use merchantResponseSchema here too.
-  
+
   return Effect.runPromise(
     Effect.catchAll(program, (error: unknown) => {
       const axiosError = error as AxiosError<ErrorResponse>;
