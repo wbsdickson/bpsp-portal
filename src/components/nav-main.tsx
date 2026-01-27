@@ -113,7 +113,7 @@ export function NavMain({
                   align="start"
                   className="ml-2 w-56 border-y-0 border-l-0 border-r p-2 shadow-none"
                 >
-                  <div className="relative flex flex-col gap-1 pl-3.5">
+                  <div className="relative flex flex-col gap-1">
                     {item.children.map((child, index) => {
                       const childHref = withLocale(`/${child.route}`);
                       const isLast = index === (item.children?.length ?? 0) - 1;
@@ -132,12 +132,6 @@ export function NavMain({
                                 "bg-sidebar-accent text-primary",
                             )}
                           >
-                            {/* Branch connector */}
-                            <span className="border-sidebar-border absolute -left-3.5 top-0 h-1/2 w-3.5 rounded-bl-md border-b border-l" />
-                            {/* Vertical line for non-last items */}
-                            {!isLast && (
-                              <span className="bg-sidebar-border absolute -left-3.5 top-0 h-[calc(100%+4px)] w-px" />
-                            )}
                             <span
                               className={cn(
                                 "truncate",

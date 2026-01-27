@@ -15,8 +15,8 @@ export function AppSideBarFooter({ t }: { t: (key: string) => string }) {
   };
 
   return (
-    <SidebarFooter className="p-4">
-      <SidebarMenu>
+    <SidebarFooter className="p-0">
+      <SidebarMenu className="p-4">
         {/* Support */}
         <SidebarMenuItem>
           <SidebarMenuButton asChild tooltip={t("support")}>
@@ -75,14 +75,14 @@ export function AppSideBarFooter({ t }: { t: (key: string) => string }) {
       </SidebarMenu>
 
       {/* Copyright */}
-      <div className="border-sidebar-border border-t p-4 text-center">
+      <div className="border-sidebar-border border-t py-4 text-center">
         <p className="text-primary text-xs font-medium group-data-[collapsible=icon]:hidden">
           © Japan Credit Card Co., LTD.
         </p>
         <p className="text-muted-foreground mt-1 text-[10px] group-data-[collapsible=icon]:hidden">
           Last update: {LAST_UPDATE}
         </p>
-        <div className="text-primary hidden text-xs font-medium group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:justify-center whitespace-nowrap">
+        <div className="text-primary hidden whitespace-nowrap text-xs font-medium group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:justify-center">
           © JPCC
         </div>
       </div>
