@@ -3,6 +3,7 @@ import bundleAnalyzer from "@next/bundle-analyzer";
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
+  reactCompiler: true,
   turbopack: {
     resolveAlias: {
       "next-intl/config": "./i18n.ts",
@@ -17,7 +18,6 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ["@/components/icons"],
-    reactCompiler: true,
   },
   logging: {
     fetches: {
