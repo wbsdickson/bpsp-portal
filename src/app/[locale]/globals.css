@@ -60,7 +60,7 @@
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.51 0.23 277);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.92 0 0);
+  --secondary: oklch(0.925 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
@@ -183,5 +183,16 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+
+  /* View Transition API styles for theme ripple effect */
+  html {
+    view-transition-name: root;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
   }
 }

@@ -117,7 +117,7 @@ function KpiCard({
 }) {
   const tone = kpiDeltaTone(delta);
   return (
-    <div className="flex h-full flex-col rounded-2xl border bg-card p-4 shadow-sm">
+    <div className="bg-card flex h-full flex-col rounded-2xl border p-4 shadow-sm">
       <div className="flex flex-1 items-start justify-between gap-3">
         <div className="flex flex-1 flex-col justify-between space-y-1">
           <div className="text-muted-foreground text-xs font-medium">
@@ -363,40 +363,39 @@ export default function MerchantManagementDashboardPage() {
         })
         .slice(0, 5);
 
-  const topSellingProducts = (() => {
-    // Placeholder list (your current stores don’t expose product-level aggregation here)
-    return [
-      {
-        name: "Chair with Cushion",
-        category: "Furniture",
-        price: "$124",
-        sales: "260 Sales",
-      },
-      {
-        name: "Hand Bag",
-        category: "Accessories",
-        price: "$564",
-        sales: "181 Sales",
-      },
-      {
-        name: "Sneakers",
-        category: "Sports",
-        price: "$964",
-        sales: "134 Sales",
-      },
-      {
-        name: "Ron Hoodie",
-        category: "Fashion",
-        price: "$769",
-        sales: "127 Sales",
-      },
-      {
-        name: "Smart Watch",
-        category: "Electronics",
-        price: "$999",
-        sales: "108 Sales",
-      },
-    ];
+  // Placeholder list (your current stores don't expose product-level aggregation here)
+  const topSellingProducts = [
+    {
+      name: "Chair with Cushion",
+      category: "Furniture",
+      price: "$124",
+      sales: "260 Sales",
+    },
+    {
+      name: "Hand Bag",
+      category: "Accessories",
+      price: "$564",
+      sales: "181 Sales",
+    },
+    {
+      name: "Sneakers",
+      category: "Sports",
+      price: "$964",
+      sales: "134 Sales",
+    },
+    {
+      name: "Ron Hoodie",
+      category: "Fashion",
+      price: "$769",
+      sales: "127 Sales",
+    },
+    {
+      name: "Smart Watch",
+      category: "Electronics",
+      price: "$999",
+      sales: "108 Sales",
+    },
+  ];
 
   return (
     <HeaderPage title={t("title")}>
@@ -404,7 +403,7 @@ export default function MerchantManagementDashboardPage() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="w-full max-w-sm">
             <Select value={merchantId} onValueChange={setMerchantId}>
-              <SelectTrigger className="h-9 w-full bg-card">
+              <SelectTrigger className="bg-card h-9 w-full">
                 <SelectValue placeholder={t("placeholders.selectMerchant")} />
               </SelectTrigger>
               <SelectContent>
@@ -468,7 +467,7 @@ export default function MerchantManagementDashboardPage() {
           </div>
 
           <div className="flex flex-col lg:col-span-6">
-            <div className="flex h-full flex-col rounded-2xl border bg-card p-4 shadow-sm">
+            <div className="bg-card flex h-full flex-col rounded-2xl border p-4 shadow-sm">
               <div className="flex items-center justify-between gap-3">
                 <div className="text-sm font-semibold">Sales Report</div>
                 <div className="flex items-center gap-2">
@@ -514,7 +513,7 @@ export default function MerchantManagementDashboardPage() {
           </div>
 
           <div className="space-y-4 lg:col-span-3">
-            <div className="rounded-2xl border bg-gradient-to-br from-indigo-600 to-sky-600 p-4 text-white shadow-sm">
+            <div className="bg-linear-to-br rounded-2xl border from-indigo-600 to-sky-600 p-4 text-white shadow-sm">
               <div className="space-y-2">
                 <div className="text-lg font-semibold">Today's Sale</div>
                 <div className="text-xs text-white/90">
@@ -526,13 +525,13 @@ export default function MerchantManagementDashboardPage() {
               </div>
               <Button
                 size="sm"
-                className="bg-card/15 mt-3 h-8 text-card-foreground hover:bg-card/20"
+                className="bg-card/15 text-card-foreground hover:bg-card/20 mt-3 h-8"
               >
                 Add to Cart
               </Button>
             </div>
 
-            <div className="rounded-2xl border bg-white p-4 shadow-sm">
+            <div className="rounded-2xl border p-4 shadow-sm">
               <div className="mb-3 flex items-center justify-between">
                 <div className="text-sm font-semibold">
                   Top-Selling Products
@@ -570,7 +569,7 @@ export default function MerchantManagementDashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-          <div className="rounded-2xl border bg-white p-4 shadow-sm lg:col-span-8">
+          <div className="rounded-2xl border p-4 shadow-sm lg:col-span-8">
             <div className="mb-3 flex items-center justify-between">
               <div className="text-sm font-semibold">Recent Orders</div>
               <Button size="sm" variant="outline" className="h-8">
@@ -618,7 +617,7 @@ export default function MerchantManagementDashboardPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border bg-white p-4 shadow-sm lg:col-span-4">
+          <div className="rounded-2xl border p-4 shadow-sm lg:col-span-4">
             <div className="mb-3 flex items-center justify-between">
               <div className="text-sm font-semibold">Total Orders</div>
               <Button size="sm" variant="outline" className="h-8">
@@ -652,9 +651,7 @@ export default function MerchantManagementDashboardPage() {
                   {t("metrics.status")}
                 </div>
                 <div className="mt-1">
-                  <Badge
-                    variant={statusBadgeVariant(selectedMerchant?.status)}
-                  >
+                  <Badge variant={statusBadgeVariant(selectedMerchant?.status)}>
                     {selectedMerchant?.status
                       ? t(`statuses.${selectedMerchant.status}`)
                       : "—"}

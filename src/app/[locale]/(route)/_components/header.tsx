@@ -10,6 +10,7 @@ import { TeamSwitcher } from "@/components/team-switcher-new";
 import { HeaderButtons } from "./header-buttons";
 import { AppUser } from "@/types/user";
 import LocaleSwitcher from "@/components/locale-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header({ currentUser }: { currentUser: AppUser }) {
   return (
@@ -34,6 +35,8 @@ export function Header({ currentUser }: { currentUser: AppUser }) {
           <Bell className="h-5 w-5" />
           <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500" />
         </Button>
+
+        <ThemeToggle variant="secondary" size="icon-sm" />
         <HeaderButtons />
 
         <Separator orientation="vertical" className="h-6! w-px self-center" />

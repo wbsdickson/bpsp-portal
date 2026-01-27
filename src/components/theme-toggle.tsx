@@ -4,8 +4,15 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun, Laptop } from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { VariantProps } from "class-variance-authority";
 
-export function ThemeToggle() {
+export function ThemeToggle({
+  variant = "secondary",
+  size = "icon-sm",
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -14,14 +21,56 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  const toggleTheme = () => {
+  const getNextTheme = () => {
     if (theme === "light") {
-      setTheme("dark");
+      return "dark";
     } else if (theme === "dark") {
-      setTheme("system");
+      return "system";
     } else {
-      setTheme("light");
+      return "light";
     }
+  };
+
+  const handleThemeToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const newTheme = getNextTheme();
+
+    // If browser doesn't support View Transition API, just toggle normally
+    if (
+      typeof document === "undefined" ||
+      !("startViewTransition" in document)
+    ) {
+      setTheme(newTheme);
+      return;
+    }
+
+    const x = event.clientX;
+    const y = event.clientY;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    const transition = document.startViewTransition(() => {
+      setTheme(newTheme);
+    });
+
+    transition.ready.then(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 600,
+            easing: "ease-in-out",
+            pseudoElement: "::view-transition-new(root)",
+          },
+        );
+      });
+    });
   };
 
   const getThemeIcon = () => {
@@ -40,11 +89,12 @@ export function ThemeToggle() {
 
   return (
     <Button
-      variant="outline"
-      size="icon"
-      onClick={toggleTheme}
-      className="relative"
+      variant={variant}
+      size={size}
+      onClick={handleThemeToggle}
+      className={cn("rounded-full", className)}
       title={`Current theme: ${getThemeLabel()}`}
+      {...props}
     >
       {getThemeIcon()}
     </Button>
