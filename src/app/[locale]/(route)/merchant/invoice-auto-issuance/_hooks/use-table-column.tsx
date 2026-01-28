@@ -3,10 +3,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 
 import { useRouter } from "next/navigation";
-import { useInvoiceAutoIssuanceStore } from "@/store/merchant/invoice-auto-issuance-store";
 import { useBasePath } from "@/hooks/use-base-path";
 import { Badge } from "@/components/ui/badge";
 import ActionsCell from "../../_components/action-cell";
+import { deleteAutoIssuance } from "@/services/merchant-auto-issuance-service";
+import { autoIssuanceKeys } from "./query-keys";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function ScheduleNameCell({
   id,
@@ -47,7 +49,18 @@ export default function useInvoiceAutoIssuanceTableColumn({
   addTab: (id: string) => void;
 }) {
   const t = useTranslations("Merchant.InvoiceAutoIssuance");
-  const { deleteAutoIssuance } = useInvoiceAutoIssuanceStore();
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: (invoiceId: string) => deleteAutoIssuance(invoiceId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: autoIssuanceKeys.lists() });
+    },
+    onError: (error: Error) => {
+      console.error("Failed to delete auto issuance:", error);
+      alert(error.message || "Failed to delete auto issuance");
+    },
+  });
 
   const router = useRouter();
 
@@ -60,8 +73,9 @@ export default function useInvoiceAutoIssuanceTableColumn({
     router.push(`${basePath}/edit/${item.id}`);
   };
 
-  const onDelete = (item: AutoIssuanceRow) => {
-    deleteAutoIssuance(item.id);
+  const onDelete = async (item: AutoIssuanceRow) => {
+    if (deleteMutation.isPending) return;
+    await deleteMutation.mutateAsync(item.id);
   };
 
   const column: ColumnDef<AutoIssuanceRow>[] = [

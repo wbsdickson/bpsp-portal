@@ -23,13 +23,29 @@ import { useAppStore } from "@/lib/store";
 import { useTranslations } from "next-intl";
 import useInvoiceAutoIssuanceTableColumn from "../_hooks/use-table-column";
 import { useInvoiceAutoIssuanceStore } from "@/store/merchant/invoice-auto-issuance-store";
+import { useAutoIssuancesApi } from "../_hooks/use-auto-issuances-api";
+import { useQueryClient } from "@tanstack/react-query";
+import { autoIssuanceKeys } from "../_hooks/query-keys";
 
 function ActionsCell({ id }: { id: string }) {
   const locale = useLocale();
   const deleteAutoIssuance = useInvoiceAutoIssuanceStore(
     (s) => s.deleteAutoIssuance,
   );
+  const queryClient = useQueryClient();
   const t = useTranslations("Merchant.InvoiceAutoIssuance");
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm(t("deleteConfirm"));
+    if (!confirmed) return;
+
+    try {
+      await deleteAutoIssuance(id);
+      queryClient.invalidateQueries({ queryKey: autoIssuanceKeys.lists() });
+    } catch (error) {
+      console.error("Failed to delete auto issuance:", error);
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -47,14 +63,7 @@ function ActionsCell({ id }: { id: string }) {
             {t("editAutoIssuance")}
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem
-          onSelect={(e) => {
-            e.preventDefault();
-            const confirmed = window.confirm(t("deleteConfirm"));
-            if (!confirmed) return;
-            deleteAutoIssuance(id);
-          }}
-        >
+        <DropdownMenuItem onSelect={handleDelete}>
           {t("deleteAutoIssuance")}
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -81,7 +90,23 @@ export default function InvoiceAutoIssuanceTable({
   const t = useTranslations("Merchant.InvoiceAutoIssuance");
 
   const clients = useAppStore((s) => s.clients);
-  const autoIssuances = useInvoiceAutoIssuanceStore((s) => s.autoIssuances);
+
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [search, setSearch] = React.useState("");
+  const [sortBy, setSortBy] = React.useState<
+    "scheduleName" | "targetClient" | "nextIssuanceDate" | "createdAt"
+  >("createdAt");
+  const [sortOrder, setSortOrder] = React.useState<"asc" | "desc">("desc");
+
+  const { autoIssuances, isLoading, isFetching, error, pagination } =
+    useAutoIssuancesApi({
+      page,
+      limit: pageSize,
+      search: search || undefined,
+      sortBy,
+      sortOrder,
+    });
 
   const rows = React.useMemo<AutoIssuanceRow[]>(() => {
     return autoIssuances.map((autoIssuance) => {
@@ -97,15 +122,29 @@ export default function InvoiceAutoIssuanceTable({
         createdAt: autoIssuance.createdAt || "",
       };
     });
-  }, [clients, autoIssuances]);
+  }, [autoIssuances, clients]);
 
   const { column } = useInvoiceAutoIssuanceTableColumn({ addTab });
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setPage(1);
+  };
 
   return (
     <>
       <DataTable
         columns={column}
         data={rows}
+        pagination={{
+          pageIndex: page - 1,
+          pageSize: pageSize,
+        }}
+        totalCount={pagination?.total ?? 0}
+        onPageChange={({ pageIndex, pageSize: newPageSize }) => {
+          setPage(pageIndex + 1);
+          setPageSize(newPageSize);
+        }}
         renderToolbar={(table) => {
           const scheduleNameCol = table.getColumn("scheduleName");
           const targetClientCol = table.getColumn("targetClient");
