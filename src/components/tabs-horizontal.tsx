@@ -101,7 +101,7 @@ const TabsHorizontal = ({
         className="w-full overflow-x-auto"
         onScroll={checkForScrollIndicators}
       >
-        <TabsList className="inline-flex w-fit items-end justify-start rounded-none rounded-t-md p-0">
+        <TabsList className="inline-flex w-fit items-end justify-start rounded-none rounded-t-md border-x border-t p-0">
           {tabItems.map((item, index) => {
             const isActive = activeKey === item.key;
             const prevIsActive = tabItems[index - 1]?.key === activeKey;
@@ -150,7 +150,7 @@ const TabsHorizontal = ({
               </span>
             );
           })}
-        </TabsList>
+        </>
       </div>
     </div>
   );
