@@ -150,7 +150,7 @@ const TabsHorizontal = ({
               </span>
             );
           })}
-        </>
+        </TabsList>
       </div>
     </div>
   );
